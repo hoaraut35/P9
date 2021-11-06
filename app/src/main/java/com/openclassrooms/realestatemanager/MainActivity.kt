@@ -1,40 +1,35 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager
 
-import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
+import android.os.Bundle
+import com.openclassrooms.realestatemanager.R
 
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-
-    private TextView textViewMain;
-    private TextView textViewQuantity;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+class MainActivity : AppCompatActivity() {
+    private var textViewMain: TextView? = null
+    private var textViewQuantity: TextView? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         //first bug
         //this.textViewMain = findViewById(R.id.activity_second_activity_text_view_main);
-        this.textViewMain = findViewById(R.id.activity_main_activity_text_view_main);
-        this.textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity);
-
-        this.configureTextViewMain();
-        this.configureTextViewQuantity();
+        textViewMain = findViewById(R.id.activity_main_activity_text_view_main)
+        textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity)
+        configureTextViewMain()
+        configureTextViewQuantity()
     }
 
-    private void configureTextViewMain(){
-        this.textViewMain.setTextSize(15);
-        this.textViewMain.setText("Le premier bien immobilier enregistré vaut ");
+    private fun configureTextViewMain() {
+        textViewMain!!.textSize = 15f
+        textViewMain!!.text = "Le premier bien immobilier enregistré vaut "
     }
 
-    private void configureTextViewQuantity(){
-        int quantity = Utils.convertDollarToEuro(100);
-        this.textViewQuantity.setTextSize(20);
+    private fun configureTextViewQuantity() {
+        val quantity = Utils.convertDollarToEuro(100)
+        textViewQuantity!!.textSize = 20f
         //second bug
         //this.textViewQuantity.setText(quantity);
-        this.textViewQuantity.setText(String.valueOf(quantity));
+        textViewQuantity!!.text = quantity.toString()
     }
 }
