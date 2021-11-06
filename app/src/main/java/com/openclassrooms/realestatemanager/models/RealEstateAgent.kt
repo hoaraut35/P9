@@ -1,8 +1,11 @@
 package com.openclassrooms.realestatemanager.models
 
-class RealEstateAgent {
+import androidx.room.Entity
 
-    val name: String = ""
-    val firstName : String = ""
+@Entity
+data class RealEstateAgent (
 
-}
+    val name: String? = null,
+    val firstName : String? = null
+
+)
