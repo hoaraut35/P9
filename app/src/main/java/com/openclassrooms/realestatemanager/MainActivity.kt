@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import android.os.Bundle
 import com.openclassrooms.realestatemanager.R
+import dagger.hilt.EntryPoint
+
 
 class MainActivity : AppCompatActivity() {
     private var textViewMain: TextView? = null

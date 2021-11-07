@@ -1,14 +1,13 @@
 package com.openclassrooms.realestatemanager.models
 
 import androidx.room.Entity
-
-
-//data add function equlas toString etc
+import androidx.room.PrimaryKey
 
 @Entity
 data class RealEstate (
 
-
+    @PrimaryKey
+    val id : Int,
     val typeOfProduct : String? = null,
     val price : Float? = null,
     val surface : Short? = null, //max 32767m²

@@ -1,9 +1,8 @@
 package com.openclassrooms.realestatemanager.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Query
+import androidx.room.*
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateAgent
 
 @Dao
 interface RealEStateDao {
@@ -11,7 +10,16 @@ interface RealEStateDao {
     @Query("SELECT * FROM RealEstate")
     fun getAllRealEstate() : List<RealEstate>
 
+    @Query("SELECT * FROM RealEstateAgent")
+    fun getAllRealEstateAgent() : List<RealEstateAgent>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(realEstate : List<RealEstate>)
+
     @Delete
-    fun delete(realEstate: RealEstate)
+    suspend fun delete(realEstate: RealEstate)
+
+    @Update
+    suspend fun update(realEstate: RealEstate)
 
 }
