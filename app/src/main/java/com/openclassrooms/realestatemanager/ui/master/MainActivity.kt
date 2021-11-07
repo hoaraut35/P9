@@ -1,15 +1,18 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.ui.master
 
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import android.os.Bundle
 import com.openclassrooms.realestatemanager.R
-import dagger.hilt.EntryPoint
+import com.openclassrooms.realestatemanager.Utils
 
 
 class MainActivity : AppCompatActivity() {
+
+    //private val
     private var textViewMain: TextView? = null
     private var textViewQuantity: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
