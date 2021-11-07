@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val mainViewModel by viewModels<MainViewModel>()
+
     private var textViewMain: TextView? = null
     private var textViewQuantity: TextView? = null
 
