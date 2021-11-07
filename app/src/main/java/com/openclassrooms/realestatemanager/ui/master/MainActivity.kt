@@ -3,13 +3,17 @@ package com.openclassrooms.realestatemanager.ui.master
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import android.os.Bundle
+import androidx.activity.viewModels
+
+
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.Utils
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    //private val
+    private val mainViewModel by viewModels<MainViewModel>()
     private var textViewMain: TextView? = null
     private var textViewQuantity: TextView? = null
 
