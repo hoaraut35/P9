@@ -20,9 +20,9 @@ class Database {
 
     @Provides
     @Singleton
-    fun provideRealEstateDatabase(@ApplicationContext appContexty: Context): RealEstateDatabase {
+    fun provideRealEstateDatabase(@ApplicationContext appContext : Context): RealEstateDatabase {
         return Room.databaseBuilder(
-            appContexty,
+            appContext,
             RealEstateDatabase::class.java,
             "realEstateDB"
         ).build()

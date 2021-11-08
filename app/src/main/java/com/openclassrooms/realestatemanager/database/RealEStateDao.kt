@@ -8,6 +8,7 @@ import com.openclassrooms.realestatemanager.models.RealEstateAgent
 interface RealEStateDao {
 
     @Query("SELECT * FROM RealEstate")
+    //fun getAllRealEstate() : List<RealEstate>
     fun getAllRealEstate() : List<RealEstate>
 
     @Query("SELECT * FROM RealEstateAgent")

@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 abstract class RealEstateDatabase : RoomDatabase() {
+
     abstract fun realEstateDao(): RealEStateDao
 
     companion object{
