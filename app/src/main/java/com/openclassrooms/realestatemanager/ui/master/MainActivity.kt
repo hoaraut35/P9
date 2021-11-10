@@ -20,9 +20,9 @@ class MainActivity : AppCompatActivity() {
 
     private val mainViewModel by viewModels<MainViewModel>()
 
-
-    val database by lazy { RealEstateDatabase.getDatabase(this) }
-    val repository by lazy { LocalDatabaseRepository(database.realEstateDao()) }
+    //work
+    //val database by lazy { RealEstateDatabase.getDatabase(this) }
+    //val repository by lazy { LocalDatabaseRepository(database.realEstateDao()) }
 
     private var textViewMain: TextView? = null
     private var textViewQuantity: TextView? = null

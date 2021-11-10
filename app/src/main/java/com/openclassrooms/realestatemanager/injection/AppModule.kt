@@ -28,10 +28,10 @@ object AppModule { //must be object
     @Singleton  //to get just an instance
     fun provideDatabase(
         @ApplicationContext appContext: Context, //to get application context
-       //callBack: RealEstateDatabase.Callback   //to add callback
+       callBack: RealEstateDatabase.Callback   //to add callback
     ) = Room.databaseBuilder(appContext, RealEstateDatabase::class.java, "realEstateDB")
         .fallbackToDestructiveMigration()
-        //.addCallback(callBack)
+        .addCallback(callBack)
         .build()
 
     //provide scope

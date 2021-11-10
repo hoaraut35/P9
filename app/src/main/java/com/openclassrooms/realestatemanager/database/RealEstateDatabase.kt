@@ -4,13 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.openclassrooms.realestatemanager.injection.ApplicationScope
 import com.openclassrooms.realestatemanager.models.RealEstate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Provider
 
 @Database(entities = [RealEstate::class], version = 1, exportSchema = false)
 abstract class RealEstateDatabase : RoomDatabase() {
 
     abstract fun realEstateDao(): RealEStateDao //
 
+    //work
+    /*
     companion object {
         // Singleton prevents multiple instances of database opening at the
         // same time.
@@ -33,8 +41,10 @@ abstract class RealEstateDatabase : RoomDatabase() {
         }
     }
 
+     */
 
-   /* class Callback @Inject constructor(
+
+    class Callback @Inject constructor(
         private val database: Provider<RealEstateDatabase>,
         @ApplicationScope private val applicationScope: CoroutineScope
     ) : RoomDatabase.Callback() {
@@ -56,7 +66,6 @@ abstract class RealEstateDatabase : RoomDatabase() {
         }
     }
 
-    */
 
 
 
