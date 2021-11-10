@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.master
+package com.openclassrooms.realestatemanager
 
 
 import android.os.Bundle
@@ -6,21 +6,16 @@ import android.util.Log
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.Utils
-import com.openclassrooms.realestatemanager.database.RealEstateDatabase
-import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
+import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private val mainViewModel by viewModels<MainViewModel>()
 
-    //work
+    //work but not used at this time
     //val database by lazy { RealEstateDatabase.getDatabase(this) }
     //val repository by lazy { LocalDatabaseRepository(database.realEstateDao()) }
 
@@ -29,7 +24,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         //first bug
         //this.textViewMain = findViewById(R.id.activity_second_activity_text_view_main);
@@ -39,14 +36,7 @@ class MainActivity : AppCompatActivity() {
         configureTextViewQuantity()
 
 
-       // mainViewModel.allRealEstate.value
 
-        //ok
-        /*
-        mainViewModel.allRealEstate.observe(this, Observer {
-        } )
-
-         */
 
         mainViewModel.allRealEstate.observe(this){ listRealEstate ->
             Log.i("[THOMAS]","recup : ${listRealEstate.size}" )
@@ -62,8 +52,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun configureTextViewMain() {
-        textViewMain!!.textSize = 15f
-        textViewMain!!.text = "Le premier bien immobilier enregistré vaut "
+        binding.activityMainActivityTextViewMain!!.textSize=15f
+        binding.activityMainActivityTextViewMain!!.text="Le premier bien immobilier enregistré vaut "
+        //textViewMain!!.textSize = 15f
+        //textViewMain!!.text = "Le premier bien immobilier enregistré vaut "
     }
 
     private fun configureTextViewQuantity() {
