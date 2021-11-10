@@ -33,9 +33,16 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.40")
     annotationProcessor 'com.google.dagger:hilt-compiler:2.40'
     kapt 'com.google.dagger:hilt-compiler:2.40'
-
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation("androidx.activity:activity-ktx:1.4.0")
+
+    implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
+    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.0"
 
     implementation("androidx.core:core-ktx:1.7.0")
@@ -62,8 +69,19 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.4.0')
     implementation "androidx.core:core-ktx:1.7.0"
 
+
+    // Required -- JUnit 4 framework
+   // testImplementation("junit:junit:4.12")
+    // Optional -- Robolectric environment
+    testImplementation('androidx.test:core:1.4.0')
+    // Optional -- Mockito framework
+    testImplementation("org.mockito:mockito-core:1.10.19")
+    testImplementation 'androidx.test.ext:junit-ktx:1.1.2'
+
+    testImplementation 'org.robolectric:robolectric:4.4'
 
 }
 repositories {

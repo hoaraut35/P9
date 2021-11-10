@@ -1,29 +1,39 @@
 package com.openclassrooms.realestatemanager.database
 
-import android.content.Context
-import androidx.room.Room
+import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.openclassrooms.realestatemanager.injection.ApplicationScope
+import com.openclassrooms.realestatemanager.models.RealEstate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Provider
 
+@Database(entities = [RealEstate::class], version = 1)
 abstract class RealEstateDatabase : RoomDatabase() {
 
     abstract fun realEstateDao(): RealEStateDao
 
-    companion object{
+    class Callback @Inject constructor(
+        private val database: Provider<RealEstateDatabase>,
+        @ApplicationScope private val applicationScope: CoroutineScope
+    ) : RoomDatabase.Callback() {
 
-        @Volatile
-        private var INSTANCE: RealEstateDatabase? = null
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            super.onCreate(db)
 
-        fun getDabatase(context: Context): RealEstateDatabase{
+            val dao = database.get().realEstateDao()
 
-            return INSTANCE ?: synchronized(this){
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    RealEstateDatabase::class.java,
-                    "mybase"
-                ).build()
-                INSTANCE = instance
-                instance
+            applicationScope.launch {
+
+                dao.insert(RealEstate( 1,"toto"))
+                dao.insert(RealEstate( 2,"toto"))
+                dao.insert(RealEstate( 3,"toto"))
+                dao.insert(RealEstate( 4,"toto"))
             }
+
         }
     }
+
 }
