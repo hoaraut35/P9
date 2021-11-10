@@ -39,7 +39,7 @@ object AppModule { //must be object
             .addCallback(callBack)
             .build()
 
-
+    //provide scope
     @Provides
     @ApplicationScope
     @Singleton
