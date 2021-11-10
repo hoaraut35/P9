@@ -3,12 +3,11 @@ package com.openclassrooms.realestatemanager.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "realEstate_table")
 data class RealEstate (
 
-    @PrimaryKey(autoGenerate = true)
-    val id : Int= 0,
-    val typeOfProduct : String? = null
+    @PrimaryKey(autoGenerate = true) val id : Int=0,
+    val typeOfProduct : String?
    // val price : Float? = null,
    // val surface : Short? = null, //max 32767m²
    // val numberOfRoom : Int? = null,
