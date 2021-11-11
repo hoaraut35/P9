@@ -7,5 +7,14 @@
     <fragment
         android:id="@+id/realEstateListFragment"
         android:name="com.openclassrooms.realestatemanager.RealEstateListFragment"
-        android:label="RealEstateListFragment" />
+        android:label="RealEstateListFragment" >
+        <action
+            android:id="@+id/action_realEstateListFragment_to_realEstateDetailFragment"
+            app:destination="@id/realEstateDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/realEstateDetailFragment"
+        android:name="com.openclassrooms.realestatemanager.RealEstateDetailFragment"
+        android:label="fragment_real_estate_detail"
+        tools:layout="@layout/fragment_real_estate_detail" />
 </navigation>

@@ -8,6 +8,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="realEstateDetailFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="290" />
+                            <option name="y" value="48" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="realEstateListFragment">
                     <value>
                       <LayoutPositions>
@@ -23,6 +35,11 @@
                 </map>
               </option>
             </LayoutPositions>
+          </value>
+        </entry>
+        <entry key="nav_sub.xml">
+          <value>
+            <LayoutPositions />
           </value>
         </entry>
       </map>

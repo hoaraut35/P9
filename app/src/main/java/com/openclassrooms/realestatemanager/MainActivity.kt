@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -41,6 +40,9 @@ class MainActivity : AppCompatActivity() {
        // configureTextViewQuantity()
 
 
+        //not use with navigation component
+        //setSupportActionBar(findViewById(R.id.myTopAppBar))
+        
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item) as NavHostFragment
         val navController = navHostFragment.navController
 
@@ -58,11 +60,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //to setup return button on fragment
     override fun onSupportNavigateUp(): Boolean {
-        val navControler = findNavController(R.id.nav_host_fragment_item)
+        val navController = findNavController(R.id.nav_host_fragment_item)
         //return super.onSupportNavigateUp()
-        return navControler.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
 
 
     private fun configureTextViewMain() {
