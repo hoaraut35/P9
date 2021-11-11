@@ -7,11 +7,8 @@ import androidx.room.PrimaryKey
 data class RealEstate (
 
     @PrimaryKey(autoGenerate = true) val id : Int=0,
-    val typeOfProduct : String?
-
-
-
-   // val price : Float? = null,
+    val typeOfProduct : String?,
+    val price : Float? = null,
    // val surface : Short? = null, //max 32767m²
    // val numberOfRoom : Int? = null,
    // val descriptionOfProduct : String? = null,

@@ -35,12 +35,22 @@ dependencies {
 
 
     implementation("com.google.dagger:hilt-android:2.40")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor 'com.google.dagger:hilt-compiler:2.40'
     kapt 'com.google.dagger:hilt-compiler:2.40'
 
 
+    //navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+    implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
 
-    //
+    //UI
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    // For control over item selection of both touch and mouse driven selection
+    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
 
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"

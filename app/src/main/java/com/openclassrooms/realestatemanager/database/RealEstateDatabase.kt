@@ -17,7 +17,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
     abstract fun realEstateDao(): RealEStateDao //
 
-    //work
+    //work but not used at this time
     /*
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -57,10 +57,10 @@ abstract class RealEstateDatabase : RoomDatabase() {
             val dao = database.get().realEstateDao()
 
             applicationScope.launch {
-                dao.insert(RealEstate( typeOfProduct = "toto"))
-                dao.insert(RealEstate(typeOfProduct =  "toto"))
-                dao.insert(RealEstate(typeOfProduct =  "toto"))
-                dao.insert(RealEstate( typeOfProduct = "toto"))
+                dao.insert(RealEstate( typeOfProduct = "Flat", price = 17870000F))
+                dao.insert(RealEstate(typeOfProduct =  "House",price=21130000F))
+                dao.insert(RealEstate(typeOfProduct =  "Duplex", price = 13990000F))
+                dao.insert(RealEstate( typeOfProduct = "House", price = 41480000F))
             }
 
         }
