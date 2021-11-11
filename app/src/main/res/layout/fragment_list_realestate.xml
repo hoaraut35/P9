@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/realEstateList_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BlankFragment">
+    android:layout_gravity="center"
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+   >
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:name="RealEstateListFragment"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
 
-</FrameLayout>
+        tools:context="com.openclassrooms.realestatemanager.MainActivity"
+        tools:listitem="@layout/item_real_estate"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

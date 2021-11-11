@@ -6,9 +6,11 @@ import android.util.Log
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.navigateUp
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,17 +59,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-
-        return super.onSupportNavigateUp()
+        val navControler = findNavController(R.id.nav_host_fragment_item)
+        //return super.onSupportNavigateUp()
+        return navControler.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    private fun setupNavController() {
-
-    }
-
-    private fun setupNavHostFragment() {
-
-    }
 
     private fun configureTextViewMain() {
        /* binding.activityMainActivityTextViewMain!!.textSize=15f
