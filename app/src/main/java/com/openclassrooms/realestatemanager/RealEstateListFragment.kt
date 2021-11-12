@@ -1,11 +1,14 @@
 package com.openclassrooms.realestatemanager
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,15 +56,26 @@ class RealEstateListFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding.recyclerview
 
+        //check if detail exist
+        val realEstateDetailFragment: View? = view.findViewById(R.id.fragment_detail)
 
+        
+        //listener
+        val onClickListener = View.OnClickListener { realEstateView ->
 
-        //setupRecyclerView
-       // setupRecyclerView(recyclerView)
+            val text = "Hello toast!"
+            val duration = Toast.LENGTH_SHORT
 
+         //   val toast = Toast.makeText(viewLifecycleOwner, text, duration)
+           // toast.show()
+          //  val realEstate = realEstateView.tag as
+
+        }
+        
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
 
-            setupRecyclerView(recyclerView, listRealEstate)
+            setupRecyclerView(recyclerView, listRealEstate, onClickListener)
             Log.i("[THOMAS]", "recup : ${listRealEstate.size}")
         }
 
@@ -69,7 +83,8 @@ class RealEstateListFragment : Fragment() {
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList : List<RealEstate>
+        myRealEstateList : List<RealEstate>,
+        onClickListener: View.OnClickListener
     ) {
         val myList: List<String> =
             listOf("a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c")
@@ -77,7 +92,7 @@ class RealEstateListFragment : Fragment() {
 
         Log.i("[THOMAS]","Taille liste pour recyclerview " + myRealEstateList.size)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = MyRecyclerViewAdapter(myRealEstateList)
+        recyclerView.adapter = MyRecyclerViewAdapter(myRealEstateList, onClickListener)
 
 
 
@@ -86,7 +101,8 @@ class RealEstateListFragment : Fragment() {
     }
 
     class MyRecyclerViewAdapter(
-        private val values: List<RealEstate>
+        private val values: List<RealEstate>,
+        private val onClickListener: View.OnClickListener
     ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
 
@@ -101,6 +117,9 @@ class RealEstateListFragment : Fragment() {
             holder.type.text = item.typeOfProduct
             holder.city.text = item.cityOfProduct
             holder.price.text = item.price.toString()
+
+
+            holder.itemView.setOnClickListener { Log.i("[THOMAS]","click") }
 
         }
 
