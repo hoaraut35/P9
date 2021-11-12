@@ -5,13 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
+import com.openclassrooms.realestatemanager.models.RealEstate
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,13 +21,15 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-
 @AndroidEntryPoint
 class RealEstateListFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    //viewmodel
+    private val mainViewModel by viewModels<MainViewModel>()
 
 
 
@@ -46,45 +49,65 @@ class RealEstateListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            Log.i("[THOMAS]","sur le fragment list")
+        Log.i("[THOMAS]", "sur le fragment list")
+
         val recyclerView: RecyclerView = binding.recyclerview
 
 
 
-        setupRecyclerView(recyclerView)
+        //setupRecyclerView
+       // setupRecyclerView(recyclerView)
+
+        //for test
+        mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
+
+            setupRecyclerView(recyclerView, listRealEstate)
+            Log.i("[THOMAS]", "recup : ${listRealEstate.size}")
+        }
 
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
+    private fun setupRecyclerView(
+        recyclerView: RecyclerView,
+        myRealEstateList : List<RealEstate>
+    ) {
         val myList: List<String> =
             listOf("a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c")
-        lateinit var linearLayoutManager: LinearLayoutManager
+      //  lateinit var linearLayoutManager: LinearLayoutManager
 
-        linearLayoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = linearLayoutManager
-        recyclerView.adapter = MyRecyclerViewAdapter(myList)
+        Log.i("[THOMAS]","Taille liste pour recyclerview " + myRealEstateList.size)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = MyRecyclerViewAdapter(myRealEstateList)
+
+
+
+
+
     }
 
-    class MyRecyclerViewAdapter( private val values: List<String> ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
-
+    class MyRecyclerViewAdapter(
+        private val values: List<RealEstate>
+    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val binding = ItemRealEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val binding =
+                ItemRealEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return ViewHolder(binding)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position]
-            holder.city.text = "item"
+            val item = values[position].toString()
+            holder.city.text = item
         }
 
         override fun getItemCount(): Int {
-            Log.i("[THOMAS]","Taille liste ${values.size}")
+            Log.i("[THOMAS]", "Taille liste ${values.size}")
             return values.size
         }
 
-        inner class ViewHolder(binding: ItemRealEstateBinding) : RecyclerView.ViewHolder(binding.root) {
+        inner class ViewHolder(binding: ItemRealEstateBinding) :
+            RecyclerView.ViewHolder(binding.root) {
 
             val type: TextView = binding.typeText
             val price: TextView = binding.priceText

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
+import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,8 +23,14 @@ class RealEstateDetailFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    //binding
+    private var _binding: FragmentRealEstateDetailBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -34,7 +42,8 @@ class RealEstateDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_real_estate_detail, container, false)
+        _binding = FragmentRealEstateDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     companion object {
