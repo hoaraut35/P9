@@ -35,13 +35,9 @@ class RealEstateListFragment : Fragment() {
     //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
 
-
-
-
-
+    //binding
     private var _binding: FragmentListRealestateBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +49,7 @@ class RealEstateListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("[THOMAS]", "sur le fragment list")
+       // Log.i("[THOMAS]", "sur le fragment list")
 
         val recyclerView: RecyclerView = binding.recyclerview
 

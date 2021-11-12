@@ -18,8 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
 
         tools:context="com.openclassrooms.realestatemanager.MainActivity"
-        tools:listitem="@layout/item_real_estate"
-        />
+        tools:listitem="@layout/item_real_estate" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -28,20 +27,21 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="200dp" />
 
-<androidx.fragment.app.FragmentContainerView
-    android:id="@+id/fragment_detail"
-    android:name="androidx.navigation.fragment.NavHostFragment"
-    android:layout_width="0dp"
-    app:defaultNavHost="false"
-    android:layout_height="match_parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toEndOf="@id/guideline"
-    app:layout_constraintTop_toTopOf="parent"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_detail"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:defaultNavHost="false"
 
-    app:navGraph="@navigation/nav_sub"
-    >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
 
-</androidx.fragment.app.FragmentContainerView>
+        app:navGraph="@navigation/nav_sub">
+
+    </androidx.fragment.app.FragmentContainerView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_description">Description</string>
+    <string name="title_media">Media</string>
+    <string name="text_number_room">Nombre de pièce</string>
+    <string name="text_number_bathroom">Nombre salle de bain</string>
+    <string name="description_detail">Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.</string>
+    <string name="qty_number_bathroom">2</string>
+    <string name="text_number_bedroom">Nombre de chambre</string>
+    <string name="qty_number_bedroom">4</string>
+    <string name="qty_number_room">8</string>
 </resources>

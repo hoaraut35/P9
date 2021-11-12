@@ -59,28 +59,32 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     RealEstate(
                         typeOfProduct = "Flat",
                         cityOfProduct = "Manhattan",
-                        price = 17870000
+                        price = 17870000,
+                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum."
                     )
                 )
                 dao.insert(
                     RealEstate(
                         typeOfProduct = "House",
                         cityOfProduct = "Montauk",
-                        price = 21130000
+                        price = 21130000,
+                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum"
                     )
                 )
                 dao.insert(
                     RealEstate(
                         typeOfProduct = "Duplex",
                         cityOfProduct = "Brooklyn",
-                        price = 13990000
+                        price = 13990000,
+                        descriptionOfProduct = "Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo volup"
                     )
                 )
                 dao.insert(
                     RealEstate(
                         typeOfProduct = "House",
                         cityOfProduct = "Southhampton",
-                        price = 41480000
+                        price = 41480000,
+                        descriptionOfProduct = " rem quisquam natus. Quo volup"
                     )
                 )
             }
