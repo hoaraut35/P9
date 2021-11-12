@@ -4,17 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/realEstateListFragment">
+
     <fragment
         android:id="@+id/realEstateListFragment"
         android:name="com.openclassrooms.realestatemanager.RealEstateListFragment"
-        android:label="RealEstateListFragment" >
+        android:label="Real Estate Manager">
         <action
-            android:id="@+id/action_realEstateListFragment_to_realEstateDetailFragment"
+            android:id="@+id/show_item_detail"
             app:destination="@id/realEstateDetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/realEstateDetailFragment"
         android:name="com.openclassrooms.realestatemanager.RealEstateDetailFragment"
-        android:label="fragment_real_estate_detail"
-        tools:layout="@layout/fragment_real_estate_detail" />
+        android:label="Real Estate Detail"
+        tools:layout="@layout/fragment_real_estate_detail">
+        <argument
+            android:name="real_estate_id"
+            android:defaultValue=""
+            app:argType="string"/>
+
+    </fragment>
+
+
+
 </navigation>

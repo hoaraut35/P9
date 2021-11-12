@@ -14,6 +14,9 @@ data class RealEstate(
     val numberOfRoom: Int?=null,
     val descriptionOfProduct : String? = null
 
+
+    //see embedded room entitiu
+
     //tableau de photo
 //
     //  val address : String? = null,

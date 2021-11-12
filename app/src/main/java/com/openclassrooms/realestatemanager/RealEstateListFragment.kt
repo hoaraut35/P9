@@ -1,14 +1,14 @@
 package com.openclassrooms.realestatemanager
 
+import android.content.ClipData
+import android.content.ClipDescription
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -39,6 +39,7 @@ class RealEstateListFragment : Fragment() {
     private var _binding: FragmentListRealestateBinding? = null
     private val binding get() = _binding!!
 
+    //get data
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -47,29 +48,44 @@ class RealEstateListFragment : Fragment() {
         }
     }
 
+    //startup
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       // Log.i("[THOMAS]", "sur le fragment list")
 
+        //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
 
         //check if detail exist
-        val realEstateDetailFragment: View? = view.findViewById(R.id.fragment_detail)
+        val realEstateDetailFragment: View? = view.findViewById(R.id.item_detail_nav_container)
 
-        
-        //listener
+
+
+
+
+
+        //listener set id itemview here for second frafgment with bundle
         val onClickListener = View.OnClickListener { realEstateView ->
 
+            val bundle = Bundle()
+
+            //set id for realestate in list
+            bundle.putString("test" , "1"  )
+
+            //if fragment detail is displayed mode tablet
             if (realEstateDetailFragment != null){
-                realEstateDetailFragment.findNavController().navigate(R.id.fragment_detail)
+                realEstateDetailFragment.findNavController().navigate(R.id.fragment_item_detail, bundle)
+
+            } else
+            {
+                realEstateView.findNavController().navigate(R.id.show_item_detail, bundle)
+
             }
         }
         
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
-
             setupRecyclerView(recyclerView, listRealEstate, onClickListener)
-            Log.i("[THOMAS]", "recup : ${listRealEstate.size}")
+          //  Log.i("[THOMAS]", "recup : ${listRealEstate.size}")
         }
 
     }
@@ -79,60 +95,16 @@ class RealEstateListFragment : Fragment() {
         myRealEstateList : List<RealEstate>,
         onClickListener: View.OnClickListener
     ) {
-        val myList: List<String> =
-            listOf("a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c")
-      //  lateinit var linearLayoutManager: LinearLayoutManager
 
-        Log.i("[THOMAS]","Taille liste pour recyclerview " + myRealEstateList.size)
+        //Log.i("[THOMAS]","Taille liste pour recyclerview " + myRealEstateList.size)
+
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = MyRecyclerViewAdapter(myRealEstateList, onClickListener)
-
-
-
-
+       // recyclerView.adapter = MyRecyclerViewAdapterBis(myRealEstateList, onClickListener)
+        recyclerView.adapter = SimpleItemRecyclerViewAdapter(myRealEstateList, onClickListener)
 
     }
 
-    class MyRecyclerViewAdapter(
-        private val values: List<RealEstate>,
-        private val onClickListener: View.OnClickListener
-    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val binding =
-                ItemRealEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return ViewHolder(binding)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position]
-            holder.type.text = item.typeOfProduct
-            holder.city.text = item.cityOfProduct
-            holder.price.text = item.price.toString()
-
-
-            holder.itemView.setOnClickListener {
-                Log.i("[THOMAS]","click")
-            }
-
-        }
-
-        override fun getItemCount(): Int {
-         //   Log.i("[THOMAS]", "Taille liste ${values.size}")
-            return values.size
-        }
-
-        inner class ViewHolder(binding: ItemRealEstateBinding) :
-            RecyclerView.ViewHolder(binding.root) {
-
-            val type: TextView = binding.typeText
-            val price: TextView = binding.priceText
-            val city: TextView = binding.cityText
-
-        }
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -162,5 +134,48 @@ class RealEstateListFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    class SimpleItemRecyclerViewAdapter(
+        private val values: List<RealEstate>,
+        private val onClickListener: View.OnClickListener,
+        //private val onContextClickListener: View.OnContextClickListener
+    ) :
+        RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+            val binding = ItemRealEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return ViewHolder(binding)
+
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+            val item = values[position]
+            holder.type.text = item.typeOfProduct
+            holder.city.text = item.cityOfProduct
+            holder.price.text = item.price.toString()
+
+            with(holder.itemView) {
+                tag = item
+                setOnClickListener(onClickListener)
+
+            }
+        }
+
+        override fun getItemCount() = values.size
+
+        //holder view
+        inner class ViewHolder(binding: ItemRealEstateBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
+            val type: TextView = binding.typeText
+            val price: TextView = binding.priceText
+            val city: TextView = binding.cityText
+
+        }
+
+
     }
 }

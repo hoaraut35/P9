@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
-    <string name="title_description">Description</string>
+    <string name="title_description">Description pour petit ecran </string>
     <string name="title_media">Media</string>
     <string name="text_number_room">Nombre de pièce</string>
     <string name="text_number_bathroom">Nombre salle de bain</string>

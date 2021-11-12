@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,7 @@ import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetail
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
+private const val ARG_REAL_ESTATE_ID = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
@@ -30,9 +31,16 @@ class RealEstateDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
+
+            if (it.containsKey(ARG_REAL_ESTATE_ID)){
+                param1 = it.getString(ARG_REAL_ESTATE_ID)
+            }
+
+
+                //Log.i("[THOMAS]","id real estate trouvé")
+
+
             param2 = it.getString(ARG_PARAM2)
         }
     }
@@ -41,9 +49,16 @@ class RealEstateDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         _binding = FragmentRealEstateDetailBinding.inflate(inflater, container, false)
-        return binding.root
+
+        val rootView = binding.root
+
+
+
+
+        return rootView
     }
 
     companion object {
@@ -56,11 +71,15 @@ class RealEstateDetailFragment : Fragment() {
          * @return A new instance of fragment RealEstateDetailFragment.
          */
         // TODO: Rename and change types and number of parameters
+
+
+        //const val  ARG_REAL_ESTATE_ID
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             RealEstateDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
+                    putString(ARG_REAL_ESTATE_ID, param1)
                     putString(ARG_PARAM2, param2)
                 }
             }
