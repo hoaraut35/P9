@@ -97,12 +97,15 @@ class RealEstateListFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position].toString()
-            holder.city.text = item
+            val item = values[position]
+            holder.type.text = item.typeOfProduct
+            holder.city.text = item.cityOfProduct
+            holder.price.text = item.price.toString()
+
         }
 
         override fun getItemCount(): Int {
-            Log.i("[THOMAS]", "Taille liste ${values.size}")
+         //   Log.i("[THOMAS]", "Taille liste ${values.size}")
             return values.size
         }
 

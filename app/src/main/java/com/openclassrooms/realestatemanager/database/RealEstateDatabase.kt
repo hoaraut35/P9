@@ -1,8 +1,6 @@
 package com.openclassrooms.realestatemanager.database
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.injection.ApplicationScope
@@ -57,16 +55,38 @@ abstract class RealEstateDatabase : RoomDatabase() {
             val dao = database.get().realEstateDao()
 
             applicationScope.launch {
-                dao.insert(RealEstate( typeOfProduct = "Flat", price = 17870000F))
-                dao.insert(RealEstate(typeOfProduct =  "House",price=21130000F))
-                dao.insert(RealEstate(typeOfProduct =  "Duplex", price = 13990000F))
-                dao.insert(RealEstate( typeOfProduct = "House", price = 41480000F))
+                dao.insert(
+                    RealEstate(
+                        typeOfProduct = "Flat",
+                        cityOfProduct = "Manhattan",
+                        price = 17870000
+                    )
+                )
+                dao.insert(
+                    RealEstate(
+                        typeOfProduct = "House",
+                        cityOfProduct = "Montauk",
+                        price = 21130000
+                    )
+                )
+                dao.insert(
+                    RealEstate(
+                        typeOfProduct = "Duplex",
+                        cityOfProduct = "Brooklyn",
+                        price = 13990000
+                    )
+                )
+                dao.insert(
+                    RealEstate(
+                        typeOfProduct = "House",
+                        cityOfProduct = "Southhampton",
+                        price = 41480000
+                    )
+                )
             }
 
         }
     }
-
-
 
 
 }
