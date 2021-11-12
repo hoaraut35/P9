@@ -32,17 +32,6 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        //first bug
-        //this.textViewMain = findViewById(R.id.activity_second_activity_text_view_main);
-       // textViewMain = findViewById(R.id.activity_main_activity_text_view_main)
-       // textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity)
-       // configureTextViewMain()
-       // configureTextViewQuantity()
-
-
-        //not use with navigation component
-        //setSupportActionBar(findViewById(R.id.myTopAppBar))
-        
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item) as NavHostFragment
         val navController = navHostFragment.navController
 
@@ -50,11 +39,9 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(this,navController, appBarConfiguration)
 
-
-
         //for test
         mainViewModel.allRealEstate.observe(this){ listRealEstate ->
-            Log.i("[THOMAS]","recup : ${listRealEstate.size}" )
+          //  Log.i("[THOMAS]","recup : ${listRealEstate.size}" )
         }
 
 
@@ -66,9 +53,6 @@ class MainActivity : AppCompatActivity() {
         //return super.onSupportNavigateUp()
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
-
-
 
     private fun configureTextViewMain() {
        /* binding.activityMainActivityTextViewMain!!.textSize=15f

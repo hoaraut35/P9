@@ -11,6 +11,7 @@ import android.widget.Toast
 import android.widget.Toast.makeText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
@@ -63,13 +64,9 @@ class RealEstateListFragment : Fragment() {
         //listener
         val onClickListener = View.OnClickListener { realEstateView ->
 
-            val text = "Hello toast!"
-            val duration = Toast.LENGTH_SHORT
-
-         //   val toast = Toast.makeText(viewLifecycleOwner, text, duration)
-           // toast.show()
-          //  val realEstate = realEstateView.tag as
-
+            if (realEstateDetailFragment != null){
+                realEstateDetailFragment.findNavController().navigate(R.id.fragment_detail)
+            }
         }
         
         //for test
@@ -119,7 +116,9 @@ class RealEstateListFragment : Fragment() {
             holder.price.text = item.price.toString()
 
 
-            holder.itemView.setOnClickListener { Log.i("[THOMAS]","click") }
+            holder.itemView.setOnClickListener {
+                Log.i("[THOMAS]","click")
+            }
 
         }
 
