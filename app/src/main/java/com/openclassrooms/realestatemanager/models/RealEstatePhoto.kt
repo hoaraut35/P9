@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.models
 
 import androidx.room.PrimaryKey
 
-public class RealEstatePhoto (
+data class RealEstatePhoto (
 
     val name : String,
     val uri: String

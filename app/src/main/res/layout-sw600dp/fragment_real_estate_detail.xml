@@ -41,6 +41,17 @@
             android:layout_height="wrap_content"
             android:text="@string/description_detail" />
 
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_house_24"
+            >
+
+        </ImageView>
+
+
         <TextView
             android:id="@+id/text_number_room"
             android:layout_width="wrap_content"
@@ -55,6 +66,18 @@
             android:layout_height="wrap_content"
             android:text="@string/qty_number_room"
             android:textSize="16sp" />
+
+
+
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_bathtub_24"
+            >
+
+        </ImageView>
 
         <TextView
             android:id="@+id/text_number_bathroom"
@@ -71,13 +94,24 @@
             android:text="@string/qty_number_bathroom"
             android:textSize="16sp" />
 
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_bedroom_parent_24"
+            >
+
+        </ImageView>
+
         <TextView
             android:id="@+id/text_number_bedroom"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_number_bedroom"
             android:textSize="16sp"
             android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/qty_number_bedroom"

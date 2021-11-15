@@ -36,7 +36,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         typeOfProduct = "Flat",
                         cityOfProduct = "Manhattan",
                         price = 17870000,
-                        photo ="" ,
+                       // photo ="" ,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum."
                     )
                 )
@@ -49,7 +49,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         typeOfProduct = "House",
                         cityOfProduct = "Montauk",
                         price = 21130000,
-                        photo = "",
+                      //  photo = "",
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum"
                     )
                 )

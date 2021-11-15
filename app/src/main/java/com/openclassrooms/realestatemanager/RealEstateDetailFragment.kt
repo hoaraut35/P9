@@ -59,26 +59,20 @@ class RealEstateDetailFragment : Fragment() {
 
         val rootView = binding.root
 
-      //  binding.textDescription.setText(item_id_bundle)
+        //  binding.textDescription.setText(item_id_bundle)
 
 
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
 
-
-               val realEstate : RealEstate? = listRealEstate.find { it.id == item_id_bundle?.toInt()   }
-
+            val realEstate: RealEstate? = listRealEstate.find { it.id == item_id_bundle?.toInt() }
 
             if (realEstate != null) {
-
                 binding.textDescriptionDetail.setText(realEstate.descriptionOfProduct)
                 binding.qtyNumberRoom.setText(realEstate.numberOfRoom.toString())
                 binding.qtyNumberBedroom.setText(realEstate.numberOfBedRoom.toString())
                 binding.qtyNumberBathroom.setText(realEstate.numberOfBathRoom.toString())
-
             }
-
-
         }
 
         return rootView

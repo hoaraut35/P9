@@ -19,4 +19,11 @@ interface RealEStateDao {
     //we can't delete a property....
     @Delete
     suspend fun delete(realEstate: RealEstate) //suspend for use another thread
+
+
+
+
+
+    //@Query("SELECT * FROM realEstate_table WHERE photo LIKE '%' ")
+    //https://www.youtube.com/watch?v=sU-ot_Oz3AE&t=195s
 }

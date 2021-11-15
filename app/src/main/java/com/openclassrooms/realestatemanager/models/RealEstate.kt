@@ -19,8 +19,12 @@ data class RealEstate(
     //see embedded room enttypeOfProductitiu
 
     //tableau de photo
+    @Embedded
+    val photo : RealEstatePhoto?=null,
 
-    val photo : String?=null
+    @Embedded
+    val address : RealEstateAddress?=null
+
     //  val address : String? = null,
 
     //tableau de poi

@@ -10,6 +10,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -88,8 +89,14 @@ class RealEstateListFragment : Fragment() {
         myRealEstateList: List<RealEstate>,
         onClickListener: View.OnClickListener
     ) {
+
+
+
         recyclerView.layoutManager = LinearLayoutManager(activity)
+
+
         recyclerView.adapter = SimpleItemRecyclerViewAdapter(myRealEstateList, onClickListener)
+
     }
 
     override fun onCreateView(
@@ -122,12 +129,10 @@ class RealEstateListFragment : Fragment() {
             }
     }
 
-    class SimpleItemRecyclerViewAdapter(
-        private val realEstateResults: List<RealEstate>,
-        private val onClickListener: View.OnClickListener
-    ) :
+    class SimpleItemRecyclerViewAdapter(private val realEstateResults: List<RealEstate>,private val onClickListener: View.OnClickListener ) :
         RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
+        //create the views but not data
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
             val binding =
@@ -136,6 +141,7 @@ class RealEstateListFragment : Fragment() {
 
         }
 
+        //link data and view
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
             val item = realEstateResults[position]
@@ -143,7 +149,7 @@ class RealEstateListFragment : Fragment() {
             holder.city.text = item.cityOfProduct
             holder.price.text = item.price.toString()
 
-            val avatar: String = "https://eu.ui-avatars.com/api/?name=test"
+
 
             // Uri uri = Uri.parse("android.resource://com.openclassrooms.realestatemanager/drawable/real")
 
@@ -164,6 +170,7 @@ class RealEstateListFragment : Fragment() {
 
         }
 
+        //get the size of data
         override fun getItemCount() = realEstateResults.size
 
         //holder view
