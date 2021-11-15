@@ -1,23 +1,18 @@
 package com.openclassrooms.realestatemanager
 
-import android.content.ClipData
-import android.content.ClipDescription
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.openclassrooms.realestatemanager.MainViewModel
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
@@ -62,59 +57,46 @@ class RealEstateListFragment : Fragment() {
         //check if detail exist
         val realEstateDetailFragment: View? = view.findViewById(R.id.item_detail_nav_container)
 
-
-
-
-
-
         //listener set id itemview here for second frafgment with bundle
         val onClickListener = View.OnClickListener { realEstateView ->
-
+            val item = realEstateView.tag
             val bundle = Bundle()
-
-            //set id for realestate in list
-            bundle.putString("test" , "1"  )
+            bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, item.toString())
 
             //if fragment detail is displayed mode tablet
-            if (realEstateDetailFragment != null){
-                realEstateDetailFragment.findNavController().navigate(R.id.fragment_item_detail, bundle)
+            if (realEstateDetailFragment != null) {
+                realEstateDetailFragment.findNavController()
+                    .navigate(R.id.fragment_item_detail, bundle)
 
-            } else
-            {
+            } else {
                 realEstateView.findNavController().navigate(R.id.show_item_detail, bundle)
 
             }
         }
-        
+
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
             setupRecyclerView(recyclerView, listRealEstate, onClickListener)
-          //  Log.i("[THOMAS]", "recup : ${listRealEstate.size}")
+
+            //  Log.i("[THOMAS]", "recup : ${listRealEstate.size}")
         }
 
     }
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList : List<RealEstate>,
+        myRealEstateList: List<RealEstate>,
         onClickListener: View.OnClickListener
     ) {
-
-        //Log.i("[THOMAS]","Taille liste pour recyclerview " + myRealEstateList.size)
-
         recyclerView.layoutManager = LinearLayoutManager(activity)
-       // recyclerView.adapter = MyRecyclerViewAdapterBis(myRealEstateList, onClickListener)
         recyclerView.adapter = SimpleItemRecyclerViewAdapter(myRealEstateList, onClickListener)
-
     }
 
-
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         // Inflate the layout for this fragment
         _binding = FragmentListRealestateBinding.inflate(inflater, container, false)
         return binding.root
@@ -141,43 +123,48 @@ class RealEstateListFragment : Fragment() {
     }
 
     class SimpleItemRecyclerViewAdapter(
-        private val values: List<RealEstate>,
-        private val onClickListener: View.OnClickListener,
-        //private val onContextClickListener: View.OnContextClickListener
+        private val realEstateResults: List<RealEstate>,
+        private val onClickListener: View.OnClickListener
     ) :
         RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-            val binding = ItemRealEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val binding =
+                ItemRealEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return ViewHolder(binding)
 
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-            val item = values[position]
+            val item = realEstateResults[position]
             holder.type.text = item.typeOfProduct
             holder.city.text = item.cityOfProduct
             holder.price.text = item.price.toString()
 
-            val avatar : String = "https://eu.ui-avatars.com/api/?name=test"
+            val avatar: String = "https://eu.ui-avatars.com/api/?name=test"
 
-            Glide.with(holder.image.context)
-                .load(avatar)
-                .override(100,100)
-            //circleCrop()
+            // Uri uri = Uri.parse("android.resource://com.openclassrooms.realestatemanager/drawable/real")
+
+            Glide.with(holder.itemView)
+                .load(R.drawable.realestate_1)
+                .override(100, 100)
+                //circleCrop()
                 .into(holder.image)
 
 
             with(holder.itemView) {
-                tag = item
+                tag = item.id
                 setOnClickListener(onClickListener)
+                // holder.layoutContainer.setBackgroundColor(Color.parseColor("#664411"))
 
             }
+
+
         }
 
-        override fun getItemCount() = values.size
+        override fun getItemCount() = realEstateResults.size
 
         //holder view
         inner class ViewHolder(binding: ItemRealEstateBinding) :
@@ -187,6 +174,7 @@ class RealEstateListFragment : Fragment() {
             val price: TextView = binding.priceText
             val city: TextView = binding.cityText
             val image: ImageView = binding.realEstateImage
+            val layoutContainer: LinearLayoutCompat = binding.layoutContainer
 
         }
 

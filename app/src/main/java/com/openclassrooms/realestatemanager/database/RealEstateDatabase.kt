@@ -29,22 +29,36 @@ abstract class RealEstateDatabase : RoomDatabase() {
             applicationScope.launch {
                 dao.insert(
                     RealEstate(
+                        numberOfBathRoom =2 ,
+                        numberOfBedRoom = 3,
+                        numberOfRoom = 5,
+                        surface = 100,
                         typeOfProduct = "Flat",
                         cityOfProduct = "Manhattan",
                         price = 17870000,
+                        photo ="" ,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum."
                     )
                 )
                 dao.insert(
                     RealEstate(
+                        numberOfBathRoom =3 ,
+                        numberOfBedRoom = 2,
+                        numberOfRoom = 4,
+                        surface = 150,
                         typeOfProduct = "House",
                         cityOfProduct = "Montauk",
                         price = 21130000,
+                        photo = "",
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum"
                     )
                 )
                 dao.insert(
                     RealEstate(
+                        numberOfBathRoom =1 ,
+                        numberOfBedRoom = 1,
+                        numberOfRoom = 2,
+                        surface = 200,
                         typeOfProduct = "Duplex",
                         cityOfProduct = "Brooklyn",
                         price = 13990000,
@@ -53,6 +67,10 @@ abstract class RealEstateDatabase : RoomDatabase() {
                 )
                 dao.insert(
                     RealEstate(
+                        numberOfBathRoom =4 ,
+                        numberOfBedRoom = 5,
+                        numberOfRoom = 8,
+                        surface = 200,
                         typeOfProduct = "House",
                         cityOfProduct = "Southhampton",
                         price = 41480000,

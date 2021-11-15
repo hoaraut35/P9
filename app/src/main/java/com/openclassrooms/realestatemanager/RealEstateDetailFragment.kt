@@ -1,13 +1,13 @@
 package com.openclassrooms.realestatemanager
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
+import com.openclassrooms.realestatemanager.models.RealEstate
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,26 +24,26 @@ private const val ARG_PARAM2 = "param2"
 
 @AndroidEntryPoint  //Hilt annotation for fragment
 class RealEstateDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
+
+    private var item_id_bundle: String? = null
     private var param2: String? = null
 
     //binding
     private var _binding: FragmentRealEstateDetailBinding? = null
     private val binding get() = _binding!!
 
+
+    //viewmodel
+    private val mainViewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
 
-            if (it.containsKey(ARG_REAL_ESTATE_ID)){
-                param1 = it.getString(ARG_REAL_ESTATE_ID)
+            if (it.containsKey(ARG_REAL_ESTATE_ID)) {
+                item_id_bundle = it.getString(ARG_REAL_ESTATE_ID)
             }
-
-
-                //Log.i("[THOMAS]","id real estate trouvé")
-
 
             param2 = it.getString(ARG_PARAM2)
         }
@@ -59,8 +59,27 @@ class RealEstateDetailFragment : Fragment() {
 
         val rootView = binding.root
 
+      //  binding.textDescription.setText(item_id_bundle)
 
 
+        //for test
+        mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
+
+
+               val realEstate : RealEstate? = listRealEstate.find { it.id == item_id_bundle?.toInt()   }
+
+
+            if (realEstate != null) {
+
+                binding.textDescriptionDetail.setText(realEstate.descriptionOfProduct)
+                binding.qtyNumberRoom.setText(realEstate.numberOfRoom.toString())
+                binding.qtyNumberBedroom.setText(realEstate.numberOfBedRoom.toString())
+                binding.qtyNumberBathroom.setText(realEstate.numberOfBathRoom.toString())
+
+            }
+
+
+        }
 
         return rootView
     }
@@ -77,7 +96,7 @@ class RealEstateDetailFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
 
 
-        //const val  ARG_REAL_ESTATE_ID
+        const val ARG_REAL_ESTATE_ID = "item_id"
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
