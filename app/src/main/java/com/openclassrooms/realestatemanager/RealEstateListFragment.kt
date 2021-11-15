@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -14,6 +15,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.openclassrooms.realestatemanager.MainViewModel
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
@@ -25,7 +29,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-@AndroidEntryPoint
+@AndroidEntryPoint  //Hilt annotation for fragment
 class RealEstateListFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
@@ -157,6 +161,15 @@ class RealEstateListFragment : Fragment() {
             holder.city.text = item.cityOfProduct
             holder.price.text = item.price.toString()
 
+            val avatar : String = "https://eu.ui-avatars.com/api/?name=test"
+
+            Glide.with(holder.image.context)
+                .load(avatar)
+                .override(100,100)
+            //circleCrop()
+                .into(holder.image)
+
+
             with(holder.itemView) {
                 tag = item
                 setOnClickListener(onClickListener)
@@ -173,6 +186,7 @@ class RealEstateListFragment : Fragment() {
             val type: TextView = binding.typeText
             val price: TextView = binding.priceText
             val city: TextView = binding.cityText
+            val image: ImageView = binding.realEstateImage
 
         }
 

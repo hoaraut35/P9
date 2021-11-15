@@ -11,9 +11,8 @@ import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.navigateUp
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
 
-@AndroidEntryPoint
+@AndroidEntryPoint  //Hilt annotation for activity
 class MainActivity : AppCompatActivity() {
 
     //binding

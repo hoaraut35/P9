@@ -3,16 +3,5 @@ package com.openclassrooms.realestatemanager
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
-class MainApplication : Application(){
-
-    companion object{
-        lateinit var  instance:Application
-        private set
-    }
-    init{
-        instance = this
-    }
-
-
-}
+@HiltAndroidApp //Hilt annotation for application
+class MainApplication : Application()

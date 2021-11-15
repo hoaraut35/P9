@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,6 +20,9 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RealEstateDetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+
+@AndroidEntryPoint  //Hilt annotation for fragment
 class RealEstateDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null

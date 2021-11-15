@@ -16,10 +16,9 @@ abstract class RealEstateDatabase : RoomDatabase() {
     abstract fun realEstateDao(): RealEStateDao //
 
     class Callback @Inject constructor(
-        private val database: Provider<RealEstateDatabase>,
+        private val database: Provider<RealEstateDatabase>,//provide instance of database
         @ApplicationScope private val applicationScope: CoroutineScope
     ) : RoomDatabase.Callback() {
-
 
         //load just once for init data
         override fun onCreate(db: SupportSQLiteDatabase) {
