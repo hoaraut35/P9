@@ -58,6 +58,8 @@ class RealEstateListFragment : Fragment() {
         //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
 
+
+
         //check if detail exist
         val realEstateDetailFragment: View? = view.findViewById(R.id.item_detail_nav_container)
 

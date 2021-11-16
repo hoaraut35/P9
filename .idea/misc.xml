@@ -5,12 +5,13 @@
       <map>
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21041666666666667" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_list_realestate.xml" value="0.12701717855283706" />
-        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_real_estate_detail.xml" value="0.3117505995203837" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_real_estate_detail.xml" value="0.2" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/activity_main.xml" value="0.3391812865497076" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_blank.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_list_realestate.xml" value="0.1" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_real_estate_detail.xml" value="0.34268833087149186" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate.xml" value="0.35260416666666666" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate_photo.xml" value="0.9" />
       </map>
     </option>
   </component>

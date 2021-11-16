@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.ui.RealEstatePhotosAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,6 +30,7 @@ class RealEstateDetailFragment : Fragment() {
 
     private var item_id_bundle: String? = null
     private var param2: String? = null
+
 
     //binding
     private var _binding: FragmentRealEstateDetailBinding? = null
@@ -59,8 +63,7 @@ class RealEstateDetailFragment : Fragment() {
 
         val rootView = binding.root
 
-        //  binding.textDescription.setText(item_id_bundle)
-
+        val recyclerViewPhotos: RecyclerView? = binding.recyclerviewPhotos
 
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
@@ -73,9 +76,28 @@ class RealEstateDetailFragment : Fragment() {
                 binding.qtyNumberBedroom.setText(realEstate.numberOfBedRoom.toString())
                 binding.qtyNumberBathroom.setText(realEstate.numberOfBathRoom.toString())
             }
+
+
+            //listRealEstate create a list for test
+            recyclerViewPhotos?.let { setupRecyclerView(it, listRealEstate) }
         }
 
         return rootView
+    }
+
+    private fun setupRecyclerView(
+        recyclerView: RecyclerView,
+        myRealEstateList: List<RealEstate>
+    ) {
+
+
+        var myRealEstateList = listOf<String>("Photo1","Photo2","Photo3","Photo4","Photo5","Photo6")
+
+        val myLayoutManager = LinearLayoutManager(activity)
+        myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        recyclerView.layoutManager = myLayoutManager
+        recyclerView.adapter = RealEstatePhotosAdapter(myRealEstateList)
+
     }
 
     companion object {

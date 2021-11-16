@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
-    <string name="title_description">Description pour petit ecran </string>
+    <string name="title_description">Description</string>
     <string name="title_media">Media</string>
     <string name="text_number_room">Nombre de pièce</string>
     <string name="text_number_bathroom">Nombre salle de bain</string>
@@ -10,4 +10,10 @@
     <string name="text_number_bedroom">Nombre de chambre</string>
     <string name="qty_number_bedroom">4</string>
     <string name="qty_number_room">8</string>
+    <string name="text_location">Location</string>
+    <string name="text_number_street">740</string>
+    <string name="text_street_name">Park Avenue</string>
+    <string name="text_city_name">New York</string>
+    <string name="text_zipcode">NY10021</string>
+    <string name="text_country">United States</string>
 </resources>
