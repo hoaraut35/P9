@@ -89,6 +89,19 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         descriptionOfProduct = " rem efrjfer jirjfioerf jfoie jrfijre foije iojfroie jfoierjquisquam natus. Quo volup"
                     )
                 )
+
+                dao.insert(
+                    RealEstate(
+                        numberOfBathRoom =2 ,
+                        numberOfBedRoom = 18,
+                        numberOfRoom = 16,
+                        surface = 200,
+                        typeOfProduct = "Chalet",
+                        cityOfProduct = "Nantes",
+                        price = 11480000,
+                        descriptionOfProduct = " rem efrjfer jirjfioerf jfoie jrfijre foije iojfroie jfoierjquis ksdfjf kjfdklfjs sdkjfl ksfj skdljsd flkj sfkljsdfkljetrkjktljet fgùdfmgkfdmlùkfd gùquam natus. Quo volup"
+                    )
+                )
             }
 
         }

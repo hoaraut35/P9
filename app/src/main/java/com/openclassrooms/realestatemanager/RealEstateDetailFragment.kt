@@ -1,6 +1,12 @@
 package com.openclassrooms.realestatemanager
 
+import android.app.Activity.RESULT_OK
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +37,7 @@ class RealEstateDetailFragment : Fragment() {
     private var item_id_bundle: String? = null
     private var param2: String? = null
 
+    val REQUEST_IMAGE_CAPTURE = 1
 
     //binding
     private var _binding: FragmentRealEstateDetailBinding? = null
@@ -82,8 +89,44 @@ class RealEstateDetailFragment : Fragment() {
             recyclerViewPhotos?.let { setupRecyclerView(it, listRealEstate) }
         }
 
+
+        val takePhotoListener = View.OnClickListener { view ->
+
+
+            val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            try{
+
+                startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE)
+
+            }catch (e: ActivityNotFoundException){
+                //
+            }
+
+
+        }
+
+        binding.textNumberBathroom.setOnClickListener(takePhotoListener)
+
+
+
+
+
+
+
         return rootView
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.i("[THOMAS]","Take a photo : " + data.toString())
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            val imageBitmap = data?.extras!!.get("data") as Bitmap
+            binding.staticMapView!!.setImageBitmap(imageBitmap)
+        }
+    }
+
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,

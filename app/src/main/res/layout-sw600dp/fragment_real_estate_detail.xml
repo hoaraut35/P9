@@ -22,17 +22,14 @@
             android:textStyle="bold" />
 
 
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_photos"
             android:layout_width="match_parent"
+            android:layout_height="140dp"
             android:orientation="horizontal"
-            android:layout_height="wrap_content"
             tools:listitem="@layout/item_real_estate">
 
         </androidx.recyclerview.widget.RecyclerView>
-
 
 
         <TextView
@@ -47,9 +44,9 @@
         <TextView
             android:id="@+id/text_description_detail"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-            android:text="@string/description_detail" />
+            android:text="@string/description_detail"
+            android:textSize="16sp" />
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -58,8 +55,10 @@
             android:layout_margin="10dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+
                 android:src="@drawable/ic_baseline_house_24">
 
             </ImageView>
@@ -70,15 +69,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_number_room"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/qty_number_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="@string/qty_number_room"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -90,8 +90,10 @@
             android:layout_margin="10dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+
                 android:src="@drawable/ic_baseline_bathtub_24">
 
             </ImageView>
@@ -101,15 +103,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_number_bathroom"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/qty_number_bathroom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="@string/qty_number_bathroom"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -120,8 +123,10 @@
             android:layout_margin="10dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+
                 android:src="@drawable/ic_baseline_bedroom_parent_24">
 
             </ImageView>
@@ -131,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_number_bedroom"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
 
@@ -139,20 +144,24 @@
                 android:id="@+id/qty_number_bedroom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="@string/qty_number_bedroom"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_margin="10dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ic_baseline_bedroom_parent_24">
 
             </ImageView>
@@ -162,8 +171,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_location"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
@@ -216,6 +236,7 @@
 
 
     <ImageView
+        android:id="@+id/static_map_view"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/staticmap_demo"

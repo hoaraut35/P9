@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -71,8 +72,8 @@ class RealEstateListFragment : Fragment() {
 
             //if fragment detail is displayed mode tablet
             if (realEstateDetailFragment != null) {
-                realEstateDetailFragment.findNavController()
-                    .navigate(R.id.fragment_item_detail, bundle)
+                realEstateDetailFragment.findNavController().navigate(R.id.fragment_item_detail, bundle)
+                realEstateView.setBackgroundColor(Color.parseColor("#80FFFFFF"))
 
             } else {
                 realEstateView.findNavController().navigate(R.id.show_item_detail, bundle)
@@ -161,6 +162,7 @@ class RealEstateListFragment : Fragment() {
             holder.price.text = currencyFormat.format(item.price)
 
 
+          //  holder.itemView.setBackgroundColor(Color.parseColor("#80FFFFFF"))
 
             // Uri uri = Uri.parse("android.resource://com.openclassrooms.realestatemanager/drawable/real")
 

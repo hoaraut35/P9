@@ -1,7 +1,14 @@
 package com.openclassrooms.realestatemanager;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiManager;
+import android.provider.MediaStore;
+
+import androidx.core.app.ActivityCompat;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -48,7 +55,14 @@ public class Utils {
 
 
 
+
     //**********************************************************************************************
+
+
+
+
+
+
 
 
     public static File createOrGetFile(File destination, String fileName, String folderName){

@@ -7,11 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 
-class RealEstatePhotosAdapter(private val realEstatePhotos: List<String>) : RecyclerView.Adapter<RealEstatePhotosAdapter.ViewHolder>(){
+class RealEstatePhotosAdapter(private val realEstatePhotos: List<String>) :
+    RecyclerView.Adapter<RealEstatePhotosAdapter.ViewHolder>() {
 
-    class ViewHolder(view:View) : RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val textView : TextView
+        val textView: TextView
 
         init {
             textView = view.findViewById(R.id.photo_title)
@@ -22,7 +23,8 @@ class RealEstatePhotosAdapter(private val realEstatePhotos: List<String>) : Recy
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_real_estate_photo, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_real_estate_photo, parent, false)
 
         return ViewHolder(view)
     }
@@ -31,8 +33,6 @@ class RealEstatePhotosAdapter(private val realEstatePhotos: List<String>) : Recy
         val photo = realEstatePhotos[position]
 
         holder.textView.text = photo
-
-
 
 
     }
