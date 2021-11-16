@@ -18,6 +18,9 @@ import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBi
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -147,7 +150,13 @@ class RealEstateListFragment : Fragment() {
             val item = realEstateResults[position]
             holder.type.text = item.typeOfProduct
             holder.city.text = item.cityOfProduct
-            holder.price.text = item.price.toString()
+
+            //TODO: move ti utils class
+            val currencyFormat = NumberFormat.getCurrencyInstance()
+            currencyFormat.maximumFractionDigits = 0
+            currencyFormat.currency = Currency.getInstance("EUR")
+
+            holder.price.text = currencyFormat.format(item.price)
 
 
 
@@ -155,8 +164,10 @@ class RealEstateListFragment : Fragment() {
 
             Glide.with(holder.itemView)
                 .load(R.drawable.realestate_1)
-                .override(100, 100)
-                //circleCrop()
+               // .override(100, 100)
+                //.centerInside()
+                .centerCrop() //ok
+              //  .fitCenter()
                 .into(holder.image)
 
 

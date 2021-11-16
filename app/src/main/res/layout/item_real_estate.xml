@@ -3,63 +3,78 @@
 <!-- use material design -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_margin="5dp"
     android:layout_height="120dp">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/realEstate_image"
-            android:layout_width="100dp"
-            android:layout_height="56dp"
-           android:layout_marginLeft="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="16dp"
-
-            android:background="@color/cardview_shadow_end_color"
-            android:contentDescription="description"
-            android:src="@drawable/ic_baseline_no_photography_24" />
+        app:cardCornerRadius="4dp"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="10dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layout_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/type_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="House"
-                android:textStyle="bold"
-                android:textSize="20sp">
-            </TextView>
 
-            <TextView
-                android:id="@+id/city_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="Montauk">
+            <ImageView
+                android:id="@+id/realEstate_image"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="0dp"
 
-            </TextView>
+                android:background="@color/cardview_shadow_end_color"
+                android:contentDescription="description"
+                android:src="@drawable/ic_baseline_no_photography_24" />
 
-            <TextView
-                android:id="@+id/price_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="$21,130,000">
-            </TextView>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/type_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="House"
+                    android:textSize="20sp"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/city_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Montauk"
+                    android:textSize="16sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/price_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$21,130,000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"></TextView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

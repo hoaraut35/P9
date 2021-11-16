@@ -77,6 +77,18 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         descriptionOfProduct = " rem quisquam natus. Quo volup"
                     )
                 )
+                dao.insert(
+                    RealEstate(
+                        numberOfBathRoom =3 ,
+                        numberOfBedRoom = 8,
+                        numberOfRoom = 15,
+                        surface = 400,
+                        typeOfProduct = "Castle",
+                        cityOfProduct = "Rennes",
+                        price = 141480000,
+                        descriptionOfProduct = " rem efrjfer jirjfioerf jfoie jrfijre foije iojfroie jfoierjquisquam natus. Quo volup"
+                    )
+                )
             }
 
         }

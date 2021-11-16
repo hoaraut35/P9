@@ -40,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(this,navController, appBarConfiguration)
 
+
+
         //for test
        /* mainViewModel.allRealEstate.observe(this){ listRealEstate ->
           //  Log.i("[THOMAS]","recup : ${listRealEstate.size}" )

@@ -4,40 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/realEstateList_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center">
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:name="RealEstateListFragment"
-        android:layout_width="0dp"
+        android:layout_width="400dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
         tools:context="com.openclassrooms.realestatemanager.MainActivity"
         tools:listitem="@layout/item_real_estate" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
-        android:layout_width="0dp"
+        android:layout_width="1dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="200dp" />
+        app:layout_constraintGuide_begin="410dp"/>
 
     <fragment
         android:id="@+id/item_detail_nav_container"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+
         android:layout_marginStart="8dp"
         app:defaultNavHost="false"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:navGraph="@navigation/primary_details_sub_nav_graph"/>
+        app:navGraph="@navigation/primary_details_sub_nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
