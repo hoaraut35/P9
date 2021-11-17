@@ -11,6 +11,8 @@ class LocalDatabaseRepository @Inject constructor (private val realEstateDao: Re
 
     fun allRealEstate() = realEstateDao.getAllRealEstate()
 
-    //suspend fun insert(realEstate: RealEstate)
+   // fun insert(realEstate: RealEstate) {}
+
+    //update
 
 }

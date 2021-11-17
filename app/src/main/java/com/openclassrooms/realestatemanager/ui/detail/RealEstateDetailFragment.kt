@@ -1,10 +1,15 @@
 package com.openclassrooms.realestatemanager.ui.detail
 
+import android.app.Activity.MODE_PRIVATE
 import android.app.Activity.RESULT_OK
+import android.app.Application
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,8 +22,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 import com.openclassrooms.realestatemanager.ui.RealEstatePhotosAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -118,6 +130,7 @@ class RealEstateDetailFragment : Fragment() {
     }
 
 
+    //take a photo of property
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.i("[THOMAS]","Take a photo : " + data.toString())
@@ -125,8 +138,68 @@ class RealEstateDetailFragment : Fragment() {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
             val imageBitmap = data?.extras!!.get("data") as Bitmap
             binding.staticMapView!!.setImageBitmap(imageBitmap)
+
+
+
+            val fileName:String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            val storageDir = File(context?.filesDir, "test")
+
+
+            File.createTempFile("JPEG_THOMAS_",".jpg",context?.filesDir).apply { Log.i("[THOMAS]", "Photo path :$absolutePath"  ) }
+
+            savePhotoToInternalMemory("test.jpeg",imageBitmap)
         }
     }
+
+
+
+   /* private fun loadPhotoFromInternalMEmory(): List<RealEstatePhoto>{
+        return withContext(Dispatchers.IO){
+            val files = context.filesDir.listFiles()
+            files.filter { it.canRead() && it.isFile && it.name.endsWith(".jpg") }.map {
+                val bytes = it.readBytes()
+                val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+
+            }
+        }
+    }
+
+    */
+
+    private fun savePhotoToInternalMemory(filename: String, bmp:Bitmap):Boolean{
+        return try{
+            context?.openFileOutput("$filename.jpg", MODE_PRIVATE).use { stream ->
+
+                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95,stream)){
+                    throw IOException("erreur compression")
+                }
+            }
+            true
+
+        }catch (e:IOException){
+            e.printStackTrace()
+            false
+
+        }
+    }
+
+
+  /*  private fun createImageFile( context : Context): File {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File(context.filesDir)
+
+
+        return File.createTempFile(
+            "",
+            "",
+            storageDir
+        ).apply{
+
+        }
+
+    }
+
+   */
 
 
     private fun setupRecyclerView(
