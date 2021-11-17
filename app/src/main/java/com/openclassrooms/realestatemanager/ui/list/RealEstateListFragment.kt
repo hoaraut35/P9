@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.ui.list
 
 import android.graphics.Color
 import android.os.Bundle
@@ -14,6 +14,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.openclassrooms.realestatemanager.ui.MainViewModel
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
 import com.openclassrooms.realestatemanager.models.RealEstate

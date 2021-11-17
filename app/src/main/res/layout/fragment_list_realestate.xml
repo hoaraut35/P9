@@ -10,7 +10,7 @@
         android:name="RealEstateListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.openclassrooms.realestatemanager.MainActivity"
+        tools:context="com.openclassrooms.realestatemanager.ui.MainActivity"
         tools:listitem="@layout/item_real_estate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
