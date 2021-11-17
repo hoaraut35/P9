@@ -1,15 +1,18 @@
-package com.openclassrooms.realestatemanager.ui
+package com.openclassrooms.realestatemanager.ui.list
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import java.text.NumberFormat
+import java.util.*
 
 class MyRecyclerViewAdapterBis(
     private val values: List<RealEstate>,
@@ -28,18 +31,33 @@ class MyRecyclerViewAdapterBis(
         val item = values[position]
         holder.type.text = item.typeOfProduct
         holder.city.text = item.cityOfProduct
-        holder.price.text = item.price.toString()
 
-        val avatar : String = "https://eu.ui-avatars.com/api/?name=test"
+        //TODO: move ti utils class
+        val currencyFormat = NumberFormat.getCurrencyInstance()
+        currencyFormat.maximumFractionDigits = 0
+        currencyFormat.currency = Currency.getInstance("EUR")
+
+        holder.price.text = currencyFormat.format(item.price)
+
+
+        //  holder.itemView.setBackgroundColor(Color.parseColor("#80FFFFFF"))
+
+        // Uri uri = Uri.parse("android.resource://com.openclassrooms.realestatemanager/drawable/real")
 
         Glide.with(holder.itemView)
-            .load(avatar)
-            .centerCrop()
+            .load(R.drawable.realestate_1)
+            // .override(100, 100)
+            //.centerInside()
+            .centerCrop() //ok
+            //  .fitCenter()
             .into(holder.image)
 
-        holder.itemView.setOnClickListener {
-            Log.i("[THOMAS]", "click")
-            onClickListener
+
+        with(holder.itemView) {
+            tag = item.id
+            setOnClickListener(onClickListener)
+            // holder.layoutContainer.setBackgroundColor(Color.parseColor("#664411"))
+
         }
 
     }
@@ -57,6 +75,7 @@ class MyRecyclerViewAdapterBis(
         val price: TextView = binding.priceText
         val city: TextView = binding.cityText
         val image: ImageView = binding.realEstateImage
+        val layoutContainer: LinearLayoutCompat = binding.layoutContainer
     }
 
 

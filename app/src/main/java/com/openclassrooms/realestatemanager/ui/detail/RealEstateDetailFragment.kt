@@ -2,14 +2,10 @@ package com.openclassrooms.realestatemanager.ui.detail
 
 import android.app.Activity.MODE_PRIVATE
 import android.app.Activity.RESULT_OK
-import android.app.Application
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,11 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstatePhoto
-import com.openclassrooms.realestatemanager.ui.RealEstatePhotosAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat

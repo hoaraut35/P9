@@ -14,11 +14,11 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
@@ -60,8 +60,6 @@ class RealEstateListFragment : Fragment() {
         //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
 
-
-
         //check if detail exist
         val realEstateDetailFragment: View? = view.findViewById(R.id.item_detail_nav_container)
 
@@ -74,7 +72,8 @@ class RealEstateListFragment : Fragment() {
             //if fragment detail is displayed mode tablet
             if (realEstateDetailFragment != null) {
                 realEstateDetailFragment.findNavController().navigate(R.id.fragment_item_detail, bundle)
-                realEstateView.setBackgroundColor(Color.parseColor("#80FFFFFF"))
+
+                realEstateView.setBackgroundColor(Color.parseColor("#FFFFFF"))
 
             } else {
                 realEstateView.findNavController().navigate(R.id.show_item_detail, bundle)
@@ -85,8 +84,6 @@ class RealEstateListFragment : Fragment() {
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
             setupRecyclerView(recyclerView, listRealEstate, onClickListener)
-
-            //  Log.i("[THOMAS]", "recup : ${listRealEstate.size}")
         }
 
     }
@@ -96,14 +93,8 @@ class RealEstateListFragment : Fragment() {
         myRealEstateList: List<RealEstate>,
         onClickListener: View.OnClickListener
     ) {
-
-
-
         recyclerView.layoutManager = LinearLayoutManager(activity)
-
-
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(myRealEstateList, onClickListener)
-
+        recyclerView.adapter = MyRecyclerViewAdapterBis(myRealEstateList, onClickListener)
     }
 
     override fun onCreateView(
@@ -136,71 +127,5 @@ class RealEstateListFragment : Fragment() {
             }
     }
 
-    class SimpleItemRecyclerViewAdapter(private val realEstateResults: List<RealEstate>,private val onClickListener: View.OnClickListener ) :
-        RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
-        //create the views but not data
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-            val binding =
-                ItemRealEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return ViewHolder(binding)
-
-        }
-
-        //link data and view
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-            val item = realEstateResults[position]
-            holder.type.text = item.typeOfProduct
-            holder.city.text = item.cityOfProduct
-
-            //TODO: move ti utils class
-            val currencyFormat = NumberFormat.getCurrencyInstance()
-            currencyFormat.maximumFractionDigits = 0
-            currencyFormat.currency = Currency.getInstance("EUR")
-
-            holder.price.text = currencyFormat.format(item.price)
-
-
-          //  holder.itemView.setBackgroundColor(Color.parseColor("#80FFFFFF"))
-
-            // Uri uri = Uri.parse("android.resource://com.openclassrooms.realestatemanager/drawable/real")
-
-            Glide.with(holder.itemView)
-                .load(R.drawable.realestate_1)
-               // .override(100, 100)
-                //.centerInside()
-                .centerCrop() //ok
-              //  .fitCenter()
-                .into(holder.image)
-
-
-            with(holder.itemView) {
-                tag = item.id
-                setOnClickListener(onClickListener)
-                // holder.layoutContainer.setBackgroundColor(Color.parseColor("#664411"))
-
-            }
-
-
-        }
-
-        //get the size of data
-        override fun getItemCount() = realEstateResults.size
-
-        //holder view
-        inner class ViewHolder(binding: ItemRealEstateBinding) :
-            RecyclerView.ViewHolder(binding.root) {
-
-            val type: TextView = binding.typeText
-            val price: TextView = binding.priceText
-            val city: TextView = binding.cityText
-            val image: ImageView = binding.realEstateImage
-            val layoutContainer: LinearLayoutCompat = binding.layoutContainer
-
-        }
-
-
-    }
 }
