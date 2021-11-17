@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.ui.detail
 
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.openclassrooms.realestatemanager.MainViewModel
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.ui.RealEstatePhotosAdapter

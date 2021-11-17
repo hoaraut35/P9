@@ -11,15 +11,14 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 

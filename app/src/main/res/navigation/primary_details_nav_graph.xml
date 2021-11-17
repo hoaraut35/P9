@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/realEstateDetailFragment"
-        android:name="com.openclassrooms.realestatemanager.RealEstateDetailFragment"
+        android:name="com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment"
         android:label="Real Estate Detail"
         tools:layout="@layout/fragment_real_estate_detail">
         <argument
