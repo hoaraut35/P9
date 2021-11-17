@@ -5,12 +5,14 @@ import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -136,16 +138,19 @@ class RealEstateDetailFragment : Fragment() {
             val fileName:String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
             val storageDir = File(context?.filesDir, "test")
 
+         //   val photoUri : Uri = FileProvider.getUriForFile(this, "com.openclassrooms.realestatemanager",storageDir)
 
-            File.createTempFile("JPEG_THOMAS_",".jpg",context?.filesDir).apply { Log.i("[THOMAS]", "Photo path :$absolutePath"  ) }
+            //File.createTempFile("JPEG_THOMAS_",".jpg",context?.filesDir).apply { Log.i("[THOMAS]", "Photo path :$absolutePath"  ) }
 
-            savePhotoToInternalMemory("test.jpeg",imageBitmap)
+            savePhotoToInternalMemory("Photo_$fileName",imageBitmap)
+
+
         }
     }
 
 
 
-   /* private fun loadPhotoFromInternalMEmory(): List<RealEstatePhoto>{
+    /*private fun loadPhotoFromInternalMEmory(): List<RealEstatePhoto>{
         return withContext(Dispatchers.IO){
             val files = context.filesDir.listFiles()
             files.filter { it.canRead() && it.isFile && it.name.endsWith(".jpg") }.map {
@@ -156,15 +161,23 @@ class RealEstateDetailFragment : Fragment() {
         }
     }
 
-    */
+     */
+
+
 
     private fun savePhotoToInternalMemory(filename: String, bmp:Bitmap):Boolean{
         return try{
             context?.openFileOutput("$filename.jpg", MODE_PRIVATE).use { stream ->
 
+                //compress photo
                 if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95,stream)){
                     throw IOException("erreur compression")
                 }
+
+
+              //  FileProvider.getUriForFile(requireContext(),"com.openclassrooms.realestatemanager.fileprovider",$filename)
+                Log.i("[THOMAS]","chemin "+ context?.filesDir)
+
             }
             true
 

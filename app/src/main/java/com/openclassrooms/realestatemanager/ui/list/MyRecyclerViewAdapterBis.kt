@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.utils.Utils
 import java.text.NumberFormat
 import java.util.*
 
@@ -37,7 +38,8 @@ class MyRecyclerViewAdapterBis(
         currencyFormat.maximumFractionDigits = 0
         currencyFormat.currency = Currency.getInstance("EUR")
 
-        holder.price.text = currencyFormat.format(item.price)
+        //show price with locale data
+        holder.price.text = Utils.getCurrencyFormat().format(item.price)
 
 
         //  holder.itemView.setBackgroundColor(Color.parseColor("#80FFFFFF"))
@@ -63,8 +65,7 @@ class MyRecyclerViewAdapterBis(
     }
 
     //data length
-    override fun getItemCount(): Int {
-        return values.size
+    override fun getItemCount(): Int {        return values.size
     }
 
     //holder view

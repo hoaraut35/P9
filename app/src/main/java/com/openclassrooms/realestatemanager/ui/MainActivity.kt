@@ -2,11 +2,15 @@ package com.openclassrooms.realestatemanager.ui
 
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.navigateUp
 import com.openclassrooms.realestatemanager.R
@@ -19,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     //binding
     private lateinit var binding: ActivityMainBinding
 
+    lateinit var  navController : NavController
     //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
 
@@ -36,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(this,navController, appBarConfiguration)
@@ -51,6 +56,21 @@ class MainActivity : AppCompatActivity() {
         */
 
     }
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+   override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,navController)
+
+    }
+
+
+
 
     //to setup return button on fragment
     override fun onSupportNavigateUp(): Boolean {

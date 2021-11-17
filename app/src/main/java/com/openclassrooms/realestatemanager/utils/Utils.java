@@ -1,19 +1,15 @@
 package com.openclassrooms.realestatemanager.utils;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
 import android.net.wifi.WifiManager;
-import android.provider.MediaStore;
-
-import androidx.core.app.ActivityCompat;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -24,19 +20,30 @@ public class Utils {
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     *
      * @param dollars
      * @return
      */
-    public static int convertDollarToEuro(int dollars){
+    public static int convertDollarToEuro(int dollars) {
         return (int) Math.round(dollars * 0.812);
     }
+
+    //TODO: move ti utils class
+    public static NumberFormat getCurrencyFormat() {
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        currencyFormat.setMaximumFractionDigits(0);
+        currencyFormat.setCurrency(Currency.getInstance(Locale.FRANCE));
+        return currencyFormat;
+    }
+
 
     /**
      * Conversion de la date d'aujourd'hui en un format plus approprié
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     *
      * @return
      */
-    public static String getTodayDate(){
+    public static String getTodayDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         return dateFormat.format(new Date());
     }
@@ -44,28 +51,20 @@ public class Utils {
     /**
      * Vérification de la connexion réseau
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     *
      * @param context
      * @return
      */
-    public static Boolean isInternetAvailable(Context context){
-        WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+    public static Boolean isInternetAvailable(Context context) {
+        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
     }
-
-
-
 
 
     //**********************************************************************************************
 
 
-
-
-
-
-
-
-    public static File createOrGetFile(File destination, String fileName, String folderName){
+    public static File createOrGetFile(File destination, String fileName, String folderName) {
         File folder = new File(destination, folderName);
         return new File(folder, fileName);
     }

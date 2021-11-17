@@ -23,9 +23,21 @@
             android:name="real_estate_id"
             android:defaultValue=""
             app:argType="string"/>
+        <action
+            android:id="@+id/action_realEstateDetailFragment_to_realEstateModifier"
+            app:destination="@id/realEstateModifier" />
 
     </fragment>
-
+    <fragment
+        android:id="@+id/realEstateModifier"
+        android:name="com.openclassrooms.realestatemanager.ui.addupdate.RealEstateModifier"
+        android:label="fragment_real_estate_modifier"
+        tools:layout="@layout/fragment_real_estate_modifier" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.openclassrooms.realestatemanager.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 
 
 </navigation>
