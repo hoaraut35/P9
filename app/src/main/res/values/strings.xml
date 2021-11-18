@@ -18,5 +18,18 @@
     <string name="text_country">United States</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Fragment recherche</string>
-    <string name="title_frag_modif">modifi new</string>
+    <string name="title_addupdate_price">Price</string>
+    <string name="input_price">10010101</string>
+    <string name="title_saveupdate_btn">Save property</string>
+    <string name="title_addupdate_room">Room number</string>
+    <string name="input_room">10</string>
+    <string name="form_price_text">entrez le prix</string>
+    <string name="form_surface_text">200</string>
+    <string name="form_nbroom_text">5</string>
+    <string name="form_description_text">dfjfklsjfkldj kldjfklsdjfklrfjrse fjrk fjrlkef jrlkej kljg eklrgj lkerj gl</string>
+    <string name="form_streetname_text">rue des champs fleuri</string>
+    <string name="property_state">A vendre / vendu </string>
+    <string name="form_streetnumber_text">7</string>
+    <string name="form_zipcode_text">35220</string>
+    <string name="form_cityname_text">Rennes</string>
 </resources>

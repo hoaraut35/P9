@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.list
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,8 @@ class MyRecyclerViewAdapterBis(
         holder.price.text = Utils.getCurrencyFormat().format(item.price)
 
 
-        //  holder.itemView.setBackgroundColor(Color.parseColor("#80FFFFFF"))
+
+            //.setBackgroundColor(Color.parseColor("#80FFFFFF"))
 
         // Uri uri = Uri.parse("android.resource://com.openclassrooms.realestatemanager/drawable/real")
 

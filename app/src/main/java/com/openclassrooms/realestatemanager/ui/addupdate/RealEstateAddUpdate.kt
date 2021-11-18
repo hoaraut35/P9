@@ -1,11 +1,14 @@
 package com.openclassrooms.realestatemanager.ui.addupdate
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.openclassrooms.realestatemanager.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
+import com.openclassrooms.realestatemanager.ui.MainViewModel
+import dagger.hilt.EntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,7 +20,17 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RealEstateModifier.newInstance] factory method to
  * create an instance of this fragment.
  */
+@EntryPoint
 class RealEstateModifier : Fragment() {
+
+
+    //binding
+    private var _binding: FragmentRealEstateModifierBinding? = null
+    private val binding get() = _binding!!
+
+    //viewmodel
+    private val mainViewModel by viewModels<MainViewModel>()
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,7 +48,22 @@ class RealEstateModifier : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_real_estate_modifier, container, false)
+        _binding = FragmentRealEstateModifierBinding.inflate(inflater, container, false)
+
+        val rootView = binding.root
+
+
+
+
+
+
+
+        binding.saveBtn?.setOnClickListener {
+            // binding.realestatePrice?.text = "good"
+        }
+
+
+        return rootView
     }
 
     companion object {
