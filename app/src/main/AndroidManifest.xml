@@ -7,6 +7,9 @@
     <!-- added for use Glide -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- external photo -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <!-- added for use camera -->
     <uses-feature
         android:name="android.hardware.camera"

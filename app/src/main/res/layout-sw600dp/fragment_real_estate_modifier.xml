@@ -13,6 +13,28 @@
         android:orientation="vertical">
 
 
+        <Button
+            android:id="@+id/add_photo_from_memory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="From galery">
+
+        </Button>
+
+        <Button
+            android:id="@+id/add_photo_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="From camera"
+            />
+
+
+        <ImageView
+            android:id="@+id/imageOfGallery"
+            android:layout_width="200dp"
+            android:layout_height="200dp">
+
+        </ImageView>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -25,45 +47,40 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-            <RadioGroup
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="type choice ">
+                android:text="type choice ">
 
-                </TextView>
+            </TextView>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Falt">
-                </RadioButton>
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="House">
-                </RadioButton>
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Duplex">
-                </RadioButton>
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Penthouse">
-                </RadioButton>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Falt"></RadioButton>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="House"></RadioButton>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Duplex"></RadioButton>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Penthouse"></RadioButton>
 
 
-            </RadioGroup>
-
-
-
-
+        </RadioGroup>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -102,18 +119,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-       <com.google.android.material.slider.Slider
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:valueTo="10"
-           android:valueFrom="0"
-           android:stepSize="1.0"
+        <com.google.android.material.slider.Slider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0"
+            android:valueTo="10"
 
-           >
+            >
 
-       </com.google.android.material.slider.Slider>
-
-
+        </com.google.android.material.slider.Slider>
 
 
         <com.google.android.material.textfield.TextInputLayout

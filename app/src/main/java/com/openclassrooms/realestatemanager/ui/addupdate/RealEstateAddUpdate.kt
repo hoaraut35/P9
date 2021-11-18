@@ -1,6 +1,10 @@
 package com.openclassrooms.realestatemanager.ui.addupdate
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.ui.MainViewModel
-import com.openclassrooms.realestatemanager.ui.detail.RealEstatePhotosAdapter
-import com.openclassrooms.realestatemanager.ui.list.MyRecyclerViewAdapterBis
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +29,6 @@ private const val ARG_PARAM2 = "param2"
  */
 @AndroidEntryPoint
 class RealEstateModifier : Fragment() {
-
 
     //binding
     private var _binding: FragmentRealEstateModifierBinding? = null
@@ -65,34 +66,54 @@ class RealEstateModifier : Fragment() {
 
 
 
+        binding.addPhotoFromMemory?.setOnClickListener {
+            setupGetPhotoFromGalery()
+            Log.i("[THOMAS]","test ouverture photo")
+        }
+
         binding.saveBtn?.setOnClickListener {
-
-
-
-            //val priceResult : Int = Value.to  binding.inputPrice.text
-
-
-            mainViewModel.insert(RealEstate(price =1000))
-
+            mainViewModel.insert(RealEstate(price = 1000))
         }
 
 
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
-          //  var myRealEstateList = listOf<String>("Photo1","Photo2","Photo3","Photo4","Photo5","Photo6")
+            //  var myRealEstateList = listOf<String>("Photo1","Photo2","Photo3","Photo4","Photo5","Photo6")
 
             setupRecyclerView(recyclerView, listRealEstate)
         }
 
 
+
+
         return rootView
+    }
+
+    private fun setupGetPhotoFromGalery() {
+
+        var intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 456)
+
+
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        if (requestCode == 456) {
+            binding.imageOfGallery?.setImageURI(data?.data)
+
+        }
     }
 
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
         myRealEstateList: List<RealEstate>,
-     //   onClickListener: View.OnClickListener
+        //   onClickListener: View.OnClickListener
     ) {
 
 
@@ -121,5 +142,7 @@ class RealEstateModifier : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
+        const val PICK_IMAGE = 1
     }
 }
