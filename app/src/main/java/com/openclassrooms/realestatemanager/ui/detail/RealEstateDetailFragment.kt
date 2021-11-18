@@ -97,22 +97,6 @@ class RealEstateDetailFragment : Fragment() {
         }
 
 
-        val takePhotoListener = View.OnClickListener { view ->
-
-
-            val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            try{
-
-                startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE)
-
-            }catch (e: ActivityNotFoundException){
-                //
-            }
-
-
-        }
-
-        binding.textNumberBathroom.setOnClickListener(takePhotoListener)
 
 
 

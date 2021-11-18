@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.addupdate
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -16,6 +18,10 @@ import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifi
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,6 +72,21 @@ class RealEstateModifier : Fragment() {
 
 
 
+
+
+        binding.addPhotoCamera?.setOnClickListener{
+        val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try{
+
+            startActivityForResult(takePhotoIntent, 457)
+
+        }catch (e: ActivityNotFoundException){
+            //
+        }
+
+        }
+
+
         binding.addPhotoFromMemory?.setOnClickListener {
             setupGetPhotoFromGalery()
             Log.i("[THOMAS]","test ouverture photo")
@@ -106,9 +127,60 @@ class RealEstateModifier : Fragment() {
         if (requestCode == 456) {
             binding.imageOfGallery?.setImageURI(data?.data)
 
+            Log.i("[THOMAS]", "URI image from galery : $data")
+
         }
+
+        if (requestCode == 457) {
+            Log.i("[THOMAS]","Take a photo : " + data.toString())
+
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK){
+                val imageBitmap = data?.extras!!.get("data") as Bitmap
+                binding.imageOfGallery?.setImageBitmap(imageBitmap)
+
+
+
+                val fileName:String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                val storageDir = File(context?.filesDir, "test")
+
+                //   val photoUri : Uri = FileProvider.getUriForFile(this, "com.openclassrooms.realestatemanager",storageDir)
+
+                //File.createTempFile("JPEG_THOMAS_",".jpg",context?.filesDir).apply { Log.i("[THOMAS]", "Photo path :$absolutePath"  ) }
+
+                savePhotoToInternalMemory("Photo_$fileName",imageBitmap)
+
+
+            }
+
+        }
+
+
+
     }
 
+
+    private fun savePhotoToInternalMemory(filename: String, bmp:Bitmap):Boolean{
+        return try{
+            context?.openFileOutput("$filename.jpg", Activity.MODE_PRIVATE).use { stream ->
+
+                //compress photo
+                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95,stream)){
+                    throw IOException("erreur compression")
+                }
+
+
+                //  FileProvider.getUriForFile(requireContext(),"com.openclassrooms.realestatemanager.fileprovider",$filename)
+                Log.i("[THOMAS]","chemin "+ context?.filesDir)
+
+            }
+            true
+
+        }catch (e: IOException){
+            e.printStackTrace()
+            false
+
+        }
+    }
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
@@ -144,5 +216,6 @@ class RealEstateModifier : Fragment() {
             }
 
         const val PICK_IMAGE = 1
+        const val REQUEST_IMAGE_CAPTURE = 2
     }
 }
