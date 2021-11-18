@@ -79,6 +79,8 @@ class RealEstateModifier : Fragment() {
 
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
+          //  var myRealEstateList = listOf<String>("Photo1","Photo2","Photo3","Photo4","Photo5","Photo6")
+
             setupRecyclerView(recyclerView, listRealEstate)
         }
 

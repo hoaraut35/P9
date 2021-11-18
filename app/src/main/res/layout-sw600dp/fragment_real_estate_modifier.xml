@@ -18,9 +18,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            tools:listitem="@layout/item_real_estate"
-            android:orientation="horizontal"
+            android:layout_height="140dp"
+            tools:listitem="@layout/item_real_estate_photo"
+
             >
 
         </androidx.recyclerview.widget.RecyclerView>

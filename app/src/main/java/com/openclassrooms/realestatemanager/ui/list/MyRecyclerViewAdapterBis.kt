@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.list
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
