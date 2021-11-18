@@ -6,9 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
+import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.ui.MainViewModel
-import dagger.hilt.EntryPoint
+import com.openclassrooms.realestatemanager.ui.detail.RealEstatePhotosAdapter
+import com.openclassrooms.realestatemanager.ui.list.MyRecyclerViewAdapterBis
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,7 +25,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RealEstateModifier.newInstance] factory method to
  * create an instance of this fragment.
  */
-@EntryPoint
+@AndroidEntryPoint
 class RealEstateModifier : Fragment() {
 
 
@@ -53,18 +58,48 @@ class RealEstateModifier : Fragment() {
         val rootView = binding.root
 
 
+        //bind recyclerview
+        val recyclerView: RecyclerView = binding.recyclerview
 
 
 
 
 
         binding.saveBtn?.setOnClickListener {
-            // binding.realestatePrice?.text = "good"
+
+
+
+            //val priceResult : Int = Value.to  binding.inputPrice.text
+
+
+            mainViewModel.insert(RealEstate(price =1000))
+
+        }
+
+
+        //for test
+        mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
+            setupRecyclerView(recyclerView, listRealEstate)
         }
 
 
         return rootView
     }
+
+
+    private fun setupRecyclerView(
+        recyclerView: RecyclerView,
+        myRealEstateList: List<RealEstate>,
+     //   onClickListener: View.OnClickListener
+    ) {
+
+
+        val myLayoutManager = LinearLayoutManager(activity)
+        myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        recyclerView.layoutManager = myLayoutManager
+        recyclerView.adapter = MyNewAddPhotoVideoAdapter(myRealEstateList)
+    }
+
 
     companion object {
         /**

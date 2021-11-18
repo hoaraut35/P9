@@ -9,10 +9,15 @@ import javax.inject.Singleton
 @Singleton
 class LocalDatabaseRepository @Inject constructor (private val realEstateDao: RealEStateDao) {
 
+    //get
     fun allRealEstate() = realEstateDao.getAllRealEstate()
 
-   // fun insert(realEstate: RealEstate) {}
+    //insert
+    suspend fun insertRealEstate(realEstate: RealEstate) = realEstateDao.insert(realEstate)
 
     //update
+    suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
+
+    //delete not authorized
 
 }

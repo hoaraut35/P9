@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
@@ -68,6 +69,9 @@ class RealEstateListFragment : Fragment() {
             val item = realEstateView.tag
             val bundle = Bundle()
             bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, item.toString())
+
+           //Snackbar.make(this,"test",Snackbar.LENGTH_SHORT).show()
+
 
             //if fragment detail is displayed mode tablet
             if (realEstateDetailFragment != null) {
