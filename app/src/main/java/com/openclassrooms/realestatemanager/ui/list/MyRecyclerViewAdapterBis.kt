@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.list
 
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,8 @@ class MyRecyclerViewAdapterBis(
     private val onClickListener: View.OnClickListener
 ) : RecyclerView.Adapter<MyRecyclerViewAdapterBis.ViewHolder>() {
 
+    private var focusedItem = 0
+
     //create view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -32,6 +35,11 @@ class MyRecyclerViewAdapterBis(
         val item = values[position]
         holder.type.text = item.typeOfProduct
         holder.city.text = item.cityOfProduct
+
+
+        holder.itemView.elevation = 0f
+
+
 
         //TODO: move ti utils class
         val currencyFormat = NumberFormat.getCurrencyInstance()
@@ -56,9 +64,19 @@ class MyRecyclerViewAdapterBis(
             .into(holder.image)
 
 
+
         with(holder.itemView) {
             tag = item.id
             setOnClickListener(onClickListener)
+
+            val previousItem = focusedItem
+            focusedItem = position
+
+
+           // notifyItemChanged(previousItem)
+           // notifyItemChanged(focusedItem)
+
+          //  holder.itemView.elevation=10.0f
             // holder.layoutContainer.setBackgroundColor(Color.parseColor("#664411"))
 
         }
@@ -78,6 +96,9 @@ class MyRecyclerViewAdapterBis(
         val city: TextView = binding.cityText
         val image: ImageView = binding.realEstateImage
         val layoutContainer: LinearLayoutCompat = binding.layoutContainer
+
+
+
     }
 
 

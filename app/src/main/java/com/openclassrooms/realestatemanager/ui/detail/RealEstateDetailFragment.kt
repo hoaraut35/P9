@@ -89,6 +89,9 @@ class RealEstateDetailFragment : Fragment() {
                 binding.qtyNumberRoom.setText(realEstate.numberOfRoom.toString())
                 binding.qtyNumberBedroom.setText(realEstate.numberOfBedRoom.toString())
                 binding.qtyNumberBathroom.setText(realEstate.numberOfBathRoom.toString())
+
+
+                binding.valueZipcode?.setText(realEstate.address?.zip_code.toString())
             }
 
 

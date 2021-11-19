@@ -2,15 +2,19 @@ package com.openclassrooms.realestatemanager.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.injection.ApplicationScope
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
 @Database(entities = [RealEstate::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class RealEstateDatabase : RoomDatabase() {
 
     abstract fun realEstateDao(): RealEStateDao //
@@ -37,8 +41,9 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         cityOfProduct = "Manhattan",
                         price = 17870000,
                        // photo ="" ,
-                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum."
-                    )
+                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
+                        address = RealEstateAddress(zip_code = 35000)
+                        )
                 )
                 dao.insert(
                     RealEstate(

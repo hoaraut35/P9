@@ -19,6 +19,9 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
     //get all realestate
     var allRealEstate = localDatabaseRepository.allRealEstate().asLiveData()
 
+    //get with filtered
+
+
     //insert
     fun insert(realEstate: RealEstate) = viewModelScope.launch {  localDatabaseRepository.insertRealEstate(realEstate) }
 

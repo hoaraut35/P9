@@ -70,6 +70,11 @@ class RealEstateListFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, item.toString())
 
+
+                realEstateView.elevation = 10f
+
+
+
            //Snackbar.make(this,"test",Snackbar.LENGTH_SHORT).show()
 
 
