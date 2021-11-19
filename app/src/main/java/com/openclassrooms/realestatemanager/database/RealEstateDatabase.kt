@@ -8,10 +8,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.injection.ApplicationScope
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateAddress
+import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
+
+//i use Multimap because room support only that in version 2.4 and higher
+
 
 @Database(entities = [RealEstate::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
@@ -42,7 +46,8 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         price = 17870000,
                        // photo ="" ,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
-                        address = RealEstateAddress(zip_code = 35000)
+                        address = RealEstateAddress(zip_code = 35000 , city = "Rennes", street_name = "rue du stade", street_number = 7 )
+
                         )
                 )
                 dao.insert(

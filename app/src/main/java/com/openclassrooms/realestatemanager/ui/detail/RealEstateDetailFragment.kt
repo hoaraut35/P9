@@ -92,6 +92,9 @@ class RealEstateDetailFragment : Fragment() {
 
 
                 binding.valueZipcode?.setText(realEstate.address?.zip_code.toString())
+                binding.valueCity?.setText(realEstate.address?.city.toString())
+                binding.valueStreetname?.setText(realEstate.address?.street_name.toString())
+                binding.valueStreetnumber?.setText(realEstate.address?.street_number.toString())
             }
 
 

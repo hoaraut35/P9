@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.models
 
-import android.text.Editable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -19,14 +18,13 @@ data class RealEstate(
     val descriptionOfProduct: String? = null,
     //see embedded room enttypeOfProductitiu
 
-    //tableau de photo
-    @Embedded
-    val photo: RealEstatePhoto?=null,
+    //tableau de photo with join
+
+    //val photo: RealEstatePhoto?=null,
 
     @Embedded
     val address: RealEstateAddress?=null
 
-    //  val address : String? = null,
 
     //tableau de poi
 
