@@ -19,7 +19,8 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
     //get all realestate
     var allRealEstate = localDatabaseRepository.allRealEstate().asLiveData()
 
-    //get with filtered
+    //get all estate with photo
+    var allRealEstateWithPhotos = localDatabaseRepository.allRealEstateWithPhoto().asLiveData()
 
 
     //insert

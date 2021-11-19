@@ -17,7 +17,7 @@ import javax.inject.Provider
 //i use Multimap because room support only that in version 2.4 and higher
 
 
-@Database(entities = [RealEstate::class], version = 1, exportSchema = false)
+@Database(entities = [RealEstate::class, RealEstatePhoto::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class RealEstateDatabase : RoomDatabase() {
 
@@ -112,6 +112,12 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         descriptionOfProduct = " rem efrjfer jirjfioerf jfoie jrfijre foije iojfroie jfoierjquis ksdfjf kjfdklfjs sdkjfl ksfj skdljsd flkj sfkljsdfkljetrkjktljet fgùdfmgkfdmlùkfd gùquam natus. Quo volup"
                     )
                 )
+
+
+
+                dao.insertPhoto(RealEstatePhoto(realEstateId = 1, name = "Photo cuisine", uri = "hhh"))
+
+                dao.insertPhoto(RealEstatePhoto(realEstateId = 1, name = "Photo chambre", uri = "hhh"))
             }
 
         }

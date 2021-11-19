@@ -12,6 +12,9 @@ class LocalDatabaseRepository @Inject constructor (private val realEstateDao: Re
     //get
     fun allRealEstate() = realEstateDao.getAllRealEstate()
 
+    //get alldata
+    fun allRealEstateWithPhoto() = realEstateDao.getAllDataFromRealEstate()
+
     //insert
     suspend fun insertRealEstate(realEstate: RealEstate) = realEstateDao.insert(realEstate)
 

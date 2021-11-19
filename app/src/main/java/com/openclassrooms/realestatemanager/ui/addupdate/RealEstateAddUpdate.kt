@@ -21,7 +21,6 @@ import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifi
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -62,8 +61,7 @@ class RealEstateModifier : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentRealEstateModifierBinding.inflate(inflater, container, false)
@@ -73,42 +71,46 @@ class RealEstateModifier : Fragment() {
         //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
 
-        //to get image from gallery
+        //TODO: move to function
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
-            ActivityResultCallback {binding.imageOfGallery?.setImageURI(it)}
+
+            ActivityResultCallback {
+                binding.imageOfGallery?.setImageURI(it)
+                val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+
+                // Log.i("[THOMAS]", "URI : $it")
+
+                val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
+                    context?.applicationContext?.contentResolver,
+                    it
+                );
+                val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                //val storageDir = File(context?.filesDir, "test")
+                if (bitmap != null) {
+                    savePhotoToInternalMemory("Photo_$fileName2", bitmap)
+                }
+
+            }
         )
 
-        //to get image from camera
-        val getPhotoFromCamera = registerForActivityResult(
-            ActivityResultContracts.TakePicture(),
-            ActivityResultCallback {it}
-        )
-
-        //listener for camera
+        //listener for camera pick
         binding.addPhotoCamera?.setOnClickListener {
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             activityResultLauncher.launch(intent)
         }
 
-        activityResultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-                if (result?.resultCode == Activity.RESULT_OK) {
-                    var bitmap = result!!.data!!.extras!!.get("data") as Bitmap
-                    binding.imageOfGallery.setImageBitmap(bitmap)
+        setupActivityResultForCamera()
 
-                    val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                    //val storageDir = File(context?.filesDir, "test")
-                    savePhotoToInternalMemory("Photo_$fileName", bitmap)
-                }
-            }
 
-        //from gallery
+        //listener for gallery pick
         binding.addPhotoFromMemory?.setOnClickListener {
             getImageFromGallery.launch("image/*")
             // setupGetPhotoFromGalery()
             Log.i("[THOMAS]", "test ouverture photo")
         }
+
+        setupActivityResultForGallery()
 
         //insert data into database
         binding.saveBtn?.setOnClickListener {
@@ -120,13 +122,65 @@ class RealEstateModifier : Fragment() {
             //  var myRealEstateList = listOf<String>("Photo1","Photo2","Photo3","Photo4","Photo5","Photo6")
 
             setupRecyclerView(recyclerView, listRealEstate)
+
+
+        }
+
+
+        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) {
+            Log.i("[THOMAS]", "" + it)
+
+            if (it != null) {
+
+                val chaine: String
+                for (item in it) {
+
+                    chaine = chaine + item.photosList[item.]
+                    binding.addPhotoFromMemory?.text = it[0].photosList[0].size.toString()
+                }
+
+            }
+
+
         }
 
         return rootView
     }
 
+    //function to pick from gallery
+    private fun setupActivityResultForGallery() {
+        //to get image from gallery
+        val getImageFromGallery = registerForActivityResult(
+            ActivityResultContracts.GetContent(),
 
-    //TODO: store outside function
+            ActivityResultCallback {
+                binding.imageOfGallery?.setImageURI(it)
+                val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                //val storageDir = File(context?.filesDir, "test")
+                //savePhotoToInternalMemory("Photo_$fileName", it)
+
+            }
+        )
+    }
+
+
+    //TODO: move to util class ?
+    private fun setupActivityResultForCamera() {
+        activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+                if (result?.resultCode == Activity.RESULT_OK) {
+                    var bitmap = result!!.data!!.extras!!.get("data") as Bitmap
+                    binding.imageOfGallery.setImageBitmap(bitmap)
+
+                    val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    //val storageDir = File(context?.filesDir, "test")
+                    savePhotoToInternalMemory("Photo_$fileName", bitmap)
+                }
+            }
+    }
+
+
+    //TODO: move to util class?
     private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
         return try {
             context?.openFileOutput("$filename.jpg", Activity.MODE_PRIVATE).use { stream ->
@@ -136,7 +190,7 @@ class RealEstateModifier : Fragment() {
                     throw IOException("erreur compression")
                 }
 
-              //  Log.i("[THOMAS]", "chemin " + context?.filesDir)
+                //  Log.i("[THOMAS]", "chemin " + context?.filesDir)
 
             }
             true

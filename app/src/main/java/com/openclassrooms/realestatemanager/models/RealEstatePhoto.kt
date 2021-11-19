@@ -1,16 +1,8 @@
 package com.openclassrooms.realestatemanager.models
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-@Entity(
-    foreignKeys = [ForeignKey(
-        entity = RealEstate::class,
-        parentColumns = ["id"],
-        childColumns = ["realEstateId"]
-    )]
-)
+@Entity
 data class RealEstatePhoto(
 
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
