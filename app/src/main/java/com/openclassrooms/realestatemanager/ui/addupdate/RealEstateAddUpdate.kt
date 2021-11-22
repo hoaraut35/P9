@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstatePhoto
+import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -41,6 +43,9 @@ class RealEstateModifier : Fragment() {
     //binding
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
+
+
+    private var fileNameUri : String?  = null
 
 
     lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
@@ -117,13 +122,15 @@ class RealEstateModifier : Fragment() {
         //insert data into database
         binding.saveBtn?.setOnClickListener {
             mainViewModel.insert(RealEstate(cityOfProduct = "Brest", price = 1000))
+
+            mainViewModel.insertPhoto(RealEstatePhoto(name = "test", realEstateParentId = 1 , uri = fileNameUri))
         }
 
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
             //  var myRealEstateList = listOf<String>("Photo1","Photo2","Photo3","Photo4","Photo5","Photo6")
 
-            setupRecyclerView(recyclerView, listRealEstate)
+
 
 
         }
@@ -140,6 +147,9 @@ class RealEstateModifier : Fragment() {
                     //chaine = chaine + item.mem.item.photosList[item.]
                    // binding.addPhotoFromMemory?.text = it[0].photosList[0].size.toString()
                 }
+
+
+                setupRecyclerView(recyclerView, it[0].photosList)
 
             }
 
@@ -194,6 +204,13 @@ class RealEstateModifier : Fragment() {
 
                 Log.i("[THOMAS]", "chemin " + context?.filesDir + "/" + filename + ".jpg")
 
+                Log.i("[THOMAS]", "chemin " + context?.filesDir)
+
+
+                fileNameUri = context?.filesDir.toString() +"/"  + filename + ".jpg"
+
+                binding.textUri.setText(context?.filesDir.toString() +"/"  + filename + ".jpg")
+
             }
             true
 
@@ -207,7 +224,7 @@ class RealEstateModifier : Fragment() {
     //to setup recyclerview
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<RealEstate>,
+        myRealEstateList: List<RealEstatePhoto>,
     ) {
 
 

@@ -1,23 +1,32 @@
 package com.openclassrooms.realestatemanager.ui.addupdate
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
-
+import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoBinding
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 
 class MyNewAddPhotoVideoAdapter(
-    private val media: List<RealEstate>
+    private val media: List<RealEstatePhoto>
 ) : RecyclerView.Adapter<MyNewAddPhotoVideoAdapter.ViewHolder>() {
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        val myProperty = media[position]
+
+        holder.titre.text = myProperty.name
+
+        Glide.with(holder.image)
+            .load(myProperty.uri)
+            // .override(100, 100)
+            //.centerInside()
+            .centerCrop() //ok
+            //  .fitCenter()
+            .into(holder.image)
 
     }
 
@@ -31,11 +40,9 @@ class MyNewAddPhotoVideoAdapter(
     inner class ViewHolder(binding: ItemRealEstatePhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-      //  val type: TextView = binding.typeText
-      //  val price: TextView = binding.priceText
-      //  val city: TextView = binding.cityText
-      //  val image: ImageView = binding.realEstateImage
-      //  val layoutContainer: LinearLayoutCompat = binding.layoutContainer
+        val titre: TextView = binding.photoTitle
+        val image: ImageView = binding.imageview
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -29,7 +29,7 @@ interface RealEStateDao {
 
     //get all realestate with jointure on photos
     @Transaction
-    @Query("SELECT * FROM realEstate_table  ")
+    @Query("SELECT * FROM realEstate_table WHERE realEstateId = 1  ")
     fun getAllDataFromRealEstate(): Flow<List<RealEstateWithPhotos>>
 
     //insert photo

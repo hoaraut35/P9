@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -103,7 +104,7 @@ class RealEstateDetailFragment : Fragment() {
 
 
             //listRealEstate create a list for test
-            recyclerViewPhotos?.let { setupRecyclerView(it, listRealEstate) }
+        //    recyclerViewPhotos?.let { setupRecyclerView(it, listRealEstate) }
         }
 
 
@@ -112,11 +113,15 @@ class RealEstateDetailFragment : Fragment() {
 
             if (it != null) {
 
-                var test: List<RealEstateWithPhotos> = it
+                var realEstateWithPhoto: List<RealEstateWithPhotos> = it
                 val testview = binding.textListphotos
-                testview!!.text = test[1].photosList[1].uri
-              // binding.textListphotos?.setText(it.size)
 
+
+                testview!!.text = realEstateWithPhoto[0].photosList.toString()
+
+
+              // binding.textListphotos?.setText(it.size)
+                recyclerViewPhotos?.let { setupRecyclerView(it, realEstateWithPhoto) }
             }
 
 
@@ -214,12 +219,12 @@ class RealEstateDetailFragment : Fragment() {
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<RealEstate>
+        myRealEstateList: List<RealEstateWithPhotos>
     ) {
 
 
-        var myRealEstateList =
-            listOf<String>("Photo1", "Photo2", "Photo3", "Photo4", "Photo5", "Photo6")
+      //  var myRealEstateList =
+        //    listOf<String>("Photo1", "Photo2", "Photo3", "Photo4", "Photo5", "Photo6")
 
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL

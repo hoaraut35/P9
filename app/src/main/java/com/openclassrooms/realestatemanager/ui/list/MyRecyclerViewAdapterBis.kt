@@ -21,6 +21,13 @@ class MyRecyclerViewAdapterBis(
     private val onClickListener: View.OnClickListener
 ) : RecyclerView.Adapter<MyRecyclerViewAdapterBis.ViewHolder>() {
 
+
+    //added to work with item-slection library
+    init {
+        setHasStableIds(true)
+    }
+
+
     private var focusedItem = 0
 
     //create view
@@ -29,6 +36,9 @@ class MyRecyclerViewAdapterBis(
             ItemRealEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
+
+
+
 
     //load data into view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -87,6 +97,10 @@ class MyRecyclerViewAdapterBis(
 
     //data length
     override fun getItemCount(): Int {        return values.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return super.getItemId(position)
     }
 
     //holder view
