@@ -21,6 +21,13 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/text_listphotos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="photos list"
+            ></TextView>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_photos"
@@ -162,7 +169,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_baseline_bedroom_parent_24">
+                android:src="@drawable/ic_baseline_location_on_24">
 
             </ImageView>
 

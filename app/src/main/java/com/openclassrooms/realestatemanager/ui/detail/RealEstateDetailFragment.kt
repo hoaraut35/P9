@@ -2,24 +2,21 @@ package com.openclassrooms.realestatemanager.ui.detail
 
 import android.app.Activity.MODE_PRIVATE
 import android.app.Activity.RESULT_OK
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
+import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
@@ -82,7 +79,7 @@ class RealEstateDetailFragment : Fragment() {
         //for test
         mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
 
-            val realEstate: RealEstate? = listRealEstate.find { it.id == item_id_bundle?.toInt() }
+            val realEstate: RealEstate? = listRealEstate.find { it.realEstateId == item_id_bundle?.toInt() }
 
             if (realEstate != null) {
                 binding.textDescriptionDetail.setText(realEstate.descriptionOfProduct)
@@ -91,10 +88,17 @@ class RealEstateDetailFragment : Fragment() {
                 binding.qtyNumberBathroom.setText(realEstate.numberOfBathRoom.toString())
 
 
-                binding.valueZipcode?.setText(realEstate.address?.zip_code.toString())
-                binding.valueCity?.setText(realEstate.address?.city.toString())
-                binding.valueStreetname?.setText(realEstate.address?.street_name.toString())
-                binding.valueStreetnumber?.setText(realEstate.address?.street_number.toString())
+                binding.textNumberStreet?.setText(realEstate.address?.street_number.toString())
+                binding.textStreetName?.setText(realEstate.address?.street_name.toString())
+                binding.textCityName?.setText(realEstate.address?.city.toString())
+                binding.textZipcode?.setText(realEstate.address?.zip_code.toString())
+                binding.textCountry?.setText(realEstate.address?.country.toString())
+
+                binding.textListphotos?.setText(realEstate.photos.toString())
+
+
+
+
             }
 
 
@@ -103,6 +107,20 @@ class RealEstateDetailFragment : Fragment() {
         }
 
 
+        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) {
+            Log.i("[THOMAS]", "List RealEstateWith photo" + it.size)
+
+            if (it != null) {
+
+                var test: List<RealEstateWithPhotos> = it
+                val testview = binding.textListphotos
+                testview!!.text = test[1].photosList[1].uri
+              // binding.textListphotos?.setText(it.size)
+
+            }
+
+
+        }
 
 
 
@@ -117,27 +135,25 @@ class RealEstateDetailFragment : Fragment() {
     //take a photo of property
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i("[THOMAS]","Take a photo : " + data.toString())
+        Log.i("[THOMAS]", "Take a photo : " + data.toString())
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras!!.get("data") as Bitmap
             binding.staticMapView!!.setImageBitmap(imageBitmap)
 
 
-
-            val fileName:String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
             val storageDir = File(context?.filesDir, "test")
 
-         //   val photoUri : Uri = FileProvider.getUriForFile(this, "com.openclassrooms.realestatemanager",storageDir)
+            //   val photoUri : Uri = FileProvider.getUriForFile(this, "com.openclassrooms.realestatemanager",storageDir)
 
             //File.createTempFile("JPEG_THOMAS_",".jpg",context?.filesDir).apply { Log.i("[THOMAS]", "Photo path :$absolutePath"  ) }
 
-            savePhotoToInternalMemory("Photo_$fileName",imageBitmap)
+            savePhotoToInternalMemory("Photo_$fileName", imageBitmap)
 
 
         }
     }
-
 
 
     /*private fun loadPhotoFromInternalMEmory(): List<RealEstatePhoto>{
@@ -154,24 +170,23 @@ class RealEstateDetailFragment : Fragment() {
      */
 
 
-
-    private fun savePhotoToInternalMemory(filename: String, bmp:Bitmap):Boolean{
-        return try{
+    private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
+        return try {
             context?.openFileOutput("$filename.jpg", MODE_PRIVATE).use { stream ->
 
                 //compress photo
-                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95,stream)){
+                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
                     throw IOException("erreur compression")
                 }
 
 
-              //  FileProvider.getUriForFile(requireContext(),"com.openclassrooms.realestatemanager.fileprovider",$filename)
-                Log.i("[THOMAS]","chemin "+ context?.filesDir)
+                //  FileProvider.getUriForFile(requireContext(),"com.openclassrooms.realestatemanager.fileprovider",$filename)
+                Log.i("[THOMAS]", "chemin " + context?.filesDir)
 
             }
             true
 
-        }catch (e:IOException){
+        } catch (e: IOException) {
             e.printStackTrace()
             false
 
@@ -179,22 +194,22 @@ class RealEstateDetailFragment : Fragment() {
     }
 
 
-  /*  private fun createImageFile( context : Context): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File(context.filesDir)
+    /*  private fun createImageFile( context : Context): File {
+          val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+          val storageDir: File(context.filesDir)
 
 
-        return File.createTempFile(
-            "",
-            "",
-            storageDir
-        ).apply{
+          return File.createTempFile(
+              "",
+              "",
+              storageDir
+          ).apply{
 
-        }
+          }
 
-    }
+      }
 
-   */
+     */
 
 
     private fun setupRecyclerView(
@@ -203,7 +218,8 @@ class RealEstateDetailFragment : Fragment() {
     ) {
 
 
-        var myRealEstateList = listOf<String>("Photo1","Photo2","Photo3","Photo4","Photo5","Photo6")
+        var myRealEstateList =
+            listOf<String>("Photo1", "Photo2", "Photo3", "Photo4", "Photo5", "Photo6")
 
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL

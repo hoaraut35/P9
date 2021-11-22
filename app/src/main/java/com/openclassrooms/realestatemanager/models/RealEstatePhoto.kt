@@ -5,9 +5,9 @@ import androidx.room.*
 @Entity
 data class RealEstatePhoto(
 
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val realEstateId: Int,
-    val name: String,
-    val uri: String
+    @PrimaryKey(autoGenerate = true) val photo_id: Int = 0,
+    val realEstateParentId: Int?,
+    val name: String?,
+    val uri: String?
 
 )

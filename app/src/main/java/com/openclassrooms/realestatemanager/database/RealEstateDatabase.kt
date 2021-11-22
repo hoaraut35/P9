@@ -8,6 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.injection.ApplicationScope
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateAddress
+import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -46,7 +47,9 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         price = 17870000,
                        // photo ="" ,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
-                        address = RealEstateAddress(zip_code = 35000 , city = "Rennes", street_name = "rue du stade", street_number = 7 )
+                        address = RealEstateAddress(zip_code = 35000 , city = "Rennes", street_name = "rue du stade", street_number = 7 , country = "FRANCE"),
+                        poi = RealEstatePOI("Ecole"),
+
 
                         )
                 )
@@ -60,7 +63,8 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         cityOfProduct = "Montauk",
                         price = 21130000,
                       //  photo = "",
-                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum"
+                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum",
+                        address = RealEstateAddress(zip_code = 44000 , city = "Nantes", street_name = "rue des sports", street_number = 15 ,country = "FRANCE")
                     )
                 )
                 dao.insert(
@@ -72,7 +76,8 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         typeOfProduct = "Duplex",
                         cityOfProduct = "Brooklyn",
                         price = 13990000,
-                        descriptionOfProduct = "Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo volup"
+                        descriptionOfProduct = "Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo volup",
+                        address = RealEstateAddress(zip_code = 29000 , city = "Brest", street_name = "rue de la plage", street_number = 11,country = "FRANCE" )
                     )
                 )
                 dao.insert(
@@ -115,9 +120,13 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
 
 
-                dao.insertPhoto(RealEstatePhoto(realEstateId = 1, name = "Photo cuisine", uri = "hhh"))
+                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  1, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
+                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  1, name = "Photo chambre", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211119_121143.jpg"))
+                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  1, name = "Photo garage", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211119_121143.jpg"))
 
-                dao.insertPhoto(RealEstatePhoto(realEstateId = 1, name = "Photo chambre", uri = "hhh"))
+                dao.insertPhoto(RealEstatePhoto(realEstateParentId = 2, name = "Photo chambre", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
+                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  2, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
+                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  2, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
             }
 
         }

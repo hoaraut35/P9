@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "realEstate_table")
 data class RealEstate(
 
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val realEstateId: Int = 0,
     val typeOfProduct: String? = null,
     val cityOfProduct: String? = null,
     val price: Int? = null,
@@ -16,21 +16,24 @@ data class RealEstate(
     val numberOfBathRoom: Int? = null,
     val numberOfBedRoom: Int? = null,
     val descriptionOfProduct: String? = null,
-    //see embedded room enttypeOfProductitiu
 
-    //tableau de photo with join
+    //TODO: add favorite photo indice here ?
 
-    //val photo: RealEstatePhoto?=null,
+    //one to many
+    @Embedded
+    val address: RealEstateAddress? = null,
 
     @Embedded
-    val address: RealEstateAddress?=null
+    val poi : RealEstatePOI? = null,
 
 
-    //tableau de poi
+    @Embedded
+    val photos: RealEstatePhoto? = null,
 
-    //  val statut : Boolean? = null,
-    //  val dateCreateDocument : String? = null,
-    //  val dateFinished : String? = null,
-    //  val agent : Int?=null //FK from another table
+    val status: Boolean? = null,
+    val dateOfEntry: String? = null,
+    val releaseDate: String? = null,
+
+    val agent: Int? = null
 
 )

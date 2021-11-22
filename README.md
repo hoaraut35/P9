@@ -1,3 +1,15 @@
+# Real Estate Manager Android
+
+## Design
+Material Design
+
+## Platform
+Phone
+Tablet with master detail
+
+## Functions
+Add, update real estate
+
 ## DEvelpment
 - Kotlin 
 - Hilt
@@ -7,6 +19,9 @@
 - ViewModels
 - Repository
 - Activity / Fragments
+
+## Sharing data with orther app
+ContentProvider
 
 ## Developper
 HOARAU THomas

@@ -91,6 +91,8 @@ class RealEstateModifier : Fragment() {
                     savePhotoToInternalMemory("Photo_$fileName2", bitmap)
                 }
 
+
+
             }
         )
 
@@ -114,7 +116,7 @@ class RealEstateModifier : Fragment() {
 
         //insert data into database
         binding.saveBtn?.setOnClickListener {
-            mainViewModel.insert(RealEstate(price = 1000))
+            mainViewModel.insert(RealEstate(cityOfProduct = "Brest", price = 1000))
         }
 
         //for test
@@ -134,9 +136,9 @@ class RealEstateModifier : Fragment() {
 
                 val chaine: String
                 for (item in it) {
-
-                    chaine = chaine + item.photosList[item.]
-                    binding.addPhotoFromMemory?.text = it[0].photosList[0].size.toString()
+                 //   chaine = item.realEstate. + chaine
+                    //chaine = chaine + item.mem.item.photosList[item.]
+                   // binding.addPhotoFromMemory?.text = it[0].photosList[0].size.toString()
                 }
 
             }
@@ -190,7 +192,7 @@ class RealEstateModifier : Fragment() {
                     throw IOException("erreur compression")
                 }
 
-                //  Log.i("[THOMAS]", "chemin " + context?.filesDir)
+                Log.i("[THOMAS]", "chemin " + context?.filesDir + "/" + filename + ".jpg")
 
             }
             true

@@ -51,6 +51,8 @@ class MyRecyclerViewAdapterBis(
 
 
 
+
+
             //.setBackgroundColor(Color.parseColor("#80FFFFFF"))
 
         // Uri uri = Uri.parse("android.resource://com.openclassrooms.realestatemanager/drawable/real")
@@ -66,7 +68,7 @@ class MyRecyclerViewAdapterBis(
 
 
         with(holder.itemView) {
-            tag = item.id
+            tag = item.realEstateId
             setOnClickListener(onClickListener)
 
             val previousItem = focusedItem
@@ -96,6 +98,7 @@ class MyRecyclerViewAdapterBis(
         val city: TextView = binding.cityText
         val image: ImageView = binding.realEstateImage
         val layoutContainer: LinearLayoutCompat = binding.layoutContainer
+
 
 
 
