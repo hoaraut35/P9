@@ -46,6 +46,8 @@ private const val ARG_PARAM2 = "param2"
 @AndroidEntryPoint
 class RealEstateModifier : Fragment() {
 
+
+
     //binding
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!

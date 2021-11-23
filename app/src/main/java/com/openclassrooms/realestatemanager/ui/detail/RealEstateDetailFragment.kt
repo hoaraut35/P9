@@ -6,13 +6,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
@@ -80,7 +79,7 @@ class RealEstateDetailFragment : Fragment() {
 
         val recyclerViewPhotos: RecyclerView? = binding.recyclerviewPhotos
 
-
+        setHasOptionsMenu(true);
 
         mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { it ->
 
@@ -107,6 +106,8 @@ class RealEstateDetailFragment : Fragment() {
                recyclerViewPhotos?.let { setupRecyclerView(it, realEstate.photosList) }
             }
         }
+
+
 
         return rootView
     }
@@ -163,7 +164,19 @@ class RealEstateDetailFragment : Fragment() {
     }
 
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
 
+
+        if (item_id_bundle != null){
+            menu.findItem(R.id.realaction_update).isVisible = true
+        }else
+        {
+            menu.findItem(R.id.realaction_update).isVisible = false
+        }
+
+
+    }
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,

@@ -1,9 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -48,6 +46,9 @@ class RealEstateListFragment : Fragment() {
     //startup
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true);
+
 
         //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
@@ -119,6 +120,15 @@ class RealEstateListFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+
+        menu.findItem(R.id.realaction_update).isVisible = false
+
     }
 
 
