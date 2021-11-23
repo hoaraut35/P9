@@ -4,15 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoBinding
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoEditorBinding
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 
-class MyNewAddPhotoVideoAdapter(private val media: List<RealEstatePhoto>) :
-    RecyclerView.Adapter<MyNewAddPhotoVideoAdapter.ViewHolder>() {
+class AdapterAddREalEstate(private val media: List<RealEstatePhoto>) :
+    RecyclerView.Adapter<AdapterAddREalEstate.ViewHolder>() {
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

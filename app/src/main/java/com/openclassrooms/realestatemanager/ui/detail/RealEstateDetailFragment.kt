@@ -168,7 +168,7 @@ class RealEstateDetailFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
 
 
-        if (item_id_bundle != null){
+        if (item_id_bundle != null || item_id_bundle == ""){
             menu.findItem(R.id.realaction_update).isVisible = true
         }else
         {

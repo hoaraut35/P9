@@ -28,11 +28,16 @@
             app:destination="@id/realEstateModifier" />
 
     </fragment>
+
     <fragment
         android:id="@+id/realEstateModifier"
         android:name="com.openclassrooms.realestatemanager.ui.addupdate.RealEstateModifier"
         android:label="fragment_real_estate_modifier"
         tools:layout="@layout/fragment_real_estate_modifier" />
+
+
+
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.openclassrooms.realestatemanager.ui.search.SearchFragment"

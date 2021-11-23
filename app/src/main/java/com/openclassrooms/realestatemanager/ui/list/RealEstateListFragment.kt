@@ -62,10 +62,6 @@ class RealEstateListFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, item.toString())
 
-
-            realEstateView.elevation = 10f
-
-
             //if fragment detail is displayed mode tablet
             if (realEstateDetailFragment != null) {
                 realEstateDetailFragment.findNavController()
@@ -125,10 +121,7 @@ class RealEstateListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
-
         menu.findItem(R.id.realaction_update).isVisible = false
-
     }
 
 
