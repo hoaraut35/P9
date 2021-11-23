@@ -1,29 +1,20 @@
 package com.openclassrooms.realestatemanager.ui.list
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
-import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.NumberFormat
-import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,42 +62,33 @@ class RealEstateListFragment : Fragment() {
             bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, item.toString())
 
 
-                realEstateView.elevation = 10f
-
-
-
-           //Snackbar.make(this,"test",Snackbar.LENGTH_SHORT).show()
+            realEstateView.elevation = 10f
 
 
             //if fragment detail is displayed mode tablet
             if (realEstateDetailFragment != null) {
-                realEstateDetailFragment.findNavController().navigate(R.id.fragment_item_detail, bundle)
-
-                realEstateView.setBackgroundColor(Color.parseColor("#FFFFFF"))
-
+                realEstateDetailFragment.findNavController()
+                    .navigate(R.id.fragment_item_detail, bundle)
             } else {
                 realEstateView.findNavController().navigate(R.id.show_item_detail, bundle)
-
             }
+
         }
 
-        //for test
-        mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
-            setupRecyclerView(recyclerView, listRealEstate, onClickListener)
+        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { listRealEstateWithPhotos ->
+            setupRecyclerView(recyclerView, listRealEstateWithPhotos, onClickListener)
         }
+
 
     }
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<RealEstate>,
+        myRealEstateListWithPhotos: List<RealEstateWithPhotos>,
         onClickListener: View.OnClickListener
     ) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = MyRecyclerViewAdapterBis(myRealEstateList, onClickListener)
-
-
-
+        recyclerView.adapter = MyRecyclerViewAdapterBis(myRealEstateListWithPhotos, onClickListener)
     }
 
     override fun onCreateView(

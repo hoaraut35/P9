@@ -44,6 +44,9 @@ class RealEstateDetailFragment : Fragment() {
 
     val REQUEST_IMAGE_CAPTURE = 1
 
+    //bind recyclerview
+   // val recyclerView: RecyclerView = binding.recyclerview
+
     //binding
     private var _binding: FragmentRealEstateDetailBinding? = null
     private val binding get() = _binding!!
@@ -77,64 +80,37 @@ class RealEstateDetailFragment : Fragment() {
 
         val recyclerViewPhotos: RecyclerView? = binding.recyclerviewPhotos
 
-        //for test
-        mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
 
-            val realEstate: RealEstate? = listRealEstate.find { it.realEstateId == item_id_bundle?.toInt() }
+
+        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { it ->
+
+            val realEstate: RealEstateWithPhotos? = it.find { it.realEstate.realEstateId.toString() == item_id_bundle }
 
             if (realEstate != null) {
-                binding.textDescriptionDetail.setText(realEstate.descriptionOfProduct)
-                binding.qtyNumberRoom.setText(realEstate.numberOfRoom.toString())
-                binding.qtyNumberBedroom.setText(realEstate.numberOfBedRoom.toString())
-                binding.qtyNumberBathroom.setText(realEstate.numberOfBathRoom.toString())
 
 
-                binding.textNumberStreet?.setText(realEstate.address?.street_number.toString())
-                binding.textStreetName?.setText(realEstate.address?.street_name.toString())
-                binding.textCityName?.setText(realEstate.address?.city.toString())
-                binding.textZipcode?.setText(realEstate.address?.zip_code.toString())
-                binding.textCountry?.setText(realEstate.address?.country.toString())
-
-                binding.textListphotos?.setText(realEstate.photos.toString())
+                binding.textDescriptionDetail.setText(realEstate.realEstate.descriptionOfProduct)
+                binding.qtyNumberRoom.setText(realEstate.realEstate.numberOfRoom.toString())
+                binding.qtyNumberBedroom.setText(realEstate.realEstate.numberOfBedRoom.toString())
+                binding.qtyNumberBathroom.setText(realEstate.realEstate.numberOfBathRoom.toString())
 
 
+                binding.textNumberStreet?.setText(realEstate.realEstate.address?.street_number.toString())
+                binding.textStreetName?.setText(realEstate.realEstate.address?.street_name.toString())
+                binding.textCityName?.setText(realEstate.realEstate.address?.city.toString())
+                binding.textZipcode?.setText(realEstate.realEstate.address?.zip_code.toString())
+                binding.textCountry?.setText(realEstate.realEstate.address?.country.toString())
 
+                //binding.textListphotos?.setText(realEstate.photos.toString())
+                //setupRecyclerView(recyclerView, it[0].photosList)
 
+               recyclerViewPhotos?.let { setupRecyclerView(it, realEstate.photosList) }
             }
-
-
-            //listRealEstate create a list for test
-        //    recyclerViewPhotos?.let { setupRecyclerView(it, listRealEstate) }
         }
-
-
-        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) {
-            Log.i("[THOMAS]", "List RealEstateWith photo" + it.size)
-
-            if (it != null) {
-
-                var realEstateWithPhoto: List<RealEstateWithPhotos> = it
-                val testview = binding.textListphotos
-
-
-                testview!!.text = realEstateWithPhoto[0].photosList.toString()
-
-
-              // binding.textListphotos?.setText(it.size)
-                recyclerViewPhotos?.let { setupRecyclerView(it, realEstateWithPhoto) }
-            }
-
-
-        }
-
-
-
-
-
-
 
         return rootView
     }
+
 
 
     //take a photo of property
@@ -161,18 +137,6 @@ class RealEstateDetailFragment : Fragment() {
     }
 
 
-    /*private fun loadPhotoFromInternalMEmory(): List<RealEstatePhoto>{
-        return withContext(Dispatchers.IO){
-            val files = context.filesDir.listFiles()
-            files.filter { it.canRead() && it.isFile && it.name.endsWith(".jpg") }.map {
-                val bytes = it.readBytes()
-                val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-
-            }
-        }
-    }
-
-     */
 
 
     private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
@@ -199,38 +163,16 @@ class RealEstateDetailFragment : Fragment() {
     }
 
 
-    /*  private fun createImageFile( context : Context): File {
-          val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-          val storageDir: File(context.filesDir)
-
-
-          return File.createTempFile(
-              "",
-              "",
-              storageDir
-          ).apply{
-
-          }
-
-      }
-
-     */
 
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<RealEstateWithPhotos>
+        myRealEstateList: List<RealEstatePhoto>
     ) {
-
-
-      //  var myRealEstateList =
-        //    listOf<String>("Photo1", "Photo2", "Photo3", "Photo4", "Photo5", "Photo6")
-
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
         recyclerView.adapter = RealEstatePhotosAdapter(myRealEstateList)
-
     }
 
     companion object {

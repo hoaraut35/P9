@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
+import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,8 +27,7 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
 
     //insert
     fun insert(realEstate: RealEstate) = viewModelScope.launch {  localDatabaseRepository.insertRealEstate(realEstate) }
-
-    //insert
+   // fun insertEstateWithPhoto(realEstateWithPhotos: RealEstateWithPhotos) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(realEstateWithPhotos) }
     fun insertPhoto(photo:RealEstatePhoto) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(photo) }
 
     //update

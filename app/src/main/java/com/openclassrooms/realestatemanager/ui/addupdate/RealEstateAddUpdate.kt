@@ -3,12 +3,14 @@ package com.openclassrooms.realestatemanager.ui.addupdate
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -17,10 +19,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateAddress
+import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
-import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -45,7 +51,11 @@ class RealEstateModifier : Fragment() {
     private val binding get() = _binding!!
 
 
-    private var fileNameUri : String?  = null
+    private var fileNameUri: String? = null
+
+
+
+    private val listOfPhotosToSave = mutableListOf<String>()
 
 
     lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
@@ -73,28 +83,34 @@ class RealEstateModifier : Fragment() {
 
         val rootView = binding.root
 
+        //val listPhotoToSave: List<RealEstatePhoto>
+
         //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
 
-        //TODO: move to function
+        //TODO: Get image from gallery
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
 
             ActivityResultCallback {
-                binding.imageOfGallery?.setImageURI(it)
-                val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
-                // Log.i("[THOMAS]", "URI : $it")
+
+                binding.imageOfGallery?.setImageURI(it)
+               // val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
                 val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
                     context?.applicationContext?.contentResolver,
                     it
                 );
+
                 val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                 //val storageDir = File(context?.filesDir, "test")
+
                 if (bitmap != null) {
                     savePhotoToInternalMemory("Photo_$fileName2", bitmap)
                 }
+
+
 
 
 
@@ -119,45 +135,118 @@ class RealEstateModifier : Fragment() {
 
         setupActivityResultForGallery()
 
-        //insert data into database
-        binding.saveBtn?.setOnClickListener {
-            mainViewModel.insert(RealEstate(cityOfProduct = "Brest", price = 1000))
+        val valChipGroup: ChipGroup? = binding.chipGroup
 
-            mainViewModel.insertPhoto(RealEstatePhoto(name = "test", realEstateParentId = 1 , uri = fileNameUri))
+        valChipGroup?.setOnCheckedChangeListener { group, checkedId ->
+            val title = group.findViewById<Chip>(checkedId)?.text
+            Log.i("[CHIPS]","titre " + title)
+
+
         }
+
+
+
+        saveRealEstateInDB()
+
+        //insert data into database
+
 
         //for test
-        mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
-            //  var myRealEstateList = listOf<String>("Photo1","Photo2","Photo3","Photo4","Photo5","Photo6")
+//        mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
+//
+//        }
+
+
+//        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) {
+//
+//            if (it != null) {
+//
+//                val chaine: String
+//                for (item in it) {
+//                    //   chaine = item.realEstate. + chaine
+//                    //chaine = chaine + item.mem.item.photosList[item.]
+//                    // binding.addPhotoFromMemory?.text = it[0].photosList[0].size.toString()
+//                }
+//
+//
+//                setupRecyclerView(recyclerView, it[0].photosList)
+//
+//            }
+//        }
+        return rootView
+    }
+
+    private fun saveRealEstateInDB() {
+
+        binding.saveBtn?.setOnClickListener {
 
 
 
 
-        }
+            val prix: Int? = binding.edittextPrice?.text.toString().toInt()
+            val valTypeOfProduct: String? = binding.propertyTypeEdittext?.text.toString()
+
+            val valSurface: Int? = binding.edittextSurface?.text.toString().toInt()
+            val valRoomNumber: Int? = binding.edittextNumberRoom?.text.toString().toInt()
+            //val valBathRoomNumber : Int? = binding.ed
+            val valDescription: String? = binding.edittextDescription?.text.toString()
+
+            val valStreetNumber: Int? = binding.edittextStrretNumber?.text.toString().toInt()
+            val valStreetName: String? = binding.edittextStreetName?.text.toString()
+            val valCityZipCode: Int? = binding.edittextCityZipcode?.text.toString().toInt()
+            val valCity: String? = binding.edittextCityName?.text.toString()
+            //val valCountry : String? = binding.ed
+
+            //insert in database
+            mainViewModel.insert(
+                RealEstate(
+                    typeOfProduct = valTypeOfProduct,
+                    price = prix,
+                    cityOfProduct = valCity,
+                    surface = valSurface,
+                    numberOfRoom = valRoomNumber,
+                    descriptionOfProduct = valDescription,
+                    address = RealEstateAddress(
+                        street_name = valStreetName,
+                        street_number = valStreetNumber,
+                        city = valCity,
+                        zip_code = valCityZipCode,
+                        country = null
+                    ),
+                    poi = RealEstatePOI(poitype = "Ecole"),
+                    status = false,
+                    photos = RealEstatePhoto(
+                        realEstateParentId = 1,
+                        name = "photi",
+                        uri = "test uri"
+                    )
+                )
+            )
 
 
-        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) {
-            Log.i("[THOMAS]", "" + it)
-
-            if (it != null) {
-
-                val chaine: String
-                for (item in it) {
-                 //   chaine = item.realEstate. + chaine
-                    //chaine = chaine + item.mem.item.photosList[item.]
-                   // binding.addPhotoFromMemory?.text = it[0].photosList[0].size.toString()
-                }
 
 
-                setupRecyclerView(recyclerView, it[0].photosList)
+            for (item in listOfPhotosToSave){
+
+                mainViewModel.insertPhoto(RealEstatePhoto(uri = item.toString(), realEstateParentId = 1, name = "test photo list"))
 
             }
 
 
+           // mainViewModel.insert
+
+
+            //mainViewModel.insertPhoto(
+//                RealEstatePhoto(
+//                    name = "test",
+//                    realEstateParentId = 1,
+//                    uri = fileNameUri
+//                )
+//            )
         }
 
-        return rootView
     }
+
 
     //function to pick from gallery
     private fun setupActivityResultForGallery() {
@@ -207,9 +296,15 @@ class RealEstateModifier : Fragment() {
                 Log.i("[THOMAS]", "chemin " + context?.filesDir)
 
 
-                fileNameUri = context?.filesDir.toString() +"/"  + filename + ".jpg"
+                fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
 
-                binding.textUri.setText(context?.filesDir.toString() +"/"  + filename + ".jpg")
+                binding.textUri.setText(context?.filesDir.toString() + "/" + filename + ".jpg")
+
+
+                //ajout
+                listOfPhotosToSave.add(fileNameUri!!)
+
+
 
             }
             true

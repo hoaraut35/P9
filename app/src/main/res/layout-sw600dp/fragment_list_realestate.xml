@@ -11,6 +11,7 @@
         android:name="RealEstateListFragment"
         android:layout_width="400dp"
         android:layout_height="match_parent"
+
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"

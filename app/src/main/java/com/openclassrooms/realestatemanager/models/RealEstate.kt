@@ -17,15 +17,11 @@ data class RealEstate(
     val numberOfBedRoom: Int? = null,
     val descriptionOfProduct: String? = null,
 
-    //TODO: add favorite photo indice here ?
-
-    //one to many
     @Embedded
     val address: RealEstateAddress? = null,
 
     @Embedded
-    val poi : RealEstatePOI? = null,
-
+    val poi: RealEstatePOI? = null,
 
     @Embedded
     val photos: RealEstatePhoto? = null,

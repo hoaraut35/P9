@@ -2,32 +2,28 @@ package com.openclassrooms.realestatemanager.ui.addupdate
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoBinding
+import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoEditorBinding
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 
-class MyNewAddPhotoVideoAdapter(
-    private val media: List<RealEstatePhoto>
-) : RecyclerView.Adapter<MyNewAddPhotoVideoAdapter.ViewHolder>() {
+class MyNewAddPhotoVideoAdapter(private val media: List<RealEstatePhoto>) :
+    RecyclerView.Adapter<MyNewAddPhotoVideoAdapter.ViewHolder>() {
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val myProperty = media[position]
 
-        holder.titre.text = myProperty.name
-
+        //holder.titre.setText().text = myProperty.name
         Glide.with(holder.image)
             .load(myProperty.uri)
-            // .override(100, 100)
-            //.centerInside()
-            .centerCrop() //ok
-            //  .fitCenter()
+            .centerCrop()
             .into(holder.image)
-
     }
 
     //data length
@@ -37,17 +33,18 @@ class MyNewAddPhotoVideoAdapter(
 
 
     //holder view
-    inner class ViewHolder(binding: ItemRealEstatePhotoBinding) :
+    inner class ViewHolder(binding: ItemRealEstatePhotoEditorBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        val titre: TextView = binding.photoTitle
+        val titre: EditText = binding.photoTitle
+
         val image: ImageView = binding.imageview
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemRealEstatePhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRealEstatePhotoEditorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

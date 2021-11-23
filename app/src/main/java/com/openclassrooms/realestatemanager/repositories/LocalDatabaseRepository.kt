@@ -20,9 +20,9 @@ class LocalDatabaseRepository @Inject constructor (private val realEstateDao: Re
     //insert
     suspend fun insertRealEstate(realEstate: RealEstate) = realEstateDao.insert(realEstate)
 
+  //  suspend fun insertRealEstateWithPhoto(realEstateWithPhotos: RealEstateWithPhotos) = realEstateDao.insertRealEstateWithPhoto(realEstateWithPhotos)
+
     suspend fun insertRealEstatePhoto(realEstatePhoto :RealEstatePhoto) = realEstateDao.insertPhoto(realEstatePhoto)
-
-
 
     //update
     suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)

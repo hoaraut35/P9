@@ -15,6 +15,11 @@ interface RealEStateDao {
 
 
 
+//    @Query("SELECT MAX (realEstateId) FROM realEstate_table")
+//    fun getLastRealEstate(): Flow<RealEstate>
+
+
+
     //insert realstate
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insert(realEstate: RealEstate) //suspend for use another thread
@@ -29,12 +34,19 @@ interface RealEStateDao {
 
     //get all realestate with jointure on photos
     @Transaction
-    @Query("SELECT * FROM realEstate_table WHERE realEstateId = 1  ")
+    @Query("SELECT * FROM realEstate_table WHERE realEstateId")
     fun getAllDataFromRealEstate(): Flow<List<RealEstateWithPhotos>>
+
+
+   // @Insert(onConflict = OnConflictStrategy.REPLACE)
+   // suspend fun insertRealEstateWithPhoto(realEstateWithPhotos: RealEstateWithPhotos)
 
     //insert photo
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insertPhoto(realEstatePhoto: RealEstatePhoto) //suspend for use another thread
+
+
+
 
 
 
