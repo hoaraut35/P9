@@ -7,9 +7,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -22,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateAddress
@@ -85,6 +84,9 @@ class RealEstateModifier : Fragment() {
 
         val rootView = binding.root
 
+
+
+        setHasOptionsMenu(true);
         //val listPhotoToSave: List<RealEstatePhoto>
 
         //bind recyclerview
@@ -329,6 +331,16 @@ class RealEstateModifier : Fragment() {
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
         recyclerView.adapter = MyNewAddPhotoVideoAdapter(myRealEstateList)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        menu.findItem(R.id.realaction_update).isVisible = false
+
+        menu.findItem(R.id.realEstateModifier).isVisible = false
+
     }
 
 
