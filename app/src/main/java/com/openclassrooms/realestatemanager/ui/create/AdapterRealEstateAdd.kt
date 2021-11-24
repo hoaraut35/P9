@@ -19,11 +19,11 @@ class AdapterRealEstateAdd(
 
 
     //callback
-    private var callback : InterfacePhotoTitleChanged? = callback
+    private var callback: InterfacePhotoTitleChanged? = callback
 
     interface InterfacePhotoTitleChanged {
         //method here...
-        fun onChangedTitlePhoto(title: String, uri : String?)
+        fun onChangedTitlePhoto(title: String, uri: String?)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,7 +38,20 @@ class AdapterRealEstateAdd(
             callback?.onChangedTitlePhoto(holder.title.text.toString(), media[position].uri)
         }
 
-      //  holder.title.addOnAttachStateChangeListener()
+//        holder.title.setOnFocusChangeListener { view, b ->
+//            callback?.onChangedTitlePhoto(holder.title.text.toString(), media[position].uri)
+//        }
+
+//
+////            if (!holder.title.isFocused)
+////            {
+////                callback?.onChangedTitlePhoto(holder.title.text.toString(), media[position].uri)
+////            }
+////
+        //}
+
+        //  holder.title.addOnAttachStateChangeListener()
+
     }
 
     //data length

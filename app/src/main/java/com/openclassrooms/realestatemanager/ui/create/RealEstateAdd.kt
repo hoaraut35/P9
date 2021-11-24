@@ -246,9 +246,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 mainViewModel.insertPhoto(
                     RealEstatePhoto(
-                        uri = item.toString(),
+                        uri = item.uri,
                         realEstateParentId = 1,
-                        name = "test photo list"
+                        name = item.name
                     )
                 )
 
@@ -387,6 +387,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     }
 
     override fun onChangedTitlePhoto(title: String, uri: String?) {
-        Log.i("[UPDATE]", "changement $title")
+        Log.i("[UPDATE]", "Liste to save : $listOfPhotosToSave")
+        listOfPhotosToSave.find { it.uri == uri }?.name = title
     }
 }
