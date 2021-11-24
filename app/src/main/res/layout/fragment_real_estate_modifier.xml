@@ -18,72 +18,26 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/add_photo_from_memory"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="From galery">
+                android:orientation="horizontal">
 
-            </Button>
-
-            <TextView
-                android:id="@+id/text_uri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="uri picture"></TextView>
-
-            <Button
-                android:id="@+id/add_photo_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="From camera"
-                />
-
-
-            <ImageView
-                android:id="@+id/imageOfGallery"
-                android:layout_width="200dp"
-                android:layout_height="200dp">
-
-            </ImageView>
-
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_multi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:singleLine="true"
-                app:singleSelection="false">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_10"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <Button
+                    android:id="@+id/add_photo_from_memory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:tag="Ecole"
-                    android:text="Ecole" />
+                    android:text="From galery"/>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_20"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <Button
+                    android:id="@+id/add_photo_camera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:tag="Parc"
-                    android:text="Parc" />
+                    android:text="From camera"/>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_30"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:tag="Gare"
-                    android:text="Gare" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            </com.google.android.material.chip.ChipGroup>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
@@ -140,6 +94,47 @@
                 </com.google.android.material.chip.Chip>
 
             </com.google.android.material.chip.ChipGroup>
+
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_multi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="true"
+                app:singleSelection="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_10"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:tag="Ecole"
+                    android:text="Ecole" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_20"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:tag="Parc"
+                    android:text="Parc" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_30"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:tag="Gare"
+                    android:text="Gare" />
+
+
+            </com.google.android.material.chip.ChipGroup>
+
+
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -342,6 +337,19 @@
                 app:layout_constraintTop_toBottomOf="@id/imageview"
                 app:layout_constraintStart_toStartOf="parent"/>
 
+            <ImageView
+                android:id="@+id/imageOfGallery"
+                android:layout_width="200dp"
+                android:visibility="invisible"
+                android:layout_height="200dp">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/text_uri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="uri picture"/>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

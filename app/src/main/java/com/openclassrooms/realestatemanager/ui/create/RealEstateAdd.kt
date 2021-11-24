@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -31,25 +32,18 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RealEstateModifier.newInstance] factory method to
- * create an instance of this fragment.
- */
 @AndroidEntryPoint
-class RealEstateModifier : Fragment() {
-
+class RealEstateModifier : AdapterRealEstateAdd.PhotoTitleChanged, Fragment()  {
 
     //binding
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
     private var fileNameUri: String? = null
 
+    // private var  recyclerview : RecyclerView = binding.recyclerview
     private val listOfPhotosToSave = mutableListOf<String>()
 
     lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
@@ -57,7 +51,6 @@ class RealEstateModifier : Fragment() {
     //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
 
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -78,30 +71,30 @@ class RealEstateModifier : Fragment() {
         val rootView = binding.root
 
         //for setup topbar
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
 
         //bind recyclerview
-        val recyclerView: RecyclerView = binding.recyclerview
+        val recyclerView = binding.recyclerview
 
+        //setupActionAfterGetImageFromGallery()
 
+        //setup action after click on gallery
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
-
             ActivityResultCallback {
-
                 binding.imageOfGallery?.setImageURI(it)
 
                 val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
                     context?.applicationContext?.contentResolver, it
-                );
+                )
 
                 val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                //val storageDir = File(context?.filesDir, "test")
+
 
                 if (bitmap != null) {
                     savePhotoToInternalMemory("Photo_$fileName2", bitmap)
+                    recyclerView.adapter?.notifyDataSetChanged()
                 }
-
             }
         )
 
@@ -114,7 +107,7 @@ class RealEstateModifier : Fragment() {
         //setup callback for camera
         setupActivityResultForCamera()
 
-        //listener for gallery pick
+        //listener for button click gallery pick
         binding.addPhotoFromMemory?.setOnClickListener {
             getImageFromGallery.launch("image/*")
             // setupGetPhotoFromGalery()
@@ -136,13 +129,34 @@ class RealEstateModifier : Fragment() {
         //save data to database
         saveRealEstateInDB()
 
+        //setup recyclerview
+        setupRecyclerView(recyclerView, listOfPhotosToSave)
 
 
-        //setupRecyclerView(recyclerView, it.)
 
+        recyclerView.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+            override fun onChanged() {
+                super.onChanged()
+                Toast.makeText(requireContext(), "Evenement on recyclerview" , Toast.LENGTH_LONG).show()
+
+
+          //      Log.i("[UPDATE]","recyclerview" + recyclerView.getChildViewHolder(binding.recyclerview.focusedChild).itemView.findViewById<EditText>(R.id.photo_title))
+
+            }
+        })
+
+
+        //valChipGroupMulti?.checkedChipIds?.forEach {
+          //  val chip = binding.chipGroupMulti.findViewById<Chip>(it).text.toString()
+            //Log.i("[CHIP]", "chip $chip.")
+        //}
 
 
         return rootView
+    }
+
+    private fun setupActionAfterGetImageFromGallery() {
+        TODO("Not yet implemented")
     }
 
     private fun getPropertyType() {
@@ -186,7 +200,7 @@ class RealEstateModifier : Fragment() {
         binding.saveBtn?.setOnClickListener {
 
 
-            val prix: Int? = binding.edittextPrice?.text.toString().toInt()
+            val prix: Int = binding.edittextPrice?.text.toString().toInt()
             val valTypeOfProduct: String? = binding.propertyTypeEdittext?.text.toString()
 
             val valSurface: Int? = binding.edittextSurface?.text.toString().toInt()
@@ -269,6 +283,10 @@ class RealEstateModifier : Fragment() {
                 //val storageDir = File(context?.filesDir, "test")
                 //savePhotoToInternalMemory("Photo_$fileName", it)
 
+
+                //listOfPhotosToSave.add(it.toString())
+
+
             }
         )
     }
@@ -327,14 +345,12 @@ class RealEstateModifier : Fragment() {
     //to setup recyclerview
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<RealEstatePhoto>
+        myRealEstateList: List<String>
     ) {
-
-
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
-        recyclerView.adapter = AdapterRealEstateAdd(myRealEstateList)
+        recyclerView.adapter = AdapterRealEstateAdd(myRealEstateList, this  , requireContext())
     }
 
 
@@ -369,5 +385,9 @@ class RealEstateModifier : Fragment() {
 
         const val PICK_IMAGE = 1
         const val REQUEST_IMAGE_CAPTURE = 2
+    }
+
+    override fun onChangedTitlePhoto(title: String) {
+        Log.i("[UPDATE]", "changement $title")
     }
 }
