@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -36,7 +35,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 @AndroidEntryPoint
-class RealEstateModifier : AdapterRealEstateAdd.PhotoTitleChanged, Fragment()  {
+class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Fragment()  {
 
     //binding
     private var _binding: FragmentRealEstateModifierBinding? = null
