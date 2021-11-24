@@ -43,7 +43,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     private var fileNameUri: String? = null
 
     // private var  recyclerview : RecyclerView = binding.recyclerview
-    private val listOfPhotosToSave = mutableListOf<String>()
+    private val listOfPhotosToSave = mutableListOf<RealEstatePhoto>()
 
     lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
@@ -328,7 +328,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
 
                 //ajout
-                listOfPhotosToSave.add(fileNameUri!!)
+                listOfPhotosToSave.add(RealEstatePhoto(uri = fileNameUri!!, name = "test", realEstateParentId = 1))
 
 
             }
@@ -344,7 +344,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     //to setup recyclerview
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<String>
+        myRealEstateList: List<RealEstatePhoto>
     ) {
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -386,7 +386,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         const val REQUEST_IMAGE_CAPTURE = 2
     }
 
-    override fun onChangedTitlePhoto(title: String) {
+    override fun onChangedTitlePhoto(title: String, uri: String?) {
         Log.i("[UPDATE]", "changement $title")
     }
 }

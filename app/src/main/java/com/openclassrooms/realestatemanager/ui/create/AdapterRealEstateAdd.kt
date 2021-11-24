@@ -9,9 +9,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoCreateBinding
+import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 
 class AdapterRealEstateAdd(
-    private val media: List<String>,
+    private val media: List<RealEstatePhoto>,
     callback: InterfacePhotoTitleChanged,
     context: Context
 ) : RecyclerView.Adapter<AdapterRealEstateAdd.ViewHolder>() {
@@ -22,23 +23,22 @@ class AdapterRealEstateAdd(
 
     interface InterfacePhotoTitleChanged {
         //method here...
-        fun onChangedTitlePhoto(title: String)
+        fun onChangedTitlePhoto(title: String, uri : String?)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = media[position]
 
-        //holder.title.text = "Photo $position"
-
         Glide.with(holder.image)
-            .load(item)
+            .load(item.uri)
             .centerCrop()
             .into(holder.image)
 
-
         holder.title.addTextChangedListener {
-            callback?.onChangedTitlePhoto(holder.title.text.toString())
+            callback?.onChangedTitlePhoto(holder.title.text.toString(), media[position].uri)
         }
+
+      //  holder.title.addOnAttachStateChangeListener()
     }
 
     //data length
