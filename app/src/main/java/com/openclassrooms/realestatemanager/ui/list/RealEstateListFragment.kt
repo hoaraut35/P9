@@ -14,16 +14,12 @@ import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-
 
 @AndroidEntryPoint  //Hilt annotation for fragment
 class RealEstateListFragment : Fragment() {
 
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -34,7 +30,7 @@ class RealEstateListFragment : Fragment() {
     private var _binding: FragmentListRealestateBinding? = null
     private val binding get() = _binding!!
 
-    //get data
+    //get data bundle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -47,8 +43,8 @@ class RealEstateListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //for menu
         setHasOptionsMenu(true);
-
 
         //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
@@ -85,7 +81,7 @@ class RealEstateListFragment : Fragment() {
         onClickListener: View.OnClickListener
     ) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = MyRecyclerViewAdapterBis(myRealEstateListWithPhotos, onClickListener)
+        recyclerView.adapter = RealEstateListAdapter(myRealEstateListWithPhotos, onClickListener)
     }
 
     override fun onCreateView(
@@ -99,15 +95,7 @@ class RealEstateListFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BlankFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             RealEstateListFragment().apply {
@@ -118,11 +106,9 @@ class RealEstateListFragment : Fragment() {
             }
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu.findItem(R.id.realaction_update).isVisible = false
+        menu.findItem(R.id.realEstateUpdateBtn).isVisible = false
     }
-
 
 }

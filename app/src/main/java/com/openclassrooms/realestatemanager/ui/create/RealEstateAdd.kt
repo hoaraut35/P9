@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.addupdate
+package com.openclassrooms.realestatemanager.ui.create
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
@@ -43,18 +45,12 @@ private const val ARG_PARAM2 = "param2"
 class RealEstateModifier : Fragment() {
 
 
-
     //binding
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
-
-
     private var fileNameUri: String? = null
 
-
-
     private val listOfPhotosToSave = mutableListOf<String>()
-
 
     lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
@@ -76,32 +72,27 @@ class RealEstateModifier : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         _binding = FragmentRealEstateModifierBinding.inflate(inflater, container, false)
-
         val rootView = binding.root
 
-
-
+        //for setup topbar
         setHasOptionsMenu(true);
-        //val listPhotoToSave: List<RealEstatePhoto>
 
         //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
 
-        //TODO: Get image from gallery
+
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
 
             ActivityResultCallback {
 
-
                 binding.imageOfGallery?.setImageURI(it)
-               // val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
                 val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
-                    context?.applicationContext?.contentResolver,
-                    it
+                    context?.applicationContext?.contentResolver, it
                 );
 
                 val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -110,10 +101,6 @@ class RealEstateModifier : Fragment() {
                 if (bitmap != null) {
                     savePhotoToInternalMemory("Photo_$fileName2", bitmap)
                 }
-
-
-
-
 
             }
         )
@@ -124,8 +111,8 @@ class RealEstateModifier : Fragment() {
             activityResultLauncher.launch(intent)
         }
 
+        //setup callback for camera
         setupActivityResultForCamera()
-
 
         //listener for gallery pick
         binding.addPhotoFromMemory?.setOnClickListener {
@@ -134,54 +121,69 @@ class RealEstateModifier : Fragment() {
             Log.i("[THOMAS]", "test ouverture photo")
         }
 
+        //setup callback for gallery
         setupActivityResultForGallery()
 
-        val valChipGroup: ChipGroup? = binding.chipGroup
+        //get property type
+        getPropertyType()
 
-        valChipGroup?.setOnCheckedChangeListener { group, checkedId ->
-            val title = group.findViewById<Chip>(checkedId)?.text
-            Log.i("[CHIPS]","titre " + title)
+        //get all chips selected
+        getSelectedChips()
 
+        //get sold state of property
+        getSoldStateBtn()
 
-        }
-
-
-
+        //save data to database
         saveRealEstateInDB()
 
-        //insert data into database
 
 
-        //for test
-//        mainViewModel.allRealEstate.observe(viewLifecycleOwner) { listRealEstate ->
-//
-//        }
+        //setupRecyclerView(recyclerView, it.)
 
 
-//        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) {
-//
-//            if (it != null) {
-//
-//                val chaine: String
-//                for (item in it) {
-//                    //   chaine = item.realEstate. + chaine
-//                    //chaine = chaine + item.mem.item.photosList[item.]
-//                    // binding.addPhotoFromMemory?.text = it[0].photosList[0].size.toString()
-//                }
-//
-//
-//                setupRecyclerView(recyclerView, it[0].photosList)
-//
-//            }
-//        }
+
         return rootView
+    }
+
+    private fun getPropertyType() {
+        //single mode
+        val valChipGroup: ChipGroup? = binding.chipGroup
+        valChipGroup?.setOnCheckedChangeListener { group, checkedId ->
+            val title = group.findViewById<Chip>(checkedId)?.text
+            Toast.makeText(requireContext(), "enabled" + title, Toast.LENGTH_LONG).show()
+        }
+
+    }
+
+    private fun getSoldStateBtn() {
+
+        val isSoldButton: SwitchMaterial? = binding.isSoldSwitch
+
+        isSoldButton?.setOnClickListener(View.OnClickListener {
+
+            if (isSoldButton.isChecked) {
+                Toast.makeText(requireContext(), "enabled", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(requireContext(), "disable", Toast.LENGTH_LONG).show()
+            }
+        })
+
+    }
+
+    private fun getSelectedChips() {
+
+        val valChipGroupMulti: ChipGroup? = binding.chipGroupMulti
+
+        valChipGroupMulti?.checkedChipIds?.forEach {
+            val chip = binding.chipGroupMulti.findViewById<Chip>(it).text.toString()
+            Log.i("[CHIP]", "chip $chip.")
+        }
+
     }
 
     private fun saveRealEstateInDB() {
 
         binding.saveBtn?.setOnClickListener {
-
-
 
 
             val prix: Int? = binding.edittextPrice?.text.toString().toInt()
@@ -227,14 +229,20 @@ class RealEstateModifier : Fragment() {
 
 
 
-            for (item in listOfPhotosToSave){
+            for (item in listOfPhotosToSave) {
 
-                mainViewModel.insertPhoto(RealEstatePhoto(uri = item.toString(), realEstateParentId = 1, name = "test photo list"))
+                mainViewModel.insertPhoto(
+                    RealEstatePhoto(
+                        uri = item.toString(),
+                        realEstateParentId = 1,
+                        name = "test photo list"
+                    )
+                )
 
             }
 
 
-           // mainViewModel.insert
+            // mainViewModel.insert
 
 
             //mainViewModel.insertPhoto(
@@ -306,7 +314,6 @@ class RealEstateModifier : Fragment() {
                 listOfPhotosToSave.add(fileNameUri!!)
 
 
-
             }
             true
 
@@ -320,23 +327,23 @@ class RealEstateModifier : Fragment() {
     //to setup recyclerview
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<RealEstatePhoto>,
+        myRealEstateList: List<RealEstatePhoto>
     ) {
 
 
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
-        recyclerView.adapter = AdapterAddREalEstate(myRealEstateList)
+        recyclerView.adapter = AdapterRealEstateAdd(myRealEstateList)
     }
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        menu.findItem(R.id.realaction_update).isVisible = false
+        menu.findItem(R.id.realEstateUpdateBtn).isVisible = false
 
-        menu.findItem(R.id.realEstateModifier).isVisible = false
+        menu.findItem(R.id.realEstateCreateBtn).isVisible = false
 
     }
 

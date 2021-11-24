@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.addupdate.RealEstateModifier">
+    tools:context=".ui.create.RealEstateModifier">
 
 
     <ScrollView
@@ -46,6 +46,44 @@
                 android:layout_height="200dp">
 
             </ImageView>
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_multi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="true"
+                app:singleSelection="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_10"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:tag="Ecole"
+                    android:text="Ecole" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_20"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:tag="Parc"
+                    android:text="Parc" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_30"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:tag="Gare"
+                    android:text="Gare" />
+
+
+            </com.google.android.material.chip.ChipGroup>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
@@ -293,6 +331,17 @@
                 android:layout_gravity="center"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
+
+
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/is_sold_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Is sold "
+                app:layout_constraintTop_toBottomOf="@id/imageview"
+                app:layout_constraintStart_toStartOf="parent"/>
+
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.addupdate
+package com.openclassrooms.realestatemanager.ui.create
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,8 +9,8 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoEditorBinding
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 
-class AdapterAddREalEstate(private val media: List<RealEstatePhoto>) :
-    RecyclerView.Adapter<AdapterAddREalEstate.ViewHolder>() {
+class AdapterRealEstateAdd(private val media: List<RealEstatePhoto>) :
+    RecyclerView.Adapter<AdapterRealEstateAdd.ViewHolder>() {
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

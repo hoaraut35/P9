@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
-import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
 import com.openclassrooms.realestatemanager.ui.MainViewModel
@@ -169,10 +168,10 @@ class RealEstateDetailFragment : Fragment() {
 
 
         if (item_id_bundle != null || item_id_bundle == ""){
-            menu.findItem(R.id.realaction_update).isVisible = true
+            menu.findItem(R.id.realEstateUpdateBtn).isVisible = true
         }else
         {
-            menu.findItem(R.id.realaction_update).isVisible = false
+            menu.findItem(R.id.realEstateUpdateBtn).isVisible = false
         }
 
 

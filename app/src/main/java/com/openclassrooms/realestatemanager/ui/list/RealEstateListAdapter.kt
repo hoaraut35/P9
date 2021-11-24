@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
@@ -16,10 +15,10 @@ import com.openclassrooms.realestatemanager.utils.Utils
 import java.text.NumberFormat
 import java.util.*
 
-class MyRecyclerViewAdapterBis(
+class RealEstateListAdapter(
     private val realEstateFullData: List<RealEstateWithPhotos>,
     private val onClickListener: View.OnClickListener
-) : RecyclerView.Adapter<MyRecyclerViewAdapterBis.ViewHolder>() {
+) : RecyclerView.Adapter<RealEstateListAdapter.ViewHolder>() {
 
 
     private var focusedItem = 0
@@ -58,13 +57,28 @@ class MyRecyclerViewAdapterBis(
 //        }else
 //        {
 
-           Glide.with(holder.itemView)
-                .load(R.drawable.realestate_1)
-                // .override(100, 100)
-                //.centerInside()
-                .centerCrop() //ok
-                //  .fitCenter()
-                .into(holder.image)
+
+            if (item.photosList.isEmpty()){
+                Glide.with(holder.itemView)
+                    .load(R.drawable.realestate_1)
+                    // .override(100, 100)
+                    //.centerInside()
+                    .centerCrop() //ok
+                    //  .fitCenter()
+                    .into(holder.image)
+
+            }else
+            {
+                Glide.with(holder.itemView)
+                    .load(item.photosList[0].uri)
+                    // .override(100, 100)
+                    //.centerInside()
+                    .centerCrop() //ok
+                    //  .fitCenter()
+                    .into(holder.image)
+
+            }
+
 
 //        }
 

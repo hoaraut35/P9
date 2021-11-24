@@ -32,4 +32,7 @@
     <string name="form_streetnumber_text">7</string>
     <string name="form_zipcode_text">35220</string>
     <string name="form_cityname_text">Rennes</string>
+    <string name="menu_title_create">Create</string>
+    <string name="menu_title_update">Update</string>
+    <string name="menu_title_search">Search</string>
 </resources>

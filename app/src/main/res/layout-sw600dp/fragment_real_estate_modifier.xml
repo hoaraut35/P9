@@ -4,276 +4,342 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.addupdate.RealEstateModifier">
+    tools:context=".ui.create.RealEstateModifier">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-
-        <Button
-            android:id="@+id/add_photo_from_memory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="From galery">
-
-        </Button>
-
-        <TextView
-            android:id="@+id/text_uri"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="uri picture"></TextView>
-
-        <Button
-            android:id="@+id/add_photo_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="From camera"
-            />
-
-
-        <ImageView
-            android:id="@+id/imageOfGallery"
-            android:layout_width="200dp"
-            android:layout_height="200dp">
-
-        </ImageView>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            tools:listitem="@layout/item_real_estate_photo"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-            >
 
-        </androidx.recyclerview.widget.RecyclerView>
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
+            <Button
+                android:id="@+id/add_photo_from_memory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="type choice ">
+                android:text="Get photo from gallery..."/>
 
-            </TextView>
-
-            <RadioButton
+            <Button
+                android:id="@+id/add_photo_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Falt"></RadioButton>
+                android:text="Get photo from camera..." />
 
-            <RadioButton
+            <ImageView
+                android:id="@+id/imageOfGallery"
+                android:background="@color/colorPrimaryDark"
+                android:layout_width="200dp"
+                android:layout_height="200dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                tools:listitem="@layout/item_real_estate_photo"
+
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_multi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="House"></RadioButton>
+                app:singleLine="true"
+                app:singleSelection="false">
 
-            <RadioButton
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_10"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Ecole" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_20"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Parc" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_30"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Gare" />
+
+
+            </com.google.android.material.chip.ChipGroup>
+
+
+
+
+
+            <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Duplex"></RadioButton>
+                android:orientation="horizontal">
 
-            <RadioButton
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="type choice ">
+
+                </TextView>
+
+
+
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Falt"></RadioButton>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="House"></RadioButton>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Duplex"></RadioButton>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Penthouse"></RadioButton>
+
+
+            </RadioGroup>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/property_price_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Entrez le prix"
+                    android:inputType="number">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/property_surface_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entrez la surface">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.slider.Slider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="1.0"
+                android:valueFrom="0"
+                android:valueTo="10"
+
+                >
+
+            </com.google.android.material.slider.Slider>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/property_description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entrez la decription">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- addphot here ... -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/property_streetnumber_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entrez le numéro de rue">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/property_streetname_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entrez le nom de la rue">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/property_postalcode_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entrez le code postal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number">
+
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/property_cityname_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entrez le nom de la ville">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- insert PIO here -->
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Penthouse"></RadioButton>
+                app:singleLine="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_1"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="School" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_2"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Park" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_3"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Shopping" />
 
 
-        </RadioGroup>
+            </com.google.android.material.chip.ChipGroup>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/property_price_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Entrez le prix"
-                android:inputType="number">
-
-            </com.google.android.material.textfield.TextInputEditText>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/property_surface_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez la surface">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number">
-
-            </com.google.android.material.textfield.TextInputEditText>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.slider.Slider
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stepSize="1.0"
-            android:valueFrom="0"
-            android:valueTo="10"
-
-            >
-
-        </com.google.android.material.slider.Slider>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/property_description_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez la decription">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </com.google.android.material.textfield.TextInputEditText>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- addphot here ... -->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/property_streetnumber_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez le numéro de rue">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number">
-
-            </com.google.android.material.textfield.TextInputEditText>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/property_streetname_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez le nom de la rue">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </com.google.android.material.textfield.TextInputEditText>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/property_postalcode_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez le code postal">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number">
-
-            </com.google.android.material.textfield.TextInputEditText>
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/property_cityname_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Entrez le nom de la ville">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </com.google.android.material.textfield.TextInputEditText>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- insert PIO here -->
-
-
-        <com.google.android.material.chip.ChipGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_1"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/property_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="School" />
+                android:text="@string/property_state" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_2"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+            <!-- date picker in automati not visible -->
+            <Button
+                android:id="@+id/btn_datein"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="Park" />
+                android:text="open date">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_3"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+            </Button>
+
+            <!-- date picker  vente automatic adjust not visible-->
+            <Button
+                android:id="@+id/btn_dateout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="Shopping" />
+                android:text="out date">
+
+            </Button>
 
 
-        </com.google.android.material.chip.ChipGroup>
+            <TextView
+                android:id="@+id/text_uri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="uri picture"/>
 
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/property_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/property_state" />
-
-        <!-- date picker in automati not visible -->
-        <Button
-            android:id="@+id/btn_datein"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="open date">
-
-        </Button>
-
-        <!-- date picker  vente automatic adjust not visible-->
-        <Button
-            android:id="@+id/btn_dateout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="out date">
-
-        </Button>
 
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/is_sold_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Is sold "
+                app:layout_constraintTop_toBottomOf="@id/imageview"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+    </ScrollView>
 
 
     <Button
@@ -290,6 +356,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

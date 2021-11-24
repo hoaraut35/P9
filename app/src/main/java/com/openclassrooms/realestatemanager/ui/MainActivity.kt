@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var  navController : NavController
+
     //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
 
@@ -46,30 +47,16 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(this,navController, appBarConfiguration)
 
-
-
-        //for test
-       /* mainViewModel.allRealEstate.observe(this){ listRealEstate ->
-          //  Log.i("[THOMAS]","recup : ${listRealEstate.size}" )
-        }
-
-        */
-
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
-
    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item,navController)
     }
-
-
-
 
     //to setup return button on fragment
     override fun onSupportNavigateUp(): Boolean {
