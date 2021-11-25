@@ -2,10 +2,7 @@ package com.openclassrooms.realestatemanager.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstatePhoto
-import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
-import com.openclassrooms.realestatemanager.models.RealEstateWithVideos
+import com.openclassrooms.realestatemanager.models.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao //for room
@@ -31,15 +28,25 @@ interface RealEStateDao {
     @Transaction
     @Query("SELECT * FROM realEstate_table WHERE realEstateId")
     fun getAllDataFromRealEstate(): Flow<List<RealEstateWithPhotos>>
-
-//    //get all realestate with jointure on video
-//    @Transaction
-//    @Query("SELECT * FROM realEstate_table WHERE realEstateId")
-//    fun getAllVideosForRealEstate(): Flow<List<RealEstateWithVideos>>
-
     //insert photo
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insertPhoto(realEstatePhoto: RealEstatePhoto) : Long //suspend for use another thread
+
+
+    //get all realestate with jointure on video
+    @Transaction
+    @Query("SELECT * FROM realEstate_table WHERE realEstateId")
+    fun getAllVideosForRealEstate(): Flow<List<RealEstateWithVideos>>
+    //insert photo
+    @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
+    suspend fun insertVideo(realEstateVideo: RealEstateVideo) : Long //suspend for use another thread
+
+
+
+
+
+
+
 
     @Query("SELECT MAX(realEstateId) + 1 FROM realEstate_table")
     fun getLastRowId(): Flow<Int>

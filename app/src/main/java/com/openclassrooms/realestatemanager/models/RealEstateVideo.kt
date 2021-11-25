@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class RealEstateVideo(
 
     @PrimaryKey(autoGenerate = true) val video_id: Int = 0,
-    val realEstateParentId: Int?,
-    var name: String?,
+    val realEstateParentId: Int?=null,
+    var name: String? =null,
     var uri: String?
 )

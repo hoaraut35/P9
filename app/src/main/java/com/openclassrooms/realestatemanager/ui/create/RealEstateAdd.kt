@@ -23,10 +23,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstateAddress
-import com.openclassrooms.realestatemanager.models.RealEstatePOI
-import com.openclassrooms.realestatemanager.models.RealEstatePhoto
+import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -42,14 +39,14 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     //binding
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
+
     private var fileNameUri: String? = null
 
-    // private var  recyclerview : RecyclerView = binding.recyclerview
     private val listOfPhotosToSave = mutableListOf<RealEstatePhoto>()
+    private val listOfVideosToSave = mutableListOf<RealEstateVideo>()
 
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
-
 
     //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
@@ -80,7 +77,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         val recyclerView = binding.recyclerview
 
         //setupActionAfterGetImageFromGallery()
-
 
         //get video
         binding.addVideoFromCamera?.setOnClickListener {
@@ -118,14 +114,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 video?.setMediaController(mediaController)
 
                 if (it != null) {
-
-                   // listOfPhotosToSave.add(RealEstatePhoto(uri = it, name = "test"))
-                    //savePhotoToInternalMemory("Photo_$fileName2", bitmap)
-                    //recyclerView.adapter?.notifyDataSetChanged()
-
+                    listOfVideosToSave.add(RealEstateVideo(uri = it.toString()))
+                    //listOfVideosToSave.add(RealEstateVideo(uri = it.toString(), name = "video"))
                 }
-
-
             }
         )
 
@@ -133,7 +124,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         binding.addVideoFromMemory?.setOnClickListener {
             getVideoFromGallery.launch("video/*")
         }
-
 
         //setup action after click on gallery
         val getImageFromGallery = registerForActivityResult(
@@ -312,6 +302,18 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                     )
 
 
+                }
+
+                //add videos
+                for (item in listOfVideosToSave) {
+                    val long = mainViewModel.insertVideo(
+                        RealEstateVideo(
+                            uri = item.uri,
+                            realEstateParentId = lastindex,
+                            name = item.name
+
+                        )
+                    )
                 }
 
             }
