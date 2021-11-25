@@ -9,6 +9,7 @@ import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,21 +19,16 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository ) : ViewModel() {
 
-    //get all realestate
     var allRealEstate = localDatabaseRepository.allRealEstate().asLiveData()
 
-    //get all estate with photo
     var allRealEstateWithPhotos = localDatabaseRepository.allRealEstateWithPhoto().asLiveData()
 
+    var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
 
-    //insert
     fun insert(realEstate: RealEstate) = viewModelScope.launch {  localDatabaseRepository.insertRealEstate(realEstate) }
-   // fun insertEstateWithPhoto(realEstateWithPhotos: RealEstateWithPhotos) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(realEstateWithPhotos) }
+
     fun insertPhoto(photo:RealEstatePhoto) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(photo) }
 
-    //update
     fun update(realEstate: RealEstate) = viewModelScope.launch{localDatabaseRepository.updateRealEstate(realEstate)}
-
-    //delete not authorized
 
 }

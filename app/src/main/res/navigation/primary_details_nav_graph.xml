@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/realEstateCreateBtn"
         android:name="com.openclassrooms.realestatemanager.ui.create.RealEstateModifier"
-        android:label="fragment_real_estate_modifier"
+        android:label="Mode création"
         tools:layout="@layout/fragment_real_estate_modifier" />
 
     <fragment
@@ -50,7 +50,7 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.openclassrooms.realestatemanager.ui.search.SearchFragment"
-        android:label="fragment_search"
+        android:label="Mode recherche"
         tools:layout="@layout/fragment_search" />
 
 </navigation>

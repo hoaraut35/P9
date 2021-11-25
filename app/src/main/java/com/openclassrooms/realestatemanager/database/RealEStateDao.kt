@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
@@ -13,16 +14,12 @@ interface RealEStateDao {
     @Query("SELECT * FROM realEstate_table ")
     fun getAllRealEstate(): Flow<List<RealEstate>> //the data arrives as and when
 
-
-
-//    @Query("SELECT MAX (realEstateId) FROM realEstate_table")
-//    fun getLastRealEstate(): Flow<RealEstate>
-
-
-
     //insert realstate
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insert(realEstate: RealEstate) //suspend for use another thread
+
+
+
 
     //update realstate
     @Update
@@ -37,16 +34,12 @@ interface RealEStateDao {
     @Query("SELECT * FROM realEstate_table WHERE realEstateId")
     fun getAllDataFromRealEstate(): Flow<List<RealEstateWithPhotos>>
 
-
-   // @Insert(onConflict = OnConflictStrategy.REPLACE)
-   // suspend fun insertRealEstateWithPhoto(realEstateWithPhotos: RealEstateWithPhotos)
-
     //insert photo
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
-    suspend fun insertPhoto(realEstatePhoto: RealEstatePhoto) //suspend for use another thread
+    suspend fun insertPhoto(realEstatePhoto: RealEstatePhoto) : Long //suspend for use another thread
 
-
-
+    @Query("SELECT MAX(realEstateId) + 1 FROM realEstate_table")
+    fun getLastRowId(): Flow<Int>
 
 
 

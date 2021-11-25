@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.repositories
 
 
+import androidx.lifecycle.LiveData
 import com.openclassrooms.realestatemanager.database.RealEStateDao
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
@@ -11,22 +12,20 @@ import javax.inject.Singleton
 @Singleton
 class LocalDatabaseRepository @Inject constructor (private val realEstateDao: RealEStateDao) {
 
-    //get
     fun allRealEstate() = realEstateDao.getAllRealEstate()
 
-    //get alldata
     fun allRealEstateWithPhoto() = realEstateDao.getAllDataFromRealEstate()
 
-    //insert
+    fun getLastRowId() = realEstateDao.getLastRowId()
+
     suspend fun insertRealEstate(realEstate: RealEstate) = realEstateDao.insert(realEstate)
 
-  //  suspend fun insertRealEstateWithPhoto(realEstateWithPhotos: RealEstateWithPhotos) = realEstateDao.insertRealEstateWithPhoto(realEstateWithPhotos)
+    //suspend fun insertRealEstateWithPhoto(realEstateWithPhotos: RealEstateWithPhotos) = realEstateDao.insertRealEstateWithPhoto(realEstateWithPhotos)
 
-    suspend fun insertRealEstatePhoto(realEstatePhoto :RealEstatePhoto) = realEstateDao.insertPhoto(realEstatePhoto)
+    suspend fun insertRealEstatePhoto(realEstatePhoto :RealEstatePhoto) : Long  = realEstateDao.insertPhoto(realEstatePhoto)
 
-    //update
     suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
 
-    //delete not authorized
+
 
 }

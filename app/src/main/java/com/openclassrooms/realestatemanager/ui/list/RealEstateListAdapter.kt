@@ -42,7 +42,8 @@ class RealEstateListAdapter(
         currencyFormat.maximumFractionDigits = 0
         currencyFormat.currency = Currency.getInstance("EUR")
 
-        holder.price.text = Utils.getCurrencyFormat().format(item.realEstate.price)
+
+//        holder.price.text = Utils.getCurrencyFormat().format(item.realEstate.price!!)
 
 
 //        if (item.photosList[0].uri != null){
