@@ -15,15 +15,27 @@
             android:layout_height="match_parent">
 
 
+
             <VideoView
                 android:id="@+id/video_view"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_width="1dp"
+                android:layout_height="2dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="invisible">
 
             </VideoView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/video_view"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -69,12 +81,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                </androidx.recyclerview.widget.RecyclerView>
 
 
                 <com.google.android.material.chip.ChipGroup

@@ -91,10 +91,10 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 if (result!!.resultCode == Activity.RESULT_OK) {
                     val video: VideoView? = binding.videoView
                     video?.setVideoURI(result.data?.data)
-                    video!!.start()
+                 //   video!!.start()
                     val mediaController = MediaController(requireContext())
                     mediaController.setAnchorView(video)
-                    video.setMediaController(mediaController)
+                    video?.setMediaController(mediaController)
                 }
             }
 
@@ -181,7 +181,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         saveRealEstateInDB()
 
         //setup recyclerview
-        setupRecyclerView(recyclerView, listOfPhotosToSave)
+        setupRecyclerView(recyclerView, listOfPhotosToSave, listOfVideosToSave)
 
 
         recyclerView.adapter?.registerAdapterDataObserver(object :
@@ -409,12 +409,13 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     //to setup recyclerview
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<RealEstatePhoto>
+        myRealEstateList: List<RealEstatePhoto>,
+        myRealEstateVideoList: List<RealEstateVideo>
     ) {
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
-        recyclerView.adapter = AdapterRealEstateAdd(myRealEstateList, this, requireContext())
+        recyclerView.adapter = AdapterRealEstateAdd(myRealEstateList, myRealEstateVideoList, this, requireContext())
     }
 
 
