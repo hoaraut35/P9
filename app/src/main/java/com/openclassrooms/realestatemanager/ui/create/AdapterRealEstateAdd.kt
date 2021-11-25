@@ -24,6 +24,7 @@ class AdapterRealEstateAdd(
     interface InterfacePhotoTitleChanged {
         //method here...
         fun onChangedTitlePhoto(title: String, uri: String?)
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
