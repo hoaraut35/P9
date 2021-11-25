@@ -1,15 +1,13 @@
 package com.openclassrooms.realestatemanager.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
-import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
+import com.openclassrooms.realestatemanager.models.RealEstateWithVideos
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,9 +17,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository ) : ViewModel() {
 
-    var allRealEstate = localDatabaseRepository.allRealEstate().asLiveData()
+    var allRealEstate = localDatabaseRepository.getAllRealEstate().asLiveData()
 
-    var allRealEstateWithPhotos = localDatabaseRepository.allRealEstateWithPhoto().asLiveData()
+    var allRealEstateWithPhotos = localDatabaseRepository.getAllRealEstateWithPhotos().asLiveData()
+
+    //var getAllRealEstateWithVideos = localDatabaseRepository.getAllRealEstateWithVideos().asLiveData()
 
     var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
 

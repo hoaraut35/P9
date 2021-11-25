@@ -12,20 +12,18 @@ import javax.inject.Singleton
 @Singleton
 class LocalDatabaseRepository @Inject constructor (private val realEstateDao: RealEStateDao) {
 
-    fun allRealEstate() = realEstateDao.getAllRealEstate()
+    fun getAllRealEstate() = realEstateDao.getAllRealEstate()
 
-    fun allRealEstateWithPhoto() = realEstateDao.getAllDataFromRealEstate()
+    fun getAllRealEstateWithPhotos() = realEstateDao.getAllDataFromRealEstate()
+
+    //fun getAllRealEstateWithVideos() = realEstateDao.getAllVideosForRealEstate()
 
     fun getLastRowId() = realEstateDao.getLastRowId()
 
     suspend fun insertRealEstate(realEstate: RealEstate) = realEstateDao.insert(realEstate)
 
-    //suspend fun insertRealEstateWithPhoto(realEstateWithPhotos: RealEstateWithPhotos) = realEstateDao.insertRealEstateWithPhoto(realEstateWithPhotos)
-
     suspend fun insertRealEstatePhoto(realEstatePhoto :RealEstatePhoto) : Long  = realEstateDao.insertPhoto(realEstatePhoto)
 
     suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
-
-
 
 }

@@ -49,15 +49,16 @@ class RealEstateListFragment : Fragment() {
         //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
 
-        //check if detail exist
+        //check if detail fragmenet exist
         val realEstateDetailFragment: View? = view.findViewById(R.id.item_detail_nav_container)
 
         //listener set id itemview here for second frafgment with bundle
         val onClickListener = View.OnClickListener { realEstateView ->
+            //get realEstate id
             val item = realEstateView.tag
+            //create bundle
             val bundle = Bundle()
             bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, item.toString())
-
             //if fragment detail is displayed mode tablet
             if (realEstateDetailFragment != null) {
                 realEstateDetailFragment.findNavController()
@@ -65,13 +66,11 @@ class RealEstateListFragment : Fragment() {
             } else {
                 realEstateView.findNavController().navigate(R.id.show_item_detail, bundle)
             }
-
         }
 
         mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { listRealEstateWithPhotos ->
             setupRecyclerView(recyclerView, listRealEstateWithPhotos, onClickListener)
         }
-
 
     }
 

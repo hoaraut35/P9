@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
+import android.widget.MediaController
 import android.widget.Toast
+import android.widget.VideoView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -45,7 +47,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     // private var  recyclerview : RecyclerView = binding.recyclerview
     private val listOfPhotosToSave = mutableListOf<RealEstatePhoto>()
 
-    lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+    lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
+    lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
+
 
     //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
@@ -77,30 +81,88 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
         //setupActionAfterGetImageFromGallery()
 
+
+        //get video
+        binding.addVideoFromCamera?.setOnClickListener {
+            var intentVideo = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+            activityResultLauncherForVideo.launch(intentVideo)
+        }
+
+
+        //get video from camera
+        activityResultLauncherForVideo =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+                if (result!!.resultCode == Activity.RESULT_OK) {
+                    val video: VideoView? = binding.videoView
+                    video?.setVideoURI(result.data?.data)
+                    video!!.start()
+                    val mediaController = MediaController(requireContext())
+                    mediaController.setAnchorView(video)
+                    video.setMediaController(mediaController)
+                }
+            }
+
+
+        //setup action after click on gallery
+        val getVideoFromGallery = registerForActivityResult(
+            ActivityResultContracts.GetContent(),
+            ActivityResultCallback {
+
+                val video: VideoView? = binding.videoView
+                video?.setVideoURI(it)
+                video!!.start()
+
+                val mediaController = MediaController(video.context)
+                mediaController.setAnchorView(video)
+
+                video?.setMediaController(mediaController)
+
+                if (it != null) {
+
+                   // listOfPhotosToSave.add(RealEstatePhoto(uri = it, name = "test"))
+                    //savePhotoToInternalMemory("Photo_$fileName2", bitmap)
+                    //recyclerView.adapter?.notifyDataSetChanged()
+
+                }
+
+
+            }
+        )
+
+        //listener for open video  gallery pick
+        binding.addVideoFromMemory?.setOnClickListener {
+            getVideoFromGallery.launch("video/*")
+        }
+
+
         //setup action after click on gallery
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback {
+
                 binding.imageOfGallery?.setImageURI(it)
 
-                val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
-                    context?.applicationContext?.contentResolver, it
-                )
+                if (it != null) {
+                    val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
+                        context?.applicationContext?.contentResolver, it
+                    )
 
-                val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    if (bitmap != null) {
+                        savePhotoToInternalMemory("Photo_$fileName2", bitmap)
+                        recyclerView.adapter?.notifyDataSetChanged()
+                    }
 
-
-                if (bitmap != null) {
-                    savePhotoToInternalMemory("Photo_$fileName2", bitmap)
-                    recyclerView.adapter?.notifyDataSetChanged()
                 }
+
+
             }
         )
 
         //listener for camera pick
         binding.addPhotoCamera?.setOnClickListener {
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            activityResultLauncher.launch(intent)
+            activityResultLauncherForPhoto.launch(intent)
         }
 
         //setup callback for camera
@@ -132,17 +194,12 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         setupRecyclerView(recyclerView, listOfPhotosToSave)
 
 
-
         recyclerView.adapter?.registerAdapterDataObserver(object :
             RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 super.onChanged()
                 Toast.makeText(requireContext(), "Evenement on recyclerview", Toast.LENGTH_LONG)
                     .show()
-
-
-                //      Log.i("[UPDATE]","recyclerview" + recyclerView.getChildViewHolder(binding.recyclerview.focusedChild).itemView.findViewById<EditText>(R.id.photo_title))
-
             }
         })
 
@@ -211,7 +268,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 val valSurface: Int? = binding.edittextSurface?.text.toString().toInt()
                 val valRoomNumber: Int? = binding.edittextNumberRoom?.text.toString().toInt()
                 //val valBathRoomNumber : Int? = binding.ed
-                val valDescription: String? = binding.edittextDescription?.text.toString()
+                val valDescription: String? = binding.edittextDescription?.text?.toString()
 
                 val valStreetNumber: Int? = binding.edittextStrretNumber?.text.toString().toInt()
                 val valStreetName: String? = binding.edittextStreetName?.text.toString()
@@ -238,12 +295,8 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                             country = null
                         ),
                         poi = RealEstatePOI(poitype = "Ecole"),
-                        status = false,
-                        photos = RealEstatePhoto(
-                            realEstateParentId = 1,
-                            name = "photi",
-                            uri = "test uri"
-                        )
+                        status = false
+
                     )
                 )
 
@@ -263,12 +316,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
             }
 
-
         }
 
-
     }
-
 
     //function to pick from gallery
     private fun setupActivityResultForGallery() {
@@ -285,7 +335,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 //listOfPhotosToSave.add(it.toString())
 
-
             }
         )
     }
@@ -293,9 +342,13 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
     //TODO: move to util class ?
     private fun setupActivityResultForCamera() {
-        activityResultLauncher =
+        activityResultLauncherForPhoto =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+
+
                 if (result?.resultCode == Activity.RESULT_OK) {
+
+
                     var bitmap = result!!.data!!.extras!!.get("data") as Bitmap
                     binding.imageOfGallery.setImageBitmap(bitmap)
 
@@ -303,7 +356,11 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                     //val storageDir = File(context?.filesDir, "test")
                     savePhotoToInternalMemory("Photo_$fileName", bitmap)
                 }
+
+
             }
+
+
     }
 
 

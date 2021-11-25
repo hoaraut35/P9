@@ -5,6 +5,7 @@ import androidx.room.*
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
+import com.openclassrooms.realestatemanager.models.RealEstateWithVideos
 import kotlinx.coroutines.flow.Flow
 
 @Dao //for room
@@ -17,9 +18,6 @@ interface RealEStateDao {
     //insert realstate
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insert(realEstate: RealEstate) //suspend for use another thread
-
-
-
 
     //update realstate
     @Update
@@ -34,6 +32,11 @@ interface RealEStateDao {
     @Query("SELECT * FROM realEstate_table WHERE realEstateId")
     fun getAllDataFromRealEstate(): Flow<List<RealEstateWithPhotos>>
 
+//    //get all realestate with jointure on video
+//    @Transaction
+//    @Query("SELECT * FROM realEstate_table WHERE realEstateId")
+//    fun getAllVideosForRealEstate(): Flow<List<RealEstateWithVideos>>
+
     //insert photo
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insertPhoto(realEstatePhoto: RealEstatePhoto) : Long //suspend for use another thread
@@ -43,14 +46,6 @@ interface RealEStateDao {
 
 
 
-    /* @Query(
-        "SELECT * FROM realEstate_table " +
-                "JOIN RealEstatePhoto ON realEstate_table.id = photos.id"
-    )
-    //+ "JOIN RealEstatePhoto ON realEstate_table.id = photos.id")
-    fun getAllRealEstateWithPhotos(): Flow<Map<RealEstate, List<RealEstatePhoto>>>
-
-    */
     //@Query("SELECT * FROM realEstate_table WHERE photo LIKE '%' ")
     //https://www.youtube.com/watch?v=sU-ot_Oz3AE&t=195s
 }

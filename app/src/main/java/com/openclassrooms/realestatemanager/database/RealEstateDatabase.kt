@@ -6,10 +6,7 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.injection.ApplicationScope
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstateAddress
-import com.openclassrooms.realestatemanager.models.RealEstatePOI
-import com.openclassrooms.realestatemanager.models.RealEstatePhoto
+import com.openclassrooms.realestatemanager.models.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +15,7 @@ import javax.inject.Provider
 //i use Multimap because room support only that in version 2.4 and higher
 
 
-@Database(entities = [RealEstate::class, RealEstatePhoto::class], version = 1, exportSchema = false)
+@Database(entities = [RealEstate::class, RealEstatePhoto::class, RealEstateVideo::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class RealEstateDatabase : RoomDatabase() {
 

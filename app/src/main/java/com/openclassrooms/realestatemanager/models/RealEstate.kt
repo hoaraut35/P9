@@ -10,7 +10,7 @@ data class RealEstate(
     @PrimaryKey(autoGenerate = true) val realEstateId: Int = 0,
     val typeOfProduct: String? = null,
     val cityOfProduct: String? = null,
-    val price: Int? = null,
+    val price: Int,
     val surface: Int? = null, //max 32767m²
     val numberOfRoom: Int? = null,
     val numberOfBathRoom: Int? = null,
@@ -23,8 +23,11 @@ data class RealEstate(
     @Embedded
     val poi: RealEstatePOI? = null,
 
-    @Embedded
-    val photos: RealEstatePhoto? = null,
+//    @Embedded
+//    val photos: RealEstatePhoto? = null,
+//
+//    @Embedded
+//    val videos : RealEstateVideo? = null,
 
     val status: Boolean? = null,
     val dateOfEntry: String? = null,

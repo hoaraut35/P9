@@ -20,8 +20,7 @@ class RealEstateListAdapter(
     private val onClickListener: View.OnClickListener
 ) : RecyclerView.Adapter<RealEstateListAdapter.ViewHolder>() {
 
-
-    private var focusedItem = 0
+    //private var focusedItem = 0
 
     //create view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,16 +33,19 @@ class RealEstateListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = realEstateFullData[position]
 
+        //show type of product
         holder.type.text = item.realEstate.typeOfProduct
-
+        //show city of product
         holder.city.text = item.realEstate.cityOfProduct
 
+        //move to utils class
         val currencyFormat = NumberFormat.getCurrencyInstance()
         currencyFormat.maximumFractionDigits = 0
         currencyFormat.currency = Currency.getInstance("EUR")
 
-
-//        holder.price.text = Utils.getCurrencyFormat().format(item.realEstate.price!!)
+        if (item.realEstate.price != null){
+            holder.price.text = Utils.getCurrencyFormat().format(item.realEstate.price!!)
+        }
 
 
 //        if (item.photosList[0].uri != null){
