@@ -23,7 +23,9 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
-import com.openclassrooms.realestatemanager.models.*
+import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateAddress
+import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -42,14 +44,17 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
     private var fileNameUri: String? = null
 
-    private val listOfPhotosToSave = mutableListOf<RealEstatePhoto>()
-    private val listOfVideosToSave = mutableListOf<RealEstateVideo>()
+    private val listOfMediasToSave = mutableListOf<RealEstatePhoto>()
+
+    var resultTitle : String? = null
 
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
+    lateinit var activityResultForVideoFromGallery: ActivityResultLauncher<Intent>
 
-    //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
+
+    private val viewModelCreate by viewModels<ViewModelForCreate>()
 
     private var param1: String? = null
     private var param2: String? = null
@@ -76,30 +81,55 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         //bind recyclerview
         val recyclerView = binding.recyclerview
 
+
+
+        //get the type of property
+        val valChipGroupType: ChipGroup? = binding.chipGroupType
+        valChipGroupType?.setOnCheckedChangeListener { group, checkedId ->
+            resultTitle = group.findViewById<Chip>(checkedId)?.text.toString()
+            Toast.makeText(requireContext(), "enabled [" + resultTitle + "]", Toast.LENGTH_LONG).show()
+        }
+
+
+
+        //send type to viewModelCreate
+        binding.chipGroupType.setOnCheckedChangeListener { group, checkedId ->
+            viewModelCreate.propertyTypeChanged(group.findViewById<Chip>(checkedId)?.text.toString())
+        }
+
+
+
         //setupActionAfterGetImageFromGallery()
 
-        //get video
+        //get a video from the camera with button click
         binding.addVideoFromCamera?.setOnClickListener {
             var intentVideo = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
             activityResultLauncherForVideo.launch(intentVideo)
         }
 
-
-        //get video from camera
+        //get result for a video from the camera
         activityResultLauncherForVideo =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
                 if (result!!.resultCode == Activity.RESULT_OK) {
                     val video: VideoView? = binding.videoView
                     video?.setVideoURI(result.data?.data)
-                 //   video!!.start()
+                    //video!!.start()
                     val mediaController = MediaController(requireContext())
                     mediaController.setAnchorView(video)
                     video?.setMediaController(mediaController)
+
+                    listOfMediasToSave.add(
+                        RealEstatePhoto(
+                            uri = result.toString(),
+                            realEstateParentId = 1,
+                            name = "testvideo"
+                        )
+                    )
+                    recyclerView.adapter?.notifyDataSetChanged()
                 }
             }
 
-
-        //setup action after click on gallery
+        //get result for a video from gallery
         val getVideoFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback {
@@ -110,12 +140,17 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 val mediaController = MediaController(video.context)
                 mediaController.setAnchorView(video)
-
                 video?.setMediaController(mediaController)
 
                 if (it != null) {
-                    listOfVideosToSave.add(RealEstateVideo(uri = it.toString()))
-                    //listOfVideosToSave.add(RealEstateVideo(uri = it.toString(), name = "video"))
+                    listOfMediasToSave.add(
+                        RealEstatePhoto(
+                            uri = it.toString(),
+                            realEstateParentId = 1,
+                            name = "video"
+                        )
+                    )
+                    recyclerView.adapter?.notifyDataSetChanged()
                 }
             }
         )
@@ -168,9 +203,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         //setup callback for gallery
         setupActivityResultForGallery()
 
-        //get property type
-        getPropertyType()
-
         //get all chips selected
         getSelectedChips()
 
@@ -181,41 +213,13 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         saveRealEstateInDB()
 
         //setup recyclerview
-        setupRecyclerView(recyclerView, listOfPhotosToSave, listOfVideosToSave)
-
-
-        recyclerView.adapter?.registerAdapterDataObserver(object :
-            RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                super.onChanged()
-                Toast.makeText(requireContext(), "Evenement on recyclerview", Toast.LENGTH_LONG)
-                    .show()
-            }
-        })
-
-
-        //valChipGroupMulti?.checkedChipIds?.forEach {
-        //  val chip = binding.chipGroupMulti.findViewById<Chip>(it).text.toString()
-        //Log.i("[CHIP]", "chip $chip.")
-        //}
-
+        setupRecyclerView(recyclerView, listOfMediasToSave)
 
         return rootView
     }
 
-    private fun setupActionAfterGetImageFromGallery() {
-        TODO("Not yet implemented")
-    }
 
-    private fun getPropertyType() {
-        //single mode
-        val valChipGroup: ChipGroup? = binding.chipGroup
-        valChipGroup?.setOnCheckedChangeListener { group, checkedId ->
-            val title = group.findViewById<Chip>(checkedId)?.text
-            Toast.makeText(requireContext(), "enabled" + title, Toast.LENGTH_LONG).show()
-        }
 
-    }
 
     private fun getSoldStateBtn() {
 
@@ -252,8 +256,8 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
             binding.saveBtn?.setOnClickListener {
 
-                val prix: Int = binding.edittextPrice?.text.toString().toInt()
-                val valTypeOfProduct: String? = binding.propertyTypeEdittext?.text.toString()
+                val prix: Int? = binding.edittextPrice?.text.toString().toInt()
+                //      val valTypeOfProduct: String? = binding.propertyTypeEdittext?.text.toString()
 
                 val valSurface: Int? = binding.edittextSurface?.text.toString().toInt()
                 val valRoomNumber: Int? = binding.edittextNumberRoom?.text.toString().toInt()
@@ -271,7 +275,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 mainViewModel.insert(
                     RealEstate(
-                        typeOfProduct = valTypeOfProduct,
+                        typeOfProduct = resultTitle,
                         price = prix,
                         cityOfProduct = valCity,
                         surface = valSurface,
@@ -284,14 +288,14 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                             zip_code = valCityZipCode,
                             country = null
                         ),
-                        poi = RealEstatePOI(poitype = "Ecole"),
+
                         status = false
 
                     )
                 )
 
                 //add photos
-                for (item in listOfPhotosToSave) {
+                for (item in listOfMediasToSave) {
 
                     val long = mainViewModel.insertPhoto(
                         RealEstatePhoto(
@@ -304,17 +308,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 }
 
-                //add videos
-                for (item in listOfVideosToSave) {
-                    val long = mainViewModel.insertVideo(
-                        RealEstateVideo(
-                            uri = item.uri,
-                            realEstateParentId = lastindex,
-                            name = item.name
-
-                        )
-                    )
-                }
 
             }
 
@@ -334,8 +327,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 //val storageDir = File(context?.filesDir, "test")
                 //savePhotoToInternalMemory("Photo_$fileName", it)
 
-
-                //listOfPhotosToSave.add(it.toString())
+                listOfMediasToSave.add(RealEstatePhoto(uri = it.toString(), name = "photo" , realEstateParentId = 1))
 
             }
         )
@@ -376,18 +368,10 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                     throw IOException("erreur compression")
                 }
 
-                Log.i("[THOMAS]", "chemin " + context?.filesDir + "/" + filename + ".jpg")
-
-                Log.i("[THOMAS]", "chemin " + context?.filesDir)
-
-
                 fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
 
-                binding.textUri.setText(context?.filesDir.toString() + "/" + filename + ".jpg")
-
-
                 //ajout
-                listOfPhotosToSave.add(
+                listOfMediasToSave.add(
                     RealEstatePhoto(
                         uri = fileNameUri!!,
                         name = "test",
@@ -410,25 +394,21 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
         myRealEstateList: List<RealEstatePhoto>,
-        myRealEstateVideoList: List<RealEstateVideo>
     ) {
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
-        recyclerView.adapter = AdapterRealEstateAdd(myRealEstateList, myRealEstateVideoList, this, requireContext())
+        recyclerView.adapter = AdapterRealEstateAdd(myRealEstateList, this, requireContext())
     }
 
-
+    //setup menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
         menu.findItem(R.id.realEstateUpdateBtn).isVisible = false
-
         menu.findItem(R.id.realEstateCreateBtn).isVisible = false
-
     }
 
-
+    //constructor fragment
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -453,7 +433,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     }
 
     override fun onChangedTitlePhoto(title: String, uri: String?) {
-        Log.i("[UPDATE]", "Liste to save : $listOfPhotosToSave")
-        listOfPhotosToSave.find { it.uri == uri }?.name = title
+        Log.i("[UPDATE]", "Liste to save : $listOfMediasToSave")
+        listOfMediasToSave.find { it.uri == uri }?.name = title
     }
 }

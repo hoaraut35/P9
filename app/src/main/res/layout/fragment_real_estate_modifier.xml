@@ -14,40 +14,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-
             <VideoView
                 android:id="@+id/video_view"
                 android:layout_width="1dp"
-                android:layout_height="2dp"
+                android:layout_height="200dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:visibility="invisible">
+                app:layout_constraintBottom_toTopOf="@id/recyclerview"
+                android:visibility="visible">
 
             </VideoView>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/video_view"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/linear"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
+
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_height="wrap_content">
+                app:layout_constraintTop_toBottomOf="@+id/video_view">
 
             </androidx.recyclerview.widget.RecyclerView>
 
-
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerview"
                 android:layout_margin="10dp"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+
 
                     <Button
                         android:id="@+id/add_photo_from_memory"
@@ -78,14 +79,12 @@
                         android:text="video camera"
                         android:textSize="10sp" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 
 
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chip_group"
+                    android:id="@+id/chip_group_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:chipBackgroundColor="@color/cardview_shadow_end_color"
@@ -170,21 +169,7 @@
                 </com.google.android.material.chip.ChipGroup>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/property_type_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Entrez le type">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/property_type_edittext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </com.google.android.material.textfield.TextInputEditText>
-
-
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_price_text"
@@ -325,25 +310,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
+                    android:visibility="invisible"
                     android:text="@string/property_state" />
 
-                <!-- date picker in automati not visible -->
-                <Button
-                    android:id="@+id/btn_datein"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="open date">
-
-                </Button>
-
-                <!-- date picker  vente automatic adjust not visible-->
-                <Button
-                    android:id="@+id/btn_dateout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="out date">
-
-                </Button>
 
 
                 <Button
@@ -367,6 +336,7 @@
                     android:layout_height="match_parent"
                     android:text="Is sold "
                     app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="invisible"
                     app:layout_constraintTop_toBottomOf="@id/imageview" />
 
                 <ImageView
@@ -377,11 +347,7 @@
 
                 </ImageView>
 
-                <TextView
-                    android:id="@+id/text_uri"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="uri picture" />
+
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>

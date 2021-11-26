@@ -4,11 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class RealEstateAgent (
-
+data class RealEstateAgent(
     @PrimaryKey(autoGenerate = true)
-    val id : Int,
+    val id: Int,
     val name: String? = null,
-    val firstName : String? = null
-
+    val firstName: String? = null
 )

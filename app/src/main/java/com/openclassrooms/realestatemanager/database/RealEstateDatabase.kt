@@ -15,7 +15,7 @@ import javax.inject.Provider
 //i use Multimap because room support only that in version 2.4 and higher
 
 
-@Database(entities = [RealEstate::class, RealEstatePhoto::class, RealEstateVideo::class], version = 1, exportSchema = false)
+@Database(entities = [RealEstate::class, RealEstatePhoto::class,  RealEstatePOI::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class RealEstateDatabase : RoomDatabase() {
 
@@ -45,7 +45,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                        // photo ="" ,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
                         address = RealEstateAddress(zip_code = 35000 , city = "Rennes", street_name = "rue du stade", street_number = 7 , country = "FRANCE"),
-                        poi = RealEstatePOI("Ecole"),
+
 
 
                         )
@@ -115,12 +115,9 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     )
                 )
 
-
-
                 dao.insertPhoto(RealEstatePhoto(realEstateParentId =  1, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
                 dao.insertPhoto(RealEstatePhoto(realEstateParentId =  1, name = "Photo chambre", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211119_121143.jpg"))
                 dao.insertPhoto(RealEstatePhoto(realEstateParentId =  1, name = "Photo garage", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211119_121143.jpg"))
-
                 dao.insertPhoto(RealEstatePhoto(realEstateParentId = 2, name = "Photo chambre", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
                 dao.insertPhoto(RealEstatePhoto(realEstateParentId =  2, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
                 dao.insertPhoto(RealEstatePhoto(realEstateParentId =  2, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))

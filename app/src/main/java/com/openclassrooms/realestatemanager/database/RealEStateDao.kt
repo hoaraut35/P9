@@ -33,13 +33,6 @@ interface RealEStateDao {
     suspend fun insertPhoto(realEstatePhoto: RealEstatePhoto) : Long //suspend for use another thread
 
 
-    //get all realestate with jointure on video
-    @Transaction
-    @Query("SELECT * FROM realEstate_table WHERE realEstateId")
-    fun getAllVideosForRealEstate(): Flow<List<RealEstateWithVideos>>
-    //insert photo
-    @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
-    suspend fun insertVideo(realEstateVideo: RealEstateVideo) : Long //suspend for use another thread
 
 
 
