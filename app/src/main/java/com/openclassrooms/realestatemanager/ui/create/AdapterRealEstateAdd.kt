@@ -1,13 +1,15 @@
 package com.openclassrooms.realestatemanager.ui.create
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.VideoView
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
@@ -23,14 +25,11 @@ class AdapterRealEstateAdd(
 
     interface InterfacePhotoTitleChanged {
         //method here...
-        fun onChangedTitlePhoto(title: String, uri: String?)
+        fun onChangedTitlePhoto(title: String, uri: String)
     }
-
 
     inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(photoModel: RealEstateMedia) {
-
-          //  itemView.findViewById<EditText>(R.id.photo_title).text = photoModel.name
 
             val image = itemView.findViewById<ImageView>(R.id.imageview)
 
@@ -38,6 +37,12 @@ class AdapterRealEstateAdd(
                 .load(photoModel.uri)
                 .centerCrop()
                 .into(image)
+
+            val photoTitle: EditText = itemView.findViewById(R.id.photo_title)
+
+            photoTitle.addTextChangedListener {
+                callback?.onChangedTitlePhoto(photoTitle.text.toString(), photoModel.uri!!)
+            }
 
         }
     }
@@ -47,9 +52,35 @@ class AdapterRealEstateAdd(
 
             itemView.findViewById<TextView>(R.id.video_title).text = videoModel.name
 
-            val video : VideoView = itemView.findViewById(R.id.video_view_add)
+            val imageMask: ImageView = itemView.findViewById(R.id.image_view_mask)
+            val video: VideoView = itemView.findViewById(R.id.video_view_add)
+
+            Glide.with(itemView)
+                .load(videoModel.uri)
+                .centerCrop()
+                .into(imageMask)
+
+            //add listener on image view mask
+            imageMask.setOnClickListener {
+
+                imageMask.isVisible = false
                 video.setVideoURI(videoModel.uri?.toUri())
                 video.start()
+                video.isVisible = true
+
+                video.setOnCompletionListener {
+                    video.isVisible = false
+                    imageMask.isVisible = true
+                }
+
+                val videoTitle: EditText = itemView.findViewById(R.id.video_title)
+
+                videoTitle.addTextChangedListener {
+                    callback?.onChangedTitlePhoto(videoTitle.text.toString(), videoModel.uri!!)
+                }
+
+            }
+
         }
     }
 

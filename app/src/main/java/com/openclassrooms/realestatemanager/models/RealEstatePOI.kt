@@ -8,7 +8,8 @@ data class RealEstatePOI(
     @PrimaryKey(autoGenerate = true) val poi_id: Int = 0,
     val realEstateParentId: Int?,
     val school: Boolean?,
-    val shops :Boolean?
+    val station :Boolean?,
+    val park: Boolean?
 )
 
 

@@ -1,16 +1,13 @@
 package com.openclassrooms.realestatemanager.ui.create
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
-import android.widget.MediaController
 import android.widget.Toast
-import android.widget.VideoView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -39,7 +36,6 @@ private const val ARG_PARAM2 = "param2"
 @AndroidEntryPoint
 class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Fragment() {
 
-    //binding
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
 
@@ -329,7 +325,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
 
                     var bitmap = result!!.data!!.extras!!.get("data") as Bitmap
-                    binding.imageOfGallery.setImageBitmap(bitmap)
 
                     val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     //val storageDir = File(context?.filesDir, "test")
@@ -417,7 +412,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         const val REQUEST_IMAGE_CAPTURE = 2
     }
 
-    override fun onChangedTitlePhoto(title: String, uri: String?) {
+
+
+    override fun onChangedTitlePhoto(title: String, uri: String) {
         Log.i("[UPDATE]", "Liste to save : $listOfMediasToSave")
         listOfMediasToSave.find { it.uri == uri }?.name = title
     }
