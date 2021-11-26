@@ -47,7 +47,6 @@ class AdapterRealEstateAdd(
 
             itemView.findViewById<TextView>(R.id.video_title).text = videoModel.name
 
-
             val video : VideoView = itemView.findViewById(R.id.video_view_add)
                 video.setVideoURI(videoModel.uri?.toUri())
                 video.start()
