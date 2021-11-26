@@ -3,12 +3,9 @@ package com.openclassrooms.realestatemanager
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.internal.runner.junit4.AndroidJUnit4Builder
 import androidx.test.runner.AndroidJUnit4
 import com.openclassrooms.realestatemanager.database.RealEStateDao
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstatePhoto
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

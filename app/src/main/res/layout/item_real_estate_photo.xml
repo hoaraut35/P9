@@ -20,9 +20,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/realestate_1">
+                android:src="@drawable/realestate_1" />
 
-            </ImageView>
 
             <TextView
                 android:id="@+id/photo_title"

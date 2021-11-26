@@ -14,19 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <VideoView
-                android:id="@+id/video_view"
-                android:layout_width="1dp"
-                android:layout_height="200dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/recyclerview"
-                android:visibility="visible">
-
-            </VideoView>
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"

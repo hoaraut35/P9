@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
-import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
+import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.utils.Utils
 import java.text.NumberFormat
 import java.util.*
 
 class RealEstateListAdapter(
-    private val realEstateFullData: List<RealEstateWithPhotos>,
+    private val realEstateFullData: List<RealEstateWithMedia>,
     private val onClickListener: View.OnClickListener
 ) : RecyclerView.Adapter<RealEstateListAdapter.ViewHolder>() {
 

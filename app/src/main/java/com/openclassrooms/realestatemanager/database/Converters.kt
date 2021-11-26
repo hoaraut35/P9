@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
-import com.openclassrooms.realestatemanager.models.RealEstatePhoto
+import com.openclassrooms.realestatemanager.models.RealEstateMedia
 
 
 //used to convert data from and to
@@ -30,16 +30,16 @@ class Converters {
 
     //Convert list photo
     @TypeConverter
-    fun fromRealEstatePhotosList(value: List<RealEstatePhoto>): String {
+    fun fromRealEstatePhotosList(value: List<RealEstateMedia>): String {
         val gson = Gson()
-        val type = object : TypeToken<List<RealEstatePhoto>>() {}.type
+        val type = object : TypeToken<List<RealEstateMedia>>() {}.type
         return gson.toJson(value, type)
     }
 
     @TypeConverter
-    fun toRealEstatePhotosList(value: String): List<RealEstatePhoto> {
+    fun toRealEstatePhotosList(value: String): List<RealEstateMedia> {
         val gson = Gson()
-        val type = object : TypeToken<List<RealEstatePhoto>>() {}.type
+        val type = object : TypeToken<List<RealEstateMedia>>() {}.type
         return gson.fromJson(value, type)
     }
 

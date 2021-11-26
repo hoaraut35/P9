@@ -1,25 +1,22 @@
 package com.openclassrooms.realestatemanager.ui.create
 
-import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.VideoView
-import androidx.core.widget.addTextChangedListener
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoCreateBinding
-import com.openclassrooms.realestatemanager.databinding.ItemRealEstateVideoBinding
-import com.openclassrooms.realestatemanager.models.RealEstatePhoto
+import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.RealEstateMedia
 
 class AdapterRealEstateAdd(
-    private val photoList: List<RealEstatePhoto>,
-  //  private val videoList:List<RealEstateVideo>,
-    callback: InterfacePhotoTitleChanged,
-    context: Context
-) : RecyclerView.Adapter<AdapterRealEstateAdd.ViewHolder>() {
+    private val mediaList: List<RealEstateMedia>,
+    callback: InterfacePhotoTitleChanged
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     //callback
     private var callback: InterfacePhotoTitleChanged? = callback
@@ -29,77 +26,63 @@ class AdapterRealEstateAdd(
         fun onChangedTitlePhoto(title: String, uri: String?)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = photoList[position]
 
-//        val video = videoList[position]
+    inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(photoModel: RealEstateMedia) {
 
-        Glide.with(holder.image)
-            .load(item.uri)
-            .centerCrop()
-            .into(holder.image)
+          //  itemView.findViewById<EditText>(R.id.photo_title).text = photoModel.name
 
-        holder.title.addTextChangedListener {
-            callback?.onChangedTitlePhoto(holder.title.text.toString(), photoList[position].uri)
+            val image = itemView.findViewById<ImageView>(R.id.imageview)
+
+            Glide.with(itemView)
+                .load(photoModel.uri)
+                .centerCrop()
+                .into(image)
+
         }
+    }
+
+    inner class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(videoModel: RealEstateMedia) {
+
+            itemView.findViewById<TextView>(R.id.video_title).text = videoModel.name
 
 
-        //remove it after test
-      //  holder.videoUri.text = video.uri
-
-
-
-
+            val video : VideoView = itemView.findViewById(R.id.video_view_add)
+                video.setVideoURI(videoModel.uri?.toUri())
+                video.start()
+        }
     }
 
     override fun getItemCount(): Int {
-        return photoList.size
+        return mediaList.size
     }
 
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemRealEstatePhotoCreateBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-
-        if (viewType == 0){
-            val binding = ItemRealEstateVideoBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        if (viewType == 0) {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_real_estate_photo_create, parent, false)
+            return PhotoViewHolder(view.rootView)
+        } else {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_real_estate_video, parent, false)
+            return VideoViewHolder(view)
         }
-
-        return ViewHolder(binding)
     }
-
 
     override fun getItemViewType(position: Int): Int {
-
-        if(photoList.get(position).uri?.contains("photo")!!){
-            return 0
-        }else
-        {
-            return 1
+        return if (mediaList[position].uri?.contains("/data/user/")!!) {
+            0
+        } else {
+            1
         }
-
-        return super.getItemViewType(position)
     }
 
-
-    //holder view
-    inner class ViewHolder(binding: ItemRealEstatePhotoCreateBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        var title: EditText = binding.photoTitle
-        val image: ImageView = binding.imageview
-        val videoUri : TextView = binding.uriVideo
-    }
-
-    //holder view
-    inner class ViewHolderVideo(binding: ItemRealEstateVideoBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        val video: VideoView = binding.videoView
-
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder.itemViewType == 0) {
+            (holder as PhotoViewHolder).bind(mediaList[position])
+        } else {
+            (holder as VideoViewHolder).bind(mediaList[position])
+        }
     }
 }

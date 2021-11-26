@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.injection.ApplicationScope
@@ -15,7 +14,7 @@ import javax.inject.Provider
 //i use Multimap because room support only that in version 2.4 and higher
 
 
-@Database(entities = [RealEstate::class, RealEstatePhoto::class,  RealEstatePOI::class], version = 1, exportSchema = false)
+@Database(entities = [RealEstate::class, RealEstateMedia::class,  RealEstatePOI::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class RealEstateDatabase : RoomDatabase() {
 
@@ -115,12 +114,12 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     )
                 )
 
-                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  1, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
-                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  1, name = "Photo chambre", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211119_121143.jpg"))
-                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  1, name = "Photo garage", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211119_121143.jpg"))
-                dao.insertPhoto(RealEstatePhoto(realEstateParentId = 2, name = "Photo chambre", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
-                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  2, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
-                dao.insertPhoto(RealEstatePhoto(realEstateParentId =  2, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
+                dao.insertPhoto(RealEstateMedia(realEstateParentId =  1, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
+                dao.insertPhoto(RealEstateMedia(realEstateParentId =  1, name = "Photo chambre", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211119_121143.jpg"))
+                dao.insertPhoto(RealEstateMedia(realEstateParentId =  1, name = "Photo garage", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211119_121143.jpg"))
+                dao.insertPhoto(RealEstateMedia(realEstateParentId = 2, name = "Photo chambre", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
+                dao.insertPhoto(RealEstateMedia(realEstateParentId =  2, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
+                dao.insertPhoto(RealEstateMedia(realEstateParentId =  2, name = "Photo cuisine", uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_20211122_084246.jpg"))
             }
 
         }

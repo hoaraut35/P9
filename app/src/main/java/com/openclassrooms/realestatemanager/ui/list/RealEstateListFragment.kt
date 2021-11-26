@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
-import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
+import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -76,7 +76,7 @@ class RealEstateListFragment : Fragment() {
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateListWithPhotos: List<RealEstateWithPhotos>,
+        myRealEstateListWithPhotos: List<RealEstateWithMedia>,
         onClickListener: View.OnClickListener
     ) {
         recyclerView.layoutManager = LinearLayoutManager(activity)

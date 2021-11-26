@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.openclassrooms.realestatemanager.models.*
 import kotlinx.coroutines.flow.Flow
@@ -27,10 +26,10 @@ interface RealEStateDao {
     //get all realestate with jointure on photos
     @Transaction
     @Query("SELECT * FROM realEstate_table WHERE realEstateId")
-    fun getAllDataFromRealEstate(): Flow<List<RealEstateWithPhotos>>
+    fun getAllDataFromRealEstate(): Flow<List<RealEstateWithMedia>>
     //insert photo
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
-    suspend fun insertPhoto(realEstatePhoto: RealEstatePhoto) : Long //suspend for use another thread
+    suspend fun insertPhoto(realEstatePhoto: RealEstateMedia) : Long //suspend for use another thread
 
 
 

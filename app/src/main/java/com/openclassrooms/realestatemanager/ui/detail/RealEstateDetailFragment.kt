@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
-import com.openclassrooms.realestatemanager.models.RealEstatePhoto
-import com.openclassrooms.realestatemanager.models.RealEstateWithPhotos
+import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -82,7 +82,7 @@ class RealEstateDetailFragment : Fragment() {
 
         mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { it ->
 
-            val realEstate: RealEstateWithPhotos? = it.find { it.realEstate.realEstateId.toString() == item_id_bundle }
+            val realEstate: RealEstateWithMedia? = it.find { it.realEstate.realEstateId.toString() == item_id_bundle }
 
             if (realEstate != null) {
 
@@ -179,7 +179,7 @@ class RealEstateDetailFragment : Fragment() {
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<RealEstatePhoto>
+        myRealEstateList: List<RealEstateMedia>
     ) {
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
