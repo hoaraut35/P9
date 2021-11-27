@@ -43,6 +43,8 @@ class AdapterRealEstateAdd(
                 callback?.onChangedTitlePhoto(photoTitle.text.toString(), photoModel.uri!!)
             }
 
+            photoTitle.setText(photoModel.name)
+
         }
     }
 
@@ -53,6 +55,14 @@ class AdapterRealEstateAdd(
 
             // val imageMask: ImageView = itemView.findViewById(R.id.image_view_mask)
             val video: VideoView = itemView.findViewById(R.id.video_view_add)
+
+            val videoTitle: EditText = itemView.findViewById(R.id.video_title)
+
+            videoTitle.addTextChangedListener {
+                callback?.onChangedTitlePhoto(videoTitle.text.toString(), videoModel.uri!!)
+            }
+
+            videoTitle.setText(videoModel.name)
 
             video.setVideoURI(videoModel.uri?.toUri())
 //            Glide.with(itemView)
@@ -85,7 +95,6 @@ class AdapterRealEstateAdd(
                 video.start()
             })
 
-
             video.setOnCompletionListener {
                 video.start()
                 video.pause()
@@ -100,7 +109,6 @@ class AdapterRealEstateAdd(
                 video.start()
                 video.pause()
             }
-
 
         }
     }

@@ -15,99 +15,84 @@ import javax.inject.Inject
 class ViewModelForCreate @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository) :
     ViewModel() {
 
-    //variable for mutable UI state
-    private val myViewStateCreateUI : MutableLiveData<ViewStateCreate> = MutableLiveData()
+    //for media
+    private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
+    private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
 
-
-
-
-    init {
-        myViewStateCreateUI.value = null
+    //update photo or video to database
+    fun addMediaToList(media: RealEstateMedia) {
+        listOfMedia.add(media)
+        mutableListOfMedia.value = listOfMedia
+        Log.i("[MEDIA]", "Data from viewmodel list : $listOfMedia")
     }
 
-    private val listOfMedia : MutableList<RealEstateMedia> = mutableListOf()
-    private val listLiveData : LiveData<RealEstateMedia>? = null
+    //update title for photo or video
+    fun updateMediaTitle(title: String, uri: String) {
+        listOfMedia.find { it.uri == uri }?.name = title
+    }
 
-
-    private val listOfMedia2 = mutableListOf<RealEstateMedia>()
+    //function to publish UI to fragment
+    fun getUIToShow(): LiveData<List<RealEstateMedia>> {
+        return mutableListOfMedia
+    }
 
 
     //get all RealEstate from repository
     var allRealEstate = localDatabaseRepository.getAllRealEstate().asLiveData()
 
     //
-    fun getRealEstate() : LiveData<List<RealEstate>>{
+    fun getRealEstate(): LiveData<List<RealEstate>> {
         return localDatabaseRepository.getAllRealEstate().asLiveData()
     }
 
-    //add photo or video to database
-    fun addMediaToList(media : RealEstateMedia){
-        listOfMedia.add(media)
-        Log.i("[MEDIA]","test" + listOfMedia.toString())
-
-    }
 
     //remove photo or video from database
-    fun removeMediaFromList(media: RealEstateMedia){
+    fun removeMediaFromList(media: RealEstateMedia) {
         //listOfMedia.re
     }
 
 
-
-
-
-
-
-    fun propertyTypeChanged(type: String){
-        Log.i("[PROPERTY]","Type of property : $type")
+    fun propertyTypeChanged(type: String) {
+        Log.i("[PROPERTY]", "Type of property : $type")
     }
 
 
-    fun propertyPriceChanged(price : Int){
+    fun propertyPriceChanged(price: Int) {
 
     }
 
-    fun propertySurfaceChanged(surface : Int){
+    fun propertySurfaceChanged(surface: Int) {
 
     }
 
-    fun propertyRoomNumberChanged(roomNumber : Int){
+    fun propertyRoomNumberChanged(roomNumber: Int) {
 
     }
 
-    fun propertyDescriptionChanged(description : String){
+    fun propertyDescriptionChanged(description: String) {
 
     }
 
-    fun propertyStreetNumberChanged(streetNumber : Int){
+    fun propertyStreetNumberChanged(streetNumber: Int) {
 
     }
 
-    fun propertyStreetName(streetName : String){
+    fun propertyStreetName(streetName: String) {
 
     }
 
-    fun propertyZipCodeChanged(zipCode : Int){
+    fun propertyZipCodeChanged(zipCode: Int) {
 
     }
 
-    fun propertyCityChanged(city : String){
+    fun propertyCityChanged(city: String) {
 
     }
 
-    fun saveProperty(){
+    fun saveProperty() {
 
     }
 
-
-
-
-
-
-    //function to publish UI to fragment
-    fun getUIToShow() : ViewStateCreate? {
-        return myViewStateCreateUI.value
-    }
 
 }
 

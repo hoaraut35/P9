@@ -14,7 +14,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -43,13 +42,11 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
     private var fileNameUri: String? = null
 
-
+    lateinit var recyclerView: RecyclerView
     private val listOfMediasToSave = mutableListOf<RealEstateMedia>()
 
     var resultTitle: String? = null
 
-
-    //
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
     lateinit var activityResultForVideoFromGallery: ActivityResultLauncher<Intent>
@@ -83,7 +80,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         setHasOptionsMenu(true)
 
         //bind recyclerview
-        val recyclerView = binding.recyclerview
+        recyclerView = binding.recyclerview
 
 
         //get the type of property
@@ -113,18 +110,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         activityResultLauncherForVideo =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
                 if (result!!.resultCode == Activity.RESULT_OK) {
-
-
                     viewModelCreate.addMediaToList(
-                        RealEstateMedia(
-                            uri = result.data?.data.toString(),
-                            realEstateParentId = 1,
-                            name = "video"
-                        )
-                    )
-
-                    //remove it after
-                    listOfMediasToSave.add(
                         RealEstateMedia(
                             uri = result.data?.data.toString(),
                             realEstateParentId = 1,
@@ -150,14 +136,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                         )
                     )
 
-                    //remove it
-                    listOfMediasToSave.add(
-                        RealEstateMedia(
-                            uri = it.toString(),
-                            realEstateParentId = 1,
-                            name = "video"
-                        )
-                    )
                     recyclerView.adapter?.notifyDataSetChanged()
                 }
             }
@@ -167,9 +145,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         binding.addVideoFromMemory?.setOnClickListener {
             getVideoFromGallery.launch("video/*")
         }
-
-
-
 
 
         //launcher for open video from gallery
@@ -225,27 +200,17 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         //save data to database
         saveRealEstateInDB()
 
-        //setup recyclerview
-        setupRecyclerView(recyclerView, listOfMediasToSave)
-
-
         setupViewModel()
 
         return rootView
     }
 
     private fun setupViewModel() {
-
-
-        //viewModelCreate.
-
-
-            //Log.i("[VIEWMODEL]","Get data from viewModel : " + it.listOfMediaUI.toString())
-
-       //     Log.i("[VIEWMODEL]","Get data from viewModel : " + it.listOfMediaUI.toString())
-
+        viewModelCreate.getUIToShow().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            Log.i("[MEDIA]", "Get data from viewModel : $it")
+            setupRecyclerView(recyclerView, it)
+        })
     }
-
 
     private fun getSoldStateBtn() {
 
@@ -314,15 +279,12 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                             zip_code = valCityZipCode,
                             country = null
                         ),
-
                         status = false
-
                     )
                 )
 
                 //add photos
-                for (item in listOfMediasToSave) {
-
+                for (item in viewModelCreate.getUIToShow().value!!) {
                     val long = mainViewModel.insertPhoto(
                         RealEstateMedia(
                             uri = item.uri,
@@ -330,7 +292,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                             name = item.name
                         )
                     )
-
                 }
             }
         }
@@ -366,9 +327,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         activityResultLauncherForPhoto =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
 
-
                 if (result?.resultCode == Activity.RESULT_OK) {
-
 
                     var bitmap = result!!.data!!.extras!!.get("data") as Bitmap
 
@@ -377,12 +336,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                     savePhotoToInternalMemory("Photo_$fileName", bitmap)
                 }
 
-
             }
 
-
     }
-
 
     //TODO: move to util class?
     private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
@@ -397,24 +353,14 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
 
 
-
                 //add in viewmodel list
-                viewModelCreate.addMediaToList(RealEstateMedia(
-                    uri = fileNameUri!!,
-                    name = "test",
-                    realEstateParentId = 1
-                ))
-
-
-                //remove it after rework
-                listOfMediasToSave.add(
+                viewModelCreate.addMediaToList(
                     RealEstateMedia(
                         uri = fileNameUri!!,
                         name = "test",
                         realEstateParentId = 1
                     )
                 )
-
 
             }
             true
@@ -468,9 +414,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         const val REQUEST_IMAGE_CAPTURE = 2
     }
 
-
     override fun onChangedTitlePhoto(title: String, uri: String) {
-        Log.i("[UPDATE]", "Liste to save : $listOfMediasToSave")
-        listOfMediasToSave.find { it.uri == uri }?.name = title
+        viewModelCreate.updateMediaTitle(title, uri)
     }
 }
