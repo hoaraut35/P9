@@ -16,25 +16,45 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
     ViewModel() {
 
     //variable for mutable UI state
-    private val myViewStateCreateUI = MutableLiveData<ViewStateCreate>()
+    private val myViewStateCreateUI : MutableLiveData<ViewStateCreate> = MutableLiveData()
 
 
-    private val listOfMedia : MutableList<RealEstateMedia> = mutableListOf<RealEstateMedia>()
 
 
+    init {
+        myViewStateCreateUI.value = null
+    }
+
+    private val listOfMedia : MutableList<RealEstateMedia> = mutableListOf()
+    private val listLiveData : LiveData<RealEstateMedia>? = null
+
+
+    private val listOfMedia2 = mutableListOf<RealEstateMedia>()
+
+
+    //get all RealEstate from repository
+    var allRealEstate = localDatabaseRepository.getAllRealEstate().asLiveData()
+
+    //
     fun getRealEstate() : LiveData<List<RealEstate>>{
         return localDatabaseRepository.getAllRealEstate().asLiveData()
     }
 
-    var allRealEstate = localDatabaseRepository.getAllRealEstate().asLiveData()
-
-
-
-
-
+    //add photo or video to database
     fun addMediaToList(media : RealEstateMedia){
         listOfMedia.add(media)
+        Log.i("[MEDIA]","test" + listOfMedia.toString())
+
     }
+
+    //remove photo or video from database
+    fun removeMediaFromList(media: RealEstateMedia){
+        //listOfMedia.re
+    }
+
+
+
+
 
 
 
@@ -42,9 +62,6 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
         Log.i("[PROPERTY]","Type of property : $type")
     }
 
-    fun removeMediaFromList(media: RealEstateMedia){
-
-    }
 
     fun propertyPriceChanged(price : Int){
 
@@ -88,7 +105,9 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
 
 
     //function to publish UI to fragment
-    fun getUIToShow() : LiveData<ViewStateCreate> = myViewStateCreateUI
+    fun getUIToShow() : ViewStateCreate? {
+        return myViewStateCreateUI.value
+    }
 
 }
 

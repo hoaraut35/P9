@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -36,23 +37,29 @@ private const val ARG_PARAM2 = "param2"
 @AndroidEntryPoint
 class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Fragment() {
 
+    //binding
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
 
     private var fileNameUri: String? = null
 
+
     private val listOfMediasToSave = mutableListOf<RealEstateMedia>()
 
     var resultTitle: String? = null
 
+
+    //
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
     lateinit var activityResultForVideoFromGallery: ActivityResultLauncher<Intent>
 
-    private val mainViewModel by viewModels<MainViewModel>()
 
+    //viewmodels
+    private val mainViewModel by viewModels<MainViewModel>()
     private val viewModelCreate by viewModels<ViewModelForCreate>()
 
+    //bundle var
     private var param1: String? = null
     private var param2: String? = null
 
@@ -96,9 +103,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
         //setupActionAfterGetImageFromGallery()
 
-        //get a video from the camera with button click
+        //click listener to get video from camera
         binding.addVideoFromCamera?.setOnClickListener {
-            var intentVideo = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+            val intentVideo = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
             activityResultLauncherForVideo.launch(intentVideo)
         }
 
@@ -107,6 +114,16 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
                 if (result!!.resultCode == Activity.RESULT_OK) {
 
+
+                    viewModelCreate.addMediaToList(
+                        RealEstateMedia(
+                            uri = result.data?.data.toString(),
+                            realEstateParentId = 1,
+                            name = "video"
+                        )
+                    )
+
+                    //remove it after
                     listOfMediasToSave.add(
                         RealEstateMedia(
                             uri = result.data?.data.toString(),
@@ -114,6 +131,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                             name = "video"
                         )
                     )
+
                     recyclerView.adapter?.notifyDataSetChanged()
                 }
             }
@@ -123,8 +141,16 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
             ActivityResultContracts.GetContent(),
             ActivityResultCallback {
 
-
                 if (it != null) {
+                    viewModelCreate.addMediaToList(
+                        RealEstateMedia(
+                            uri = it.toString(),
+                            realEstateParentId = 1,
+                            name = "video"
+                        )
+                    )
+
+                    //remove it
                     listOfMediasToSave.add(
                         RealEstateMedia(
                             uri = it.toString(),
@@ -137,36 +163,41 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
             }
         )
 
-        //listener for open video  gallery pick
+        //click listener for open video from gallery
         binding.addVideoFromMemory?.setOnClickListener {
             getVideoFromGallery.launch("video/*")
         }
 
-        //setup action after click on gallery
+
+
+
+
+        //launcher for open video from gallery
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback {
 
+                //to show image
                 binding.imageOfGallery?.setImageURI(it)
 
                 if (it != null) {
+
                     val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
                         context?.applicationContext?.contentResolver, it
                     )
 
                     val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+
                     if (bitmap != null) {
                         savePhotoToInternalMemory("Photo_$fileName2", bitmap)
                         recyclerView.adapter?.notifyDataSetChanged()
                     }
 
                 }
-
-
             }
         )
 
-        //listener for camera pick
+        //click listener for take photo from camera
         binding.addPhotoCamera?.setOnClickListener {
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             activityResultLauncherForPhoto.launch(intent)
@@ -197,7 +228,22 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         //setup recyclerview
         setupRecyclerView(recyclerView, listOfMediasToSave)
 
+
+        setupViewModel()
+
         return rootView
+    }
+
+    private fun setupViewModel() {
+
+
+        //viewModelCreate.
+
+
+            //Log.i("[VIEWMODEL]","Get data from viewModel : " + it.listOfMediaUI.toString())
+
+       //     Log.i("[VIEWMODEL]","Get data from viewModel : " + it.listOfMediaUI.toString())
+
     }
 
 
@@ -350,7 +396,17 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
 
-                //ajout
+
+
+                //add in viewmodel list
+                viewModelCreate.addMediaToList(RealEstateMedia(
+                    uri = fileNameUri!!,
+                    name = "test",
+                    realEstateParentId = 1
+                ))
+
+
+                //remove it after rework
                 listOfMediasToSave.add(
                     RealEstateMedia(
                         uri = fileNameUri!!,
@@ -411,7 +467,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         const val PICK_IMAGE = 1
         const val REQUEST_IMAGE_CAPTURE = 2
     }
-
 
 
     override fun onChangedTitlePhoto(title: String, uri: String) {

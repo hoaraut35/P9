@@ -17,18 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/image_view_mask"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"/>
+
 
             <VideoView
                 android:id="@+id/video_view_add"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center"
-                android:visibility="invisible"
+                android:scaleType="centerInside"
                 android:src="@drawable/realestate_1"/>
 
             <EditText

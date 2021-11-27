@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.VideoView
 import androidx.core.net.toUri
-import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -52,34 +51,56 @@ class AdapterRealEstateAdd(
 
             itemView.findViewById<TextView>(R.id.video_title).text = videoModel.name
 
-            val imageMask: ImageView = itemView.findViewById(R.id.image_view_mask)
+            // val imageMask: ImageView = itemView.findViewById(R.id.image_view_mask)
             val video: VideoView = itemView.findViewById(R.id.video_view_add)
 
-            Glide.with(itemView)
-                .load(videoModel.uri)
-                .centerCrop()
-                .into(imageMask)
+            video.setVideoURI(videoModel.uri?.toUri())
+//            Glide.with(itemView)
+//                .load(videoModel.uri)
+//                .centerCrop()
+//                .into(imageMask)
 
             //add listener on image view mask
-            imageMask.setOnClickListener {
+//            imageMask.setOnClickListener {
+//
+//                imageMask.isVisible = false
+//                video.setVideoURI(videoModel.uri?.toUri())
+//                video.start()
+//                video.isVisible = true
+//
+//                video.setOnFocusChangeListener { view, b ->
+//                    view.isVisible = false
+//                    imageMask.isVisible = true
+//                }
+//
+//                val videoTitle: EditText = itemView.findViewById(R.id.video_title)
+//
+//                videoTitle.addTextChangedListener {
+//                    callback?.onChangedTitlePhoto(videoTitle.text.toString(), videoModel.uri!!)
+//                }
+//
+//            }
 
-                imageMask.isVisible = false
-                video.setVideoURI(videoModel.uri?.toUri())
+            video.setOnClickListener(View.OnClickListener {
                 video.start()
-                video.isVisible = true
+            })
 
-                video.setOnCompletionListener {
-                    video.isVisible = false
-                    imageMask.isVisible = true
-                }
 
-                val videoTitle: EditText = itemView.findViewById(R.id.video_title)
-
-                videoTitle.addTextChangedListener {
-                    callback?.onChangedTitlePhoto(videoTitle.text.toString(), videoModel.uri!!)
-                }
-
+            video.setOnCompletionListener {
+                video.start()
+                video.pause()
             }
+
+            video.setOnFocusChangeListener { view, b ->
+                video.start()
+                video.pause()
+            }
+
+            video.setOnPreparedListener {
+                video.start()
+                video.pause()
+            }
+
 
         }
     }
