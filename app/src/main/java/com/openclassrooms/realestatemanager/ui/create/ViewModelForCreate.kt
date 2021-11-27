@@ -22,8 +22,13 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
     //update photo or video to database
     fun addMediaToList(media: RealEstateMedia) {
         listOfMedia.add(media)
+        sortMedia()
         mutableListOfMedia.value = listOfMedia
         Log.i("[MEDIA]", "Data from viewmodel list : $listOfMedia")
+    }
+
+    private fun sortMedia(){
+        listOfMedia.sortBy { it.uri}
     }
 
     //update title for photo or video
@@ -35,7 +40,6 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
     fun getUIToShow(): LiveData<List<RealEstateMedia>> {
         return mutableListOfMedia
     }
-
 
     //get all RealEstate from repository
     var allRealEstate = localDatabaseRepository.getAllRealEstate().asLiveData()
