@@ -8,15 +8,28 @@ import android.net.Uri
 import com.openclassrooms.realestatemanager.database.RealEStateDao
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import com.openclassrooms.realestatemanager.models.RealEstate
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 import javax.inject.Singleton
 
 //to expose data to another application
 
 
-class DatabaseContentProvider   : ContentProvider() {
-    //@Inject constructor(private val realEstateDatabase: RealEstateDatabase)
+class DatabaseContentProvider : ContentProvider() {
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface EntryPointForContentProvider{
+        //https://developer.android.com/training/dependency-injection/hilt-android
+        //@Inject constructor(private val realEstateDatabase: RealEstateDatabase)
+    }
+
+
+
+
 
 
     //entry point of content provider to init variabeml

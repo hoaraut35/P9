@@ -9,5 +9,5 @@ class RealEstateWithPOIs(
         parentColumn = "realEstateId",
         entityColumn = "realEstateParentId"
     )
-    val poiList: List<RealEstatePOI>
+    val poi: RealEstatePOI
 )

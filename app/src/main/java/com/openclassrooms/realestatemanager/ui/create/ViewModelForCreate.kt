@@ -1,14 +1,13 @@
 package com.openclassrooms.realestatemanager.ui.create
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +16,17 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
 
     //for media
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
+
+    private val realEstate: MutableLiveData<RealEstate>? = null
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
+
+
+
+    val listOfChip : MutableList<String> = mutableListOf()
+
+    fun insertPOI(poi:RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePOI(poi) }
+
+
 
     //update photo or video to database
     fun addMediaToList(media: RealEstateMedia) {
@@ -27,11 +36,12 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
         Log.i("[MEDIA]", "Data from viewmodel list : $listOfMedia")
     }
 
+    //sort data for UI
     private fun sortMedia(){
         listOfMedia.sortBy { it.uri}
     }
 
-    //update title for photo or video
+    //update title in list for photo or video
     fun updateMediaTitle(title: String, uri: String) {
         listOfMedia.find { it.uri == uri }?.name = title
     }

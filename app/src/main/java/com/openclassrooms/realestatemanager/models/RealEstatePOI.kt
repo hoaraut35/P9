@@ -3,13 +3,13 @@ package com.openclassrooms.realestatemanager.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+//one to one
 @Entity
 data class RealEstatePOI(
-    @PrimaryKey(autoGenerate = true) val poi_id: Int = 0,
-    val realEstateParentId: Int?,
-    val school: Boolean?,
-    val station :Boolean?,
-    val park: Boolean?
+    @PrimaryKey(autoGenerate = false) val realEstateParentId: Int?,
+    val school: Boolean? = null,
+    val station :Boolean? = null,
+    val park: Boolean? = null
 )
 
 
