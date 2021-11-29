@@ -78,19 +78,21 @@
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipHouse"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:tag="House"
                         android:text="House">
 
                     </com.google.android.material.chip.Chip>
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipDuplex"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:tag="Duplex"
                         android:text="Duplex">
 
 
@@ -98,18 +100,20 @@
 
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPenthouse"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:tag="Penthouse"
                         android:text="Penthouse">
 
                     </com.google.android.material.chip.Chip>
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipFlat"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
-
+                        android:tag="Flat"
                         android:layout_height="wrap_content"
                         android:text="Flat">
 

@@ -1,7 +1,10 @@
 package com.openclassrooms.realestatemanager.database
 
+import android.database.Cursor
 import androidx.room.*
-import com.openclassrooms.realestatemanager.models.*
+import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import kotlinx.coroutines.flow.Flow
 
 @Dao //for room
@@ -27,24 +30,17 @@ interface RealEStateDao {
     @Transaction
     @Query("SELECT * FROM realEstate_table WHERE realEstateId")
     fun getAllDataFromRealEstate(): Flow<List<RealEstateWithMedia>>
+
     //insert photo
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
-    suspend fun insertPhoto(realEstatePhoto: RealEstateMedia) : Long //suspend for use another thread
-
-
-
-
-
-
-
-
-
+    suspend fun insertPhoto(realEstatePhoto: RealEstateMedia): Long //suspend for use another thread
 
     @Query("SELECT MAX(realEstateId) + 1 FROM realEstate_table")
     fun getLastRowId(): Flow<Int>
 
 
+    //used by CONTENT PROVIDERcontent provider for testing
+    @Query("SELECT * FROM realEstate_table WHERE realEstateId = :realEstateId")
+    fun getRealEstateWithCursor(realEstateId: Int): Cursor
 
-    //@Query("SELECT * FROM realEstate_table WHERE photo LIKE '%' ")
-    //https://www.youtube.com/watch?v=sU-ot_Oz3AE&t=195s
 }
