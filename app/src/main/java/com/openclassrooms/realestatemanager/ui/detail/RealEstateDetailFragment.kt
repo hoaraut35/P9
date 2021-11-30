@@ -17,6 +17,7 @@ import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.ui.updatenew.ViewModelUpdate
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
@@ -115,6 +116,15 @@ class RealEstateDetailFragment : Fragment() {
             }
         }
 
+        //https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library
+        val imageUri = "https://i.imgur.com/tGbaZCY.jpg"
+
+        val imageUri2 = "https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyCjjKmm7aC6HVP1ff2r_TME2ZeeUJt655I"
+
+        Picasso.get()
+            .load(imageUri2)
+            .error(R.drawable.ic_baseline_error_24)
+            .into(binding.imageMap);
 
 
         return rootView

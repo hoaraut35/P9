@@ -33,6 +33,10 @@ android {
 
 dependencies {
 
+    //square
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+
     // To use the androidx.test.core APIs
     androidTestImplementation("androidx.test:core:1.4.0")
     // Kotlin extensions for androidx.test.core

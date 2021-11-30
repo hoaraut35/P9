@@ -491,5 +491,4 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
     }
 
-
 }

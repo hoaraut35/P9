@@ -49,6 +49,12 @@
 
                 android:text="photos list"/>
 
+            <ImageView
+                android:id="@+id/imageMap"
+                android:layout_width="300dp"
+                android:layout_height="300dp">
+
+            </ImageView>
 
             <TextView
                 android:id="@+id/text_description"
