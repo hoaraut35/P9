@@ -7,9 +7,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-class Shared @Inject constructor(
-    private val realEstateDao: RealEStateDao
-) {
+class Shared @Inject constructor() {
 
     private var propertyId: Int = 0
 

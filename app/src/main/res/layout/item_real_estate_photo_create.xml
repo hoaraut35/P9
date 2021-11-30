@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <ImageView
                 android:id="@+id/imageview"
                 android:layout_width="match_parent"
@@ -37,16 +38,21 @@
                 android:textColor="#FFFFDD"
                 android:textSize="16sp" />
 
+            <ImageView
+                android:id="@+id/delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_delete_24">
 
-            <TextView
-                android:id="@+id/uri_video"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            </ImageView>
 
-            </TextView>
 
         </FrameLayout>
 
+
+
     </androidx.cardview.widget.CardView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

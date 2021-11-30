@@ -8,6 +8,7 @@ import com.openclassrooms.realestatemanager.database.RealEStateDao
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.lang.Exception
@@ -22,8 +23,13 @@ import kotlin.Throws
 @RunWith(AndroidJUnit4::class)
 class RoomTest {
 
+
     private lateinit var realEstateDao : RealEStateDao
     private lateinit var db : RealEstateDatabase
+
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun createDb(){

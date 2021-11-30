@@ -62,6 +62,7 @@ class UpdateFragmentNew : Fragment() {
 
             binding.edittextDescription?.setText(it.descriptionOfProduct)
 
+
         }
 
         return rootView

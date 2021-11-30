@@ -484,4 +484,10 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     override fun onChangedTitlePhoto(title: String, uri: String) {
         viewModelCreate.updateMediaTitle(title, uri)
     }
+
+    override fun onDeletePhoto(media: RealEstateMedia) {
+        viewModelCreate.deleteMedia(media)
+    }
+
+
 }

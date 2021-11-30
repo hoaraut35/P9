@@ -290,6 +290,14 @@
 
                 <!-- insert PIO here -->
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edittext_number_room"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/property_state"
                     android:layout_width="wrap_content"
@@ -327,13 +335,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edittext_number_room"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number">
 
-            </com.google.android.material.textfield.TextInputEditText>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -25,12 +25,14 @@ class AdapterRealEstateAdd(
     interface InterfacePhotoTitleChanged {
         //method here...
         fun onChangedTitlePhoto(title: String, uri: String)
+        fun onDeletePhoto(media: RealEstateMedia)
     }
 
     inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(photoModel: RealEstateMedia) {
 
             val image = itemView.findViewById<ImageView>(R.id.imageview)
+            val delete = itemView.findViewById<ImageView>(R.id.delete_btn)
 
             Glide.with(itemView)
                 .load(photoModel.uri)
@@ -45,6 +47,12 @@ class AdapterRealEstateAdd(
 
             photoTitle.setText(photoModel.name)
 
+            delete.setOnClickListener {
+                callback?.onDeletePhoto(photoModel)
+            }
+
+
+
         }
     }
 
@@ -55,12 +63,18 @@ class AdapterRealEstateAdd(
 
             // val imageMask: ImageView = itemView.findViewById(R.id.image_view_mask)
             val video: VideoView = itemView.findViewById(R.id.video_view_add)
+            val delete = itemView.findViewById<ImageView>(R.id.delete_btn)
 
             val videoTitle: EditText = itemView.findViewById(R.id.video_title)
 
             videoTitle.addTextChangedListener {
                 callback?.onChangedTitlePhoto(videoTitle.text.toString(), videoModel.uri!!)
             }
+
+            delete.setOnClickListener {
+                callback?.onDeletePhoto(videoModel)
+            }
+
 
             videoTitle.setText(videoModel.name)
 

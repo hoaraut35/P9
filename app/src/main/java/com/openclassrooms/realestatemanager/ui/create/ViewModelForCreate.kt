@@ -107,6 +107,11 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
 
     }
 
+    fun deleteMedia(media: RealEstateMedia) {
+        listOfMedia.remove(media)
+        mutableListOfMedia.value = listOfMedia
+    }
+
 
 }
 
