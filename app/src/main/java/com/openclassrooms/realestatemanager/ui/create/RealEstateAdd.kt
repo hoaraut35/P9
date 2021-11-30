@@ -453,8 +453,8 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     //setup menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu.findItem(R.id.realEstateUpdateBtn).isVisible = false
-        menu.findItem(R.id.realEstateCreateBtn).isVisible = false
+        menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
+        menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
     }
 
     //constructor fragment

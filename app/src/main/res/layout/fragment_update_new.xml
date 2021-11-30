@@ -14,19 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <VideoView
-                android:id="@+id/video_view"
-                android:layout_width="1dp"
-                android:layout_height="200dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/recyclerview"
-                android:visibility="visible">
-
-            </VideoView>
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
@@ -44,10 +31,9 @@
                 android:id="@+id/linear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerview"
                 android:layout_margin="10dp"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerview">
 
 
                 <Button
@@ -80,9 +66,6 @@
                     android:textSize="10sp" />
 
 
-
-
-
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chip_group_type"
                     android:layout_width="wrap_content"
@@ -91,19 +74,21 @@
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipHouse"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:tag="House"
                         android:text="House">
 
                     </com.google.android.material.chip.Chip>
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipDuplex"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:tag="Duplex"
                         android:text="Duplex">
 
 
@@ -111,22 +96,26 @@
 
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPenthouse"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:tag="Penthouse"
                         android:text="Penthouse">
 
                     </com.google.android.material.chip.Chip>
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipFlat"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
+                        android:tag="Flat"
                         android:text="Flat">
 
                     </com.google.android.material.chip.Chip>
+
+
 
                 </com.google.android.material.chip.ChipGroup>
 
@@ -169,19 +158,23 @@
                 </com.google.android.material.chip.ChipGroup>
 
 
-
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_price_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez le prix">
+                    android:hint="Entrez le prix"
+
+                    app:helperText="ne peux etre vide"
+
+                    app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number">
+                        android:inputType="number"
+                        android:maxLength="8"
+                        app:errorEnabled="true">
 
                     </com.google.android.material.textfield.TextInputEditText>
 
@@ -212,14 +205,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Entrez le nombre de pièces">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edittext_number_room"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number">
-
-                    </com.google.android.material.textfield.TextInputEditText>
-
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -230,7 +215,7 @@
                     android:hint="Entrez la decription">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edittext_description_update"
+                        android:id="@+id/edittext_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -310,9 +295,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:visibility="invisible"
-                    android:text="@string/property_state" />
-
+                    android:text="@string/property_state"
+                    android:visibility="invisible" />
 
 
                 <Button
@@ -335,22 +319,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Is sold "
-                    app:layout_constraintStart_toStartOf="parent"
                     android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageview" />
-
-                <ImageView
-                    android:id="@+id/imageOfGallery"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:visibility="invisible">
-
-                </ImageView>
-
-
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_number_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

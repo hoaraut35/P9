@@ -16,7 +16,7 @@ import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetail
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.ui.MainViewModel
-import com.openclassrooms.realestatemanager.ui.update.ViewModelUpdate
+import com.openclassrooms.realestatemanager.ui.updatenew.ViewModelUpdate
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
@@ -177,10 +177,10 @@ class RealEstateDetailFragment : Fragment() {
 
 
         if (item_id_bundle != null || item_id_bundle == ""){
-            menu.findItem(R.id.realEstateUpdateBtn).isVisible = true
+            menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = true
         }else
         {
-            menu.findItem(R.id.realEstateUpdateBtn).isVisible = false
+            menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
         }
 
 

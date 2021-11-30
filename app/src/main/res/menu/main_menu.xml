@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/realEstateUpdateBtn"
+        android:id="@+id/realEstateUpdateBtnNew"
         android:icon="@drawable/ic_baseline_create_24"
         android:title="@string/menu_title_update"
         app:showAsAction="always" />

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.update
+package com.openclassrooms.realestatemanager.ui.updatenew
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

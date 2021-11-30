@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.update
+package com.openclassrooms.realestatemanager.ui.updatenew
 
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateUpdateBinding
+import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -16,20 +15,24 @@ import dagger.hilt.android.AndroidEntryPoint
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+/**
+ * A simple [Fragment] subclass.
+ * Use the [UpdateFragmentNew.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+
 @AndroidEntryPoint
-class RealEstateUpdate : Fragment() {
+class UpdateFragmentNew : Fragment() {
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-
-    //binding
-    private var _binding: FragmentRealEstateUpdateBinding? = null
-    private val binding get() = _binding!!
-
-
     private val viewModelUpdate by viewModels<ViewModelUpdate>()
 
+    //binding
+    private var _binding: FragmentUpdateNewBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,50 +49,31 @@ class RealEstateUpdate : Fragment() {
         // Inflate the layout for this fragment
 
         // Inflate the layout for this fragment
-        _binding = FragmentRealEstateUpdateBinding.inflate(inflater, container, false)
+        _binding = FragmentUpdateNewBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
 
 
-
-
         viewModelUpdate.getEstate()?.observe(viewLifecycleOwner) { it ->
+            //binding.edittextDescriptionUpdate?.setText(it.descriptionOfProduct)
             Log.i("[VM]", "observer " + it.typeOfProduct)
+            binding.addPhotoCamera?.setText("test")
+
+
+            binding.edittextDescription?.setText(it.descriptionOfProduct)
+
         }
 
-
-        Log.i("[GET]","get from two vizewmodxel " + viewModelUpdate.getEstate())
-
-//        viewModelUpdate.getRealEstate().observe(viewLifecycleOwner) { estate ->
-//            Log.i("[VM]", "update frag  : $estate")
-//        }
-
-        return inflater.inflate(R.layout.fragment_real_estate_update, container, false)
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.setId?.setOnClickListener{
-            Log.i("[VM]", "Click")
-        }
+        return rootView
 
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RealEstateUpdate.
-         */
+
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            RealEstateUpdate().apply {
+            UpdateFragmentNew().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

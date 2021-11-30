@@ -26,10 +26,10 @@
         <action
             android:id="@+id/action_realEstateDetailFragment_to_realEstateModifier"
             app:destination="@id/realEstateCreateBtn" />
-
         <action
-            android:id="@+id/action_realEstateDetailFragment_to_realEstateUpdate"
-            app:destination="@+id/realEstateUpdateBtn" />
+            android:id="@+id/action_realEstateDetailFragment_to_realEstateUpdateBtnNew"
+            app:destination="@id/realEstateUpdateBtnNew" />
+
 
     </fragment>
 
@@ -40,12 +40,13 @@
         tools:layout="@layout/fragment_real_estate_modifier" />
 
     <fragment
-        android:id="@+id/realEstateUpdateBtn"
-        android:name="com.openclassrooms.realestatemanager.ui.update.RealEstateUpdate"
+        android:id="@+id/realEstateUpdateBtnNew"
+        android:name="com.openclassrooms.realestatemanager.ui.updatenew.UpdateFragmentNew"
         android:label="Modification RealEstate"
-
-        tools:layout="@layout/fragment_real_estate_update"
+        tools:layout="@layout/fragment_update_new"
         />
+
+
 
     <fragment
         android:id="@+id/searchFragment"
