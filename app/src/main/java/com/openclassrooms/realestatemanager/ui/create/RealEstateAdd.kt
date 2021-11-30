@@ -487,6 +487,8 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
     override fun onDeletePhoto(media: RealEstateMedia) {
         viewModelCreate.deleteMedia(media)
+        context?.deleteFile(media.uri?.substringAfterLast("/"))
+
     }
 
 
