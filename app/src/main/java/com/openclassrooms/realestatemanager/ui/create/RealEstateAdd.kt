@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +28,6 @@ import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.DataOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -202,7 +202,29 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
         setupViewModel()
 
+        binding.edittextPrice?.addTextChangedListener {
+            binding.propertyPriceText.helperText = validPriceText()
+        }
+
+        binding.edittextPrice?.setOnFocusChangeListener { _, focused ->
+            binding.propertyPriceText.helperText = validPriceText()
+        }
+
         return rootView
+    }
+
+    private fun validPriceText(): String? {
+
+        //val regexPrice = Regex("\d")
+
+
+        return when (binding.edittextPrice?.text.toString()) {
+            "" -> "can't be null"
+            //regexPrice -> "yes"
+            else -> {
+                return null
+            }
+        }
     }
 
     private fun setupViewModel() {
@@ -227,11 +249,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         })
 
 
-
     }
 
     private fun getSelectedChips() {
-
 
 
         val listTest = listOf<String>()
@@ -246,12 +266,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         }
 
 
-
-
     }
 
     private fun saveRealEstateInDB() {
-
 
 
         mainViewModel.getLAstRowId.observe(viewLifecycleOwner) {
@@ -268,75 +285,80 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 //                }
 
 
+                val prix: Int? = binding.edittextPrice?.text.toString().toInt()
+                //val valTypeOfProduct: String? = mainbinding.propertyTypeEdittext?.text.toString()
+
+                val valSurface: Int? = binding.edittextSurface?.text.toString().toInt()
+                val valRoomNumber: Int? = binding.edittextNumberRoom?.text.toString().toInt()
+                //val valBathRoomNumber : Int? = binding.ed
+                val valDescription: String? = binding.edittextDescription?.text?.toString()
+
+                val valStreetNumber: Int? = binding.edittextStrretNumber?.text.toString().toInt()
+                val valStreetName: String? = binding.edittextStreetName?.text.toString()
+                val valCityZipCode: Int? = binding.edittextCityZipcode?.text.toString().toInt()
+                val valCity: String? = binding.edittextCityName?.text.toString()
+                //val valCountry : String? = binding.ed
+
+                //insert in database
 
 
-                    val prix: Int? = binding.edittextPrice?.text.toString().toInt()
-                    //val valTypeOfProduct: String? = mainbinding.propertyTypeEdittext?.text.toString()
+                mainViewModel.insert(
+                    RealEstate(
+                        typeOfProduct = resultTitle,
+                        price = prix,
+                        cityOfProduct = valCity,
+                        surface = valSurface,
+                        numberOfRoom = valRoomNumber,
+                        descriptionOfProduct = valDescription,
+                        address = RealEstateAddress(
+                            street_name = valStreetName,
+                            street_number = valStreetNumber,
+                            city = valCity,
+                            zip_code = valCityZipCode,
+                            country = null
+                        ),
+                        status = false
+                    )
+                )
 
-                    val valSurface: Int? = binding.edittextSurface?.text.toString().toInt()
-                    val valRoomNumber: Int? = binding.edittextNumberRoom?.text.toString().toInt()
-                    //val valBathRoomNumber : Int? = binding.ed
-                    val valDescription: String? = binding.edittextDescription?.text?.toString()
-
-                    val valStreetNumber: Int? = binding.edittextStrretNumber?.text.toString().toInt()
-                    val valStreetName: String? = binding.edittextStreetName?.text.toString()
-                    val valCityZipCode: Int? = binding.edittextCityZipcode?.text.toString().toInt()
-                    val valCity: String? = binding.edittextCityName?.text.toString()
-                    //val valCountry : String? = binding.ed
-
-                    //insert in database
-
-
-                    mainViewModel.insert(
-                        RealEstate(
-                            typeOfProduct = resultTitle,
-                            price = prix,
-                            cityOfProduct = valCity,
-                            surface = valSurface,
-                            numberOfRoom = valRoomNumber,
-                            descriptionOfProduct = valDescription,
-                            address = RealEstateAddress(
-                                street_name = valStreetName,
-                                street_number = valStreetNumber,
-                                city = valCity,
-                                zip_code = valCityZipCode,
-                                country = null
-                            ),
-                            status = false
+                //add photos
+                for (item in viewModelCreate.getUIToShow().value!!) {
+                    val long = mainViewModel.insertPhoto(
+                        RealEstateMedia(
+                            uri = item.uri,
+                            realEstateParentId = lastindex,
+                            name = item.name
                         )
                     )
+                }
 
-                    //add photos
-                    for (item in viewModelCreate.getUIToShow().value!!) {
-                        val long = mainViewModel.insertPhoto(
-                            RealEstateMedia(
-                                uri = item.uri,
-                                realEstateParentId = lastindex,
-                                name = item.name
-                            )
-                        )
+
+                val valChipGroupMulti: ChipGroup? = binding.chipGroupMulti
+                var school = false
+                var park = false
+                var gare = false
+
+                valChipGroupMulti?.checkedChipIds?.forEach {
+
+                    val texte = binding.chipGroupMulti.findViewById<Chip>(it).text.toString()
+                    val check = binding.chipGroupMulti.findViewById<Chip>(it).isChecked
+
+                    when (texte) {
+                        "Ecole" -> school = check
+                        "Parc" -> park = check
+                        "Gare" -> gare = check
                     }
 
+                }
 
-                    val valChipGroupMulti: ChipGroup? = binding.chipGroupMulti
-                    var school = false
-                    var park = false
-                    var gare = false
-
-                    valChipGroupMulti?.checkedChipIds?.forEach {
-
-                        val texte = binding.chipGroupMulti.findViewById<Chip>(it).text.toString()
-                        val check = binding.chipGroupMulti.findViewById<Chip>(it).isChecked
-
-                        when (texte){
-                            "Ecole" -> school = check
-                            "Parc" -> park = check
-                            "Gare" -> gare = check
-                        }
-
-                    }
-
-                    viewModelCreate.insertPOI(RealEstatePOI(school = school, park = park, station = gare,  realEstateParentId = 1))
+                viewModelCreate.insertPOI(
+                    RealEstatePOI(
+                        school = school,
+                        park = park,
+                        station = gare,
+                        realEstateParentId = 1
+                    )
+                )
 
             }
         }

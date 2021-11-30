@@ -16,6 +16,7 @@ import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetail
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.ui.MainViewModel
+import com.openclassrooms.realestatemanager.ui.update.ViewModelUpdate
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
@@ -52,6 +53,10 @@ class RealEstateDetailFragment : Fragment() {
 
     //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
+    private val updateViewModel by viewModels<ViewModelUpdate>()
+
+    private val detailViewModel by viewModels<ViewModelDetail>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +65,10 @@ class RealEstateDetailFragment : Fragment() {
 
             if (it.containsKey(ARG_REAL_ESTATE_ID)) {
                 item_id_bundle = it.getString(ARG_REAL_ESTATE_ID)
+
+                //updateViewModel.loadRealEstateId(item_id_bundle.toString())
+                item_id_bundle?.let { it1 -> detailViewModel.setPropertyId(it1?.toInt()) }
+
             }
 
             param2 = it.getString(ARG_PARAM2)

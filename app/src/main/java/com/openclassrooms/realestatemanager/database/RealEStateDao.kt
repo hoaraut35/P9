@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.database
 
 import android.database.Cursor
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.openclassrooms.realestatemanager.models.*
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +12,10 @@ interface RealEStateDao {
     //get all realerstate
     @Query("SELECT * FROM realEstate_table ")
     fun getAllRealEstate(): Flow<List<RealEstate>> //the data arrives as and when
+
+    //get just one realerstate
+    @Query("SELECT * FROM realEstate_table WHERE realEstateId = :id ")
+    fun getRealEstateWithId(id: Int): LiveData<RealEstate> //the data arrives as and when
 
     //insert realstate
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
@@ -28,6 +33,13 @@ interface RealEStateDao {
     @Transaction
     @Query("SELECT * FROM realEstate_table WHERE realEstateId")
     fun getAllDataFromRealEstate(): Flow<List<RealEstateWithMedia>>
+
+
+
+
+
+
+
 
     //insert photo
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist

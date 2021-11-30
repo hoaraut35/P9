@@ -13,6 +13,9 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
 
     fun getAllRealEstate() = realEstateDao.getAllRealEstate()
 
+    //  fun getRealEstate(realEstateId : Int) = realEstateDao.getRealEstateWithId(realEstateId)
+    fun getRealEstate(id: Int) = realEstateDao.getRealEstateWithId(id)
+
     fun getAllRealEstateWithPhotos() = realEstateDao.getAllDataFromRealEstate()
 
     fun getAllRealEstateWithPOI() = realEstateDao.getAllDataWithPOI()

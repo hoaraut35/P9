@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.create.RealEstateModifier">
 
+
+    <Button
+        android:id="@+id/setId"
+        android:layout_width="wrap_content"
+        android:text="test"
+
+        android:layout_height="wrap_content">
+    </Button>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
