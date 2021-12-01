@@ -3,8 +3,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
+
+
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
+
     compileSdkVersion 31
+
     defaultConfig {
         applicationId "com.openclassrooms.realestatemanager"
         minSdkVersion 21
@@ -12,6 +20,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        //for api
+        buildConfigField("String", "STATICMAP_KEY", apikeyProperties['STATICMAP_KEY'])
+
     }
     buildTypes {
         release {

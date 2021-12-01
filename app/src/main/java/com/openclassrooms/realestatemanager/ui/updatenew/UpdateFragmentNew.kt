@@ -61,6 +61,11 @@ class UpdateFragmentNew : Fragment() {
 
 
             binding.edittextDescription?.setText(it.descriptionOfProduct)
+            binding.edittextPrice?.setText(it.price.toString())
+            binding.edittextCityZipcode?.setText(it.address?.zip_code.toString())
+            binding.edittextCityName?.setText(it.address?.city.toString())
+            binding.edittextStreetName?.setText(it.address?.street_name.toString())
+
 
 
         }

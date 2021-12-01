@@ -11,13 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.ui.updatenew.ViewModelUpdate
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
@@ -41,11 +42,11 @@ class RealEstateDetailFragment : Fragment() {
 
     private var item_id_bundle: String? = null
     private var param2: String? = null
-
+    var adresse: String? = null
     val REQUEST_IMAGE_CAPTURE = 1
 
     //bind recyclerview
-   // val recyclerView: RecyclerView = binding.recyclerview
+    // val recyclerView: RecyclerView = binding.recyclerview
 
     //binding
     private var _binding: FragmentRealEstateDetailBinding? = null
@@ -92,7 +93,8 @@ class RealEstateDetailFragment : Fragment() {
 
         mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { it ->
 
-            val realEstate: RealEstateWithMedia? = it.find { it.realEstate.realEstateId.toString() == item_id_bundle }
+            val realEstate: RealEstateWithMedia? =
+                it.find { it.realEstate.realEstateId.toString() == item_id_bundle }
 
             if (realEstate != null) {
 
@@ -112,24 +114,43 @@ class RealEstateDetailFragment : Fragment() {
                 //binding.textListphotos?.setText(realEstate.photos.toString())
                 //setupRecyclerView(recyclerView, it[0].photosList)
 
-               recyclerViewPhotos?.let { setupRecyclerView(it, realEstate.photosList) }
+                binding.textNumberBathroom.text = realEstate.realEstate.numberOfBathRoom.toString()
+
+                var address: String = realEstate.realEstate.address?.city.toString()
+                recyclerViewPhotos?.let { setupRecyclerView(it, realEstate.photosList) }
+
+
+                address =
+                    realEstate.realEstate.address?.city + "+" + realEstate.realEstate.address?.zip_code + "+" + realEstate.realEstate.address?.street_name
+
+                //https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library
+                val imageUri2 =
+                    "https://maps.googleapis.com/maps/api/staticmap?center=" + address + "&zoom=15&size=600x300&maptype=roadmap" +
+                            "&key=" + BuildConfig.STATICMAP_KEY;
+
+                //"&markers=color:blue%7Clabel:S%7C40.702147,-74.015794" +
+                //"&markers=color:green%7Clabel:G%7C40.711614,-74.012318" +
+                // "&markers=color:red%7Clabel:C%7C40.718217,-73.998284" +
+
+                binding.imageMap?.let {
+                    Glide
+                        .with(this)
+                        .load(imageUri2)
+                        .error(R.drawable.ic_baseline_error_24)
+                        .into(it)
+
+                }
+
+
+
             }
         }
 
-        //https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library
-        val imageUri = "https://i.imgur.com/tGbaZCY.jpg"
 
-        val imageUri2 = "https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyCjjKmm7aC6HVP1ff2r_TME2ZeeUJt655I"
-
-        Picasso.get()
-            .load(imageUri2)
-            .error(R.drawable.ic_baseline_error_24)
-            .into(binding.imageMap);
 
 
         return rootView
     }
-
 
 
     //take a photo of property
@@ -154,8 +175,6 @@ class RealEstateDetailFragment : Fragment() {
 
         }
     }
-
-
 
 
     private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
@@ -186,10 +205,9 @@ class RealEstateDetailFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
 
 
-        if (item_id_bundle != null || item_id_bundle == ""){
+        if (item_id_bundle != null || item_id_bundle == "") {
             menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = true
-        }else
-        {
+        } else {
             menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
         }
 
