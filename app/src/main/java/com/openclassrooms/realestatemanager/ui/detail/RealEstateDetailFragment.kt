@@ -4,9 +4,12 @@ import android.app.Activity.MODE_PRIVATE
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
+import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.ui.MainViewModel
@@ -30,15 +34,8 @@ import java.util.*
 private const val ARG_REAL_ESTATE_ID = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RealEstateDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-
-
 @AndroidEntryPoint  //Hilt annotation for fragment
-class RealEstateDetailFragment : Fragment() {
+class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
     private var item_id_bundle: String? = null
     private var param2: String? = null
@@ -52,13 +49,15 @@ class RealEstateDetailFragment : Fragment() {
     private var _binding: FragmentRealEstateDetailBinding? = null
     private val binding get() = _binding!!
 
+    lateinit var imageMap: ImageView
+    lateinit var imageMapCopy: ImageView
+
+    lateinit var imageUri2: String
 
     //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
     private val updateViewModel by viewModels<ViewModelUpdate>()
-
     private val detailViewModel by viewModels<ViewModelDetail>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,20 +90,26 @@ class RealEstateDetailFragment : Fragment() {
 
         setHasOptionsMenu(true);
 
+        imageMapCopy = binding.imageMap!!
+        imageMap = binding.imageMapTest!!
+
+
         mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { it ->
 
             val realEstate: RealEstateWithMedia? =
-                it.find { it.realEstate.realEstateId.toString() == item_id_bundle }
+                it.find {
+                    it.realEstate.realEstateId.toString() == item_id_bundle
+                }
 
+            //bundle
             if (realEstate != null) {
 
+                detailViewModel.myRealEstate = realEstate.realEstate
 
                 binding.textDescriptionDetail.setText(realEstate.realEstate.descriptionOfProduct)
                 binding.qtyNumberRoom.setText(realEstate.realEstate.numberOfRoom.toString())
                 binding.qtyNumberBedroom.setText(realEstate.realEstate.numberOfBedRoom.toString())
                 binding.qtyNumberBathroom.setText(realEstate.realEstate.numberOfBathRoom.toString())
-
-
                 binding.textNumberStreet?.setText(realEstate.realEstate.address?.street_number.toString())
                 binding.textStreetName?.setText(realEstate.realEstate.address?.street_name.toString())
                 binding.textCityName?.setText(realEstate.realEstate.address?.city.toString())
@@ -124,23 +129,53 @@ class RealEstateDetailFragment : Fragment() {
                     realEstate.realEstate.address?.city + "+" + realEstate.realEstate.address?.zip_code + "+" + realEstate.realEstate.address?.street_name
 
                 //https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library
-                val imageUri2 =
+
+                imageUri2 =
                     "https://maps.googleapis.com/maps/api/staticmap?center=" + address + "&zoom=15&size=600x300&maptype=roadmap" +
                             "&key=" + BuildConfig.STATICMAP_KEY;
+
+
+                //we have an image, load from internal memory
+                if (realEstate.realEstate.staticampuri != null) {
+
+                    binding.imageMap?.let {
+                        Glide
+                            .with(this)
+                            .load(realEstate.realEstate.staticampuri)
+                            .error(R.drawable.ic_baseline_error_24)
+                            .into(it)
+                    }
+
+                } else {
+
+                    //load map into first imageview
+                    Glide
+                        .with(this)
+                        .load(imageUri2)
+                        .centerCrop()
+                        .listener(MyRequestImageListener(this))
+                        .into(imageMap)//end listener
+
+                }
+
+
+                val f = File(context!!.cacheDir, "MyPhoto.jpeg")
+                f.createNewFile()
+//                        binding.imageMapTest?.setImageBitmap(image)
+//                        Glide.with(this).load(image).centerCrop().into(binding.imageMapTest)
+//                        val bos = ByteArrayOutputStream()
+//                        image?.compress(Bitmap.CompressFormat.JPEG, 95, bos)
+//                        val bitmapdata = bos.toByteArray()
+//
+//                        val fos = FileOutputStream(f)
+//                        fos.write(bitmapdata)
+//                        fos.flush()
+//                        fos.close()
+
 
                 //"&markers=color:blue%7Clabel:S%7C40.702147,-74.015794" +
                 //"&markers=color:green%7Clabel:G%7C40.711614,-74.012318" +
                 // "&markers=color:red%7Clabel:C%7C40.718217,-73.998284" +
-
-                binding.imageMap?.let {
-                    Glide
-                        .with(this)
-                        .load(imageUri2)
-                        .error(R.drawable.ic_baseline_error_24)
-                        .into(it)
-
-                }
-
 
 
             }
@@ -179,7 +214,7 @@ class RealEstateDetailFragment : Fragment() {
 
     private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
         return try {
-            context?.openFileOutput("$filename.jpg", MODE_PRIVATE).use { stream ->
+            context?.openFileOutput("MapPhoto_$filename.jpg", MODE_PRIVATE).use { stream ->
 
                 //compress photo
                 if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
@@ -189,6 +224,24 @@ class RealEstateDetailFragment : Fragment() {
 
                 //  FileProvider.getUriForFile(requireContext(),"com.openclassrooms.realestatemanager.fileprovider",$filename)
                 Log.i("[THOMAS]", "chemin " + context?.filesDir)
+
+                var fileNameUri: String? = null
+                fileNameUri = context?.filesDir.toString() + "/" + "MapPhoto_$filename.jpg"
+
+
+                detailViewModel.updateRealEstate(
+                    RealEstate(
+                        realEstateId = item_id_bundle!!.toInt(),
+                        staticampuri = fileNameUri,
+                        typeOfProduct = detailViewModel.myRealEstate?.typeOfProduct,
+                        cityOfProduct = detailViewModel.myRealEstate?.cityOfProduct,
+                        price = detailViewModel.myRealEstate?.price,
+                        surface = detailViewModel.myRealEstate?.surface,
+                        numberOfRoom = detailViewModel.myRealEstate?.numberOfRoom,
+                        descriptionOfProduct = detailViewModel.myRealEstate?.descriptionOfProduct
+                    )
+                )
+
 
             }
             true
@@ -225,16 +278,6 @@ class RealEstateDetailFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RealEstateDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-
 
         const val ARG_REAL_ESTATE_ID = "item_id"
 
@@ -246,5 +289,27 @@ class RealEstateDetailFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onFailure(message: String?) {
+    }
+
+    override fun onSuccess(dataSource: Drawable?) {
+
+        if (dataSource != null) {
+
+            //bitmap
+            val staticMapBitmap = dataSource.toBitmap()
+
+            //t show for
+            Glide.with(this)
+                .load(staticMapBitmap)
+                .centerCrop()
+                .into(imageMapCopy)
+
+            val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            savePhotoToInternalMemory(fileName, staticMapBitmap)
+
+        }
     }
 }

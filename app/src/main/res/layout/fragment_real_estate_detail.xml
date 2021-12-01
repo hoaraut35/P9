@@ -48,7 +48,16 @@
 
             <ImageView
                 android:id="@+id/imageMap"
+
                 android:layout_width="300dp"
+                android:layout_height="300dp">
+
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/imageMapTest"
+                android:layout_width="300dp"
+
                 android:layout_height="300dp">
 
             </ImageView>

@@ -23,7 +23,8 @@ data class RealEstate(
     var status: Boolean? = null,
     var dateOfEntry: String? = null,
     var releaseDate: String? = null,
-    var agent: Int? = null
+    var agent: Int? = null,
+    var staticampuri : String? = null
 
 ) {
 

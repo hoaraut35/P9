@@ -30,6 +30,8 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     suspend fun insertRealEstatePOI(realEstatePOI: RealEstatePOI): Long =
         realEstateDao.insertPointOfInteret(realEstatePOI)
 
+
+    //update realEstate
     suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
 
 

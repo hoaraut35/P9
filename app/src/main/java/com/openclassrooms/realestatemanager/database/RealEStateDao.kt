@@ -25,6 +25,8 @@ interface RealEStateDao {
     @Update
     suspend fun update(realEstate: RealEstate) //suspend for use another thread
 
+
+
     //we can't delete a property....
     @Delete
     suspend fun delete(realEstate: RealEstate) //suspend for use another thread
