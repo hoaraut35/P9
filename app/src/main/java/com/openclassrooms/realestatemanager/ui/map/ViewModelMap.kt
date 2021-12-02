@@ -18,7 +18,4 @@ class ViewModelMap @Inject constructor(private val localDatabaseRepository: Loca
         return LatLng(location.latitude, location.longitude)
     }
 
-
-
-
 }

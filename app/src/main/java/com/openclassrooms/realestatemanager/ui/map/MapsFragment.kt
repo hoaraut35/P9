@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.map
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Build
@@ -9,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,15 +17,12 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentMapsBinding
-import com.openclassrooms.realestatemanager.ui.create.ViewModelForCreate
 import dagger.hilt.android.AndroidEntryPoint
-import com.google.android.gms.maps.model.CameraPosition
-
-
 
 
 @AndroidEntryPoint
@@ -58,6 +53,12 @@ class MapsFragment : Fragment() {
         val sydney = LatLng(-34.0, 151.0)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        setupZoom()
+
+
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -110,11 +111,15 @@ class MapsFragment : Fragment() {
             }
         }
 
-
-
-
-
         return rootView
+    }
+
+
+
+    @SuppressLint("MissingPermission")
+    private fun setupZoom(){
+        myGoogleMap.uiSettings.isZoomControlsEnabled = true
+        myGoogleMap.isMyLocationEnabled = true
     }
 
     private fun setupMyLocation(latLng: LatLng) {
