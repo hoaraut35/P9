@@ -4,12 +4,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
-def apikeyPropertiesFile = rootProject.file("apikey.properties")
-//def apikeyPropertiesFile = rootProject.file("local.properties")
-
-//def apikeyProperties = new Properties()
-//apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
-
 android {
 
     compileSdkVersion 31
@@ -21,11 +15,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        //for api
-//        buildConfigField("String", "STATICMAP_KEY", apikeyProperties['STATIC_MAP_KEY'])
-
-
     }
     buildTypes {
         release {
