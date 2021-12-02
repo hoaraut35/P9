@@ -61,7 +61,7 @@ class RealEstateListAdapter(
 //        {
 
 
-            if (item.photosList.isEmpty()){
+            if (item.mediaList.isEmpty()){
                 Glide.with(holder.itemView)
                     .load(R.drawable.realestate_1)
                     // .override(100, 100)
@@ -73,7 +73,7 @@ class RealEstateListAdapter(
             }else
             {
                 Glide.with(holder.itemView)
-                    .load(item.photosList[0].uri)
+                    .load(item.mediaList[0].uri)
                     // .override(100, 100)
                     //.centerInside()
                     .centerCrop() //ok

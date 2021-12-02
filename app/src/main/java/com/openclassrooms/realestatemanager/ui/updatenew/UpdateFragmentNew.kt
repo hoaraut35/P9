@@ -1,32 +1,22 @@
 package com.openclassrooms.realestatemanager.ui.updatenew
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
+import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [UpdateFragmentNew.newInstance] factory method to
- * create an instance of this fragment.
- */
-
 @AndroidEntryPoint
-class UpdateFragmentNew : Fragment() {
-
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
     private val viewModelUpdate by viewModels<ViewModelUpdate>()
 
@@ -37,8 +27,8 @@ class UpdateFragmentNew : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            //param1 = it.getString(ARG_PARAM1)
+            //param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -46,44 +36,56 @@ class UpdateFragmentNew : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
-        // Inflate the layout for this fragment
         _binding = FragmentUpdateNewBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-
-
-        viewModelUpdate.getEstate()?.observe(viewLifecycleOwner) { it ->
-            //binding.edittextDescriptionUpdate?.setText(it.descriptionOfProduct)
-            Log.i("[VM]", "observer " + it.typeOfProduct)
-            binding.addPhotoCamera?.setText("test")
-
-
-            binding.edittextDescription?.setText(it.descriptionOfProduct)
-            binding.edittextPrice?.setText(it.price.toString())
-            binding.edittextCityZipcode?.setText(it.address?.zip_code.toString())
-            binding.edittextCityName?.setText(it.address?.city.toString())
-            binding.edittextStreetName?.setText(it.address?.street_name.toString())
+        //val recyclerView: RecyclerView? = binding.recyclerview
 
 
 
-        }
 
-        return rootView
 
-    }
 
-    companion object {
+//        binding.addPhotoCamera?.setText("test")
+//        //    binding.edittextDescription?.setText(myRealEstate.descriptionOfProduct)
+//        binding.edittextPrice?.setText(myRealEstate.price.toString())
+//        binding.edittextCityZipcode?.setText(myRealEstate.address?.zip_code.toString())
+//        binding.edittextCityName?.setText(myRealEstate.address?.city.toString())
+//        binding.edittextStreetName?.setText(myRealEstate.address?.street_name.toString())
 
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            UpdateFragmentNew().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+
+
+
+
+    return rootView
+
+}
+
+private fun setupRecyclerView(recyclerView: RecyclerView, mediaList: List<RealEstateMedia>) {
+    val myLayoutManager =
+        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+    recyclerView.layoutManager = myLayoutManager
+    recyclerView.adapter = UpdateAdapter(mediaList, this)
+}
+
+companion object {
+
+    @JvmStatic
+    fun newInstance(param1: String, param2: String) =
+        UpdateFragmentNew().apply {
+            arguments = Bundle().apply {
+                putString(ARG_PARAM1, param1)
+                putString(ARG_PARAM2, param2)
             }
-    }
+        }
+}
+
+override fun onChangedTitlePhoto(title: String, uri: String) {
+
+}
+
+override fun onDeletePhoto(media: RealEstateMedia) {
+
+}
 }

@@ -205,6 +205,15 @@
                     android:layout_height="wrap_content"
                     android:hint="Entrez le nombre de pièces">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_number_room"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -290,13 +299,7 @@
 
                 <!-- insert PIO here -->
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittext_number_room"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number">
 
-                </com.google.android.material.textfield.TextInputEditText>
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/property_state"

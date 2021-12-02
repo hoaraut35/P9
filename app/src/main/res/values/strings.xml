@@ -35,4 +35,8 @@
     <string name="menu_title_create">Create</string>
     <string name="menu_title_update">Update</string>
     <string name="menu_title_search">Search</string>
+    <string name="title_location">Localisation</string>
+    <string name="description_price">100000</string>
+    <string name="description_type">House</string>
+    <string name="qty_surface">200</string>
 </resources>

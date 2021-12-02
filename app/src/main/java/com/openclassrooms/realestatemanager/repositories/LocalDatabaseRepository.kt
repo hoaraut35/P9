@@ -16,7 +16,14 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     //  fun getRealEstate(realEstateId : Int) = realEstateDao.getRealEstateWithId(realEstateId)
     fun getRealEstate(id: Int) = realEstateDao.getRealEstateWithId(id)
 
-    fun getAllRealEstateWithPhotos() = realEstateDao.getAllDataFromRealEstate()
+    fun getAllRealEstateWithMedias() = realEstateDao.getAllDataFromRealEstate()
+
+    fun getCurrentRealEstateWithMedia(id: Int) = realEstateDao.getCurrentRealEstateWithMedia(id)
+
+
+
+
+
 
     fun getAllRealEstateWithPOI() = realEstateDao.getAllDataWithPOI()
 
@@ -33,6 +40,8 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
 
     //update realEstate
     suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
+
+
 
 
     //WARNING USED BY CONTENT PROVIDER

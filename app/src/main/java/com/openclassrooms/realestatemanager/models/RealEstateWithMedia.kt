@@ -9,5 +9,5 @@ data class RealEstateWithMedia(
         parentColumn = "realEstateId",
         entityColumn = "realEstateParentId"
     )
-    val photosList: List<RealEstateMedia>
+    val mediaList: List<RealEstateMedia>
 )

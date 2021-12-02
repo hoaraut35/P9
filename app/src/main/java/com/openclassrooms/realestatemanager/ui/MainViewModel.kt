@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
 
     var allRealEstate = localDatabaseRepository.getAllRealEstate().asLiveData()
 
-    var allRealEstateWithPhotos = localDatabaseRepository.getAllRealEstateWithPhotos().asLiveData()
+    var allRealEstateWithPhotos = localDatabaseRepository.getAllRealEstateWithMedias().asLiveData()
 
     //var getAllRealEstateWithVideos = localDatabaseRepository.getAllRealEstateWithVideos().asLiveData()
 

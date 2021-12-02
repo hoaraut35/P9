@@ -42,9 +42,6 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
     var adresse: String? = null
     val REQUEST_IMAGE_CAPTURE = 1
 
-    //bind recyclerview
-    // val recyclerView: RecyclerView = binding.recyclerview
-
     //binding
     private var _binding: FragmentRealEstateDetailBinding? = null
     private val binding get() = _binding!!
@@ -81,7 +78,6 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
         savedInstanceState: Bundle?
     ): View? {
 
-        // Inflate the layout for this fragment
         _binding = FragmentRealEstateDetailBinding.inflate(inflater, container, false)
 
         val rootView = binding.root
@@ -92,7 +88,6 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
         imageMapCopy = binding.imageMap!!
         imageMap = binding.imageMapTest!!
-
 
         mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { it ->
 
@@ -106,24 +101,27 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
                 detailViewModel.myRealEstate = realEstate.realEstate
 
+                //decription
                 binding.textDescriptionDetail.setText(realEstate.realEstate.descriptionOfProduct)
-                binding.qtyNumberRoom.setText(realEstate.realEstate.numberOfRoom.toString())
-                binding.qtyNumberBedroom.setText(realEstate.realEstate.numberOfBedRoom.toString())
-                binding.qtyNumberBathroom.setText(realEstate.realEstate.numberOfBathRoom.toString())
+
+                //address
                 binding.textNumberStreet?.setText(realEstate.realEstate.address?.street_number.toString())
                 binding.textStreetName?.setText(realEstate.realEstate.address?.street_name.toString())
                 binding.textCityName?.setText(realEstate.realEstate.address?.city.toString())
                 binding.textZipcode?.setText(realEstate.realEstate.address?.zip_code.toString())
                 binding.textCountry?.setText(realEstate.realEstate.address?.country.toString())
 
-                //binding.textListphotos?.setText(realEstate.photos.toString())
-                //setupRecyclerView(recyclerView, it[0].photosList)
+                binding.textPrice?.setText(realEstate.realEstate.price.toString())
+                binding.qtySurface?.setText(realEstate.realEstate.surface.toString())
 
-                binding.textNumberBathroom.text = realEstate.realEstate.numberOfBathRoom.toString()
+                //data
+                binding.qtyNumberBedroom.setText("Bedroom : " + realEstate.realEstate.numberOfBedRoom.toString())
+                binding.qtyNumberBathroom.setText("Bathroom : " + realEstate.realEstate.numberOfBathRoom.toString())
+                binding.qtyNumberRoom.setText("Room : " + realEstate.realEstate.numberOfRoom.toString())
+
 
                 var address: String = realEstate.realEstate.address?.city.toString()
-                recyclerViewPhotos?.let { setupRecyclerView(it, realEstate.photosList) }
-
+                recyclerViewPhotos?.let { setupRecyclerView(it, realEstate.mediaList) }
 
                 address =
                     realEstate.realEstate.address?.city + "+" + realEstate.realEstate.address?.zip_code + "+" + realEstate.realEstate.address?.street_name
@@ -134,20 +132,14 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                     "https://maps.googleapis.com/maps/api/staticmap?center=" + address + "&zoom=15&size=600x300&maptype=roadmap" +
                             "&key=" + BuildConfig.STATICMAP_KEY;
 
-
                 //we have an image, load from internal memory
                 if (realEstate.realEstate.staticampuri != null) {
 
                     binding.imageMap?.let {
-                        Glide
-                            .with(this)
-                            .load(realEstate.realEstate.staticampuri)
-                            .error(R.drawable.ic_baseline_error_24)
-                            .into(it)
+                        Glide.with(this).load(realEstate.realEstate.staticampuri).error(R.drawable.ic_baseline_error_24).into(it)
                     }
 
                 } else {
-
                     //load map into first imageview
                     Glide
                         .with(this)
@@ -155,38 +147,13 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                         .centerCrop()
                         .listener(MyRequestImageListener(this))
                         .into(imageMap)//end listener
-
                 }
-
-
-                val f = File(context!!.cacheDir, "MyPhoto.jpeg")
-                f.createNewFile()
-//                        binding.imageMapTest?.setImageBitmap(image)
-//                        Glide.with(this).load(image).centerCrop().into(binding.imageMapTest)
-//                        val bos = ByteArrayOutputStream()
-//                        image?.compress(Bitmap.CompressFormat.JPEG, 95, bos)
-//                        val bitmapdata = bos.toByteArray()
-//
-//                        val fos = FileOutputStream(f)
-//                        fos.write(bitmapdata)
-//                        fos.flush()
-//                        fos.close()
-
-
-                //"&markers=color:blue%7Clabel:S%7C40.702147,-74.015794" +
-                //"&markers=color:green%7Clabel:G%7C40.711614,-74.012318" +
-                // "&markers=color:red%7Clabel:C%7C40.718217,-73.998284" +
-
 
             }
         }
 
-
-
-
         return rootView
     }
-
 
     //take a photo of property
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
