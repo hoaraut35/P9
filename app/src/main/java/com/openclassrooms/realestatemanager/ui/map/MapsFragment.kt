@@ -102,10 +102,10 @@ class MapsFragment : Fragment() {
             Log.i("[POSITION]", "Position " + location?.longitude + " " + location?.latitude)
 
             if (location != null){
-                viewModelMap.location = location
 
+                viewModelMap.latLng = viewModelMap.setLocation(location)
 
-                setupMyLocation(  viewModelMap.setLocation(location))
+                setupMyLocation(  viewModelMap.latLng!!)
 
             }
         }

@@ -11,10 +11,14 @@ import javax.inject.Inject
 class ViewModelMap @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository): ViewModel() {
 
     var location : Location? = null
+    var latLng : LatLng? = null
 
     fun setLocation(location: Location):LatLng {
+
         return LatLng(location.latitude, location.longitude)
     }
+
+
 
 
 }
