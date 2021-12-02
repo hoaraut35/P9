@@ -1,21 +1,33 @@
 package com.openclassrooms.realestatemanager.ui.map
 
-import androidx.fragment.app.Fragment
-
+import android.Manifest
+import android.annotation.SuppressLint
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.FragmentMapsBinding
 
 class MapsFragment : Fragment() {
+
+    private var _binding: FragmentMapsBinding? = null
+    private val binding get() = _binding!!
+
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -32,6 +44,8 @@ class MapsFragment : Fragment() {
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    @SuppressLint("MissingPermission")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,14 +53,44 @@ class MapsFragment : Fragment() {
     ): View? {
 
 
+        // Inflate the layout for this fragment
+        _binding = FragmentMapsBinding.inflate(inflater, container, false)
+        val rootView = binding.root
+
+        val locationPermissionRequest = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                    // Precise location access granted.
+                    Log.i("[POSITION]", "Position autorisée")
+                }
+                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                    // Only approximate location access granted.
+                    Log.i("[POSITION]", "Position approximative")
+                }
+                else -> {
+                    // No location access granted.
+                    Log.i("[POSITION]", "Position refusée ")
+                }
+            }
+        }
+
+        locationPermissionRequest.launch(arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION))
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
+            Log.i("[POSITION]", "Position " + location?.longitude + " " + location?.latitude)
+        }
 
 
 
-        return inflater.inflate(R.layout.fragment_maps, container, false)
 
 
-
-
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
