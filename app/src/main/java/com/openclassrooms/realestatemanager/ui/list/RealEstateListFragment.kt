@@ -20,33 +20,20 @@ private const val ARG_PARAM2 = "param2"
 @AndroidEntryPoint  //Hilt annotation for fragment
 class RealEstateListFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
-
-    //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
 
-    //binding
     private var _binding: FragmentListRealestateBinding? = null
     private val binding get() = _binding!!
 
-    //get data bundle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
-    //startup
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //for menu
         setHasOptionsMenu(true);
 
-        //bind recyclerview
         val recyclerView: RecyclerView = binding.recyclerview
 
         //check if detail fragmenet exist
@@ -88,7 +75,6 @@ class RealEstateListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentListRealestateBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -97,12 +83,7 @@ class RealEstateListFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            RealEstateListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+            RealEstateListFragment().apply {     }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

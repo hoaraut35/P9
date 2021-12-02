@@ -4,7 +4,6 @@ package com.openclassrooms.realestatemanager.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -20,17 +19,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint  //Hilt annotation for activity
 class MainActivity : AppCompatActivity() {
 
-    //binding
     private lateinit var binding: ActivityMainBinding
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
-    lateinit var  navController : NavController
+    lateinit var navController: NavController
 
-    //viewmodel
-    private val mainViewModel by viewModels<MainViewModel>()
-
-    //navigation
-    private lateinit var appBarConfiguration : AppBarConfiguration
-
+    //TODO: do not remove for exam
     //private var textViewMain: TextView? = null
     //private var textViewQuantity: TextView? = null
 
@@ -41,11 +35,12 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
         navController = navHostFragment.navController
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(this,navController, appBarConfiguration)
+        setupActionBarWithNavController(this, navController, appBarConfiguration)
 
     }
 
@@ -54,8 +49,8 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item,navController)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item, navController)
     }
 
     //to setup return button on fragment
@@ -64,22 +59,21 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-//    private fun configureTextViewMain() {
-//       /* binding.activityMainActivityTextViewMain!!.textSize=15f
-//        binding.activityMainActivityTextViewMain!!.text="Le premier bien immobilier enregistré vaut "
-//        //textViewMain!!.textSize = 15f
-//        //textViewMain!!.text = "Le premier bien immobilier enregistré vaut "
-//
-//        */
-//    }
-
-//    private fun configureTextViewQuantity() {
-//       /* val quantity = Utils.convertDollarToEuro(100)
-//        textViewQuantity!!.textSize = 20f
-//        //second bug
-//        //this.textViewQuantity.setText(quantity);
-//        textViewQuantity!!.text = quantity.toString()
-//
-//        */
-//    }
+    //    private fun configureTextViewMain() {
+    //       /* binding.activityMainActivityTextViewMain!!.textSize=15f
+    //        binding.activityMainActivityTextViewMain!!.text="Le premier bien immobilier enregistré vaut "
+    //        //textViewMain!!.textSize = 15f
+    //        //textViewMain!!.text = "Le premier bien immobilier enregistré vaut "
+    //
+    //        */
+    //    }
+    //    private fun configureTextViewQuantity() {
+    //       /* val quantity = Utils.convertDollarToEuro(100)
+    //        textViewQuantity!!.textSize = 20f
+    //        //second bug
+    //        //this.textViewQuantity.setText(quantity);
+    //        textViewQuantity!!.text = quantity.toString()
+    //
+    //        */
+    //    }
 }

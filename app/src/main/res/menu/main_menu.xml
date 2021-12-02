@@ -18,6 +18,12 @@
         android:id="@+id/searchFragment"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/menu_title_search"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/mapsFragment"
+        android:icon="@drawable/ic_baseline_map_24"
+        android:title="@string/menu_map"
         app:showAsAction="always" />
 
 </menu>

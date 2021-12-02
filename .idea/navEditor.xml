@@ -73,13 +73,25 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="mapsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="715" />
+                            <option name="y" value="464" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="realEstateCreateBtn">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="658" />
-                            <option name="y" value="-652" />
+                            <option name="x" value="706" />
+                            <option name="y" value="-617" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -90,13 +102,23 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="397" />
-                            <option name="y" value="7" />
+                            <option name="x" value="44" />
+                            <option name="y" value="-519" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_realEstateDetailFragment_to_mapsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_realEstateDetailFragment_to_realEstateModifier">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_realEstateDetailFragment_to_realEstateUpdateBtnNew">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -117,6 +139,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_realEstateListFragment_to_mapsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="show_item_detail">
                               <value>
                                 <LayoutPositions />
@@ -144,8 +171,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="744" />
-                            <option name="y" value="471" />
+                            <option name="x" value="795" />
+                            <option name="y" value="1093" />
                           </Point>
                         </option>
                       </LayoutPositions>

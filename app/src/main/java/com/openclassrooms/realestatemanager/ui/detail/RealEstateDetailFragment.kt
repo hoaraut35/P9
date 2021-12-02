@@ -24,12 +24,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_REAL_ESTATE_ID = "param1"
-private const val ARG_PARAM2 = "param2"
-
-@AndroidEntryPoint  //Hilt annotation for fragment
+@AndroidEntryPoint
 class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
     private val mainViewModel by viewModels<MainViewModel>()

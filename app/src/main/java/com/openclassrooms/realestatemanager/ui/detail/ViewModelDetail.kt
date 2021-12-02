@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import com.openclassrooms.realestatemanager.repositories.Shared
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +16,7 @@ class ViewModelDetail @Inject constructor(
 ) : ViewModel() {
 
 
-    var myRealEstate : RealEstate? = null
+    var myRealEstate: RealEstate? = null
 
     @JvmName("setPropertyId1")
     fun setPropertyId(id: Int) {
@@ -28,6 +27,5 @@ class ViewModelDetail @Inject constructor(
 
     fun updateRealEstate(realEstate: RealEstate) =
         viewModelScope.launch { localDatabaseRepository.insertRealEstate(realEstate) }
-
 
 }

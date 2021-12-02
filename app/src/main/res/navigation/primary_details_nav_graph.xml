@@ -9,10 +9,15 @@
         android:id="@+id/realEstateListFragment"
         android:name="com.openclassrooms.realestatemanager.ui.list.RealEstateListFragment"
         android:label="Real Estate Manager">
+
         <action
             android:id="@+id/show_item_detail"
             app:destination="@id/realEstateDetailFragment" />
+        <action
+            android:id="@+id/action_realEstateListFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
+
 
     <fragment
         android:id="@+id/realEstateDetailFragment"
@@ -29,9 +34,11 @@
         <action
             android:id="@+id/action_realEstateDetailFragment_to_realEstateUpdateBtnNew"
             app:destination="@id/realEstateUpdateBtnNew" />
-
-
+        <action
+            android:id="@+id/action_realEstateDetailFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
+
 
     <fragment
         android:id="@+id/realEstateCreateBtn"
@@ -43,15 +50,18 @@
         android:id="@+id/realEstateUpdateBtnNew"
         android:name="com.openclassrooms.realestatemanager.ui.updatenew.UpdateFragmentNew"
         android:label="Modification RealEstate"
-        tools:layout="@layout/fragment_update_new"
-        />
-
-
+        tools:layout="@layout/fragment_update_new" />
 
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.openclassrooms.realestatemanager.ui.search.SearchFragment"
         android:label="Mode recherche"
         tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.openclassrooms.realestatemanager.ui.map.MapsFragment"
+        android:label="Mode carte"
+        tools:layout="@layout/fragment_maps" />
 
 </navigation>

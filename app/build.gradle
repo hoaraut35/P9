@@ -2,8 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
-
-
+apply plugin: 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
 def apikeyProperties = new Properties()
@@ -22,7 +21,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         //for api
-        buildConfigField("String", "STATICMAP_KEY", apikeyProperties['STATICMAP_KEY'])
+        buildConfigField("String", "STATICMAP_KEY", apikeyProperties['STATIC_MAP_KEY'])
+
 
     }
     buildTypes {
@@ -45,9 +45,14 @@ android {
 
 dependencies {
 
+
+
+    //GoogleMap
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
     //square
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.0'
 
     // To use the androidx.test.core APIs
     androidTestImplementation("androidx.test:core:1.4.0")
