@@ -35,6 +35,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
     private var itemIdBundle: String? = null
     lateinit var imageMap: ImageView
+
     lateinit var imageUri2: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +59,8 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
         val recyclerViewMedias: RecyclerView? = binding.recyclerviewPhotos
 
         setHasOptionsMenu(true);
+
+        imageMap = binding.imageMap
 
         mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { it ->
 
@@ -91,7 +94,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
                 imageUri2 =
                     "https://maps.googleapis.com/maps/api/staticmap?center=" + address + "&zoom=15&size=600x300&maptype=roadmap" +
-                            "&key=" + BuildConfig.STATICMAP_KEY;
+                            "&key=" + BuildConfig.GOOGLE_MAP_KEY;
 
                 //we have an image, load from internal memory
                 if (realEstate.realEstate.staticampuri != null) {

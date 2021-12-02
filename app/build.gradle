@@ -5,8 +5,10 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
-def apikeyProperties = new Properties()
-apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+//def apikeyPropertiesFile = rootProject.file("local.properties")
+
+//def apikeyProperties = new Properties()
+//apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
 
@@ -21,7 +23,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         //for api
-        buildConfigField("String", "STATICMAP_KEY", apikeyProperties['STATIC_MAP_KEY'])
+//        buildConfigField("String", "STATICMAP_KEY", apikeyProperties['STATIC_MAP_KEY'])
 
 
     }
