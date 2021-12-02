@@ -37,10 +37,10 @@ private const val ARG_PARAM2 = "param2"
 @AndroidEntryPoint  //Hilt annotation for fragment
 class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
-    private var item_id_bundle: String? = null
-    private var param2: String? = null
+    private var itemIdBundle: String? = null
+
     var adresse: String? = null
-    val REQUEST_IMAGE_CAPTURE = 1
+    private val REQUEST_IMAGE_CAPTURE = 1
 
     //binding
     private var _binding: FragmentRealEstateDetailBinding? = null
@@ -53,23 +53,18 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
     //viewmodel
     private val mainViewModel by viewModels<MainViewModel>()
-    private val updateViewModel by viewModels<ViewModelUpdate>()
+    //private val updateViewModel by viewModels<ViewModelUpdate>()
     private val detailViewModel by viewModels<ViewModelDetail>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let {
-
             if (it.containsKey(ARG_REAL_ESTATE_ID)) {
-                item_id_bundle = it.getString(ARG_REAL_ESTATE_ID)
+                itemIdBundle = it.getString(ARG_REAL_ESTATE_ID)
 
                 //updateViewModel.loadRealEstateId(item_id_bundle.toString())
-                item_id_bundle?.let { it1 -> detailViewModel.setPropertyId(it1?.toInt()) }
-
+                itemIdBundle?.let { it1 -> detailViewModel.setPropertyId(it1?.toInt()) }
             }
-
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -79,7 +74,6 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
     ): View? {
 
         _binding = FragmentRealEstateDetailBinding.inflate(inflater, container, false)
-
         val rootView = binding.root
 
         val recyclerViewPhotos: RecyclerView? = binding.recyclerviewPhotos
@@ -93,7 +87,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
             val realEstate: RealEstateWithMedia? =
                 it.find {
-                    it.realEstate.realEstateId.toString() == item_id_bundle
+                    it.realEstate.realEstateId.toString() == itemIdBundle
                 }
 
             //bundle
@@ -136,7 +130,8 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                 if (realEstate.realEstate.staticampuri != null) {
 
                     binding.imageMap?.let {
-                        Glide.with(this).load(realEstate.realEstate.staticampuri).error(R.drawable.ic_baseline_error_24).into(it)
+                        Glide.with(this).load(realEstate.realEstate.staticampuri)
+                            .error(R.drawable.ic_baseline_error_24).into(it)
                     }
 
                 } else {
@@ -158,12 +153,10 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
     //take a photo of property
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i("[THOMAS]", "Take a photo : " + data.toString())
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras!!.get("data") as Bitmap
             binding.staticMapView!!.setImageBitmap(imageBitmap)
-
 
             val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
             val storageDir = File(context?.filesDir, "test")
@@ -172,33 +165,35 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
             //File.createTempFile("JPEG_THOMAS_",".jpg",context?.filesDir).apply { Log.i("[THOMAS]", "Photo path :$absolutePath"  ) }
 
-            savePhotoToInternalMemory("Photo_$fileName", imageBitmap)
-
+            if (savePhotoToInternalMemory("Photo_$fileName", imageBitmap)) {
+                Log.i("[TEST]", "Vrai")
+            } else {
+                Log.i("[TEST]", "Faux")
+            }
 
         }
     }
 
+    private fun savePhotoToInternalMemory(dateOfFile: String, bitmap: Bitmap): Boolean {
 
-    private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
         return try {
-            context?.openFileOutput("MapPhoto_$filename.jpg", MODE_PRIVATE).use { stream ->
+
+            val fileName: String = "StaticMapPhoto"
+
+            context?.openFileOutput("$fileName$dateOfFile.jpg", MODE_PRIVATE).use { stream ->
 
                 //compress photo
-                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                    throw IOException("erreur compression")
+                if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
+                    throw IOException("Compression fail")
                 }
 
+                val fileNameUri: String =
+                    context?.filesDir.toString() + "/" + "$fileName$dateOfFile.jpg"
 
-                //  FileProvider.getUriForFile(requireContext(),"com.openclassrooms.realestatemanager.fileprovider",$filename)
-                Log.i("[THOMAS]", "chemin " + context?.filesDir)
-
-                var fileNameUri: String? = null
-                fileNameUri = context?.filesDir.toString() + "/" + "MapPhoto_$filename.jpg"
-
-
+                //TODO: update just one column
                 detailViewModel.updateRealEstate(
                     RealEstate(
-                        realEstateId = item_id_bundle!!.toInt(),
+                        realEstateId = itemIdBundle!!.toInt(),
                         staticampuri = fileNameUri,
                         typeOfProduct = detailViewModel.myRealEstate?.typeOfProduct,
                         cityOfProduct = detailViewModel.myRealEstate?.cityOfProduct,
@@ -208,40 +203,35 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                         descriptionOfProduct = detailViewModel.myRealEstate?.descriptionOfProduct
                     )
                 )
-
-
             }
             true
 
         } catch (e: IOException) {
             e.printStackTrace()
             false
-
         }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
+        //if (itemIdBundle != null || itemIdBundle == "") {
 
-        if (item_id_bundle != null || item_id_bundle == "") {
-            menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = true
-        } else {
-            menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
+        when (itemIdBundle != "") {
+            true -> menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = true
+            else -> menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
         }
-
 
     }
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateList: List<RealEstateMedia>
+        myRealEstateWithMediaList: List<RealEstateMedia>
     ) {
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
-        recyclerView.adapter = RealEstatePhotosAdapter(myRealEstateList)
+        recyclerView.adapter = RealEstatePhotosAdapter(myRealEstateWithMediaList)
     }
 
     companion object {
@@ -253,7 +243,6 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             RealEstateDetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_REAL_ESTATE_ID, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }
@@ -275,7 +264,13 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                 .into(imageMapCopy)
 
             val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-            savePhotoToInternalMemory(fileName, staticMapBitmap)
+
+            if (savePhotoToInternalMemory("Photo_$fileName", staticMapBitmap)) {
+                Log.i("[TEST]", "Vrai")
+            } else {
+                Log.i("[TEST]", "Faux")
+            }
+            //savePhotoToInternalMemory(fileName, staticMapBitmap)
 
         }
     }
