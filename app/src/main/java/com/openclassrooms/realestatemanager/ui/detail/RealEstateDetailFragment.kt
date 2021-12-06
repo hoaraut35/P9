@@ -57,26 +57,8 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
         imageMap = binding.imageMap
 
-
-        //realestates work
-        detailViewModel.getRealEstatesLiveData().observe(viewLifecycleOwner){
-            Log.i("[OBSERVE]","All element just realestate data : "+ it.toString())
-        }
-
-        //realestates with full data work
-        detailViewModel.getRealEstatesFullData().observe(viewLifecycleOwner){
-            Log.i("[OBSERVE]","All element full data : "+it.toString())
-
-
-
-
-
-        }
-
         //realEstate with full data by id work
         detailViewModel.getRealEstateFullById(itemIdBundle!!.toInt()).observe(viewLifecycleOwner){
-            Log.i("[OBSERVE]","Just first element : "+it.toString())
-
 
             binding.textType?.text = it.realEstateFullData.typeOfProduct
             binding.textPrice?.text = it.realEstateFullData.price.toString()
@@ -87,8 +69,6 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             binding.textNumberBedroom?.text = it.realEstateFullData.numberOfBedRoom.toString()
 
             binding.textDescription?.text = it.realEstateFullData.descriptionOfProduct
-
-            //photo video
 
             it.mediaList?.let { it1 ->
                 if (recyclerViewMedias != null) {
@@ -103,6 +83,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
             //poi
 
+            binding.textState?.text = it.realEstateFullData.status?.toString()
             //status du bien
 
             //date d'entrée

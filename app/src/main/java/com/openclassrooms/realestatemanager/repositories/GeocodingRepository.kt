@@ -1,48 +1,47 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.openclassrooms.realestatemanager.api.GoogleGeocoding
 import com.openclassrooms.realestatemanager.api.ResponseGeocoding
-import com.openclassrooms.realestatemanager.database.RealEStateDao
-import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
-class GeocodingRepository @Inject constructor(private val googleGeocoding : GoogleGeocoding) {
+class GeocodingRepository @Inject constructor(private val googleGeocoding: GoogleGeocoding) {
 
-   private fun getResult()  = googleGeocoding.getLatLngByAddress().enqueue(object : Callback<ResponseGeocoding>{
-      override fun onResponse(
-         call: Call<ResponseGeocoding>,
-         response: Response<ResponseGeocoding>
-      ) {
-
-         if (response.isSuccessful){
-            Log.i("[API]","" + response.body().toString())
-         }
-
-      }
-
-      override fun onFailure(call: Call<ResponseGeocoding>, t: Throwable) {
-
-      }
-
-   })
-
-   init {
-       getResult()
-   }
+    private var mutableListOfGPS = mutableListOf<ResponseGeocoding>()
+    private var mutableListOfLocation = MutableLiveData<List<ResponseGeocoding>>()
 
 
+    fun getLatLngList() : LiveData<List<ResponseGeocoding>>{
+        return mutableListOfLocation
+    }
 
+    fun getLatLngAddress(address: String) {
+        googleGeocoding.getLatLngByAddress(address).enqueue(object : Callback<ResponseGeocoding> {
+            override fun onResponse(
+                call: Call<ResponseGeocoding>,
+                response: Response<ResponseGeocoding>
+            ) {
 
-   fun getLatLngByAddress() {
-      getResult()
-   }
+                if (response.isSuccessful) {
+                    mutableListOfGPS.add(response.body()!!)
+                    mutableListOfLocation.value = mutableListOfGPS
+                    Log.i("jhkjkj","")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseGeocoding>, t: Throwable) {
+
+            }
+
+        })
+    }
 
 
 }

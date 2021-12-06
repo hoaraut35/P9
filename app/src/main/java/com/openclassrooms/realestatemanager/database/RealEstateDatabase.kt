@@ -50,9 +50,9 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         price = 17870000,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
                         address = RealEstateAddress(
-                            zip_code = 35000,
-                            city = "Rennes",
-                            street_name = "rue du stade",
+                            zip_code = 35220,
+                            city = "Saint Didier",
+                            street_name = "rue du champ fleuri",
                             street_number = 7,
                             country = "FRANCE"
                         ),
@@ -69,10 +69,10 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         price = 21130000,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum",
                         address = RealEstateAddress(
-                            zip_code = 44000,
-                            city = "Nantes",
-                            street_name = "rue des sports",
-                            street_number = 15,
+                            zip_code = 35220,
+                            city = "Saint Didier",
+                            street_name = "place de l'église",
+                            street_number = 1,
                             country = "FRANCE"
                         )
                     )
@@ -89,23 +89,11 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         descriptionOfProduct = "Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo volup",
                         address = RealEstateAddress(
                             zip_code = 29000,
-                            city = "Brest",
-                            street_name = "rue de la plage",
+                            city = "Saint Didier",
+                            street_name = "rue du vieu moulin",
                             street_number = 11,
                             country = "FRANCE"
                         )
-                    )
-                )
-                dao.insert(
-                    RealEstate(
-                        numberOfBathRoom = 4,
-                        numberOfBedRoom = 5,
-                        numberOfRoom = 8,
-                        surface = 200,
-                        typeOfProduct = "House",
-                        cityOfProduct = "Southhampton",
-                        price = 41480000,
-                        descriptionOfProduct = " rem quisquam natus. Quo volup"
                     )
                 )
 

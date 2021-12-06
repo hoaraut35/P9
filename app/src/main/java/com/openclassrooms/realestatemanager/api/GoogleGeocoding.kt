@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface GoogleGeocoding  {
 
-    @GET("geocode/json?address=24%20Sussex%20Drive%20Ottawa%20ON&key=${BuildConfig.GOOGLE_MAP_KEY}&language=fr")
-    fun getLatLngByAddress(): Call<ResponseGeocoding>
+    @GET("geocode/json?language=fr&key=${BuildConfig.GOOGLE_MAP_KEY}")
+    fun getLatLngByAddress(@Query("address") address: String): Call<ResponseGeocoding>
 
 }

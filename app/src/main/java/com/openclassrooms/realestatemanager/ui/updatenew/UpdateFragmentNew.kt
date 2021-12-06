@@ -40,6 +40,19 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         _binding = FragmentUpdateNewBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
+
+
+
+//        //realestates work
+//        detailViewModel.getRealEstatesLiveData().observe(viewLifecycleOwner){
+//            Log.i("[OBSERVE]","All element just realestate data : "+ it.toString())
+//        }
+
+//        //realestates with full data work
+//        detailViewModel.getRealEstatesFullData().observe(viewLifecycleOwner){
+//            Log.i("[OBSERVE]","All element full data : "+it.toString())
+//        }
+
         //val recyclerView: RecyclerView? = binding.recyclerview
 
 

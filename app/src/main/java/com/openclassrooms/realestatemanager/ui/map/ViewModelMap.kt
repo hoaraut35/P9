@@ -1,11 +1,13 @@
 package com.openclassrooms.realestatemanager.ui.map
 
 import android.location.Location
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.google.android.gms.maps.model.LatLng
+import com.openclassrooms.realestatemanager.api.ResponseGeocoding
 import com.openclassrooms.realestatemanager.repositories.GeocodingRepository
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
-import com.openclassrooms.realestatemanager.repositories.LocalisationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,19 +15,25 @@ import javax.inject.Inject
 class ViewModelMap @Inject constructor(
     private val localDatabaseRepository: LocalDatabaseRepository,
     private val localisationRepository: GeocodingRepository
-): ViewModel() {
+) : ViewModel() {
 
-    var location : Location? = null
-    var latLng : LatLng? = null
+    fun getRealEstateFull() = localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
 
-    fun setLocation(location: Location):LatLng {
+    var location: Location? = null
+    var latLng: LatLng? = null
 
+    fun setLocation(location: Location): LatLng {
         return LatLng(location.latitude, location.longitude)
     }
 
-    fun getResult(){
-        localisationRepository.getLatLngByAddress()
+    //from ui to get data
+    fun getResult(address: String) {
+        localisationRepository.getLatLngAddress(address)
     }
 
+    //retour for ui
+    fun getLatLngFromRepo() : LiveData<List<ResponseGeocoding>>{
+        return localisationRepository.getLatLngList()
+    }
 
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -33,20 +34,11 @@ class MapsFragment : Fragment() {
 
     private val viewModelMap by viewModels<ViewModelMap>()
 
-    lateinit var myGoogleMap : GoogleMap
+    lateinit var myGoogleMap: GoogleMap
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
 
         myGoogleMap = googleMap
 
@@ -55,9 +47,6 @@ class MapsFragment : Fragment() {
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
         setupZoom()
-
-
-
 
     }
 
@@ -97,42 +86,87 @@ class MapsFragment : Fragment() {
 //            Manifest.permission.ACCESS_FINE_LOCATION,
 //            Manifest.permission.ACCESS_COARSE_LOCATION))
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        viewModelMap.getRealEstateFull().observe(viewLifecycleOwner, Observer {listRealEstate ->
+
+            for (realEstate in listRealEstate) {
+
+                if (realEstate.realEstateFullData.address!!.street_name != null && realEstate.realEstateFullData.address!!.city != null && realEstate.realEstateFullData.address!!.zip_code != null ) {
+
+                    val address = "${realEstate.realEstateFullData.address!!.zip_code}"
+
+                    viewModelMap.getResult(address)
+
+                    Log.i("[API]", "" +  viewModelMap.getResult(address))
+
+                }
+            }
+        })
+
+        viewModelMap.getLatLngFromRepo()
+            .observe(viewLifecycleOwner, Observer { listMArkersToCreate ->
+
+                listMArkersToCreate.forEach { item ->
+                    myGoogleMap.addMarker(
+                        MarkerOptions()
+                            .position(
+                                LatLng(
+                                    item.results!![0]!!.geometry!!.location!!.lat!!,
+                                    item.results!![0]!!.geometry!!.location!!.lng!!
+                                )
+                            )
+                            .title("Ma position")
+                    )
+                }
+            })
+
+
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
 
         fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
             Log.i("[POSITION]", "Position " + location?.longitude + " " + location?.latitude)
 
-            if (location != null){
+            if (location != null) {
 
                 viewModelMap.latLng = viewModelMap.setLocation(location)
 
-                setupMyLocation(  viewModelMap.latLng!!)
+
+                setupMyLocation(viewModelMap.latLng!!)
 
             }
         }
+
+
+        //Log.i("[API]","" + viewModelMap.getResult())
 
         return rootView
     }
 
 
+    private fun addMArker(lat: Double?, lng: Double?) {
+
+
+    }
+
 
     @SuppressLint("MissingPermission")
-    private fun setupZoom(){
+    private fun setupZoom() {
         myGoogleMap.uiSettings.isZoomControlsEnabled = true
         myGoogleMap.isMyLocationEnabled = true
     }
 
     private fun setupMyLocation(latLng: LatLng) {
-        myGoogleMap.clear()
-        myGoogleMap.addMarker(
-            MarkerOptions()
-                .position(latLng)
-                .title("My position")
-        )
-        val cameraPosition =
-            CameraPosition.Builder().target(latLng)
-                .zoom(14f).tilt(30f).bearing(0f).build()
-        myGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        //  myGoogleMap.clear()
+//        myGoogleMap.addMarker(
+//            MarkerOptions()
+//                .position(latLng)
+//                .title("My position")
+//        )
+//        val cameraPosition =
+        CameraPosition.Builder().target(latLng)
+            .zoom(14f).tilt(30f).bearing(0f).build()
+        // myGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
 
         //myGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
