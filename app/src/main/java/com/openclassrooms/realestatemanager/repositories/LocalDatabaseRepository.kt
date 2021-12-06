@@ -11,23 +11,38 @@ import javax.inject.Singleton
 @Singleton
 class LocalDatabaseRepository @Inject constructor(private val realEstateDao: RealEStateDao) {
 
-    fun getAllRealEstate() = realEstateDao.getAllRealEstate()
+    //work
+    fun getFlowRealEstates() = realEstateDao.getFlowRealEstates()
 
-    //  fun getRealEstate(realEstateId : Int) = realEstateDao.getRealEstateWithId(realEstateId)
-    fun getRealEstate(id: Int) = realEstateDao.getRealEstateWithId(id)
+    //work
+    fun getFlowRealEstatesFull() = realEstateDao.getFlowRealEstatesFull()
+
+    //work
+    fun getFlowRealEstateFullById(myRealEstate: Int) = realEstateDao.getFlowRealEstateFullById(myRealEstate)
+
+    //work with one champ?
+    suspend fun insertRealEstateTest(realEstate: RealEstate) = realEstateDao.insertRealEstate(realEstate)
+
+    //?
+    suspend fun updateRealEstateTest(realEstate: RealEstate) = realEstateDao.updateRealEstateTest(realEstate)
+
+
+
+
+
+
+    fun getRealEstate(id: Int) = realEstateDao.getLiveRealEstateById(id)
+
+
 
     fun getAllRealEstateWithMedias() = realEstateDao.getAllDataFromRealEstate()
 
-    fun getCurrentRealEstateWithMedia(id: Int) = realEstateDao.getCurrentRealEstateWithMedia(id)
 
 
 
-
-
-
-    fun getAllRealEstateWithPOI() = realEstateDao.getAllDataWithPOI()
 
     fun getLastRowId() = realEstateDao.getLastRowId()
+
 
     suspend fun insertRealEstate(realEstate: RealEstate) = realEstateDao.insert(realEstate)
 

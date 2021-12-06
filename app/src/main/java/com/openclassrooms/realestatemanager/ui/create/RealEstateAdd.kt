@@ -353,6 +353,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 viewModelCreate.insertPOI(
                     RealEstatePOI(
+                        poiId = 1,
                         school = school,
                         park = park,
                         station = gare,

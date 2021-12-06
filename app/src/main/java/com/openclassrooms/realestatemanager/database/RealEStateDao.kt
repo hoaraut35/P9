@@ -9,13 +9,46 @@ import kotlinx.coroutines.flow.Flow
 @Dao //for room
 interface RealEStateDao {
 
-    //get all realestate in a suspend function with a Flow of RealEstate
+    //work
     @Query("SELECT * FROM realEstate_table ")
-    fun getAllRealEstate(): Flow<List<RealEstate>> //the data arrives as and when
+    fun getFlowRealEstates(): Flow<List<RealEstate>>
 
-    //get just one realerstate
-    @Query("SELECT * FROM realEstate_table WHERE realEstateId = :id ")
-    fun getRealEstateWithId(id: Int): LiveData<RealEstate> //the data arrives as and when
+    //work
+    @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
+    suspend fun insertRealEstate(realEstate: RealEstate) //suspend for use another thread
+
+    //?
+    @Update
+    suspend fun updateRealEstateTest(realEstate: RealEstate) //suspend for use another thread
+
+
+
+
+    //work
+    @Transaction
+    @Query("SELECT * FROM realEstate_table")
+    fun getFlowRealEstatesFull() : Flow<List<RealEstateFull>>
+
+    //work
+    @Transaction
+    @Query("SELECT * FROM realEstate_table WHERE realEstateId = :myRealEstate")
+    fun getFlowRealEstateFullById(myRealEstate: Int): Flow<RealEstateFull>
+
+
+
+
+
+
+
+
+
+
+    //used by update framgent
+    @Query("SELECT * FROM realEstate_table WHERE realEstateId = :id")
+    fun getLiveRealEstateById(id: Int): LiveData<RealEstate>
+
+
+
 
     //insert realstate
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
@@ -46,11 +79,9 @@ interface RealEStateDao {
     @Query("SELECT * FROM realEstate_table WHERE realEstateId")
     fun getAllDataWithPOI(): Flow<RealEstateWithPOIs>
 
-    @Transaction
-    @Query("SELECT * FROM realEstate_table WHERE realEstateId = :id" )
-    fun getCurrentRealEstateWithPOI(id : Int): Flow<RealEstateWithPOIs>
-
-
+//    @Transaction
+//    @Query("SELECT * FROM realEstate_table WHERE realEstateId = :id" )
+//    fun getCurrentRealEstateWithPOI(id : Int): Flow<RealEstateWithPOIs>
 
 
 
@@ -72,6 +103,8 @@ interface RealEStateDao {
     //used by CONTENT PROVIDERcontent provider for testing
     @Query("SELECT * FROM realEstate_table WHERE realEstateId = :realEstateId")
     fun getRealEstateWithCursor(realEstateId: Int): Cursor
+
+
 
 
     //******************** QUERY MULTITABLE *********************************

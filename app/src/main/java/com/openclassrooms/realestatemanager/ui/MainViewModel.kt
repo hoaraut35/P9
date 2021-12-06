@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository ) : ViewModel() {
 
-    var allRealEstate = localDatabaseRepository.getAllRealEstate().asLiveData()
+    var allRealEstate = localDatabaseRepository.getFlowRealEstates().asLiveData()
 
     var allRealEstateWithPhotos = localDatabaseRepository.getAllRealEstateWithMedias().asLiveData()
 

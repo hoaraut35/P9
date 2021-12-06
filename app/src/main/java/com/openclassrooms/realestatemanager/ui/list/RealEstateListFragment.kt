@@ -1,6 +1,11 @@
 package com.openclassrooms.realestatemanager.ui.list
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -76,6 +81,17 @@ class RealEstateListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentListRealestateBinding.inflate(inflater, container, false)
+
+
+
+        //TODO: update
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork : NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        val isMetered = cm.isActiveNetworkMetered()
+        Log.i("[NETWORK]","Etat : " + isConnected.toString() + " " + isMetered.toString())
+
+
         return binding.root
     }
 

@@ -30,7 +30,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_photos"
+            android:id="@+id/recyclerview_medias"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:orientation="horizontal"
@@ -60,7 +60,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_description_detail"
+            android:id="@+id/textDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/description_detail"
@@ -91,7 +91,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/qty_number_room"
+                android:id="@+id/textNumberRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -125,7 +125,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/qty_number_bathroom"
+                android:id="@+id/textNumberBathroom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -159,7 +159,7 @@
 
 
             <TextView
-                android:id="@+id/qty_number_bedroom"
+                android:id="@+id/textNumberBedroom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"

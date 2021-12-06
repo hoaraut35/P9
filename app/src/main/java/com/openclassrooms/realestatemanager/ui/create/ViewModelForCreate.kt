@@ -52,11 +52,11 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
     }
 
     //get all RealEstate from repository
-    var allRealEstate = localDatabaseRepository.getAllRealEstate().asLiveData()
+    var allRealEstate = localDatabaseRepository.getFlowRealEstates().asLiveData()
 
     //
     fun getRealEstate(): LiveData<List<RealEstate>> {
-        return localDatabaseRepository.getAllRealEstate().asLiveData()
+        return localDatabaseRepository.getFlowRealEstates().asLiveData()
     }
 
 
