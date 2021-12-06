@@ -165,7 +165,6 @@
                     android:hint="Entrez le prix"
 
                     app:helperText="ne peux etre vide"
-
                     app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -226,7 +225,11 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_description"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+
+                        app:helperText="ne peux etre vide"
+                        app:helperTextEnabled="true"
+                        >
 
                     </com.google.android.material.textfield.TextInputEditText>
 

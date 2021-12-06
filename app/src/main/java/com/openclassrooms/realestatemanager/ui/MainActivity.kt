@@ -13,8 +13,11 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.navigateUp
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.api.GoogleGeocoding
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @AndroidEntryPoint  //Hilt annotation for activity
 class MainActivity : AppCompatActivity() {
@@ -41,6 +44,15 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(this, navController, appBarConfiguration)
+
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://maps.googleapis.com/maps/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val geocoderService = retrofit.create(GoogleGeocoding::class.java)
+
 
     }
 

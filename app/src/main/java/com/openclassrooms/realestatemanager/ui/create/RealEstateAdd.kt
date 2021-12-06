@@ -91,10 +91,14 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 .show()
         }
 
-
         //send type to viewModelCreate
         binding.chipGroupType.setOnCheckedChangeListener { group, checkedId ->
             viewModelCreate.propertyTypeChanged(group.findViewById<Chip>(checkedId)?.text.toString())
+        }
+
+        binding.edittextPrice?.addTextChangedListener {
+            binding.propertyPriceText.helperText =
+                FormUtils.validPriceText(binding.edittextPrice!!.text)
         }
 
 
@@ -203,29 +207,28 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         setupViewModel()
 
         binding.edittextPrice?.addTextChangedListener {
-            binding.propertyPriceText.helperText = validPriceText()
+            binding.propertyPriceText.helperText =
+                FormUtils.validPriceText(binding.edittextPrice!!.text)
         }
 
         binding.edittextPrice?.setOnFocusChangeListener { _, focused ->
-            binding.propertyPriceText.helperText = validPriceText()
+            binding.propertyPriceText.helperText =
+                FormUtils.validPriceText(binding.edittextPrice!!.text)
+        }
+
+        binding.edittextDescription?.addTextChangedListener {
+            binding.propertyDescriptionText.helperText =
+                FormUtils.validPriceText(binding.edittextDescription!!.text)
+        }
+
+        binding.edittextDescription?.setOnFocusChangeListener { _, focused ->
+            binding.propertyDescriptionText.helperText =
+                FormUtils.validPriceText(binding.edittextDescription!!.text)
         }
 
         return rootView
     }
 
-    private fun validPriceText(): String? {
-
-        //val regexPrice = Regex("\d")
-
-
-        return when (binding.edittextPrice?.text.toString()) {
-            "" -> "can't be null"
-            //regexPrice -> "yes"
-            else -> {
-                return null
-            }
-        }
-    }
 
     private fun setupViewModel() {
         viewModelCreate.getUIToShow().observe(viewLifecycleOwner, androidx.lifecycle.Observer {

@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.models
 
 import androidx.room.Embedded
+import androidx.room.Entity
 import androidx.room.Relation
+
 
 data class RealEstateFull(
 

@@ -96,6 +96,8 @@ interface RealEStateDao {
 
 
 
+
+
     @Query("SELECT MAX(realEstateId) + 1 FROM realEstate_table")
     fun getLastRowId(): Flow<Int>
 
