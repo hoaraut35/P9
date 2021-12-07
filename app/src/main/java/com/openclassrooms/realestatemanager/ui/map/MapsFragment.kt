@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentMapsBinding
+import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +38,20 @@ class MapsFragment : Fragment() {
     private val callback = OnMapReadyCallback { googleMap ->
         myGoogleMap = googleMap
         setupZoom()
+
+        myGoogleMap!!.setOnMarkerClickListener {
+
+            //we get the id by marker tag
+            val realEstateId = it.tag
+            //we set bundle
+            val bundle = Bundle()
+            bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, realEstateId.toString())
+            //we call fragment
+            findNavController().navigate(R.id.action_mapsFragment_to_realEstateDetailFragment, bundle)
+            false
+        }
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -49,29 +65,6 @@ class MapsFragment : Fragment() {
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-//        val locationPermissionRequest = registerForActivityResult(
-//            ActivityResultContracts.RequestMultiplePermissions()
-//        ) { permissions ->
-//            when {
-//                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-//                    // Precise location access granted.
-//                    Log.i("[POSITION]", "Position autorisée")
-//                }
-//                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-//                    // Only approximate location access granted.
-//                    Log.i("[POSITION]", "Position approximative")
-//                }
-//                else -> {
-//                    // No location access granted.
-//                    Log.i("[POSITION]", "Position refusée ")
-//                }
-//            }
-//        }
-//
-//        locationPermissionRequest.launch(arrayOf(
-//            Manifest.permission.ACCESS_FINE_LOCATION,
-//            Manifest.permission.ACCESS_COARSE_LOCATION))
-
         viewModelMap.getRealEstateFull().observe(viewLifecycleOwner) { listRealEstate ->
 
             for (realEstate in listRealEstate) {
@@ -82,7 +75,8 @@ class MapsFragment : Fragment() {
                         myGoogleMap,
                         realEstate.realEstateFullData.address!!.lat!!,
                         realEstate.realEstateFullData.address!!.lng!!,
-                        realEstate.realEstateFullData.typeOfProduct.toString()
+                        realEstate.realEstateFullData.typeOfProduct.toString(),
+                        realEstate.realEstateFullData.realEstateId
                     )
                 } else {
 
@@ -90,7 +84,8 @@ class MapsFragment : Fragment() {
                         realEstate.realEstateFullData.address!!.city != null &&
                         realEstate.realEstateFullData.address!!.zip_code != null
                     ) {
-                        //                    val address = "11 rue du vieux moulin 35220 Saint Didier"
+                        //TODO: bug on address
+                        //val address = "11 rue du vieux moulin 35220 Saint Didier"
                         val address =
                             "${realEstate.realEstateFullData.address!!.street_name}+${realEstate.realEstateFullData.address!!.zip_code.toString()}+${realEstate.realEstateFullData.address!!.city}"
                         //"${realEstate.realEstateFullData.address!!.street_number.toString()}+ "+" + ${realEstate.realEstateFullData.address!!.street_name}+ "+" + ${realEstate.realEstateFullData.address!!.zip_code.toString()} + "+" + ${realEstate.realEstateFullData.address!!.city}"
@@ -140,7 +135,6 @@ class MapsFragment : Fragment() {
         return rootView
     }
 
-
     @SuppressLint("MissingPermission")
     private fun setupZoom() {
         myGoogleMap?.uiSettings?.isZoomControlsEnabled = true
@@ -151,12 +145,9 @@ class MapsFragment : Fragment() {
 
         val cameraPosition =
             CameraPosition.Builder().target(latLng)
-                .zoom(14f).tilt(30f).bearing(0f).build()
+                .zoom(8f).tilt(30f).bearing(0f).build()
         myGoogleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
-
-        //myGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        //myGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(13f));
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

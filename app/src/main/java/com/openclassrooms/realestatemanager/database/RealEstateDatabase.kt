@@ -39,25 +39,27 @@ abstract class RealEstateDatabase : RoomDatabase() {
             val dao = database.get().realEstateDao()
 
             applicationScope.launch {
-                dao.insert(
-                    RealEstate(
-                        numberOfBathRoom = 2,
-                        numberOfBedRoom = 3,
-                        numberOfRoom = 5,
-                        surface = 100,
-                        typeOfProduct = "Flat",
-                        cityOfProduct = "Manhattan",
-                        price = 17870000,
-                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
-                        address = RealEstateAddress(
-                            zip_code = 35220,
-                            city = "Saint Didier",
-                            street_name = "rue du champ fleuri",
-                            street_number = 7,
-                            country = "FRANCE"
-                        ),
+
+                    dao.insert(
+                        RealEstate(
+                            numberOfBathRoom = 2,
+                            numberOfBedRoom = 3,
+                            numberOfRoom = 5,
+                            surface = 100,
+                            typeOfProduct = "Flat",
+                            cityOfProduct = "Manhattan",
+                            price = 17870000,
+                            descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
+                            address = RealEstateAddress(
+                                zip_code = 35220,
+                                city = "Saint Didier",
+                                street_name = "rue du champ fleuri",
+                                street_number = 7,
+                                country = "FRANCE"
+                            ),
+                        )
                     )
-                )
+
                 dao.insert(
                     RealEstate(
                         numberOfBathRoom = 3,
@@ -69,9 +71,9 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         price = 21130000,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum",
                         address = RealEstateAddress(
-                            zip_code = 44000,
-                            city = "Nantes",
-                            street_name = "place de l'église",
+                            zip_code = 35000,
+                            city = "Rennes",
+                            street_name = "cr des Alliés",
                             street_number = 1,
                             country = "FRANCE"
                         )
@@ -88,9 +90,9 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         price = 13990000,
                         descriptionOfProduct = "Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo volup",
                         address = RealEstateAddress(
-                            zip_code = 35000,
-                            city = "Rennes",
-                            street_name = "place de l'église",
+                            zip_code = 44100,
+                            city = "Nantes",
+                            street_name = "rue de Malville",
                             street_number = 1,
                             country = "FRANCE"
                         )
@@ -121,7 +123,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                 )
                 dao.insertPhoto(
                     RealEstateMedia(
-                        realEstateParentId = 4,
+                        realEstateParentId = 1,
                         name = "Photo chambre",
                         uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )
@@ -129,7 +131,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
                 dao.insertPhoto(
                     RealEstateMedia(
-                        realEstateParentId = 1,
+                        realEstateParentId = 2,
                         name = "Photo chambre2",
                         uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )
@@ -137,7 +139,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
                 dao.insertPhoto(
                     RealEstateMedia(
-                        realEstateParentId = 4,
+                        realEstateParentId = 3,
                         name = "Cuisine",
                         uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )

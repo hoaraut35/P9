@@ -62,6 +62,11 @@
         android:id="@+id/mapsFragment"
         android:name="com.openclassrooms.realestatemanager.ui.map.MapsFragment"
         android:label="Mode carte"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps" >
+
+        <action
+            android:id="@+id/action_mapsFragment_to_realEstateDetailFragment"
+            app:destination="@id/realEstateDetailFragment" />
+    </fragment>
 
 </navigation>
