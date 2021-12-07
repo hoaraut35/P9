@@ -18,6 +18,9 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
 
     var allRealEstate = localDatabaseRepository.getFlowRealEstates().asLiveData()
 
+    //fir list fragment
+    fun getRealEstateFull() = localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
+
     var allRealEstateWithPhotos = localDatabaseRepository.getAllRealEstateWithMedias().asLiveData()
 
     //var getAllRealEstateWithVideos = localDatabaseRepository.getAllRealEstateWithVideos().asLiveData()

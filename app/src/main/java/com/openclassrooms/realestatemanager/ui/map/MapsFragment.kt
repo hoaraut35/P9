@@ -33,21 +33,15 @@ class MapsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModelMap by viewModels<ViewModelMap>()
-
-    lateinit var myGoogleMap: GoogleMap
-
+    private var myGoogleMap: GoogleMap? = null
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private val callback = OnMapReadyCallback { googleMap ->
-
         myGoogleMap = googleMap
-
         val sydney = LatLng(-34.0, 151.0)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-
         setupZoom()
-
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -87,27 +81,40 @@ class MapsFragment : Fragment() {
 //            Manifest.permission.ACCESS_COARSE_LOCATION))
 
 
-        viewModelMap.getRealEstateFull().observe(viewLifecycleOwner, Observer {listRealEstate ->
+        viewModelMap.getRealEstateFull().observe(viewLifecycleOwner, Observer { listRealEstate ->
 
             for (realEstate in listRealEstate) {
 
-                if (realEstate.realEstateFullData.address!!.street_name != null && realEstate.realEstateFullData.address!!.city != null && realEstate.realEstateFullData.address!!.zip_code != null ) {
+                if (realEstate.realEstateFullData.address!!.street_name != null &&
+                    realEstate.realEstateFullData.address!!.city != null &&
+                    realEstate.realEstateFullData.address!!.zip_code != null
+                ) {
 
-                    val address = "${realEstate.realEstateFullData.address!!.zip_code}"
+                    val address =
+                        "${realEstate.realEstateFullData.address!!.zip_code}" + "%20" +
+                                "${realEstate.realEstateFullData.address!!.city}" + "%20" +
+
+                                "${realEstate.realEstateFullData.address!!.street_number}" + "%20" +
+                                "${realEstate.realEstateFullData.address!!.street_name}"
+
 
                     viewModelMap.getResult(address)
 
-                    Log.i("[API]", "" +  viewModelMap.getResult(address))
 
+                    Log.i("[API]", "Get address : $address")
+
+                } else {
+                    Log.i("[API]", "API : un champ null")
                 }
             }
+
         })
 
         viewModelMap.getLatLngFromRepo()
             .observe(viewLifecycleOwner, Observer { listMArkersToCreate ->
 
                 listMArkersToCreate.forEach { item ->
-                    myGoogleMap.addMarker(
+                    myGoogleMap?.addMarker(
                         MarkerOptions()
                             .position(
                                 LatLng(
@@ -152,8 +159,8 @@ class MapsFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun setupZoom() {
-        myGoogleMap.uiSettings.isZoomControlsEnabled = true
-        myGoogleMap.isMyLocationEnabled = true
+        myGoogleMap?.uiSettings?.isZoomControlsEnabled = true
+        myGoogleMap?.isMyLocationEnabled = true
     }
 
     private fun setupMyLocation(latLng: LatLng) {

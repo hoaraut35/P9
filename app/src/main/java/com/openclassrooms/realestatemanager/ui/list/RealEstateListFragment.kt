@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.list
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.Network
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
@@ -14,15 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
-import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
+import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-@AndroidEntryPoint  //Hilt annotation for fragment
+@AndroidEntryPoint
 class RealEstateListFragment : Fragment() {
 
     private val mainViewModel by viewModels<MainViewModel>()
@@ -60,19 +56,19 @@ class RealEstateListFragment : Fragment() {
             }
         }
 
-        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { listRealEstateWithPhotos ->
-            setupRecyclerView(recyclerView, listRealEstateWithPhotos, onClickListener)
+        mainViewModel.getRealEstateFull().observe(viewLifecycleOwner) { listOfEstates ->
+            setupRecyclerView(recyclerView, listOfEstates, onClickListener)
         }
 
     }
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        myRealEstateListWithPhotos: List<RealEstateWithMedia>,
+        myRealEstateList: List<RealEstateFull>,
         onClickListener: View.OnClickListener
     ) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = RealEstateListAdapter(myRealEstateListWithPhotos, onClickListener)
+        recyclerView.adapter = RealEstateListAdapter(myRealEstateList, onClickListener)
     }
 
     override fun onCreateView(
@@ -83,13 +79,12 @@ class RealEstateListFragment : Fragment() {
         _binding = FragmentListRealestateBinding.inflate(inflater, container, false)
 
 
-
         //TODO: update
         val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork : NetworkInfo? = cm.activeNetworkInfo
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
         val isMetered = cm.isActiveNetworkMetered()
-        Log.i("[NETWORK]","Etat : " + isConnected.toString() + " " + isMetered.toString())
+        Log.i("[NETWORK]", "Etat : " + isConnected.toString() + " " + isMetered.toString())
 
 
         return binding.root
@@ -99,7 +94,7 @@ class RealEstateListFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            RealEstateListFragment().apply {     }
+            RealEstateListFragment().apply { }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

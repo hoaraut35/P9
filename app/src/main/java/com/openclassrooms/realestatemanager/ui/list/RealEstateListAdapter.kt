@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
+import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.utils.Utils
 import java.text.NumberFormat
 import java.util.*
 
 class RealEstateListAdapter(
-    private val realEstateFullData: List<RealEstateWithMedia>,
+    private val realEstateFullData: List<RealEstateFull>,
     private val onClickListener: View.OnClickListener
 ) : RecyclerView.Adapter<RealEstateListAdapter.ViewHolder>() {
 
@@ -34,17 +35,17 @@ class RealEstateListAdapter(
         val item = realEstateFullData[position]
 
         //show type of product
-        holder.type.text = item.realEstate.typeOfProduct
+        holder.type.text = item.realEstateFullData.typeOfProduct
         //show city of product
-        holder.city.text = item.realEstate.cityOfProduct
+        holder.city.text = item.realEstateFullData.address?.city
 
         //move to utils class
         val currencyFormat = NumberFormat.getCurrencyInstance()
         currencyFormat.maximumFractionDigits = 0
         currencyFormat.currency = Currency.getInstance("EUR")
 
-        if (item.realEstate.price != null){
-            holder.price.text = Utils.getCurrencyFormat().format(item.realEstate.price!!)
+        if (item.realEstateFullData.price != null){
+            holder.price.text = Utils.getCurrencyFormat().format(item.realEstateFullData.price!!)
         }
 
 
@@ -61,7 +62,7 @@ class RealEstateListAdapter(
 //        {
 
 
-            if (item.mediaList.isEmpty()){
+            if (item.mediaList!!.isEmpty()){
                 Glide.with(holder.itemView)
                     .load(R.drawable.realestate_1)
                     // .override(100, 100)
@@ -87,7 +88,7 @@ class RealEstateListAdapter(
 
 
         with(holder.itemView) {
-            tag = item.realEstate.realEstateId
+            tag = item.realEstateFullData.realEstateId
             setOnClickListener(onClickListener)
         }
 
