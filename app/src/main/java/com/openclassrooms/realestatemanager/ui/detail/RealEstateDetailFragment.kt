@@ -4,20 +4,25 @@ import android.app.Activity.MODE_PRIVATE
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
@@ -36,7 +41,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             if (it.containsKey(ARG_REAL_ESTATE_ID)) {
                 itemIdBundle = it.getString(ARG_REAL_ESTATE_ID)
                 itemIdBundle?.let { it1 ->
-                    detailViewModel.setPropertyId(it1?.toInt())
+                    detailViewModel.setPropertyId(it1.toInt())
                     detailViewModel.setMyRealEstateIdFromUI(it1?.toInt())
                 }
             }
@@ -58,15 +63,17 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
         imageMap = binding.imageMap
 
         //realEstate with full data by id work
-        detailViewModel.getRealEstateFullById(itemIdBundle!!.toInt()).observe(viewLifecycleOwner){
+        detailViewModel.getRealEstateFullById(itemIdBundle!!.toInt()).observe(viewLifecycleOwner) {
 
             binding.textType?.text = it.realEstateFullData.typeOfProduct
-            binding.textPrice?.text = it.realEstateFullData.price.toString()
-            binding.textSurface?.text = it.realEstateFullData.surface.toString()
+            binding.textPrice?.text = it.realEstateFullData.price.toString() + "€"
+            binding.textSurface?.text = it.realEstateFullData.surface.toString() + "m²"
 
-            binding.textNumberRoom?.text = it.realEstateFullData.numberOfRoom.toString()
-            binding.textNumberBedroom?.text = it.realEstateFullData.numberOfBedRoom.toString()
-            binding.textNumberBedroom?.text = it.realEstateFullData.numberOfBedRoom.toString()
+            binding.textNumberRoom?.text = it.realEstateFullData.numberOfRoom.toString() + " Room"
+            binding.textNumberBathroom?.text =
+                it.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
+            binding.textNumberBedroom?.text =
+                it.realEstateFullData.numberOfBedRoom.toString() + " Bedroom"
 
             binding.textDescription?.text = it.realEstateFullData.descriptionOfProduct
 
@@ -81,25 +88,55 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             binding.textZipcode?.text = it.realEstateFullData.address?.zip_code.toString()
             binding.textCityName?.text = it.realEstateFullData.address?.city
 
-            //poi
+            //TODO: add POI
 
-            binding.textState?.text = it.realEstateFullData.status?.toString()
-            //status du bien
+            binding.textState?.text = it.realEstateFullData.status?.toString() + " status"
 
             //date d'entrée
 
             //agent immobilier
             binding.textAgent?.text = it.realEstateFullData.agent?.agent_firstName
 
+            val address =
+                it.realEstateFullData.address?.city + "+" + it.realEstateFullData.address?.zip_code + "+" + it.realEstateFullData.address?.street_name
+
+            imageUri2 =
+                "https://maps.googleapis.com/maps/api/staticmap?center=" + address + "&zoom=15&size=600x300&maptype=roadmap" +
+                        "&key=" + BuildConfig.GOOGLE_MAP_KEY;
+
+            //we have an image, load from internal memory
+            if (it.realEstateFullData.staticampuri != null) {
+
+                var realEstateFullData: RealEstateFull? = null
+                realEstateFullData = it
+
+                binding.imageMap?.let {
+
+                    //TODO: glide
+                    Glide.with(this).load(realEstateFullData.realEstateFullData.staticampuri)
+                        .error(R.drawable.ic_baseline_error_24).into(it)
+
+                }
+            } else {
+                //load map into first imageview
+                Glide
+                    .with(this)
+                    .load(imageUri2)
+                    .centerCrop()
+                    .listener(MyRequestImageListener(this))
+                    .into(imageMap)//end listener
+            }
 
 
         }
 
+
         //work but erase others data
-        val newRealEstate : RealEstate? = RealEstate()
+        val newRealEstate: RealEstate? = RealEstate()
+
         newRealEstate?.realEstateId = 8
         newRealEstate?.descriptionOfProduct = "mise à jour"
-       // newRealEstate?.price = 999999
+        // newRealEstate?.price = 999999
         if (newRealEstate != null) {
             detailViewModel.updateRealEstateTest(newRealEstate)
         }
@@ -107,72 +144,6 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
 
 
-
-
-
-
-
-
-
-
-
-//        detailViewModel.getRealEstate(1).observe(viewLifecycleOwner) {
-//            Log.i("OBSERVE", "" + it.toString())
-//
-//        }
-
-//        mainViewModel.allRealEstateWithPhotos.observe(viewLifecycleOwner) { it ->
-//
-//            val realEstate: RealEstateWithMedia? =
-//                it.find {
-//                    it.realEstate.realEstateId.toString() == itemIdBundle
-//                }
-//
-//            if (realEstate != null) {
-//
-//             //   detailViewModel.myRealEstate = realEstate.realEstate
-//
-//                binding.textDescriptionDetail.setText(realEstate.realEstate.descriptionOfProduct)
-//                binding.textNumberStreet?.setText(realEstate.realEstate.address?.street_number.toString())
-//                binding.textStreetName?.setText(realEstate.realEstate.address?.street_name.toString())
-//                binding.textCityName?.setText(realEstate.realEstate.address?.city.toString())
-//                binding.textZipcode?.setText(realEstate.realEstate.address?.zip_code.toString())
-//                binding.textCountry?.setText(realEstate.realEstate.address?.country.toString())
-//                binding.textPrice?.setText(realEstate.realEstate.price.toString())
-//                binding.qtySurface?.setText(realEstate.realEstate.surface.toString())
-//                binding.qtyNumberBedroom.setText("Bedroom : " + realEstate.realEstate.numberOfBedRoom.toString())
-//                binding.qtyNumberBathroom.setText("Bathroom : " + realEstate.realEstate.numberOfBathRoom.toString())
-//                binding.qtyNumberRoom.setText("Room : " + realEstate.realEstate.numberOfRoom.toString())
-//
-//                var address: String = realEstate.realEstate.address?.city.toString()
-//                recyclerViewMedias?.let { setupRecyclerView(it, realEstate.mediaList) }
-//
-//                address =
-//                    realEstate.realEstate.address?.city + "+" + realEstate.realEstate.address?.zip_code + "+" + realEstate.realEstate.address?.street_name
-//
-//                //https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library
-//
-//                imageUri2 =
-//                    "https://maps.googleapis.com/maps/api/staticmap?center=" + address + "&zoom=15&size=600x300&maptype=roadmap" +
-//                            "&key=" + BuildConfig.GOOGLE_MAP_KEY;
-//
-//                //we have an image, load from internal memory
-//                if (realEstate.realEstate.staticampuri != null) {
-//                    binding.imageMap?.let {
-//                        Glide.with(this).load(realEstate.realEstate.staticampuri)
-//                            .error(R.drawable.ic_baseline_error_24).into(it)
-//                    }
-//                } else {
-//                    //load map into first imageview
-//                    Glide
-//                        .with(this)
-//                        .load(imageUri2)
-//                        .centerCrop()
-//                        .listener(MyRequestImageListener(this))
-//                        .into(imageMap)//end listener
-//                }
-//            }
-//        }
 
         return rootView
     }
@@ -194,6 +165,8 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                     context?.filesDir.toString() + "/" + "$fileName$dateOfFile.jpg"
 
                 //TODO: update just one column
+
+
 //                detailViewModel.updateRealEstate(
 //                    RealEstate(
 //                        realEstateId = itemIdBundle!!.toInt(),
@@ -254,9 +227,9 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
     override fun onSuccess(dataSource: Drawable?) {
         if (dataSource != null) {
-//            val staticMapBitmap = dataSource.toBitmap()
-//            val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-//            savePhotoToInternalMemory("$dateFileName", staticMapBitmap)
+            val staticMapBitmap = dataSource.toBitmap()
+            val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            savePhotoToInternalMemory("$dateFileName", staticMapBitmap)
         }
     }
 }

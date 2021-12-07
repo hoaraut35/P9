@@ -121,7 +121,7 @@ class MapsFragment : Fragment() {
 
             }
 
-
+        //TODO: see to automatic update
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
 

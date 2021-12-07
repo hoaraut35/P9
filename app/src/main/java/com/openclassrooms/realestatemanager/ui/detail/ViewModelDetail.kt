@@ -15,6 +15,8 @@ class ViewModelDetail @Inject constructor(
     private val localDatabaseRepository: LocalDatabaseRepository
 ) : ViewModel() {
 
+    var realEstate: RealEstate = RealEstate()
+
     //work
     fun getRealEstatesLiveData(): LiveData<List<RealEstate>> = localDatabaseRepository.getFlowRealEstates().asLiveData()
     //work
@@ -32,7 +34,7 @@ class ViewModelDetail @Inject constructor(
 
 
     //ex
-    private var realEstate = MutableLiveData<List<RealEstate?>>()
+   // private var realEstate = MutableLiveData<List<RealEstate?>>()
 
     //ex
 //    fun getRealEstate(id : Int) : MutableLiveData<List<RealEstate?>> {
