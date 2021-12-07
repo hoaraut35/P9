@@ -20,28 +20,24 @@ class ViewModelMap @Inject constructor(
     private val localisationRepository: GeocodingRepository
 ) : ViewModel() {
 
+    var latLng: LatLng? = null
     var realEstate: RealEstate = RealEstate()
 
     fun getRealEstateFull() = localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
-
-    var location: Location? = null
-    var latLng: LatLng? = null
 
     fun setLocation(location: Location): LatLng {
         return LatLng(location.latitude, location.longitude)
     }
 
-    //from ui to get data
-    fun getLatLngFromVM(address: String, id: Int) {
+    fun getLatLngForUI(address: String, id: Int) {
         localisationRepository.getLatLngAddress(address, id)
     }
 
-    //retour for ui
-    fun getLatLngFromVM(): LiveData<List<ResponseGeocoding>> {
+    fun getLatLngForUI(): LiveData<ResponseGeocoding> {
         return localisationRepository.getLatLngList()
     }
 
-    fun update(realEstate: RealEstate) {
+    fun updateRealEstate(realEstate: RealEstate) {
         viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
     }
 
