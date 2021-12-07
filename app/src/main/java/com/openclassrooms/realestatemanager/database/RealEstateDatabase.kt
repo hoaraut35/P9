@@ -69,8 +69,8 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         price = 21130000,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum",
                         address = RealEstateAddress(
-                            zip_code = 35220,
-                            city = "Saint Didier",
+                            zip_code = 44000,
+                            city = "Nantes",
                             street_name = "place de l'église",
                             street_number = 1,
                             country = "FRANCE"
@@ -88,10 +88,10 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         price = 13990000,
                         descriptionOfProduct = "Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo volup",
                         address = RealEstateAddress(
-                            zip_code = 29000,
-                            city = "Saint Didier",
-                            street_name = "rue du vieu moulin",
-                            street_number = 11,
+                            zip_code = 35000,
+                            city = "Rennes",
+                            street_name = "place de l'église",
+                            street_number = 1,
                             country = "FRANCE"
                         )
                     )

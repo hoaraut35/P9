@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,11 +35,9 @@ class MapsFragment : Fragment() {
     private var myGoogleMap: GoogleMap? = null
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         myGoogleMap = googleMap
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         setupZoom()
     }
 
@@ -85,35 +82,63 @@ class MapsFragment : Fragment() {
 
             for (realEstate in listRealEstate) {
 
-                if (realEstate.realEstateFullData.address!!.street_name != null &&
-                    realEstate.realEstateFullData.address!!.city != null &&
-                    realEstate.realEstateFullData.address!!.zip_code != null
-                ) {
+                if (realEstate.realEstateFullData.address!!.lat != null && realEstate.realEstateFullData.address!!.lng != null) {
 
-                    val address =
-                        "${realEstate.realEstateFullData.address!!.zip_code}" + "%20" +
-                                "${realEstate.realEstateFullData.address!!.city}" + "%20" +
-
-                                "${realEstate.realEstateFullData.address!!.street_number}" + "%20" +
-                                "${realEstate.realEstateFullData.address!!.street_name}"
-
-
-                    viewModelMap.getResult(address)
-
-
-                    Log.i("[API]", "Get address : $address")
+                    myGoogleMap?.addMarker(
+                        MarkerOptions()
+                            .position(
+                                LatLng(
+                                    realEstate.realEstateFullData.address!!.lat!!,
+                                    realEstate.realEstateFullData.address!!.lng!!
+                                )
+                            )
+                            .title("Ma position")
+                    )
 
                 } else {
-                    Log.i("[API]", "API : un champ null")
+
+                    if (realEstate.realEstateFullData.address!!.street_name != null &&
+                        realEstate.realEstateFullData.address!!.city != null &&
+                        realEstate.realEstateFullData.address!!.zip_code != null
+                    ) {
+
+                        //                    val address = "11 rue du vieux moulin 35220 Saint Didier"
+                        val address =
+
+                            "${realEstate.realEstateFullData.address!!.street_name}+${realEstate.realEstateFullData.address!!.zip_code.toString()}+${realEstate.realEstateFullData.address!!.city}"
+                        //"${realEstate.realEstateFullData.address!!.street_number.toString()}+ "+" + ${realEstate.realEstateFullData.address!!.street_name}+ "+" + ${realEstate.realEstateFullData.address!!.zip_code.toString()} + "+" + ${realEstate.realEstateFullData.address!!.city}"
+                        //"" + "%20" +
+                        //""
+
+                        viewModelMap.realEstate = realEstate.realEstateFullData
+
+                        viewModelMap.getLatLngFromVM(
+                            address,
+                            realEstate.realEstateFullData.realEstateId
+                        )
+
+                    }
                 }
             }
-
         })
 
-        viewModelMap.getLatLngFromRepo()
+        viewModelMap.getLatLngFromVM()
             .observe(viewLifecycleOwner, Observer { listMArkersToCreate ->
 
                 listMArkersToCreate.forEach { item ->
+
+                    //set field
+                    viewModelMap.realEstate.realEstateId = item.idRealEstate!!
+                    viewModelMap.realEstate.address?.lat =
+                        item.results!![0]!!.geometry!!.location!!.lat!!
+                    viewModelMap.realEstate.address?.lng =
+                        item.results!![0]!!.geometry!!.location!!.lng!!
+
+                    if (viewModelMap.realEstate.realEstateId != null && viewModelMap.realEstate.address?.lat != null && viewModelMap.realEstate.address?.lng != null) {
+                        viewModelMap.update(viewModelMap.realEstate)
+                    }
+
+
                     myGoogleMap?.addMarker(
                         MarkerOptions()
                             .position(
@@ -125,6 +150,10 @@ class MapsFragment : Fragment() {
                             .title("Ma position")
                     )
                 }
+
+
+
+
             })
 
 
@@ -132,30 +161,18 @@ class MapsFragment : Fragment() {
             LocationServices.getFusedLocationProviderClient(requireActivity())
 
         fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
-            Log.i("[POSITION]", "Position " + location?.longitude + " " + location?.latitude)
-
             if (location != null) {
-
                 viewModelMap.latLng = viewModelMap.setLocation(location)
-
-
                 setupMyLocation(viewModelMap.latLng!!)
-
             }
         }
-
-
-        //Log.i("[API]","" + viewModelMap.getResult())
 
         return rootView
     }
 
 
     private fun addMArker(lat: Double?, lng: Double?) {
-
-
     }
-
 
     @SuppressLint("MissingPermission")
     private fun setupZoom() {
@@ -164,22 +181,16 @@ class MapsFragment : Fragment() {
     }
 
     private fun setupMyLocation(latLng: LatLng) {
-        //  myGoogleMap.clear()
-//        myGoogleMap.addMarker(
-//            MarkerOptions()
-//                .position(latLng)
-//                .title("My position")
-//        )
-//        val cameraPosition =
-        CameraPosition.Builder().target(latLng)
-            .zoom(14f).tilt(30f).bearing(0f).build()
-        // myGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+
+        val cameraPosition =
+            CameraPosition.Builder().target(latLng)
+                .zoom(14f).tilt(30f).bearing(0f).build()
+        myGoogleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
 
         //myGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         //myGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(13f));
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

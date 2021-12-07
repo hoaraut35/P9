@@ -6,5 +6,7 @@ data class RealEstateAddress(
     val street_number: Int?,
     val city: String?,
     val zip_code: Int?,
-    val country: String?
+    val country: String?,
+    var lat: Double? = null,
+    var lng : Double? = null,
 )

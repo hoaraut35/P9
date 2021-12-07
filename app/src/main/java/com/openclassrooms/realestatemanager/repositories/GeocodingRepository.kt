@@ -15,6 +15,9 @@ import javax.inject.Singleton
 class GeocodingRepository @Inject constructor(private val googleGeocoding: GoogleGeocoding) {
 
     private var mutableListOfGPS = mutableListOf<ResponseGeocoding>()
+
+
+
     private var mutableListOfLocation = MutableLiveData<List<ResponseGeocoding>>()
 
 
@@ -22,7 +25,8 @@ class GeocodingRepository @Inject constructor(private val googleGeocoding: Googl
         return mutableListOfLocation
     }
 
-    fun getLatLngAddress(address: String) {
+    fun getLatLngAddress(address: String, id : Int) {
+
         googleGeocoding.getLatLngByAddress(address).enqueue(object : Callback<ResponseGeocoding> {
             override fun onResponse(
                 call: Call<ResponseGeocoding>,
@@ -30,6 +34,7 @@ class GeocodingRepository @Inject constructor(private val googleGeocoding: Googl
             ) {
 
                 if (response.isSuccessful) {
+                    response.body()!!.idRealEstate = id
                     mutableListOfGPS.add(response.body()!!)
                     mutableListOfLocation.value = mutableListOfGPS
                     Log.i("jhkjkj","")
@@ -37,12 +42,8 @@ class GeocodingRepository @Inject constructor(private val googleGeocoding: Googl
             }
 
             override fun onFailure(call: Call<ResponseGeocoding>, t: Throwable) {
-
             }
-
         })
     }
-
-
 }
 
