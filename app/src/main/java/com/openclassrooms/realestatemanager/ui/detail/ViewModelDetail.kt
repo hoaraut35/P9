@@ -16,48 +16,30 @@ class ViewModelDetail @Inject constructor(
 ) : ViewModel() {
 
     var realEstate: RealEstate = RealEstate()
+    private var myRealEstateIdFromUI: MutableLiveData<Int>? = MutableLiveData()
+    private var myRealEstateWithFullData: MutableLiveData<RealEstateFull>? = MutableLiveData()
 
     //work
-    fun getRealEstatesLiveData(): LiveData<List<RealEstate>> = localDatabaseRepository.getFlowRealEstates().asLiveData()
+    fun getRealEstatesLiveData(): LiveData<List<RealEstate>> =
+        localDatabaseRepository.getFlowRealEstates().asLiveData()
+
     //work
-    fun getRealEstatesFullData(): LiveData<List<RealEstateFull>> = localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
+    fun getRealEstatesFullData(): LiveData<List<RealEstateFull>> =
+        localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
+
     //work
-    fun getRealEstateFullById(id:Int) : LiveData<RealEstateFull> = localDatabaseRepository.getFlowRealEstateFullById(id).asLiveData()
+    fun getRealEstateFullById(id: Int): LiveData<RealEstateFull> =
+        localDatabaseRepository.getFlowRealEstateFullById(id).asLiveData()
 
     //work with one champ
-    fun updateRealEstateTest(realEstate: RealEstate) = viewModelScope.launch { localDatabaseRepository.updateRealEstateTest(realEstate) }
-
-    //
-
-
-        //var allRealEstate = localDatabaseRepository.getRealEstateJustOne().asLiveData()
+    fun updateRealEstateTest(realEstate: RealEstate) =
+        viewModelScope.launch { localDatabaseRepository.updateRealEstateTest(realEstate) }
 
 
-    //ex
-   // private var realEstate = MutableLiveData<List<RealEstate?>>()
-
-    //ex
-//    fun getRealEstate(id : Int) : MutableLiveData<List<RealEstate?>> {
-//        loadUser(id)
-//        return realEstate
-//    }
-
-    //ex
-//    private fun loadUser(id: Int) {
-//        //realEstate.value = localDatabaseRepository.getRealEstate(1).value
-//        realEstate.value = allRealEstate.value
-//
-//    }
-
-
-    private var myRealEstateIdFromUI: MutableLiveData<Int>? = MutableLiveData()
-
-    private var myRealEstateWithFullData : MutableLiveData<RealEstateFull>? = MutableLiveData()
 
     //set id from UI
     fun setMyRealEstateIdFromUI(id: Int) {
         myRealEstateIdFromUI!!.value = id
-//        myRealEstateWithFullData?.value  = localDatabaseRepository.getRealEstateFull(myRealEstateIdFromUI.toString().toInt()).asLiveData().value
     }
 
     //get id for UI
@@ -70,26 +52,14 @@ class ViewModelDetail @Inject constructor(
         return myRealEstateWithFullData
     }
 
-    //list
-    var realEstatesWithAllData = localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
-
-    //unique
-    var realEstateFullData =
-        localDatabaseRepository.getFlowRealEstateFullById(shared.getPropertyId()).asLiveData()
-
-    private var myRealEstateFull: MutableLiveData<RealEstate>? = MutableLiveData()
 
 
-    lateinit var myRealEstate: RealEstateFull
+
 
     fun setPropertyId(id: Int) {
         shared.setPropertyID(id)
         //  viewModelScope.launch { localDatabaseRepository.getRealEstateFull(shared .getPropertyId()) }
-
     }
-
-
-
 
     fun updateRealEstate(realEstate: RealEstate) =
         viewModelScope.launch { localDatabaseRepository.insertRealEstateTest(realEstate) }

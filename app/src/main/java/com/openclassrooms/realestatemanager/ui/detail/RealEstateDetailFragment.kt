@@ -1,7 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.detail
 
-import android.app.Activity.MODE_PRIVATE
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
@@ -16,9 +14,7 @@ import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
-import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,7 +23,6 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
     private var _binding: FragmentRealEstateDetailBinding? = null
     private val binding get() = _binding!!
-    private val mainViewModel by viewModels<MainViewModel>()
     private val detailViewModel by viewModels<ViewModelDetail>()
     private var itemIdBundle: String? = null
     lateinit var imageMap: ImageView
@@ -66,7 +61,6 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             binding.textType?.text = it.realEstateFullData.typeOfProduct
             binding.textPrice?.text = it.realEstateFullData.price.toString() + "€"
             binding.textSurface?.text = it.realEstateFullData.surface.toString() + "m²"
-
             binding.textNumberRoom?.text = it.realEstateFullData.numberOfRoom.toString() + " Room"
             binding.textNumberBathroom?.text =
                 it.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
@@ -105,16 +99,9 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
             //we have an image, load from internal memory
             if (it.realEstateFullData.staticampuri != null) {
-
-
-
-
-                binding.imageMap?.let {
-
-                    //TODO: glide
+                binding.imageMap.let {
                     Glide.with(this).load(detailViewModel.realEstate.staticampuri)
                         .error(R.drawable.ic_baseline_error_24).into(it)
-
                 }
             } else {
                 //load map into first imageview
@@ -127,20 +114,12 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             }
 
             detailViewModel.realEstate = it.realEstateFullData
-
-
         }
-
         return rootView
     }
 
-
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
-        //if (itemIdBundle != null || itemIdBundle == "") {
-
         when (itemIdBundle != "") {
             true -> menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = true
             else -> menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
@@ -174,26 +153,24 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
     }
 
     override fun onSuccess(dataSource: Drawable?) {
+
         if (dataSource != null) {
             val staticMapBitmap = dataSource.toBitmap()
             val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
-            val fileName : String = "StaticMapPhoto"
+            val fileName: String = "StaticMapPhoto"
 
             val fileNameUri: String =
                 context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
 
-
-            if (DEtailUtils.savePhotoToInternalMemory(dateFileName, "StaticMapPhoto",staticMapBitmap,
+            if (DEtailUtils.savePhotoToInternalMemory(
+                    dateFileName, "StaticMapPhoto", staticMapBitmap,
                     requireContext()
-                )){
-
+                )
+            ) {
                 detailViewModel.realEstate.staticampuri = fileNameUri
                 detailViewModel.updateRealEstate(detailViewModel.realEstate)
-
             }
-
-
         }
     }
 }

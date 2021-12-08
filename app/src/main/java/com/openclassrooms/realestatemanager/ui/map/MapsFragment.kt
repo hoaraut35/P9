@@ -1,13 +1,16 @@
 package com.openclassrooms.realestatemanager.ui.map
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Location
+import android.location.LocationRequest
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -24,12 +27,13 @@ import com.openclassrooms.realestatemanager.databinding.FragmentMapsBinding
 import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+const val REQUEST_CHECK_SETTINGS = 111
+
 @AndroidEntryPoint
-class MapsFragment : Fragment() {
+class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallback {
 
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
-
     private val viewModelMap by viewModels<ViewModelMap>()
     private var myGoogleMap: GoogleMap? = null
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -37,21 +41,8 @@ class MapsFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         myGoogleMap = googleMap
-        setupZoom()
-
-        myGoogleMap!!.setOnMarkerClickListener {
-
-            //we get the id by marker tag
-            val realEstateId = it.tag
-            //we set bundle
-            val bundle = Bundle()
-            bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, realEstateId.toString())
-            //we call fragment
-            findNavController().navigate(R.id.action_mapsFragment_to_realEstateDetailFragment, bundle)
-            false
-        }
-
-
+        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+        setupMarkerCLick()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -121,7 +112,13 @@ class MapsFragment : Fragment() {
 
             }
 
-        //TODO: see to automatic update
+        return rootView
+    }
+
+    //TODO: see to automatic update
+    @SuppressLint("MissingPermission")
+    private fun startGPS() {
+
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -129,10 +126,49 @@ class MapsFragment : Fragment() {
             if (location != null) {
                 viewModelMap.latLng = viewModelMap.setLocation(location)
                 setupMyLocation(viewModelMap.latLng!!)
+                setupZoom()
             }
         }
 
-        return rootView
+    }
+
+
+
+
+
+
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+
+        if (requestCode == 0 && grantResults[0] != -1) {
+            MapsUtils.checkGpsState(requireContext(),requireActivity())
+            startGPS()
+
+        } else {
+        //    startGPS()
+        }
+    }
+
+    private fun setupMarkerCLick() {
+
+        myGoogleMap!!.setOnMarkerClickListener {
+            //we get the id by marker tag
+            val realEstateId = it.tag
+            //we set bundle
+            val bundle = Bundle()
+            bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, realEstateId.toString())
+            //we call fragment
+            findNavController().navigate(
+                R.id.action_mapsFragment_to_realEstateDetailFragment,
+                bundle
+            )
+            false
+        }
     }
 
     @SuppressLint("MissingPermission")
