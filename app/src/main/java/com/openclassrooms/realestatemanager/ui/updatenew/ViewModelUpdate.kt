@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
@@ -20,6 +21,7 @@ class ViewModelUpdate @Inject constructor(
 ) :
     ViewModel() {
 
+    fun getRealEstateFullById(id:Int) : LiveData<RealEstateFull> = localDatabaseRepository.getFlowRealEstateFullById(id).asLiveData()
 
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
 

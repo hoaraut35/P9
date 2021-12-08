@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val ARG_PARAM1 = "param1"
@@ -24,11 +25,14 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
     private var _binding: FragmentUpdateNewBinding? = null
     private val binding get() = _binding!!
 
+    private var itemIdBundle: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            //param1 = it.getString(ARG_PARAM1)
-            //param2 = it.getString(ARG_PARAM2)
+            if (it.containsKey(RealEstateDetailFragment.ARG_REAL_ESTATE_ID)) {
+                itemIdBundle = it.getString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID)
+            }
         }
     }
 
@@ -40,13 +44,22 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         _binding = FragmentUpdateNewBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
+//        viewModelUpdate.getRealEstateFullById(itemIdBundle!!.toInt()).observe(viewLifecycleOwner) {
+        viewModelUpdate.getRealEstateFullById(1).observe(viewLifecycleOwner) {
+
+            binding.edittextCityZipcode?.setText(it.realEstateFullData.price!!)
+            binding.edittextCityName?.setText(it.realEstateFullData.address!!.city!!)
 
 
 
-//        //realestates work
-//        detailViewModel.getRealEstatesLiveData().observe(viewLifecycleOwner){
+
+        }
+
+        //realestates work
+        viewModelUpdate
+   //     detailViewModel.getRealEstatesLiveData().observe(viewLifecycleOwner){
 //            Log.i("[OBSERVE]","All element just realestate data : "+ it.toString())
-//        }
+      //  }
 
 //        //realestates with full data work
 //        detailViewModel.getRealEstatesFullData().observe(viewLifecycleOwner){

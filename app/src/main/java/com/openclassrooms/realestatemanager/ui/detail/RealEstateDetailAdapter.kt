@@ -9,8 +9,8 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 
-class RealEstatePhotosAdapter(private val realEstatePhotos: List<RealEstateMedia>) :
-    RecyclerView.Adapter<RealEstatePhotosAdapter.ViewHolder>() {
+class RealEstateDetailAdapter(private val realEstateMedias: List<RealEstateMedia>) :
+    RecyclerView.Adapter<RealEstateDetailAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,16 +21,16 @@ class RealEstatePhotosAdapter(private val realEstatePhotos: List<RealEstateMedia
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.type.text = realEstatePhotos[position].name
+        holder.type.text = realEstateMedias[position].name
 
         Glide.with(holder.image)
-            .load(realEstatePhotos[position].uri)
+            .load(realEstateMedias[position].uri)
             .centerCrop()
             .into(holder.image)
 
     }
 
-    override fun getItemCount(): Int = realEstatePhotos.size
+    override fun getItemCount(): Int = realEstateMedias.size
 
     //holder view
     inner class ViewHolder(binding: ItemRealEstatePhotoBinding) :

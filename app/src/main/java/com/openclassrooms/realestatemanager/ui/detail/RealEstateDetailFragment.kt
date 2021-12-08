@@ -15,8 +15,6 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -94,8 +92,9 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
             //date d'entrée
 
-            //agent immobilier
-            binding.textAgent?.text = it.realEstateFullData.agent?.agent_firstName
+            binding.textAgent?.text =
+                "${it.realEstateFullData.agent?.agent_firstName} ${it.realEstateFullData.agent?.agent_lastName}"
+
 
             val address =
                 it.realEstateFullData.address?.city + "+" + it.realEstateFullData.address?.zip_code + "+" + it.realEstateFullData.address?.street_name
@@ -107,13 +106,13 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             //we have an image, load from internal memory
             if (it.realEstateFullData.staticampuri != null) {
 
-                var realEstateFullData: RealEstateFull? = null
-                realEstateFullData = it
+
+
 
                 binding.imageMap?.let {
 
                     //TODO: glide
-                    Glide.with(this).load(realEstateFullData.realEstateFullData.staticampuri)
+                    Glide.with(this).load(detailViewModel.realEstate.staticampuri)
                         .error(R.drawable.ic_baseline_error_24).into(it)
 
                 }
@@ -127,66 +126,15 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                     .into(imageMap)//end listener
             }
 
+            detailViewModel.realEstate = it.realEstateFullData
+
 
         }
-
-
-        //work but erase others data
-        val newRealEstate: RealEstate? = RealEstate()
-
-        newRealEstate?.realEstateId = 8
-        newRealEstate?.descriptionOfProduct = "mise à jour"
-        // newRealEstate?.price = 999999
-        if (newRealEstate != null) {
-            detailViewModel.updateRealEstateTest(newRealEstate)
-        }
-
-
-
-
 
         return rootView
     }
 
-    private fun savePhotoToInternalMemory(dateOfFile: String, bitmap: Bitmap): Boolean {
 
-        return try {
-
-            val fileName: String = "StaticMapPhoto"
-
-            context?.openFileOutput("$fileName$dateOfFile.jpg", MODE_PRIVATE).use { stream ->
-
-                //compress photo
-                if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                    throw IOException("Compression fail")
-                }
-
-                val fileNameUri: String =
-                    context?.filesDir.toString() + "/" + "$fileName$dateOfFile.jpg"
-
-                //TODO: update just one column
-
-
-//                detailViewModel.updateRealEstate(
-//                    RealEstate(
-//                        realEstateId = itemIdBundle!!.toInt(),
-//                        staticampuri = fileNameUri,
-//                        typeOfProduct = detailViewModel.myRealEstate?.typeOfProduct,
-//                        cityOfProduct = detailViewModel.myRealEstate?.cityOfProduct,
-//                        price = detailViewModel.myRealEstate?.price,
-//                        surface = detailViewModel.myRealEstate?.surface,
-//                        numberOfRoom = detailViewModel.myRealEstate?.numberOfRoom,
-//                        descriptionOfProduct = detailViewModel.myRealEstate?.descriptionOfProduct
-//                    )
-//                )
-            }
-            true
-
-        } catch (e: IOException) {
-            e.printStackTrace()
-            false
-        }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -206,7 +154,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
-        recyclerView.adapter = RealEstatePhotosAdapter(myRealEstateWithMediaList)
+        recyclerView.adapter = RealEstateDetailAdapter(myRealEstateWithMediaList)
     }
 
     companion object {
@@ -229,7 +177,23 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
         if (dataSource != null) {
             val staticMapBitmap = dataSource.toBitmap()
             val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-            savePhotoToInternalMemory("$dateFileName", staticMapBitmap)
+
+            val fileName : String = "StaticMapPhoto"
+
+            val fileNameUri: String =
+                context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
+
+
+            if (DEtailUtils.savePhotoToInternalMemory(dateFileName, "StaticMapPhoto",staticMapBitmap,
+                    requireContext()
+                )){
+
+                detailViewModel.realEstate.staticampuri = fileNameUri
+                detailViewModel.updateRealEstate(detailViewModel.realEstate)
+
+            }
+
+
         }
     }
 }
