@@ -3,9 +3,9 @@ package com.openclassrooms.realestatemanager.ui.map
 import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Location
-import android.location.LocationRequest
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,6 +26,8 @@ import com.openclassrooms.realestatemanager.databinding.FragmentMapsBinding
 import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val LOCATION_REQUEST_INTERVAL_MS = 10000
+private const val SMALLEST_DISPLACEMENT_THRESHOLD_METER = 100f
 const val REQUEST_CHECK_SETTINGS = 111
 
 @AndroidEntryPoint
@@ -132,12 +133,33 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
 
     }
 
+    @SuppressLint("MissingPermission")
+    private fun startGPS2() {
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+        fusedLocationProviderClient.requestLocationUpdates(
+            LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setSmallestDisplacement(SMALLEST_DISPLACEMENT_THRESHOLD_METER)
+                .setInterval(LOCATION_REQUEST_INTERVAL_MS.toLong()),
+            locationCallback,
+            Looper.getMainLooper()
+        )
+    }
 
+    private val locationCallback: LocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
 
+            if (locationResult.lastLocation != null) {
+                    viewModelMap.latLng = viewModelMap.setLocation(locationResult.lastLocation)
+                    setupMyLocation(viewModelMap.latLng!!)
+                    setupZoom()
+            }
 
-
-
-
+        }
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -147,7 +169,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
 
         if (requestCode == 0 && grantResults[0] != -1) {
             MapsUtils.checkGpsState(requireContext(),requireActivity())
-            startGPS()
+            startGPS2()
 
         } else {
         //    startGPS()
