@@ -1,11 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.updatenew
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
-import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import com.openclassrooms.realestatemanager.repositories.Shared
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,11 +19,17 @@ class ViewModelUpdate @Inject constructor(
 
     var realEstate: RealEstate = RealEstate()
 
-    fun getRealEstateFullById() : LiveData<RealEstateFull> = localDatabaseRepository.getFlowRealEstateFullById(shared.getPropertyId()).asLiveData()
+    var listOfMediaToRemove: MutableList<RealEstateMedia> = mutableListOf()
 
+    fun getRealEstateFullById(): LiveData<RealEstateFull> =
+        localDatabaseRepository.getFlowRealEstateFullById(shared.getPropertyId()).asLiveData()
 
+    fun insertMedia(media: RealEstateMedia) =
+        viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(media) }
 
-    var initialListOfMedia : MutableList<RealEstateMedia> = mutableListOf()
+    var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
+
+    var initialListOfMedia: MutableList<RealEstateMedia> = mutableListOf()
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
 
@@ -34,7 +38,7 @@ class ViewModelUpdate @Inject constructor(
     }
 
     //1 we get the initial list from UI
-    fun initList(){
+    fun initList() {
         listOfMedia.addAll(initialListOfMedia)
         mutableListOfMedia.value = listOfMedia
     }
@@ -51,15 +55,38 @@ class ViewModelUpdate @Inject constructor(
     fun deleteMedia(media: RealEstateMedia) {
         listOfMedia.remove(media)
         mutableListOfMedia.value = listOfMedia
+        viewModelScope.launch { localDatabaseRepository.deleteMedia(media) }
+
     }
 
     //function to publish UI to fragment
-    fun getUIToShow(): LiveData<List<RealEstateMedia>> {
+    fun getMediaListFromVM(): LiveData<List<RealEstateMedia>> {
         return mutableListOfMedia
     }
 
-    fun updateRealEstate(realEstate: RealEstate){
-        viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate)}
+    fun updateRealEstate(realEstate: RealEstate) {
+        viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
+    }
+
+
+    //update title in list for photo or video
+    fun updateMediaTitle(title: String, uri: String) {
+
+        if (!title.isNullOrEmpty() && !uri.isNullOrEmpty()) {
+            listOfMedia.find { it.uri == uri }?.name = title
+
+
+        //  mutableListOfMedia.value = listOfMedia
+        }
+    }
+
+    fun setDescriptionTitle(description : String, uri : String){
+        for (media in listOfMedia){
+            if (media.uri == uri){
+                insertMedia(media)
+            }
+        }
+
     }
 
 }

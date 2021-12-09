@@ -29,26 +29,22 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
     private val viewModelUpdate by viewModels<ViewModelUpdate>()
 
-    //binding
     private var _binding: FragmentUpdateNewBinding? = null
     private val binding get() = _binding!!
 
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentUpdateNewBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
         val recyclerViewMedias: RecyclerView? = binding.recyclerview
 
-
-        //setup callback for camera
         setupActivityResultForCamera()
 
         //click listener for take photo from camera
@@ -61,10 +57,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback {
-
-                //to show image
-                // binding.imageOfGallery?.setImageURI(it)
-
                 if (it != null) {
 
                     val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
@@ -133,7 +125,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
             activityResultLauncherForVideo.launch(intentVideo)
         }
 
-
         //click listener for open video from gallery
         binding.addVideoFromMemory?.setOnClickListener {
             getVideoFromGallery.launch("video/*")
@@ -142,21 +133,18 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
 
 
+        //observe
+        viewModelUpdate.getRealEstateFullById().observe(viewLifecycleOwner) { RealEstateFullObserve ->
 
-        viewModelUpdate.getRealEstateFullById().observe(viewLifecycleOwner) {
+            binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
+            binding.edittextSurface?.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
+            binding.edittextDescription?.setText(RealEstateFullObserve.realEstateFullData.descriptionOfProduct)
+            binding.edittextStreetNumber?.setText(RealEstateFullObserve.realEstateFullData.address?.street_number.toString())
+            binding.edittextStreetName?.setText(RealEstateFullObserve.realEstateFullData.address?.street_name)
+            binding.edittextCityZipcode?.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
+            binding.edittextCityName?.setText(RealEstateFullObserve.realEstateFullData.address?.city)
 
-            binding.edittextPrice?.setText(it.realEstateFullData.price?.toString())
-            binding.edittextSurface?.setText(it.realEstateFullData.surface.toString())
-            binding.edittextDescription?.setText(it.realEstateFullData.descriptionOfProduct)
-            binding.edittextStreetNumber?.setText(it.realEstateFullData.address?.street_number.toString())
-            binding.edittextStreetName?.setText(it.realEstateFullData.address?.street_name)
-            binding.edittextCityZipcode?.setText(it.realEstateFullData.address?.zip_code.toString())
-            binding.edittextCityName?.setText(it.realEstateFullData.address?.city)
-
-
-
-
-            viewModelUpdate.initialListOfMedia = it.mediaList as MutableList<RealEstateMedia>
+            viewModelUpdate.initialListOfMedia = RealEstateFullObserve.mediaList as MutableList<RealEstateMedia>
 
             if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
                     .isEmpty()
@@ -166,76 +154,86 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
 
             //get name of chip selected
-            var typeOfProduct: String? = it.realEstateFullData.typeOfProduct
+            var typeOfProduct: String? = RealEstateFullObserve.realEstateFullData.typeOfProduct
 
             //    valChipGroupType.setS
 
 
-            when (it.poi?.station) {
+            when (RealEstateFullObserve.poi?.station) {
                 true -> binding.stationChip?.isChecked = true
                 false -> binding.stationChip?.isChecked = false
                 else -> binding.stationChip?.isChecked = false
             }
 
-            when (it.poi?.school) {
+            when (RealEstateFullObserve.poi?.school) {
                 true -> binding.schoolChip?.isChecked = true
                 false -> binding.schoolChip?.isChecked = false
                 else -> binding.schoolChip?.isChecked = false
             }
 
-            when (it.poi?.park) {
+            when (RealEstateFullObserve.poi?.park) {
                 true -> binding.parcChip?.isChecked = true
                 false -> binding.parcChip?.isChecked = false
                 else -> binding.parcChip?.isChecked = false
             }
 
             //update actual estate
-            viewModelUpdate.realEstate = it.realEstateFullData
+            viewModelUpdate.realEstate = RealEstateFullObserve.realEstateFullData
+
+
+            //button listener
+            binding.saveBtn?.setOnClickListener {
+
+                viewModelUpdate.realEstate.typeOfProduct = "House"
+                viewModelUpdate.realEstate.price = binding.edittextPrice?.text.toString().toInt()
+                viewModelUpdate.realEstate.surface = binding.edittextSurface?.text.toString().toInt()
+                viewModelUpdate.realEstate.descriptionOfProduct = binding.edittextDescription?.text.toString()
+                viewModelUpdate.realEstate.address!!.street_number = binding.edittextStreetNumber?.text.toString().toInt()
+                viewModelUpdate.realEstate.address!!.street_name = binding.edittextStreetName?.text.toString()
+                viewModelUpdate.realEstate.address!!.zip_code = binding.edittextCityZipcode?.text.toString().toInt()
+                viewModelUpdate.realEstate.address!!.city = binding.edittextCityName?.text.toString()
+
+                viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
+
+                for (itemToremove in viewModelUpdate.listOfMediaToRemove){
+                    viewModelUpdate.deleteMedia(itemToremove)
+                }
+
+
+                for (item in viewModelUpdate.getMediaListFromVM().value!!) {
+
+                    if (!RealEstateFullObserve.mediaList.contains(item)){
+                        val long = viewModelUpdate.insertMedia(
+                            RealEstateMedia(
+                                uri = item.uri,
+                                realEstateParentId = viewModelUpdate.realEstate.realEstateId,
+                                name = item.name
+                            )
+                        )
+                    }
+
+
+                }
+
+
+
+
+            }
+
+
+
+
 
         }
 
-        viewModelUpdate.getUIToShow().observe(viewLifecycleOwner) {
+        viewModelUpdate.getMediaListFromVM().observe(viewLifecycleOwner) {
             setupRecyclerView(recyclerViewMedias!!, it)
         }
 
 
-//        //launcher for open video from gallery
-//        val getImageFromGallery = registerForActivityResult(
-//            ActivityResultContracts.GetContent(),
-//            ActivityResultCallback {
-//
-//                //to show image
-//               // binding.imageOfGallery?.setImageURI(it)
-//
-//                if (it != null) {
-//
-//                    val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
-//                        context?.applicationContext?.contentResolver, it
-//                    )
-//
-//                    val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-//
-//                    if (bitmap != null) {
-//                        savePhotoToInternalMemory("Photo_$fileName2", bitmap)
-//                        recyclerViewMedias.adapter?.notifyDataSetChanged()
-//                    }
-//
-//                }
-//            }
-//        )
-
-        //listener for button click gallery pick
-//        binding.addPhotoFromMemory?.setOnClickListener {
-//            getImageFromGallery.launch("image/*")
-//            // setupGetPhotoFromGalery()
-//            Log.i("[THOMAS]", "test ouverture photo")
-//        }
 
 
-
-        binding.saveBtn?.setOnClickListener{
-            updateData()
-        }
+        updateData()
 
         return rootView
 
@@ -243,14 +241,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
     private fun updateData() {
 
-        viewModelUpdate.realEstate.price = 10
-        viewModelUpdate.realEstate.descriptionOfProduct = "zz"
-        viewModelUpdate.realEstate.typeOfProduct = "Cabane"
-//        viewModelUpdate.realEstate
-//        viewModelUpdate.realEstate
-//        viewModelUpdate.realEstate
-//
-        viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
 
 
     }
@@ -319,15 +309,19 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             UpdateFragmentNew().apply {
-
             }
     }
 
     override fun onChangedTitlePhoto(title: String, uri: String) {
-        // viewModelUpdate.set
+        viewModelUpdate.updateMediaTitle(title, uri)
+        viewModelUpdate.setDescriptionTitle(title,uri)
     }
 
     override fun onDeleteMedia(media: RealEstateMedia) {
+        //file
+        context?.deleteFile(media.uri?.substringAfterLast("/"))
         viewModelUpdate.deleteMedia(media)
+        viewModelUpdate.listOfMediaToRemove.add(media)
+
     }
 }

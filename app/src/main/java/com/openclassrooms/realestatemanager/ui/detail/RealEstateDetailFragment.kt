@@ -23,10 +23,13 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
     private var _binding: FragmentRealEstateDetailBinding? = null
     private val binding get() = _binding!!
+
     private val detailViewModel by viewModels<ViewModelDetail>()
+
     private var itemIdBundle: String? = null
-    lateinit var imageMap: ImageView
-    lateinit var imageUri2: String
+
+    private lateinit var imageMap: ImageView
+    private lateinit var imageUri2: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +47,14 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentRealEstateDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-        val recyclerViewMedias: RecyclerView? = binding.recyclerviewMedias
+        val recyclerViewMedias: RecyclerView = binding.recyclerviewMedias
 
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
 
         imageMap = binding.imageMap
 
@@ -62,11 +65,8 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             binding.textPrice?.text = it.realEstateFullData.price.toString() + "€"
             binding.textSurface?.text = it.realEstateFullData.surface.toString() + "m²"
             binding.textNumberRoom?.text = it.realEstateFullData.numberOfRoom.toString() + " Room"
-            binding.textNumberBathroom?.text =
-                it.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
-            binding.textNumberBedroom?.text =
-                it.realEstateFullData.numberOfBedRoom.toString() + " Bedroom"
-
+            binding.textNumberBathroom?.text = it.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
+            binding.textNumberBedroom?.text = it.realEstateFullData.numberOfBedRoom.toString() + " Bedroom"
             binding.textDescription?.text = it.realEstateFullData.descriptionOfProduct
 
             it.mediaList?.let { it1 ->
@@ -77,8 +77,10 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
             binding.textStreetNumber?.text = it.realEstateFullData.address?.street_number.toString()
             binding.textStreetName?.text = it.realEstateFullData.address?.street_name
-            binding.textZipcode?.text = it.realEstateFullData.address?.zip_code.toString()
+
+            binding.textZipCode?.text = it.realEstateFullData.address?.zip_code.toString()
             binding.textCityName?.text = it.realEstateFullData.address?.city
+
 
             //TODO: add POI
 
@@ -86,8 +88,8 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
             //date d'entrée
 
-            binding.textAgent?.text =
-                "${it.realEstateFullData.agent?.agent_firstName} ${it.realEstateFullData.agent?.agent_lastName}"
+//            binding.textAgent?.text =
+//                "${it.realEstateFullData.agent?.agent_firstName} ${it.realEstateFullData.agent?.agent_lastName}"
 
 
             val address =
@@ -158,7 +160,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             val staticMapBitmap = dataSource.toBitmap()
             val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
-            val fileName: String = "StaticMapPhoto"
+            val fileName = "StaticMapPhoto"
 
             val fileNameUri: String =
                 context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"

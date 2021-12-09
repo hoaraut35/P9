@@ -90,6 +90,10 @@ interface RealEStateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insertPhoto(realEstatePhoto: RealEstateMedia): Long //suspend for use another thread
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateMedia(realEstateMedia: RealEstateMedia)
+
+
     //insert point of interet
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insertPointOfInteret(realEstatePOI: RealEstatePOI): Long //suspend for use another thread
@@ -106,6 +110,9 @@ interface RealEStateDao {
     @Query("SELECT * FROM realEstate_table WHERE realEstateId = :realEstateId")
     fun getRealEstateWithCursor(realEstateId: Int): Cursor
 
+
+    @Delete
+    suspend fun deleteMedia(media: RealEstateMedia)
 
 
 

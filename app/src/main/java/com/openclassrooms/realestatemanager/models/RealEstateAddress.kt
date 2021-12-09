@@ -2,10 +2,10 @@ package com.openclassrooms.realestatemanager.models
 
 //embedded faster
 data class RealEstateAddress(
-    val street_name: String?,
-    val street_number: Int?,
-    val city: String?,
-    val zip_code: Int?,
+    var street_name: String?,
+    var street_number: Int?,
+    var city: String?,
+    var zip_code: Int?,
     val country: String?,
     var lat: Double? = null,
     var lng : Double? = null,

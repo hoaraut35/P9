@@ -46,8 +46,15 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
 
     suspend fun insertRealEstate(realEstate: RealEstate) = realEstateDao.insert(realEstate)
 
+
+
     suspend fun insertRealEstatePhoto(realEstatePhoto: RealEstateMedia): Long =
         realEstateDao.insertPhoto(realEstatePhoto)
+
+    suspend fun updateRealEstateMedia(realEstateMedia: RealEstateMedia) = realEstateDao.updateMedia(realEstateMedia)
+
+
+
 
     suspend fun insertRealEstatePOI(realEstatePOI: RealEstatePOI): Long =
         realEstateDao.insertPointOfInteret(realEstatePOI)
@@ -57,10 +64,6 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
 
 
-
-
-    //WARNING USED BY CONTENT PROVIDER
-//    suspend fun getRealEstateWithCursor(realEstateId: Int) =
-//        realEstateDao.getRealEstateWithCursor(realEstateId)
+    suspend fun deleteMedia(media: RealEstateMedia) {  realEstateDao.deleteMedia(media)  }
 
 }

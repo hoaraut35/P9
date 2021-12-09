@@ -169,7 +169,7 @@
                     app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edittext_price2"
+                        android:id="@+id/edittext_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -208,7 +208,7 @@
                     app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edittext_price"
+                        android:id="@+id/edittext_room_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
