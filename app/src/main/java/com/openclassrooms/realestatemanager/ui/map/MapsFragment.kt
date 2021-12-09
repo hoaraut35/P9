@@ -152,11 +152,9 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
 
-            if (locationResult.lastLocation != null) {
-                    viewModelMap.latLng = viewModelMap.setLocation(locationResult.lastLocation)
-                    setupMyLocation(viewModelMap.latLng!!)
-                    setupZoom()
-            }
+            viewModelMap.latLng = viewModelMap.setLocation(locationResult.lastLocation)
+            setupMyLocation(viewModelMap.latLng!!)
+            setupZoom()
 
         }
     }

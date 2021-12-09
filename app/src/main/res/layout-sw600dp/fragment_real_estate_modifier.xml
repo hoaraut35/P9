@@ -58,7 +58,7 @@
                 app:singleSelection="false">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_10"
+                    android:id="@+id/school_chip"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                     android:text="Ecole" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_20"
+                    android:id="@+id/parc_chip"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                     android:text="Parc" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_30"
+                    android:id="@+id/station_chip"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

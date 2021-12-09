@@ -163,7 +163,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             val fileNameUri: String =
                 context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
 
-            if (DEtailUtils.savePhotoToInternalMemory(
+            if (DetailUtils.savePhotoToInternalMemory(
                     dateFileName, "StaticMapPhoto", staticMapBitmap,
                     requireContext()
                 )

@@ -1,17 +1,9 @@
 package com.openclassrooms.realestatemanager.ui
 
-
-
-import android.Manifest
-import android.content.pm.PackageManager
-import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -19,15 +11,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.navigateUp
-import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-
-
-
 
 @AndroidEntryPoint  //Hilt annotation for activity
 class MainActivity : AppCompatActivity(){
@@ -56,13 +42,7 @@ class MainActivity : AppCompatActivity(){
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(this, navController, appBarConfiguration)
 
-
-
     }
-
-
-
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)

@@ -8,10 +8,10 @@ import androidx.room.PrimaryKey
 data class RealEstatePOI(
 
     @PrimaryKey(autoGenerate = true) val poiId: Int?,
-    val realEstateParentId: Int? = null,
-    val school: Boolean? = null,
-    val station: Boolean? = null,
-    val park: Boolean? = null
+    var realEstateParentId: Int? = null,
+    var school: Boolean? = null,
+    var station: Boolean? = null,
+    var park: Boolean? = null
 
 )
 

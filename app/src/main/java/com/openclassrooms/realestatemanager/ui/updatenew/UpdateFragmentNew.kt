@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
-import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val ARG_PARAM1 = "param1"
@@ -25,14 +24,15 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
     private var _binding: FragmentUpdateNewBinding? = null
     private val binding get() = _binding!!
 
-    private var itemIdBundle: String? = null
+   // private var itemIdBundle: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            if (it.containsKey(RealEstateDetailFragment.ARG_REAL_ESTATE_ID)) {
-                itemIdBundle = it.getString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID)
-            }
+//            if (it.containsKey(RealEstateDetailFragment.ARG_REAL_ESTATE_ID)) {
+//                itemIdBundle = it.getString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID)
+//                Log.i("[UPDATE]", "bien " + itemIdBundle)
+//            }
         }
     }
 
@@ -44,74 +44,103 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         _binding = FragmentUpdateNewBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-//        viewModelUpdate.getRealEstateFullById(itemIdBundle!!.toInt()).observe(viewLifecycleOwner) {
-        viewModelUpdate.getRealEstateFullById(1).observe(viewLifecycleOwner) {
-
-            binding.edittextCityZipcode?.setText(it.realEstateFullData.price!!)
-            binding.edittextCityName?.setText(it.realEstateFullData.address!!.city!!)
+        val recyclerViewMedias: RecyclerView? = binding.recyclerview
+        //val valChipGroupType: ChipGroup? = binding.chipGroupType
 
 
 
-
-        }
-
-        //realestates work
-        viewModelUpdate
-   //     detailViewModel.getRealEstatesLiveData().observe(viewLifecycleOwner){
-//            Log.i("[OBSERVE]","All element just realestate data : "+ it.toString())
-      //  }
-
-//        //realestates with full data work
-//        detailViewModel.getRealEstatesFullData().observe(viewLifecycleOwner){
-//            Log.i("[OBSERVE]","All element full data : "+it.toString())
+//        valChipGroupType?.setOnCheckedChangeListener { group, checkedId ->
+//            var resultTitle = group.findViewById<Chip>(checkedId)?.text.toString()
+//            Toast.makeText(requireContext(), "enabled [" + resultTitle + "]", Toast.LENGTH_LONG)
+//                .show()
 //        }
 
-        //val recyclerView: RecyclerView? = binding.recyclerview
 
+     //   valChipGroupType.childCount
 
+//        valChipGroupType?.forEach {
+//            if (it.text == ){
+//                Toast.makeText(requireContext(), "enabled [" + it.id , Toast.LENGTH_LONG)
+//                    .show()
+//            }
+//        }
 
+        viewModelUpdate.getRealEstateFullById().observe(viewLifecycleOwner) {
 
+            binding.edittextPrice?.setText(it.realEstateFullData.price?.toString())
+            binding.edittextSurface?.setText(it.realEstateFullData.surface.toString())
+            binding.edittextDescription?.setText(it.realEstateFullData.descriptionOfProduct)
+            binding.edittextStreetNumber?.setText(it.realEstateFullData.address?.street_number.toString())
+            binding.edittextStreetName?.setText(it.realEstateFullData.address?.street_name)
+            binding.edittextCityZipcode?.setText(it.realEstateFullData.address?.zip_code.toString())
+            binding.edittextCityName?.setText(it.realEstateFullData.address?.city)
 
-
-//        binding.addPhotoCamera?.setText("test")
-//        //    binding.edittextDescription?.setText(myRealEstate.descriptionOfProduct)
-//        binding.edittextPrice?.setText(myRealEstate.price.toString())
-//        binding.edittextCityZipcode?.setText(myRealEstate.address?.zip_code.toString())
-//        binding.edittextCityName?.setText(myRealEstate.address?.city.toString())
-//        binding.edittextStreetName?.setText(myRealEstate.address?.street_name.toString())
-
-
-
-
-
-    return rootView
-
-}
-
-private fun setupRecyclerView(recyclerView: RecyclerView, mediaList: List<RealEstateMedia>) {
-    val myLayoutManager =
-        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-    recyclerView.layoutManager = myLayoutManager
-    recyclerView.adapter = UpdateAdapter(mediaList, this)
-}
-
-companion object {
-
-    @JvmStatic
-    fun newInstance(param1: String, param2: String) =
-        UpdateFragmentNew().apply {
-            arguments = Bundle().apply {
-                putString(ARG_PARAM1, param1)
-                putString(ARG_PARAM2, param2)
+            it.mediaList?.let { it1 ->
+                if (recyclerViewMedias != null) {
+                    setupRecyclerView(recyclerViewMedias, it1)
+                }
             }
+
+            //get name of chip selected
+            var typeOfProduct : String? = it.realEstateFullData.typeOfProduct
+
+        //    valChipGroupType.setS
+
+
+
+
+
+            when(it.poi?.station){
+                true -> binding.stationChip?.isChecked  = true
+                false -> binding.stationChip?.isChecked = false
+                else -> binding.stationChip?.isChecked = false
+            }
+
+            when(it.poi?.school){
+                true -> binding.schoolChip?.isChecked  = true
+                false -> binding.schoolChip?.isChecked = false
+                else -> binding.schoolChip?.isChecked = false
+            }
+
+            when(it.poi?.park){
+                true -> binding.parcChip?.isChecked  = true
+                false -> binding.parcChip?.isChecked = false
+                else -> binding.parcChip?.isChecked = false
+            }
+
+
+
         }
-}
 
-override fun onChangedTitlePhoto(title: String, uri: String) {
 
-}
+        return rootView
 
-override fun onDeletePhoto(media: RealEstateMedia) {
+    }
 
-}
+    private fun setupRecyclerView(recyclerView: RecyclerView, mediaList: List<RealEstateMedia>) {
+        val myLayoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = myLayoutManager
+        recyclerView.adapter = UpdateAdapter(mediaList, this)
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            UpdateFragmentNew().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+    }
+
+    override fun onChangedTitlePhoto(title: String, uri: String) {
+
+    }
+
+    override fun onDeletePhoto(media: RealEstateMedia) {
+
+    }
 }

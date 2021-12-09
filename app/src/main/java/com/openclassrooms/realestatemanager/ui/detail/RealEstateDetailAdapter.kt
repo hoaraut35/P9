@@ -12,7 +12,6 @@ import com.openclassrooms.realestatemanager.models.RealEstateMedia
 class RealEstateDetailAdapter(private val realEstateMedias: List<RealEstateMedia>) :
     RecyclerView.Adapter<RealEstateDetailAdapter.ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             ItemRealEstatePhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -38,6 +37,5 @@ class RealEstateDetailAdapter(private val realEstateMedias: List<RealEstateMedia
         val type: TextView = binding.photoTitle
         val image: ImageView = binding.imageview
     }
-
 
 }

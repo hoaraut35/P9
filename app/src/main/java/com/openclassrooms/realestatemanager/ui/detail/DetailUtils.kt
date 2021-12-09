@@ -5,7 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import java.io.IOException
 
-class DEtailUtils {
+class DetailUtils {
 
     companion object{
 

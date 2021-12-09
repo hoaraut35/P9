@@ -5,10 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
-import com.openclassrooms.realestatemanager.models.RealEstateWithMedia
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import com.openclassrooms.realestatemanager.repositories.Shared
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,24 +19,19 @@ class ViewModelUpdate @Inject constructor(
 ) :
     ViewModel() {
 
-    fun getRealEstateFullById(id:Int) : LiveData<RealEstateFull> = localDatabaseRepository.getFlowRealEstateFullById(id).asLiveData()
+    fun getRealEstateFullById() : LiveData<RealEstateFull> = localDatabaseRepository.getFlowRealEstateFullById(shared.getPropertyId()).asLiveData()
 
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
 
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
 
-    private var estate = localDatabaseRepository.getRealEstate(shared.getPropertyId())
-
-   // private var estateWithMedia : Livedata<List<RealEstateWithMedia>> = localDatabaseRepository.getCurrentRealEstateWithMedia(shared.getPropertyId()).asLiveData()
+//    private var estate = localDatabaseRepository.getRealEstate(shared.getPropertyId())
 
 
 
-    fun getEstate(): LiveData<RealEstate> {
-        return estate
-    }
 
-//    fun getEstateWithMedia(): LiveData<List<RealEstateWithMedia>> {
-//        return estateWithMedia
+//    fun getEstate(): LiveData<RealEstate> {
+//        return estate
 //    }
 
 

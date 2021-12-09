@@ -50,7 +50,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
-  //  lateinit var activityResultForVideoFromGallery: ActivityResultLauncher<Intent>
+
 
     //viewmodels
     private val mainViewModel by viewModels<MainViewModel>()
@@ -295,7 +295,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 //val valBathRoomNumber : Int? = binding.ed
                 val valDescription: String? = binding.edittextDescription?.text?.toString()
 
-                val valStreetNumber: Int? = binding.edittextStrretNumber?.text.toString().toInt()
+                val valStreetNumber: Int? = binding.edittextStreetNumber?.text.toString().toInt()
                 val valStreetName: String? = binding.edittextStreetName?.text.toString()
                 val valCityZipCode: Int? = binding.edittextCityZipcode?.text.toString().toInt()
                 val valCity: String? = binding.edittextCityName?.text.toString()

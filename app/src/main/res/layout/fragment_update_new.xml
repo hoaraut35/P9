@@ -12,7 +12,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
@@ -23,7 +23,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
 
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/video_view">
+                app:layout_constraintTop_toTopOf="parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -75,6 +75,7 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipHouse"
+
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -128,7 +129,7 @@
                     app:singleSelection="false">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_10"
+                        android:id="@+id/school_chip"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -137,7 +138,7 @@
                         android:text="Ecole" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_20"
+                        android:id="@+id/parc_chip"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -146,7 +147,7 @@
                         android:text="Parc" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_30"
+                        android:id="@+id/station_chip"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -169,7 +170,7 @@
                     app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edittext_price"
+                        android:id="@+id/edittext_price2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -197,6 +198,35 @@
 
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/property_room_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Entrez le nombre de piece"
+
+                    app:helperText="ne peux etre vide"
+
+                    app:helperTextEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="8"
+                        app:errorEnabled="true">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -233,7 +263,7 @@
                     android:hint="Entrez le numéro de rue">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edittext_strret_number"
+                        android:id="@+id/edittext_street_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number">
@@ -320,20 +350,22 @@
                     android:layout_height="match_parent"
                     android:text="Is sold "
                     android:visibility="invisible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageview" />
 
+                    app:layout_constraintTop_toBottomOf="@id/save_btn" />
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edittext_number_room"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number">
+
+                </com.google.android.material.textfield.TextInputEditText>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edittext_number_room"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number">
 
-            </com.google.android.material.textfield.TextInputEditText>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
