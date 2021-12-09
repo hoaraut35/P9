@@ -26,7 +26,7 @@ class UpdateAdapter(
     interface InterfacePhotoTitleChanged {
         //method here...
         fun onChangedTitlePhoto(title: String, uri: String)
-        fun onDeletePhoto(media: RealEstateMedia)
+        fun onDeleteMedia(media: RealEstateMedia)
     }
 
     inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -49,7 +49,7 @@ class UpdateAdapter(
             photoTitle.setText(photoModel.name)
 
             delete.setOnClickListener {
-                callback?.onDeletePhoto(photoModel)
+                callback?.onDeleteMedia(photoModel)
             }
 
 
@@ -72,7 +72,7 @@ class UpdateAdapter(
             }
 
             delete.setOnClickListener {
-                callback?.onDeletePhoto(videoModel)
+                callback?.onDeleteMedia(videoModel)
             }
 
 

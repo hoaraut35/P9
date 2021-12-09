@@ -14,19 +14,13 @@ import javax.inject.Inject
 class ViewModelForCreate @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository) :
     ViewModel() {
 
-    //for media
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
-
     private val realEstate: MutableLiveData<RealEstate>? = null
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
-
-
 
     val listOfChip : MutableList<String> = mutableListOf()
 
     fun insertPOI(poi:RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePOI(poi) }
-
-
 
     //update photo or video to database
     fun addMediaToList(media: RealEstateMedia) {
@@ -70,42 +64,6 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
         Log.i("[PROPERTY]", "Type of property : $type")
     }
 
-
-    fun propertyPriceChanged(price: Int) {
-
-    }
-
-    fun propertySurfaceChanged(surface: Int) {
-
-    }
-
-    fun propertyRoomNumberChanged(roomNumber: Int) {
-
-    }
-
-    fun propertyDescriptionChanged(description: String) {
-
-    }
-
-    fun propertyStreetNumberChanged(streetNumber: Int) {
-
-    }
-
-    fun propertyStreetName(streetName: String) {
-
-    }
-
-    fun propertyZipCodeChanged(zipCode: Int) {
-
-    }
-
-    fun propertyCityChanged(city: String) {
-
-    }
-
-    fun saveProperty() {
-
-    }
 
     fun deleteMedia(media: RealEstateMedia) {
         listOfMedia.remove(media)

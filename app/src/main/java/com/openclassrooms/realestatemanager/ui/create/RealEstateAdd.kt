@@ -51,7 +51,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
-
     //viewmodels
     private val mainViewModel by viewModels<MainViewModel>()
     private val viewModelCreate by viewModels<ViewModelForCreate>()
@@ -460,7 +459,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
     }
 
-    //constructor fragment
+
     companion object {
 
         // TODO: Rename and change types and number of parameters
@@ -473,8 +472,8 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 //                }
             }
 
-        const val PICK_IMAGE = 1
-        const val REQUEST_IMAGE_CAPTURE = 2
+       // const val PICK_IMAGE = 1
+      //  const val REQUEST_IMAGE_CAPTURE = 2
     }
 
     override fun onChangedTitlePhoto(title: String, uri: String) {

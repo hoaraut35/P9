@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
@@ -21,35 +22,33 @@ class ViewModelUpdate @Inject constructor(
 
     fun getRealEstateFullById() : LiveData<RealEstateFull> = localDatabaseRepository.getFlowRealEstateFullById(shared.getPropertyId()).asLiveData()
 
+    var initialListOfMedia : MutableList<RealEstateMedia> = mutableListOf()
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
-
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
 
-//    private var estate = localDatabaseRepository.getRealEstate(shared.getPropertyId())
+    fun getMutableListOfMedia(): MutableList<RealEstateMedia> {
+        return listOfMedia
+    }
 
+    //1 we get the initial list from UI
+    fun initList(){
+        listOfMedia.addAll(initialListOfMedia)
+        mutableListOfMedia.value = listOfMedia
+    }
 
-
-
-//    fun getEstate(): LiveData<RealEstate> {
-//        return estate
-//    }
-
-
-
-
+    //to add media
     fun addMediaToList(media: RealEstateMedia) {
         listOfMedia.add(media)
-      //  sortMedia()
+        listOfMedia.sortBy { it.uri }
         mutableListOfMedia.value = listOfMedia
-        Log.i("[MEDIA]", "Data from viewmodel list : $listOfMedia")
     }
 
 
+    //to delete media
     fun deleteMedia(media: RealEstateMedia) {
         listOfMedia.remove(media)
         mutableListOfMedia.value = listOfMedia
     }
-
 
     //function to publish UI to fragment
     fun getUIToShow(): LiveData<List<RealEstateMedia>> {
