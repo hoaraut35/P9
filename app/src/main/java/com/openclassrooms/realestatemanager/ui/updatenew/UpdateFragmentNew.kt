@@ -24,9 +24,6 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 @AndroidEntryPoint
 class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
@@ -39,18 +36,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
-
-    // private var itemIdBundle: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-//            if (it.containsKey(RealEstateDetailFragment.ARG_REAL_ESTATE_ID)) {
-//                itemIdBundle = it.getString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID)
-//                Log.i("[UPDATE]", "bien " + itemIdBundle)
-//            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -204,6 +189,8 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
                 else -> binding.parcChip?.isChecked = false
             }
 
+            //update actual estate
+            viewModelUpdate.realEstate = it.realEstateFullData
 
         }
 
@@ -245,7 +232,26 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 //        }
 
 
+
+        binding.saveBtn?.setOnClickListener{
+            updateData()
+        }
+
         return rootView
+
+    }
+
+    private fun updateData() {
+
+        viewModelUpdate.realEstate.price = 10
+        viewModelUpdate.realEstate.descriptionOfProduct = "zz"
+        viewModelUpdate.realEstate.typeOfProduct = "Cabane"
+//        viewModelUpdate.realEstate
+//        viewModelUpdate.realEstate
+//        viewModelUpdate.realEstate
+//
+        viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
+
 
     }
 
@@ -313,10 +319,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             UpdateFragmentNew().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+
             }
     }
 

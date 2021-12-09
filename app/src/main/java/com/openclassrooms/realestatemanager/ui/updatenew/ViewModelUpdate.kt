@@ -1,16 +1,15 @@
 package com.openclassrooms.realestatemanager.ui.updatenew
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import com.openclassrooms.realestatemanager.repositories.Shared
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +19,11 @@ class ViewModelUpdate @Inject constructor(
 ) :
     ViewModel() {
 
+    var realEstate: RealEstate = RealEstate()
+
     fun getRealEstateFullById() : LiveData<RealEstateFull> = localDatabaseRepository.getFlowRealEstateFullById(shared.getPropertyId()).asLiveData()
+
+
 
     var initialListOfMedia : MutableList<RealEstateMedia> = mutableListOf()
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
@@ -53,6 +56,10 @@ class ViewModelUpdate @Inject constructor(
     //function to publish UI to fragment
     fun getUIToShow(): LiveData<List<RealEstateMedia>> {
         return mutableListOfMedia
+    }
+
+    fun updateRealEstate(realEstate: RealEstate){
+        viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate)}
     }
 
 }

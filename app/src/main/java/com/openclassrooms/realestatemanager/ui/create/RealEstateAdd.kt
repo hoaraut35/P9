@@ -32,9 +32,6 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-//private const val ARG_PARAM1 = "param1"
-//private const val ARG_PARAM2 = "param2"
-
 @AndroidEntryPoint
 class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Fragment() {
 
@@ -42,36 +39,20 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     private val binding get() = _binding!!
 
     private var fileNameUri: String? = null
-
-    lateinit var recyclerView: RecyclerView
+    private var resultTitle: String? = null
     private val listOfMediasToSave = mutableListOf<RealEstateMedia>()
 
-    var resultTitle: String? = null
-
-    lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
-    lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
-
-    //viewmodels
     private val mainViewModel by viewModels<MainViewModel>()
     private val viewModelCreate by viewModels<ViewModelForCreate>()
 
-    //bundle var
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var recyclerView: RecyclerView
+    lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
+    lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        // Inflate the layout for this fragment
         _binding = FragmentRealEstateModifierBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
@@ -254,7 +235,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
     private fun getSelectedChips() {
 
-
         val listTest = listOf<String>()
         val valChipGroupMulti: ChipGroup? = binding.chipGroupMulti
 
@@ -263,14 +243,29 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
             viewModelCreate.listOfChip.add(chip)
 
-            //Log.i("[CHIP]", "chip ${chip.isNotEmpty()}")
+            Log.i("[CHIP]", "chip ${chip.isNotEmpty()}")
         }
-
 
     }
 
-    private fun saveRealEstateInDB() {
+    private fun getSelectedChipsType() {
 
+        val listTest = listOf<String>()
+        val valChipGroupMulti: ChipGroup? = binding.chipGroupType
+
+        valChipGroupMulti?.checkedChipIds?.forEach {
+            val chip = binding.chipGroupType.findViewById<Chip>(it).text.toString()
+
+            viewModelCreate.listOfChip.add(chip)
+
+            Log.i("[CHIP]", "chip ${chip.isNotEmpty()}")
+        }
+
+    }
+
+
+
+    private fun saveRealEstateInDB() {
 
         mainViewModel.getLAstRowId.observe(viewLifecycleOwner) {
 
@@ -279,15 +274,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
             binding.saveBtn?.setOnClickListener {
 
 
-//                if (resultTitle.isNullOrEmpty()){
-//                    Toast.makeText(requireContext(), "Add a type of product please", Toast.LENGTH_LONG)
-//                        .show()
-//
-//                }
-
-
+                getSelectedChips()
                 val prix: Int? = binding.edittextPrice?.text.toString().toInt()
-                //val valTypeOfProduct: String? = mainbinding.propertyTypeEdittext?.text.toString()
+                val valTypeOfProduct: String? = "${viewModelCreate.listOfChip[0].toString()}"
 
                 val valSurface: Int? = binding.edittextSurface?.text.toString().toInt()
                 val valRoomNumber: Int? = binding.edittextNumberRoom?.text.toString().toInt()
@@ -305,7 +294,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 mainViewModel.insert(
                     RealEstate(
-                        typeOfProduct = resultTitle,
+                        typeOfProduct = valTypeOfProduct,
                         price = prix,
                         cityOfProduct = valCity,
                         surface = valSurface,

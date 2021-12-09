@@ -117,7 +117,6 @@
                     </com.google.android.material.chip.Chip>
 
 
-
                 </com.google.android.material.chip.ChipGroup>
 
 
@@ -205,9 +204,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Entrez le nombre de piece"
-
                     app:helperText="ne peux etre vide"
-
                     app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -224,19 +221,23 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
-
-
-
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/property_nbroom_text"
+                    android:id="@+id/property_bathroom_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez le nombre de pièces">
+                    android:hint="Entrez le nombre de bain"
+                    app:helperText="ne peux etre vide"
+                    app:helperTextEnabled="true">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_number_bathroom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number">
 
+                    </com.google.android.material.textfield.TextInputEditText>
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_description_text"
@@ -253,8 +254,6 @@
 
 
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- addphot here ... -->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_streetnumber_text"
@@ -354,17 +353,7 @@
                     app:layout_constraintTop_toBottomOf="@id/save_btn" />
 
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittext_number_room"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
