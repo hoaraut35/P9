@@ -59,50 +59,50 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
         imageMap = binding.imageMap
 
         //realEstate with full data by id work
-        detailViewModel.getRealEstateFullById(itemIdBundle!!.toInt()).observe(viewLifecycleOwner) {
+        detailViewModel.getRealEstateFullById(itemIdBundle!!.toInt()).observe(viewLifecycleOwner) {RealEstateFullObserve ->
 
-            binding.textType?.text = it.realEstateFullData.typeOfProduct
-            binding.textPrice?.text = it.realEstateFullData.price.toString() + "€"
-            binding.textSurface?.text = it.realEstateFullData.surface.toString() + "m²"
-            binding.textNumberRoom?.text = it.realEstateFullData.numberOfRoom.toString() + " Room"
-            binding.textNumberBathroom?.text = it.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
-            binding.textNumberBedroom?.text = it.realEstateFullData.numberOfBedRoom.toString() + " Bedroom"
+            binding.textType?.text = RealEstateFullObserve.realEstateFullData.typeOfProduct
+            binding.textPrice?.text = RealEstateFullObserve.realEstateFullData.price.toString() + "€"
+            binding.textSurface?.text = RealEstateFullObserve.realEstateFullData.surface.toString() + "m²"
+            binding.textNumberRoom?.text = RealEstateFullObserve.realEstateFullData.numberOfRoom.toString() + " Room"
+            binding.textNumberBathroom?.text = RealEstateFullObserve.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
+            binding.textNumberBedroom?.text = RealEstateFullObserve.realEstateFullData.numberOfBedRoom.toString() + " Bedroom"
 
-            binding.textDescription?.text = it.realEstateFullData.descriptionOfProduct
+            binding.textDescription?.text = RealEstateFullObserve.realEstateFullData.descriptionOfProduct
 
-            it.mediaList?.let { it1 ->
+            RealEstateFullObserve.mediaList?.let { it1 ->
                 if (recyclerViewMedias != null) {
                     setupRecyclerView(recyclerViewMedias, it1)
                 }
             }
 
-            binding.textStreetNumber?.text = it.realEstateFullData.address?.street_number.toString()
-            binding.textStreetName?.text = it.realEstateFullData.address?.street_name
-            binding.textZipCode?.text = it.realEstateFullData.address?.zip_code.toString()
-            binding.textCityName?.text = it.realEstateFullData.address?.city
+            binding.textStreetNumber?.text = RealEstateFullObserve.realEstateFullData.address?.street_number.toString()
+            binding.textStreetName?.text = RealEstateFullObserve.realEstateFullData.address?.street_name
+            binding.textZipCode?.text = RealEstateFullObserve.realEstateFullData.address?.zip_code.toString()
+            binding.textCityName?.text = RealEstateFullObserve.realEstateFullData.address?.city
 
             //TODO: add POI here...
 
-            binding.textState?.text = it.realEstateFullData.status?.toString() + " status"
+            binding.textState?.text = RealEstateFullObserve.realEstateFullData.status?.toString() + " status"
 
             //TODO: add date of entry
 
             //TODO: add date of sold
 
-            binding.textAgent?.text =  "${it.realEstateFullData.agent?.agent_firstName} ${it.realEstateFullData.agent?.agent_lastName}"
+            binding.textAgent?.text =  "${RealEstateFullObserve.realEstateFullData.agent?.agent_firstName} ${RealEstateFullObserve.realEstateFullData.agent?.agent_lastName}"
 
 
             val address =
-                it.realEstateFullData.address?.city + "+" + it.realEstateFullData.address?.zip_code + "+" + it.realEstateFullData.address?.street_name
+                RealEstateFullObserve.realEstateFullData.address?.city + "+" + RealEstateFullObserve.realEstateFullData.address?.zip_code + "+" + RealEstateFullObserve.realEstateFullData.address?.street_name
 
             imageUri2 =
                 "https://maps.googleapis.com/maps/api/staticmap?center=" + address + "&zoom=15&size=600x300&maptype=roadmap" +
                         "&key=" + BuildConfig.GOOGLE_MAP_KEY;
 
             //we have an image, load from internal memory
-            if (it.realEstateFullData.staticampuri.isNullOrEmpty()) {
+            if (!RealEstateFullObserve.realEstateFullData.staticampuri.isNullOrEmpty()) {
                 binding.imageMap.let {
-                    Glide.with(this).load(detailViewModel.realEstate.staticampuri)
+                    Glide.with(this).load(RealEstateFullObserve.realEstateFullData.staticampuri)//detailViewModel.realEstate.staticampuri)
                         .error(R.drawable.ic_baseline_error_24).into(it)
                 }
             } else {
@@ -115,7 +115,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                     .into(imageMap)//end listener
             }
 
-            detailViewModel.realEstate = it.realEstateFullData
+            detailViewModel.realEstate = RealEstateFullObserve.realEstateFullData
         }
         return rootView
     }
@@ -157,16 +157,18 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
     override fun onSuccess(dataSource: Drawable?) {
 
         if (dataSource != null) {
+
             val staticMapBitmap = dataSource.toBitmap()
+
             val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
             val fileName = "StaticMapPhoto"
 
             val fileNameUri: String =
-                context?.filesDir.toString() + "data/" + "$fileName$dateFileName.jpg"
+                context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
 
             if (DetailUtils.savePhotoToInternalMemory(
-                    dateFileName, "StaticMapPhoto", staticMapBitmap,
+                    dateFileName, fileName, staticMapBitmap,
                     requireContext()
                 )
             ) {
@@ -174,5 +176,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                 detailViewModel.updateRealEstate(detailViewModel.realEstate)
             }
         }
+
+
     }
 }

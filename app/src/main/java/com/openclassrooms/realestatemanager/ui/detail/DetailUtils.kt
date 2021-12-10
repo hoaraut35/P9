@@ -19,7 +19,6 @@ class DetailUtils {
                 context.openFileOutput("$fileName$fileDate.jpg", Activity.MODE_PRIVATE)
                     .use { stream ->
 
-                        //compress photo
                         if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
                             throw IOException("error compression")
                         }
