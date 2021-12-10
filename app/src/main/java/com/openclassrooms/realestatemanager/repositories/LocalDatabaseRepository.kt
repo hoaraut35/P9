@@ -49,7 +49,7 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
 
 
     suspend fun insertRealEstatePhoto(realEstatePhoto: RealEstateMedia): Long =
-        realEstateDao.insertPhoto(realEstatePhoto)
+        realEstateDao.insertMedia(realEstatePhoto)
 
     suspend fun updateRealEstateMedia(realEstateMedia: RealEstateMedia) = realEstateDao.updateMedia(realEstateMedia)
 

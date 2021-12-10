@@ -71,22 +71,20 @@ class ViewModelUpdate @Inject constructor(
 
     //update title in list for photo or video
     fun updateMediaTitle(title: String, uri: String) {
-
-        if (!title.isNullOrEmpty() && !uri.isNullOrEmpty()) {
-            listOfMedia.find { it.uri == uri }?.name = title
-
-
-        //  mutableListOfMedia.value = listOfMedia
-        }
+        listOfMedia.find { it.uri == uri }?.name = title
     }
 
-    fun setDescriptionTitle(description : String, uri : String){
-        for (media in listOfMedia){
-            if (media.uri == uri){
-                insertMedia(media)
+    val mediaList: MutableList<RealEstateMedia> = mutableListOf()
+
+    fun setDescriptionTitle(description: String, uri: String) {
+        for (media in listOfMedia) {
+            if (media.uri == uri) {
+                media.name = description
+            }
+            if (!mediaList.contains(media)) {
+                mediaList.add(media)
             }
         }
-
     }
 
 }

@@ -86,9 +86,9 @@ interface RealEStateDao {
 
 
 
-    //insert photo
+    //insert media
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
-    suspend fun insertPhoto(realEstatePhoto: RealEstateMedia): Long //suspend for use another thread
+    suspend fun insertMedia(realEstatePhoto: RealEstateMedia): Long //suspend for use another thread
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateMedia(realEstateMedia: RealEstateMedia)

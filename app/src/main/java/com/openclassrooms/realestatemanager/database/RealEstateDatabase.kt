@@ -99,7 +99,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     )
                 )
 
-                dao.insertPhoto(
+                dao.insertMedia(
                     RealEstateMedia(
                         realEstateParentId = 1,
                         name = "Photo cuisine",
@@ -107,21 +107,21 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
                     )
                 )
-                dao.insertPhoto(
+                dao.insertMedia(
                     RealEstateMedia(
                         realEstateParentId = 2,
                         name = "Photo chambre",
                         uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )
                 )
-                dao.insertPhoto(
+                dao.insertMedia(
                     RealEstateMedia(
                         realEstateParentId = 3,
                         name = "Photo garage",
                         uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )
                 )
-                dao.insertPhoto(
+                dao.insertMedia(
                     RealEstateMedia(
                         realEstateParentId = 1,
                         name = "Photo chambre",
@@ -129,7 +129,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     )
                 )
 
-                dao.insertPhoto(
+                dao.insertMedia(
                     RealEstateMedia(
                         realEstateParentId = 2,
                         name = "Photo chambre2",
@@ -137,7 +137,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     )
                 )
 
-                dao.insertPhoto(
+                dao.insertMedia(
                     RealEstateMedia(
                         realEstateParentId = 3,
                         name = "Cuisine",

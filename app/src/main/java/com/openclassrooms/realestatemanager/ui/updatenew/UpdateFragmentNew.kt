@@ -131,100 +131,114 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         }
 
 
-
-
         //observe
-        viewModelUpdate.getRealEstateFullById().observe(viewLifecycleOwner) { RealEstateFullObserve ->
+        viewModelUpdate.getRealEstateFullById()
+            .observe(viewLifecycleOwner) { RealEstateFullObserve ->
 
-            binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
-            binding.edittextSurface?.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
-            binding.edittextDescription?.setText(RealEstateFullObserve.realEstateFullData.descriptionOfProduct)
-            binding.edittextStreetNumber?.setText(RealEstateFullObserve.realEstateFullData.address?.street_number.toString())
-            binding.edittextStreetName?.setText(RealEstateFullObserve.realEstateFullData.address?.street_name)
-            binding.edittextCityZipcode?.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
-            binding.edittextCityName?.setText(RealEstateFullObserve.realEstateFullData.address?.city)
+                binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
+                binding.edittextSurface?.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
+                binding.edittextDescription?.setText(RealEstateFullObserve.realEstateFullData.descriptionOfProduct)
+                binding.edittextStreetNumber?.setText(RealEstateFullObserve.realEstateFullData.address?.street_number.toString())
+                binding.edittextStreetName?.setText(RealEstateFullObserve.realEstateFullData.address?.street_name)
+                binding.edittextCityZipcode?.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
+                binding.edittextCityName?.setText(RealEstateFullObserve.realEstateFullData.address?.city)
 
-            viewModelUpdate.initialListOfMedia = RealEstateFullObserve.mediaList as MutableList<RealEstateMedia>
+                viewModelUpdate.initialListOfMedia =
+                    RealEstateFullObserve.mediaList as MutableList<RealEstateMedia>
 
-            if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
-                    .isEmpty()
-            ) {
-                viewModelUpdate.initList()
-            }
-
-
-            //get name of chip selected
-            var typeOfProduct: String? = RealEstateFullObserve.realEstateFullData.typeOfProduct
-
-            //    valChipGroupType.setS
-
-
-            when (RealEstateFullObserve.poi?.station) {
-                true -> binding.stationChip?.isChecked = true
-                false -> binding.stationChip?.isChecked = false
-                else -> binding.stationChip?.isChecked = false
-            }
-
-            when (RealEstateFullObserve.poi?.school) {
-                true -> binding.schoolChip?.isChecked = true
-                false -> binding.schoolChip?.isChecked = false
-                else -> binding.schoolChip?.isChecked = false
-            }
-
-            when (RealEstateFullObserve.poi?.park) {
-                true -> binding.parcChip?.isChecked = true
-                false -> binding.parcChip?.isChecked = false
-                else -> binding.parcChip?.isChecked = false
-            }
-
-            //update actual estate
-            viewModelUpdate.realEstate = RealEstateFullObserve.realEstateFullData
-
-
-            //button listener
-            binding.saveBtn?.setOnClickListener {
-
-                viewModelUpdate.realEstate.typeOfProduct = "House"
-                viewModelUpdate.realEstate.price = binding.edittextPrice?.text.toString().toInt()
-                viewModelUpdate.realEstate.surface = binding.edittextSurface?.text.toString().toInt()
-                viewModelUpdate.realEstate.descriptionOfProduct = binding.edittextDescription?.text.toString()
-                viewModelUpdate.realEstate.address!!.street_number = binding.edittextStreetNumber?.text.toString().toInt()
-                viewModelUpdate.realEstate.address!!.street_name = binding.edittextStreetName?.text.toString()
-                viewModelUpdate.realEstate.address!!.zip_code = binding.edittextCityZipcode?.text.toString().toInt()
-                viewModelUpdate.realEstate.address!!.city = binding.edittextCityName?.text.toString()
-
-                viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
-
-                for (itemToremove in viewModelUpdate.listOfMediaToRemove){
-                    viewModelUpdate.deleteMedia(itemToremove)
+                if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
+                        .isEmpty()
+                ) {
+                    viewModelUpdate.initList()
                 }
 
 
-                for (item in viewModelUpdate.getMediaListFromVM().value!!) {
+                //get name of chip selected
+                var typeOfProduct: String? = RealEstateFullObserve.realEstateFullData.typeOfProduct
 
-                    if (!RealEstateFullObserve.mediaList.contains(item)){
-                        val long = viewModelUpdate.insertMedia(
-                            RealEstateMedia(
-                                uri = item.uri,
-                                realEstateParentId = viewModelUpdate.realEstate.realEstateId,
-                                name = item.name
-                            )
-                        )
+                //    valChipGroupType.setS
+
+
+                when (RealEstateFullObserve.poi?.station) {
+                    true -> binding.stationChip?.isChecked = true
+                    false -> binding.stationChip?.isChecked = false
+                    else -> binding.stationChip?.isChecked = false
+                }
+
+                when (RealEstateFullObserve.poi?.school) {
+                    true -> binding.schoolChip?.isChecked = true
+                    false -> binding.schoolChip?.isChecked = false
+                    else -> binding.schoolChip?.isChecked = false
+                }
+
+                when (RealEstateFullObserve.poi?.park) {
+                    true -> binding.parcChip?.isChecked = true
+                    false -> binding.parcChip?.isChecked = false
+                    else -> binding.parcChip?.isChecked = false
+                }
+
+                //update actual estate
+                viewModelUpdate.realEstate = RealEstateFullObserve.realEstateFullData
+
+
+                //button listener
+                binding.saveBtn?.setOnClickListener {
+
+                    viewModelUpdate.realEstate.typeOfProduct = "House"
+                    viewModelUpdate.realEstate.price =
+                        binding.edittextPrice?.text.toString().toInt()
+                    viewModelUpdate.realEstate.surface =
+                        binding.edittextSurface?.text.toString().toInt()
+                    viewModelUpdate.realEstate.descriptionOfProduct =
+                        binding.edittextDescription?.text.toString()
+                    viewModelUpdate.realEstate.address!!.street_number =
+                        binding.edittextStreetNumber?.text.toString().toInt()
+                    viewModelUpdate.realEstate.address!!.street_name =
+                        binding.edittextStreetName?.text.toString()
+                    viewModelUpdate.realEstate.address!!.zip_code =
+                        binding.edittextCityZipcode?.text.toString().toInt()
+                    viewModelUpdate.realEstate.address!!.city =
+                        binding.edittextCityName?.text.toString()
+
+                    viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
+
+                    for (itemToremove in viewModelUpdate.listOfMediaToRemove) {
+                        viewModelUpdate.deleteMedia(itemToremove)
+                    }
+
+                    for (item in viewModelUpdate.getMediaListFromVM().value!!) {
+
+                        if (!RealEstateFullObserve.mediaList.contains(item)) {
+
+                            if (!viewModelUpdate.mediaList.contains(item)) {
+
+                                val long = viewModelUpdate.insertMedia(
+                                    RealEstateMedia(
+                                        uri = item.uri,
+                                        realEstateParentId = viewModelUpdate.realEstate.realEstateId,
+                                        name = item.name
+                                    )
+                                )
+
+
+                            }
+                        }
+
+
+                    }
+
+
+                    for (media in viewModelUpdate.mediaList) {
+                        if (!viewModelUpdate.listOfMediaToRemove.contains(media)) {
+                            viewModelUpdate.insertMedia(media)
+                        }
                     }
 
 
                 }
 
 
-
-
             }
-
-
-
-
-
-        }
 
         viewModelUpdate.getMediaListFromVM().observe(viewLifecycleOwner) {
             setupRecyclerView(recyclerViewMedias!!, it)
@@ -240,7 +254,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
     }
 
     private fun updateData() {
-
 
 
     }
@@ -305,7 +318,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             UpdateFragmentNew().apply {
@@ -314,11 +326,10 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
     override fun onChangedTitlePhoto(title: String, uri: String) {
         viewModelUpdate.updateMediaTitle(title, uri)
-        viewModelUpdate.setDescriptionTitle(title,uri)
+        viewModelUpdate.setDescriptionTitle(title, uri)
     }
 
     override fun onDeleteMedia(media: RealEstateMedia) {
-        //file
         context?.deleteFile(media.uri?.substringAfterLast("/"))
         viewModelUpdate.deleteMedia(media)
         viewModelUpdate.listOfMediaToRemove.add(media)
