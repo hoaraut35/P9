@@ -38,14 +38,11 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
 
-    private var fileNameUri: String? = null
-    private var resultTitle: String? = null
-    private val listOfMediasToSave = mutableListOf<RealEstateMedia>()
-
     private val mainViewModel by viewModels<MainViewModel>()
     private val viewModelCreate by viewModels<ViewModelForCreate>()
 
-    lateinit var recyclerView: RecyclerView
+    private val listOfMediasToSave = mutableListOf<RealEstateMedia>()
+
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
@@ -56,24 +53,24 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         _binding = FragmentRealEstateModifierBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-        //for setup topbar
+        //for setup topBar
         setHasOptionsMenu(true)
 
         //bind recyclerview
-        recyclerView = binding.recyclerview
+        val recyclerView = binding.recyclerview
 
         //get the type of property
-        val valChipGroupType: ChipGroup? = binding.chipGroupType
-        valChipGroupType?.setOnCheckedChangeListener { group, checkedId ->
-            resultTitle = group.findViewById<Chip>(checkedId)?.text.toString()
-            Toast.makeText(requireContext(), "enabled [" + resultTitle + "]", Toast.LENGTH_LONG)
-                .show()
+       // val valChipGroupType = binding.chipGroupType
+        var resultType :String? = null
+
+        binding.chipGroupType.setOnCheckedChangeListener { group, checkedId ->
+            viewModelCreate.realEstateVM.typeOfProduct = group.findViewById<Chip>(checkedId)?.text.toString()
         }
 
-        //send type to viewModelCreate
-        binding.chipGroupType.setOnCheckedChangeListener { group, checkedId ->
+        binding.chipGroupPoi.setOnCheckedChangeListener { group, checkedId ->
             viewModelCreate.propertyTypeChanged(group.findViewById<Chip>(checkedId)?.text.toString())
         }
+
 
         binding.edittextPrice?.addTextChangedListener {
             binding.propertyPriceText.helperText =
@@ -183,7 +180,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         //save data to database
         saveRealEstateInDB()
 
-        setupViewModel()
+        setupViewModel(recyclerView)
 
         binding.edittextPrice?.addTextChangedListener {
             binding.propertyPriceText.helperText =
@@ -209,12 +206,14 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     }
 
 
-    private fun setupViewModel() {
-        viewModelCreate.getUIToShow().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
 
+    private fun setupViewModel(recyclerView: RecyclerView) {
+
+        viewModelCreate.getUIToShow().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             Log.i("[MEDIA]", "Get data from viewModel : $it")
             setupRecyclerView(recyclerView, it)
         })
+
     }
 
     private fun getSoldStateBtn() {
@@ -236,10 +235,10 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     private fun getSelectedChips() {
 
         val listTest = listOf<String>()
-        val valChipGroupMulti: ChipGroup? = binding.chipGroupMulti
+        val valChipGroupMulti: ChipGroup? = binding.chipGroupPoi
 
         valChipGroupMulti?.checkedChipIds?.forEach {
-            val chip = binding.chipGroupMulti.findViewById<Chip>(it).text.toString()
+            val chip = binding.chipGroupPoi.findViewById<Chip>(it).text.toString()
 
             viewModelCreate.listOfChip.add(chip)
 
@@ -276,7 +275,8 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 getSelectedChips()
                 val prix: Int? = binding.edittextPrice?.text.toString().toInt()
-                val valTypeOfProduct: String? = "${viewModelCreate.listOfChip[0].toString()}"
+                val valTypeOfProduct: String? = viewModelCreate.realEstateVM.typeOfProduct
+                    //"${viewModelCreate.listOfChip[0].toString()}"
 
                 val valSurface: Int? = binding.edittextSurface?.text.toString().toInt()
                 val valRoomNumber: Int? = binding.edittextNumberRoom?.text.toString().toInt()
@@ -311,27 +311,30 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                     )
                 )
 
-                //add photos
-                for (item in viewModelCreate.getUIToShow().value!!) {
-                    val long = mainViewModel.insertPhoto(
-                        RealEstateMedia(
-                            uri = item.uri,
-                            realEstateParentId = lastindex,
-                            name = item.name
+                //add medias to database
+                if (!viewModelCreate.getUIToShow().value.isNullOrEmpty()){
+                    for (item in viewModelCreate.getUIToShow().value!!) {
+                        val long = mainViewModel.insertPhoto(
+                            RealEstateMedia(
+                                uri = item.uri,
+                                realEstateParentId = lastindex,
+                                name = item.name
+                            )
                         )
-                    )
+                    }
+
                 }
 
 
-                val valChipGroupMulti: ChipGroup? = binding.chipGroupMulti
+                val valChipGroupMulti: ChipGroup? = binding.chipGroupPoi
                 var school = false
                 var park = false
                 var gare = false
 
                 valChipGroupMulti?.checkedChipIds?.forEach {
 
-                    val texte = binding.chipGroupMulti.findViewById<Chip>(it).text.toString()
-                    val check = binding.chipGroupMulti.findViewById<Chip>(it).isChecked
+                    val texte = binding.chipGroupPoi.findViewById<Chip>(it).text.toString()
+                    val check = binding.chipGroupPoi.findViewById<Chip>(it).isChecked
 
                     when (texte) {
                         "Ecole" -> school = check
@@ -366,6 +369,8 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                 //val storageDir = File(context?.filesDir, "test")
                 //savePhotoToInternalMemory("Photo_$fileName", it)
+
+
 
                 listOfMediasToSave.add(
                     RealEstateMedia(
@@ -408,6 +413,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                     throw IOException("erreur compression")
                 }
 
+                var fileNameUri: String? = null
                 fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
 
 

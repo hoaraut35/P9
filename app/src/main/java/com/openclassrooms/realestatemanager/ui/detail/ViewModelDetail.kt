@@ -15,7 +15,7 @@ class ViewModelDetail @Inject constructor(
     private val localDatabaseRepository: LocalDatabaseRepository
 ) : ViewModel() {
 
-    var realEstate: RealEstate = RealEstate()
+    var actualRealEstate: RealEstate = RealEstate()
     private var myRealEstateIdFromUI: MutableLiveData<Int>? = MutableLiveData()
     private var myRealEstateWithFullData: MutableLiveData<RealEstateFull>? = MutableLiveData()
 
@@ -36,7 +36,6 @@ class ViewModelDetail @Inject constructor(
         viewModelScope.launch { localDatabaseRepository.updateRealEstateTest(realEstate) }
 
 
-
     //set id from UI
     fun setMyRealEstateIdFromUI(id: Int) {
         myRealEstateIdFromUI!!.value = id
@@ -53,15 +52,15 @@ class ViewModelDetail @Inject constructor(
     }
 
 
-
-
-
     fun setPropertyId(id: Int) {
         shared.setPropertyID(id)
         //  viewModelScope.launch { localDatabaseRepository.getRealEstateFull(shared .getPropertyId()) }
     }
 
-    fun updateRealEstate(realEstate: RealEstate) =
-        viewModelScope.launch { localDatabaseRepository.insertRealEstateTest(realEstate) }
-
+    //call repository to update a RealEstate
+    fun updateRealEstate(realEstate: RealEstate) {
+        viewModelScope.launch {
+            localDatabaseRepository.insertRealEstateTest(realEstate)
+        }
+    }
 }

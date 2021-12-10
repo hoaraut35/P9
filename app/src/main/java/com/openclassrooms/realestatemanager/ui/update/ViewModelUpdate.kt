@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.updatenew
+package com.openclassrooms.realestatemanager.ui.update
 
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate

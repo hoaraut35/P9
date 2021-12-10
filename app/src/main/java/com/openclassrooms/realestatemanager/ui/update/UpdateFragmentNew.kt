@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.updatenew
+package com.openclassrooms.realestatemanager.ui.update
 
 import android.app.Activity
 import android.content.Intent

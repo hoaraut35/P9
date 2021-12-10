@@ -48,7 +48,7 @@
 
     <fragment
         android:id="@+id/realEstateUpdateBtnNew"
-        android:name="com.openclassrooms.realestatemanager.ui.updatenew.UpdateFragmentNew"
+        android:name="com.openclassrooms.realestatemanager.ui.update.UpdateFragmentNew"
         android:label="Modification RealEstate"
         tools:layout="@layout/fragment_update_new" />
 

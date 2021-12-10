@@ -15,9 +15,12 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
     ViewModel() {
 
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
-    private val realEstate: MutableLiveData<RealEstate>? = null
+
+    //private val realEstate: MutableLiveData<RealEstate>? = null
+
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
 
+    val realEstateVM : RealEstate = RealEstate()
     val listOfChip : MutableList<String> = mutableListOf()
     val chip  : String? = null
 

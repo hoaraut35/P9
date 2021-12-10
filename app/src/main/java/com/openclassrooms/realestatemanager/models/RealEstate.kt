@@ -21,7 +21,7 @@ data class RealEstate(
     var status: Boolean? = null,
     var dateOfEntry: String? = null,
     var releaseDate: String? = null,
-    var staticampuri: String? = null,
+    var staticMapUri: String? = null,
     @Embedded
     var agent: RealEstateAgent? = null
 
