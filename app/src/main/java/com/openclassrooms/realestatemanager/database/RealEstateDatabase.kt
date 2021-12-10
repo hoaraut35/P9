@@ -47,8 +47,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                             numberOfRoom = 5,
                             surface = 100,
                             typeOfProduct = "Flat",
-                            cityOfProduct = "Manhattan",
-                            price = 17870000,
+                            price = 178700,
                             descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
                             address = RealEstateAddress(
                                 zip_code = 35220,
@@ -67,8 +66,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         numberOfRoom = 4,
                         surface = 150,
                         typeOfProduct = "House",
-                        cityOfProduct = "Montauk",
-                        price = 21130000,
+                        price = 211300,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum",
                         address = RealEstateAddress(
                             zip_code = 35000,
@@ -86,8 +84,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         numberOfRoom = 2,
                         surface = 200,
                         typeOfProduct = "Duplex",
-                        cityOfProduct = "Brooklyn",
-                        price = 13990000,
+                        price = 139900,
                         descriptionOfProduct = "Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo volup",
                         address = RealEstateAddress(
                             zip_code = 44100,

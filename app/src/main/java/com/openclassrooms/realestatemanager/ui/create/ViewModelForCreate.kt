@@ -45,7 +45,7 @@ class ViewModelForCreate @Inject constructor(private val localDatabaseRepository
     }
 
     //function to publish UI to fragment
-    fun getUIToShow(): LiveData<List<RealEstateMedia>> {
+    fun getMediasListForUI(): LiveData<List<RealEstateMedia>> {
         return mutableListOfMedia
     }
 

@@ -9,7 +9,6 @@ data class RealEstate(
 
     @PrimaryKey(autoGenerate = true) var realEstateId: Int = 0,
     var typeOfProduct: String? = null,
-    var cityOfProduct: String? = null,
     var price: Int? = null,
     var surface: Int? = null, //max 32767m²
     var numberOfRoom: Int? = null,

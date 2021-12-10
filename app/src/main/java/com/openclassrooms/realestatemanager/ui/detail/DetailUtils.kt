@@ -7,7 +7,7 @@ import java.io.IOException
 
 class DetailUtils {
 
-    companion object{
+    companion object {
 
         fun savePhotoToInternalMemory(
             fileDate: String,
@@ -29,7 +29,6 @@ class DetailUtils {
                 false
             }
         }
-
 
 
     }

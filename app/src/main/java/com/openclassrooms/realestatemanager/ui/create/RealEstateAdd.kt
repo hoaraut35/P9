@@ -28,7 +28,6 @@ import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -60,11 +59,12 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         val recyclerView = binding.recyclerview
 
         //get the type of property
-       // val valChipGroupType = binding.chipGroupType
-        var resultType :String? = null
+        // val valChipGroupType = binding.chipGroupType
+        var resultType: String? = null
 
         binding.chipGroupType.setOnCheckedChangeListener { group, checkedId ->
-            viewModelCreate.realEstateVM.typeOfProduct = group.findViewById<Chip>(checkedId)?.text.toString()
+            viewModelCreate.realEstateVM.typeOfProduct =
+                group.findViewById<Chip>(checkedId)?.text.toString()
         }
 
         binding.chipGroupPoi.setOnCheckedChangeListener { group, checkedId ->
@@ -141,10 +141,36 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                         context?.applicationContext?.contentResolver, it
                     )
 
-                    val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    val fileName : String = "Media"
 
                     if (bitmap != null) {
-                        savePhotoToInternalMemory("Photo_$fileName2", bitmap)
+
+                        var fileNameUri: String? = null
+                        fileNameUri = context?.filesDir.toString() + "/" + fileName + ".jpg"
+
+
+                        if (FormUtils.savePhotoToInternalMemory(
+                                requireContext(),
+                                "Photo_$dateFileName",
+                                bitmap
+                            )
+                        ) {
+                            //add in viewmodel list
+                            viewModelCreate.addMediaToList(
+                                RealEstateMedia(
+                                    uri = fileNameUri!!,
+                                    name = "media",
+                                    realEstateParentId = 1
+                                )
+                            )
+
+                        }
+
+
+
+
+
                         recyclerView.adapter?.notifyDataSetChanged()
                     }
 
@@ -206,13 +232,13 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     }
 
 
-
     private fun setupViewModel(recyclerView: RecyclerView) {
 
-        viewModelCreate.getUIToShow().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.i("[MEDIA]", "Get data from viewModel : $it")
-            setupRecyclerView(recyclerView, it)
-        })
+        viewModelCreate.getMediasListForUI()
+            .observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                Log.i("[MEDIA]", "Get data from viewModel : $it")
+                setupRecyclerView(recyclerView, it)
+            })
 
     }
 
@@ -263,7 +289,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     }
 
 
-
     private fun saveRealEstateInDB() {
 
         mainViewModel.getLAstRowId.observe(viewLifecycleOwner) {
@@ -274,37 +299,22 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
 
                 getSelectedChips()
-                val prix: Int? = binding.edittextPrice?.text.toString().toInt()
-                val valTypeOfProduct: String? = viewModelCreate.realEstateVM.typeOfProduct
-                    //"${viewModelCreate.listOfChip[0].toString()}"
-
-                val valSurface: Int? = binding.edittextSurface?.text.toString().toInt()
-                val valRoomNumber: Int? = binding.edittextNumberRoom?.text.toString().toInt()
-                //val valBathRoomNumber : Int? = binding.ed
-                val valDescription: String? = binding.edittextDescription?.text?.toString()
-
-                val valStreetNumber: Int? = binding.edittextStreetNumber?.text.toString().toInt()
-                val valStreetName: String? = binding.edittextStreetName?.text.toString()
-                val valCityZipCode: Int? = binding.edittextCityZipcode?.text.toString().toInt()
-                val valCity: String? = binding.edittextCityName?.text.toString()
-                //val valCountry : String? = binding.ed
-
-                //insert in database
-
 
                 mainViewModel.insert(
                     RealEstate(
-                        typeOfProduct = valTypeOfProduct,
-                        price = prix,
-                        cityOfProduct = valCity,
-                        surface = valSurface,
-                        numberOfRoom = valRoomNumber,
-                        descriptionOfProduct = valDescription,
+                        dateOfEntry = "timestamp",
+                        typeOfProduct = viewModelCreate.realEstateVM.typeOfProduct,
+                        price = binding.edittextPrice?.text.toString().toInt(),
+                        surface = binding.edittextSurface?.text.toString().toInt(),
+                        numberOfRoom = binding.edittextNumberRoom?.text.toString().toInt(),
+                        numberOfBathRoom = binding.edittextNumberBathroom?.text.toString().toInt(),
+                        numberOfBedRoom = binding.edittextNumberBedroom?.text.toString().toInt(),
+                        descriptionOfProduct = binding.edittextDescription?.text?.toString(),
                         address = RealEstateAddress(
-                            street_name = valStreetName,
-                            street_number = valStreetNumber,
-                            city = valCity,
-                            zip_code = valCityZipCode,
+                            street_name = binding.edittextStreetName?.text.toString(),
+                            street_number = binding.edittextStreetNumber?.text.toString().toInt(),
+                            city = binding.edittextCityName?.text.toString(),
+                            zip_code = binding.edittextCityZipcode?.text.toString().toInt(),
                             country = null
                         ),
                         status = false
@@ -312,8 +322,8 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 )
 
                 //add medias to database
-                if (!viewModelCreate.getUIToShow().value.isNullOrEmpty()){
-                    for (item in viewModelCreate.getUIToShow().value!!) {
+                if (!viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
+                    for (item in viewModelCreate.getMediasListForUI().value!!) {
                         val long = mainViewModel.insertPhoto(
                             RealEstateMedia(
                                 uri = item.uri,
@@ -333,10 +343,10 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                 valChipGroupMulti?.checkedChipIds?.forEach {
 
-                    val texte = binding.chipGroupPoi.findViewById<Chip>(it).text.toString()
+                    val chipText = binding.chipGroupPoi.findViewById<Chip>(it).text.toString()
                     val check = binding.chipGroupPoi.findViewById<Chip>(it).isChecked
 
-                    when (texte) {
+                    when (chipText) {
                         "Ecole" -> school = check
                         "Parc" -> park = check
                         "Gare" -> gare = check
@@ -371,7 +381,6 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 //savePhotoToInternalMemory("Photo_$fileName", it)
 
 
-
                 listOfMediasToSave.add(
                     RealEstateMedia(
                         uri = it.toString(),
@@ -396,47 +405,13 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
                     val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     //val storageDir = File(context?.filesDir, "test")
-                    savePhotoToInternalMemory("Photo_$fileName", bitmap)
+                    FormUtils.savePhotoToInternalMemory(requireContext(),"Photo_$fileName", bitmap)
                 }
 
             }
 
     }
 
-    //TODO: move to util class?
-    private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
-        return try {
-            context?.openFileOutput("$filename.jpg", Activity.MODE_PRIVATE).use { stream ->
-
-                //compress photo
-                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                    throw IOException("erreur compression")
-                }
-
-                var fileNameUri: String? = null
-                fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
-
-
-                //add in viewmodel list
-                viewModelCreate.addMediaToList(
-                    RealEstateMedia(
-                        uri = fileNameUri!!,
-                        name = "test",
-                        realEstateParentId = 1
-                    )
-                )
-
-            }
-            true
-
-        } catch (e: IOException) {
-            e.printStackTrace()
-            false
-
-        }
-    }
-
-    //to setup recyclerview
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
         myRealEstateList: List<RealEstateMedia>
@@ -454,21 +429,13 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
     }
 
-
     companion object {
 
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             RealEstateModifier().apply {
-//                arguments = Bundle().apply {
-////                    putString(ARG_PARAM1, param1)
-////                    putString(ARG_PARAM2, param2)
-//                }
             }
 
-       // const val PICK_IMAGE = 1
-      //  const val REQUEST_IMAGE_CAPTURE = 2
     }
 
     override fun onChangedTitlePhoto(title: String, uri: String) {

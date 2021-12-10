@@ -217,6 +217,49 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/property_nbbathrrom_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Entrez le nombre de salles de bain">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_number_bathroom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/property_nbbedroom_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Entrez le nombre de chambres">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_number_bedroom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_description_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
