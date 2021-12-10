@@ -67,6 +67,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             binding.textNumberRoom?.text = it.realEstateFullData.numberOfRoom.toString() + " Room"
             binding.textNumberBathroom?.text = it.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
             binding.textNumberBedroom?.text = it.realEstateFullData.numberOfBedRoom.toString() + " Bedroom"
+
             binding.textDescription?.text = it.realEstateFullData.descriptionOfProduct
 
             it.mediaList?.let { it1 ->
@@ -77,19 +78,18 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
             binding.textStreetNumber?.text = it.realEstateFullData.address?.street_number.toString()
             binding.textStreetName?.text = it.realEstateFullData.address?.street_name
-
             binding.textZipCode?.text = it.realEstateFullData.address?.zip_code.toString()
             binding.textCityName?.text = it.realEstateFullData.address?.city
 
-
-            //TODO: add POI
+            //TODO: add POI here...
 
             binding.textState?.text = it.realEstateFullData.status?.toString() + " status"
 
-            //date d'entrée
+            //TODO: add date of entry
 
-//            binding.textAgent?.text =
-//                "${it.realEstateFullData.agent?.agent_firstName} ${it.realEstateFullData.agent?.agent_lastName}"
+            //TODO: add date of sold
+
+            binding.textAgent?.text =  "${it.realEstateFullData.agent?.agent_firstName} ${it.realEstateFullData.agent?.agent_lastName}"
 
 
             val address =
