@@ -100,7 +100,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                         "&key=" + BuildConfig.GOOGLE_MAP_KEY;
 
             //we have an image, load from internal memory
-            if (it.realEstateFullData.staticampuri != null) {
+            if (it.realEstateFullData.staticampuri.isNullOrEmpty()) {
                 binding.imageMap.let {
                     Glide.with(this).load(detailViewModel.realEstate.staticampuri)
                         .error(R.drawable.ic_baseline_error_24).into(it)
@@ -163,7 +163,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
             val fileName = "StaticMapPhoto"
 
             val fileNameUri: String =
-                context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
+                context?.filesDir.toString() + "data/" + "$fileName$dateFileName.jpg"
 
             if (DetailUtils.savePhotoToInternalMemory(
                     dateFileName, "StaticMapPhoto", staticMapBitmap,
