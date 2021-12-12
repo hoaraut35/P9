@@ -7,7 +7,7 @@ import android.text.Editable
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import java.io.IOException
 
-class FormUtils {
+class CreateUtils {
 
     companion object {
 

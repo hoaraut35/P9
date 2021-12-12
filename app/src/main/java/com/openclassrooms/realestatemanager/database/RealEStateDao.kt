@@ -106,18 +106,15 @@ interface RealEStateDao {
     fun getLastRowId(): Flow<Int>
 
 
-    //used by CONTENT PROVIDERcontent provider for testing
-    @Query("SELECT * FROM realEstate_table WHERE realEstateId = :realEstateId")
-    fun getRealEstateWithCursor(realEstateId: Int): Cursor
+    //used by CONTENT PROVIDER for testing
+    @Query("SELECT * FROM realEstate_table")
+    fun getRealEstateWithCursor(): Cursor
 
 
     @Delete
     suspend fun deleteMedia(media: RealEstateMedia)
 
 
-
-    //******************** QUERY MULTITABLE *********************************
-  //  @Query("SELECT * FROM realEstate_table " + "INNER JOIN ")
 
 
 

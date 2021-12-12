@@ -1,35 +1,35 @@
 package com.openclassrooms.realestatemanager.provider
 
 import android.content.ContentProvider
-import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import com.openclassrooms.realestatemanager.database.RealEStateDao
-import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import com.openclassrooms.realestatemanager.models.RealEstate
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
-import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
-import javax.inject.Singleton
+import java.lang.IllegalStateException
 
 //to expose data to another application
 
 
 class DatabaseContentProvider : ContentProvider() {
 
-    @EntryPoint
-    @InstallIn(SingletonComponent::class)
-    interface EntryPointForContentProvider{
-        //https://developer.android.com/training/dependency-injection/hilt-android
-        //@Inject constructor(private val realEstateDatabase: RealEstateDatabase)
+    companion object {
+        //FOR DATA
+        val AUTHORITY: String = "com.openclassrooms.realestatemanager.provider"
+        val TABLE_NAME: String = RealEstate::class.java.simpleName
+        val RI_ITEM: Uri = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
     }
 
-
-
-
+    //https://developer.android.com/training/dependency-injection/hilt-android
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface EntryPointForContentProvider {
+        fun getRealEstateDao(): RealEStateDao
+    }
 
 
     //entry point of content provider to init variabeml
@@ -46,26 +46,27 @@ class DatabaseContentProvider : ContentProvider() {
         p4: String?
     ): Cursor? {
 
-        if (context != null) {
-            val realEstateId = ContentUris.parseId(p0).toInt()
-            //val cursor = realEstateDao.getRealEstateWithCursor(realEstateId)
-            //return cursor
-            return null
-        }
+        val app = context?.applicationContext ?: throw IllegalStateException()
+        val hiltEntryPointForDao = EntryPointAccessors.fromApplication(app, EntryPointForContentProvider::class.java)
+        val dao = hiltEntryPointForDao.getRealEstateDao().getRealEstateWithCursor()
 
-        throw IllegalArgumentException("Failed to query row uri $p0")
-return null
+        val cursor : Cursor = dao
+        cursor.setNotificationUri(app.contentResolver,p0)
+
+
+        //throw IllegalArgumentException("Failed to query row uri $p0")
+        return cursor
     }
 
     //return the type MIME associated with the URI to identify the type of data
     override fun getType(p0: Uri): String? {
         return null
-   //     return "vnd.android.cursor.realEstate/com.openclassrooms.realestatemanager.provider." + RealEstate::class.java.simpleName
+        //     return "vnd.android.cursor.realEstate/com.openclassrooms.realestatemanager.provider." + RealEstate::class.java.simpleName
     }
 
     //take a URIO as input and insert data in ContentValues format into the destination room
     override fun insert(p0: Uri, p1: ContentValues?): Uri? {
-       return null
+        return null
     }
 
     //take an uri as input adn delete in ContentValues format ffrom room

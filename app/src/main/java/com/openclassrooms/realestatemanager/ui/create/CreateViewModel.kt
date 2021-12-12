@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelForCreate @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository) :
+class CreateViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository) :
     ViewModel() {
 
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()

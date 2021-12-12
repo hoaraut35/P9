@@ -26,14 +26,10 @@ class RealEstateListFragment : Fragment() {
     private var _binding: FragmentListRealestateBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
 
         val recyclerView: RecyclerView = binding.recyclerview
 

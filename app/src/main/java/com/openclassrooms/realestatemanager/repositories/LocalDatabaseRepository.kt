@@ -23,46 +23,21 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     //work with one champ?
     suspend fun insertRealEstateTest(realEstate: RealEstate) = realEstateDao.insertRealEstate(realEstate)
 
-    //?
     suspend fun updateRealEstateTest(realEstate: RealEstate) = realEstateDao.updateRealEstateTest(realEstate)
-
-
-
-
-
 
     fun getRealEstate(id: Int) = realEstateDao.getLiveRealEstateById(id)
 
-
-
     fun getAllRealEstateWithMedias() = realEstateDao.getAllDataFromRealEstate()
-
-
-
-
 
     fun getLastRowId() = realEstateDao.getLastRowId()
 
-
     suspend fun insertRealEstate(realEstate: RealEstate) = realEstateDao.insert(realEstate)
-
-
-
-    suspend fun insertRealEstatePhoto(realEstatePhoto: RealEstateMedia): Long =
-        realEstateDao.insertMedia(realEstatePhoto)
-
+    suspend fun insertRealEstatePhoto(realEstatePhoto: RealEstateMedia): Long =  realEstateDao.insertMedia(realEstatePhoto)
     suspend fun updateRealEstateMedia(realEstateMedia: RealEstateMedia) = realEstateDao.updateMedia(realEstateMedia)
-
-
-
-
-    suspend fun insertRealEstatePOI(realEstatePOI: RealEstatePOI): Long =
-        realEstateDao.insertPointOfInteret(realEstatePOI)
-
+    suspend fun insertRealEstatePOI(realEstatePOI: RealEstatePOI): Long =   realEstateDao.insertPointOfInteret(realEstatePOI)
 
     //update realEstate
     suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
-
 
     suspend fun deleteMedia(media: RealEstateMedia) {  realEstateDao.deleteMedia(media)  }
 

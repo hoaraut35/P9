@@ -32,18 +32,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Fragment() {
+class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
 
     private val mainViewModel by viewModels<MainViewModel>()
-    private val viewModelCreate by viewModels<ViewModelForCreate>()
+    private val viewModelCreate by viewModels<CreateViewModel>()
 
     private val listOfMediasToSave = mutableListOf<RealEstateMedia>()
 
-    lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
-    lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
+    private lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
+    private lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -74,7 +74,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
         binding.edittextPrice?.addTextChangedListener {
             binding.propertyPriceText.helperText =
-                FormUtils.validPriceText(binding.edittextPrice!!.text)
+                CreateUtils.validPriceText(binding.edittextPrice!!.text)
         }
 
 
@@ -142,15 +142,15 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                     )
 
                     val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                    val fileName : String = "Media"
+                    val fileName = "Media"
 
                     if (bitmap != null) {
 
-                        var fileNameUri: String? = null
+                        var fileNameUri: String?
                         fileNameUri = context?.filesDir.toString() + "/" + fileName + ".jpg"
 
 
-                        if (FormUtils.savePhotoToInternalMemory(
+                        if (CreateUtils.savePhotoToInternalMemory(
                                 requireContext(),
                                 "Photo_$dateFileName",
                                 bitmap
@@ -159,7 +159,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                             //add in viewmodel list
                             viewModelCreate.addMediaToList(
                                 RealEstateMedia(
-                                    uri = fileNameUri!!,
+                                    uri = fileNameUri,
                                     name = "media",
                                     realEstateParentId = 1
                                 )
@@ -179,7 +179,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         )
 
         //click listener for take photo from camera
-        binding.addPhotoCamera?.setOnClickListener {
+        binding.addPhotoCamera.setOnClickListener {
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             activityResultLauncherForPhoto.launch(intent)
         }
@@ -210,22 +210,22 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
         binding.edittextPrice?.addTextChangedListener {
             binding.propertyPriceText.helperText =
-                FormUtils.validPriceText(binding.edittextPrice!!.text)
+                CreateUtils.validPriceText(binding.edittextPrice!!.text)
         }
 
         binding.edittextPrice?.setOnFocusChangeListener { _, focused ->
             binding.propertyPriceText.helperText =
-                FormUtils.validPriceText(binding.edittextPrice!!.text)
+                CreateUtils.validPriceText(binding.edittextPrice!!.text)
         }
 
         binding.edittextDescription?.addTextChangedListener {
             binding.propertyDescriptionText.helperText =
-                FormUtils.validPriceText(binding.edittextDescription!!.text)
+                CreateUtils.validPriceText(binding.edittextDescription!!.text)
         }
 
         binding.edittextDescription?.setOnFocusChangeListener { _, focused ->
             binding.propertyDescriptionText.helperText =
-                FormUtils.validPriceText(binding.edittextDescription!!.text)
+                CreateUtils.validPriceText(binding.edittextDescription!!.text)
         }
 
         return rootView
@@ -235,7 +235,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     private fun setupViewModel(recyclerView: RecyclerView) {
 
         viewModelCreate.getMediasListForUI()
-            .observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            .observe(viewLifecycleOwner, {
                 Log.i("[MEDIA]", "Get data from viewModel : $it")
                 setupRecyclerView(recyclerView, it)
             })
@@ -244,9 +244,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
     private fun getSoldStateBtn() {
 
-        val isSoldButton: SwitchMaterial? = binding.isSoldSwitch
+        val isSoldButton: SwitchMaterial = binding.isSoldSwitch
 
-        isSoldButton?.setOnClickListener(View.OnClickListener {
+        isSoldButton.setOnClickListener(View.OnClickListener {
 
             if (isSoldButton.isChecked) {
                 Toast.makeText(requireContext(), "enabled", Toast.LENGTH_LONG).show()
@@ -276,9 +276,9 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
     private fun getSelectedChipsType() {
 
         val listTest = listOf<String>()
-        val valChipGroupMulti: ChipGroup? = binding.chipGroupType
+        val valChipGroupMulti: ChipGroup = binding.chipGroupType
 
-        valChipGroupMulti?.checkedChipIds?.forEach {
+        valChipGroupMulti.checkedChipIds.forEach {
             val chip = binding.chipGroupType.findViewById<Chip>(it).text.toString()
 
             viewModelCreate.listOfChip.add(chip)
@@ -295,7 +295,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
 
             var lastindex: Int = it
 
-            binding.saveBtn?.setOnClickListener {
+            binding.saveBtn.setOnClickListener {
 
 
                 getSelectedChips()
@@ -336,12 +336,12 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
                 }
 
 
-                val valChipGroupMulti: ChipGroup? = binding.chipGroupPoi
+                val valChipGroupMulti: ChipGroup = binding.chipGroupPoi
                 var school = false
                 var park = false
                 var gare = false
 
-                valChipGroupMulti?.checkedChipIds?.forEach {
+                valChipGroupMulti.checkedChipIds.forEach {
 
                     val chipText = binding.chipGroupPoi.findViewById<Chip>(it).text.toString()
                     val check = binding.chipGroupPoi.findViewById<Chip>(it).isChecked
@@ -368,7 +368,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         }
     }
 
-    //function to pick from gallery
+    //TODO: move to utils
     private fun setupActivityResultForGallery() {
         //to get image from gallery
         val getImageFromGallery = registerForActivityResult(
@@ -400,18 +400,17 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
 
                 if (result?.resultCode == Activity.RESULT_OK) {
-
-                    var bitmap = result!!.data!!.extras!!.get("data") as Bitmap
-
+                    val bitmap = result.data!!.extras!!.get("data") as Bitmap
                     val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     //val storageDir = File(context?.filesDir, "test")
-                    FormUtils.savePhotoToInternalMemory(requireContext(),"Photo_$fileName", bitmap)
+                    CreateUtils.savePhotoToInternalMemory(requireContext(),"Photo_$fileName", bitmap)
                 }
 
             }
 
     }
 
+    //setup recyclerView
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
         myRealEstateList: List<RealEstateMedia>
@@ -419,7 +418,7 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
-        recyclerView.adapter = AdapterRealEstateAdd(myRealEstateList, this)
+        recyclerView.adapter = CreateAdapter(myRealEstateList, this)
     }
 
     //setup menu
@@ -429,19 +428,12 @@ class RealEstateModifier : AdapterRealEstateAdd.InterfacePhotoTitleChanged, Frag
         menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
     }
 
-    companion object {
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RealEstateModifier().apply {
-            }
-
-    }
-
+    //callBack recyclerView
     override fun onChangedTitlePhoto(title: String, uri: String) {
         viewModelCreate.updateMediaTitle(title, uri)
     }
 
+    //callBack recyclerView
     override fun onDeletePhoto(media: RealEstateMedia) {
         viewModelCreate.deleteMedia(media)
         context?.deleteFile(media.uri?.substringAfterLast("/"))

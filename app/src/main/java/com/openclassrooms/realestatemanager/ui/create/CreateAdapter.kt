@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 
-class AdapterRealEstateAdd(
+class CreateAdapter(
     private val mediaList: List<RealEstateMedia>,
     callback: InterfacePhotoTitleChanged
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

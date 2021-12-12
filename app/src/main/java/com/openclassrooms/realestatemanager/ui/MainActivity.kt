@@ -3,7 +3,9 @@ package com.openclassrooms.realestatemanager.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,14 +14,16 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.navigateUp
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.database.RealEstateDatabase
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
+import com.openclassrooms.realestatemanager.provider.DatabaseContentProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint  //Hilt annotation for activity
 class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
-
+    private val mainViewModel by viewModels<MainViewModel>()
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     lateinit var navController: NavController
@@ -58,6 +62,9 @@ class MainActivity : AppCompatActivity(){
         val navController = findNavController(R.id.nav_host_fragment_item_detail)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
+
 
     //    private fun configureTextViewMain() {
     //       /* binding.activityMainActivityTextViewMain!!.textSize=15f
