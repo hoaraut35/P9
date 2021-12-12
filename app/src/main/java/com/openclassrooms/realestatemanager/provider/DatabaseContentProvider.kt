@@ -21,7 +21,7 @@ class DatabaseContentProvider : ContentProvider() {
         //FOR DATA
         val AUTHORITY: String = "com.openclassrooms.realestatemanager.provider"
         val TABLE_NAME: String = RealEstate::class.java.simpleName
-        val RI_ITEM: Uri = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
+        val URI_ITEM: Uri = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
     }
 
     //https://developer.android.com/training/dependency-injection/hilt-android
@@ -31,8 +31,6 @@ class DatabaseContentProvider : ContentProvider() {
         fun getRealEstateDao(): RealEStateDao
     }
 
-
-    //entry point of content provider to init variabeml
     override fun onCreate(): Boolean {
         return true
     }
@@ -53,8 +51,6 @@ class DatabaseContentProvider : ContentProvider() {
         val cursor : Cursor = dao
         cursor.setNotificationUri(app.contentResolver,p0)
 
-
-        //throw IllegalArgumentException("Failed to query row uri $p0")
         return cursor
     }
 

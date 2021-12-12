@@ -32,10 +32,10 @@ data class RealEstate(
         val realEstate:RealEstate = RealEstate()
 
         if (values.containsKey("typeOfProduct")) {
+            realEstate.realEstateId = values.getAsInteger("realEstateId")
             realEstate.typeOfProduct = values.getAsString("typeOfProduct")
+            //add other fields...
         }
-        //add other fields...
-
         return realEstate
     }
 

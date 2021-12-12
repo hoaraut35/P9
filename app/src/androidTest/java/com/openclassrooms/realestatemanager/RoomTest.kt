@@ -46,7 +46,7 @@ class RoomTest {
     @Throws(Exception::class)
     fun insert() = runBlocking {
 
-        realEstateTest?.cityOfProduct = "Rennes"
+       // realEstateTest?.cityOfProduct = "Rennes"
         realEstateTest?.price = 1000
 
         realEstateTest?.let { realEStateDao.insert(it) }
