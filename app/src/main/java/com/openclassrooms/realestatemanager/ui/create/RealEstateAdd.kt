@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.create
 
 import android.app.Activity
+import android.app.Notification
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -33,6 +34,19 @@ import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
+import android.app.NotificationManager
+
+import android.app.NotificationChannel
+import android.content.Context
+
+import android.os.Build
+import androidx.core.app.NotificationCompat
+
+
+
+
+
+
 
 @AndroidEntryPoint
 class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() {
@@ -233,10 +247,10 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
 
         mainViewModel.observeRowId().observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(),"Event on row id",Toast.LENGTH_LONG).show()
 
 
-
+            //Toast.makeText(requireContext(),"Event on row id",Toast.LENGTH_LONG).show()
+            notification("RealEsatzte","Sauvegarde temrinée")
             val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
 
             val navController = navHostFragment.navController
@@ -257,6 +271,27 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             })
 
     }
+
+
+
+    private fun notification(task:String,desc:String){
+        val manager =
+            requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel =
+                NotificationChannel("realEstate", "realEstate", NotificationManager.IMPORTANCE_DEFAULT)
+            manager.createNotificationChannel(channel)
+        }
+        val builder: NotificationCompat.Builder =
+            NotificationCompat.Builder(requireContext(), "realEstate")
+                .setContentTitle("RealEsatate")
+                .setStyle(NotificationCompat.BigTextStyle().bigText("Sauvegarde terminée"))
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setSmallIcon(R.mipmap.ic_launcher)
+        manager.notify(1, builder.build())
+    }
+
+
 
     private fun getSoldStateBtn() {
 
