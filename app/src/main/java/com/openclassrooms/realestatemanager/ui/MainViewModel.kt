@@ -13,11 +13,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository ) : ViewModel() {
 
-    var allRealEstate = localDatabaseRepository.getFlowRealEstates().asLiveData()
+    //var allRealEstate = localDatabaseRepository.getFlowRealEstates().asLiveData()
 
     fun getRealEstateFull() = localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
 
-    var allRealEstateWithPhotos = localDatabaseRepository.getAllRealEstateWithMedias().asLiveData()
+    //var allRealEstateWithPhotos = localDatabaseRepository.getAllRealEstateWithMedias().asLiveData()
 
     var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
 
@@ -28,8 +28,8 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
     fun update(realEstate: RealEstate) = viewModelScope.launch{localDatabaseRepository.updateRealEstate(realEstate)}
 
 
-    fun getViewModel() : MainViewModel{
-        return this
-    }
+//    fun getViewModel() : MainViewModel{
+//        return this
+//    }
 
 }

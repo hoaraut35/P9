@@ -17,9 +17,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 
-
 @RunWith(AndroidJUnit4::class)
-class RoomTest {
+class TestRoom {
 
     private lateinit var realEStateDao: RealEStateDao
     private lateinit var db: RealEstateDatabase
@@ -46,16 +45,9 @@ class RoomTest {
     @Throws(Exception::class)
     fun insert() = runBlocking {
 
-       // realEstateTest?.cityOfProduct = "Rennes"
-        realEstateTest?.price = 1000
-
-        realEstateTest?.let { realEStateDao.insert(it) }
-
-        //realEStateDao.insert(RealEstate(cityOfProduct = "Rennes"))
-
-
+        val realEstate = RealEstate(price = 100000)
+        realEStateDao.insert(realEstate)
         val size = realEStateDao.getFlowRealEstates().take(1)
-
         assertEquals(1, size.first().size)
 
     }

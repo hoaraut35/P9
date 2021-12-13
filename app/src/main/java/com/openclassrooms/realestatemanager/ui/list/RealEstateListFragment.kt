@@ -33,10 +33,10 @@ class RealEstateListFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding.recyclerview
 
-        //check if detail fragmenet exist
+        //check if detail fragment exist
         val realEstateDetailFragment: View? = view.findViewById(R.id.item_detail_nav_container)
 
-        //listener set id itemview here for second frafgment with bundle
+        //listener set id itemView here for second fragment with bundle
         val onClickListener = View.OnClickListener { realEstateView ->
             //get realEstate id
             val item = realEstateView.tag
@@ -71,7 +71,7 @@ class RealEstateListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentListRealestateBinding.inflate(inflater, container, false)
 
 
@@ -80,17 +80,9 @@ class RealEstateListFragment : Fragment() {
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
         val isMetered = cm.isActiveNetworkMetered()
-        Log.i("[NETWORK]", "Etat : " + isConnected.toString() + " " + isMetered.toString())
-
+        Log.i("[NETWORK]", "State : $isConnected $isMetered")
 
         return binding.root
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RealEstateListFragment().apply { }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

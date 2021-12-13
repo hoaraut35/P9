@@ -41,15 +41,18 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
 
+
+    implementation("com.android.volley:volley:1.2.1")
+
     //GoogleMap
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.android.gms:play-services-location:19.0.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 
     //square
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.1'
 
     // To use the androidx.test.core APIs
     androidTestImplementation("androidx.test:core:1.4.0")

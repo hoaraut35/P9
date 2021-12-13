@@ -1,9 +1,21 @@
 package com.openclassrooms.realestatemanager.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -17,6 +29,9 @@ import java.util.Locale;
 
 public class Utils {
 
+
+    public static boolean result = false;
+
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
@@ -25,17 +40,19 @@ public class Utils {
      * @return
      */
     public static int convertDollarToEuro(int dollars) {
-        return (int) Math.round(dollars * 0.812);
+        return (int) Math.round(dollars * 0.818);
     }
 
-    //TODO: move ti utils class
-    public static NumberFormat getCurrencyFormat() {
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
-        currencyFormat.setMaximumFractionDigits(0);
-        currencyFormat.setCurrency(Currency.getInstance(Locale.FRANCE));
-        return currencyFormat;
+    /**
+     * Conversion d'un prix d'un bien immobilier (Euros vers Dollars)
+     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     *
+     * @param dollars
+     * @return
+     */
+    public static int convertEuroToDollar(int euro) {
+        return (int) Math.round(euro * 1.222);
     }
-
 
     /**
      * Conversion de la date d'aujourd'hui en un format plus approprié
@@ -44,7 +61,7 @@ public class Utils {
      * @return
      */
     public static String getTodayDate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());
     }
 
@@ -55,11 +72,41 @@ public class Utils {
      * @param context
      * @return
      */
-    public static Boolean isInternetAvailable(Context context) {
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        return wifi.isWifiEnabled();
+    public static boolean isInternetAvailable(Context context) {
+
+        //WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        //return wifi.isWifiEnabled();
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        @SuppressLint("MissingPermission") NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return isConnected;
     }
 
+    public static void checkInternet(Context context) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = "http://www.google.com";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(context, "Intertnet is enabled", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Intertnet is not enabled", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        queue.add(stringRequest);
+
+    }
 
     //**********************************************************************************************
 
@@ -67,5 +114,13 @@ public class Utils {
     public static File createOrGetFile(File destination, String fileName, String folderName) {
         File folder = new File(destination, folderName);
         return new File(folder, fileName);
+    }
+
+    //TODO: move ti utils class
+    public static NumberFormat getCurrencyFormat() {
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        currencyFormat.setMaximumFractionDigits(0);
+        currencyFormat.setCurrency(Currency.getInstance(Locale.FRANCE));
+        return currencyFormat;
     }
 }

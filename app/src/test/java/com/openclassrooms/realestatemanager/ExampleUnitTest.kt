@@ -1,39 +1,34 @@
 package com.openclassrooms.realestatemanager
 
-import android.content.Context
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import com.openclassrooms.realestatemanager.database.RealEStateDao
-import com.openclassrooms.realestatemanager.database.RealEstateDatabase
-import org.junit.Assert
-import org.junit.Before
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.openclassrooms.realestatemanager.utils.Utils
+import junit.framework.Assert.assertEquals
 import org.junit.Test
-import java.lang.Exception
-import kotlin.Throws
+import org.junit.runner.RunWith
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see [Testing documentation](http://d.android.com/tools/testing)
- */
+@RunWith(AndroidJUnit4::class)
 class ExampleUnitTest {
 
-    private lateinit var realEstateDao : RealEStateDao
-    private lateinit var db : RealEstateDatabase
-
-    @Before
-    fun createDb(){
-//        val context : Context = ApplicationProvider.getApplicationContext()
-
-       // db = Room.inMemoryDatabaseBuilder(context, RealEstateDatabase::class.java)
-         //   .allowMainThreadQueires()
-           // .build()
-    }
-
+    private val TODAY_DATE = "13/12/2021"
+    val EURO = 82
+    val DOLLARS = 100
 
     @Test
-    @Throws(Exception::class)
-    fun addition_isCorrect() {
-        Assert.assertEquals(4, (2 + 2).toLong())
+    fun getFormatTodayDate() {
+        assertEquals(Utils.getTodayDate(), TODAY_DATE)
     }
+
+    @Test
+    fun convertDollarToEuro() {
+        assertEquals(
+            Utils.convertDollarToEuro(DOLLARS), EURO
+        )
+    }
+
+    @Test
+    fun convertEuroToDollar() {
+        assertEquals(Utils.convertEuroToDollar(EURO),
+            DOLLARS)
+    }
+
 }
