@@ -9,26 +9,24 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class ExampleUnitTest {
 
-    private val TODAY_DATE = "13/12/2021"
-    val EURO = 82
-    val DOLLARS = 100
+    private val myDate = "13/12/2021"
+    private val myEURO = 89
+    private val myDOLLARS = 100
 
     @Test
-    fun getFormatTodayDate() {
-        assertEquals(Utils.getTodayDate(), TODAY_DATE)
+    fun getFormatDateForToday() {
+        assertEquals(Utils.getTodayDate(), myDate)
     }
 
     @Test
     fun convertDollarToEuro() {
-        assertEquals(
-            Utils.convertDollarToEuro(DOLLARS), EURO
-        )
+        assertEquals(Utils.convertDollarToEuro(myDOLLARS), myEURO)
     }
 
     @Test
     fun convertEuroToDollar() {
-        assertEquals(Utils.convertEuroToDollar(EURO),
-            DOLLARS)
+        assertEquals(Utils.convertEuroToDollar(myEURO),
+            myDOLLARS)
     }
 
 }

@@ -40,7 +40,7 @@ public class Utils {
      * @return
      */
     public static int convertDollarToEuro(int dollars) {
-        return (int) Math.round(dollars * 0.818);
+        return (int) Math.round(dollars * 0.89);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Utils {
      * @return
      */
     public static int convertEuroToDollar(int euro) {
-        return (int) Math.round(euro * 1.222);
+        return (int) Math.round(euro * 1.1288);
     }
 
     /**
