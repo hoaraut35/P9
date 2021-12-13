@@ -15,6 +15,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -228,6 +231,19 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                 CreateUtils.validPriceText(binding.edittextDescription!!.text)
         }
 
+
+        mainViewModel.observeRowId().observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(),"Event on row id",Toast.LENGTH_LONG).show()
+
+
+
+            val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
+
+            val navController = navHostFragment.navController
+            navController.navigateUp()
+
+        }
+
         return rootView
     }
 
@@ -293,14 +309,15 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
         mainViewModel.getLAstRowId.observe(viewLifecycleOwner) {
 
-            var lastindex: Int = it
+            val lastIndex: Int = it
 
             binding.saveBtn.setOnClickListener {
 
 
                 getSelectedChips()
 
-                mainViewModel.insert(
+
+                mainViewModel.insertRealEstate(
                     RealEstate(
                         dateOfEntry = "timestamp",
                         typeOfProduct = viewModelCreate.realEstateVM.typeOfProduct,
@@ -321,13 +338,14 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                     )
                 )
 
+
                 //add medias to database
                 if (!viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
                     for (item in viewModelCreate.getMediasListForUI().value!!) {
                         val long = mainViewModel.insertPhoto(
                             RealEstateMedia(
                                 uri = item.uri,
-                                realEstateParentId = lastindex,
+                                realEstateParentId = lastIndex,
                                 name = item.name
                             )
                         )
@@ -403,7 +421,11 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                     val bitmap = result.data!!.extras!!.get("data") as Bitmap
                     val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     //val storageDir = File(context?.filesDir, "test")
-                    CreateUtils.savePhotoToInternalMemory(requireContext(),"Photo_$fileName", bitmap)
+                    CreateUtils.savePhotoToInternalMemory(
+                        requireContext(),
+                        "Photo_$fileName",
+                        bitmap
+                    )
                 }
 
             }

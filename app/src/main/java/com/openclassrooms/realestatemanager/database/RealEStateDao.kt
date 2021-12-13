@@ -13,16 +13,9 @@ interface RealEStateDao {
     @Query("SELECT * FROM realEstate_table ")
     fun getFlowRealEstates(): Flow<List<RealEstate>>
 
-    //work
-    @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
-    suspend fun insertRealEstate(realEstate: RealEstate) //suspend for use another thread
-
     //?
     @Update
     suspend fun updateRealEstateTest(realEstate: RealEstate) //suspend for use another thread
-
-
-
 
     //work
     @Transaction
@@ -34,31 +27,19 @@ interface RealEStateDao {
     @Query("SELECT * FROM realEstate_table WHERE realEstateId = :myRealEstate")
     fun getFlowRealEstateFullById(myRealEstate: Int): Flow<RealEstateFull>
 
-
-
-
-
-
-
-
-
-
     //used by update framgent
     @Query("SELECT * FROM realEstate_table WHERE realEstateId = :id")
     fun getLiveRealEstateById(id: Int): LiveData<RealEstate>
 
 
 
-
-    //insert realstate
+    //work
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
-    suspend fun insert(realEstate: RealEstate) //suspend for use another thread
-
+    suspend fun insertRealEstate(realEstate: RealEstate) : Long//suspend for use another thread
 
     //update realstate
     @Update
     suspend fun update(realEstate: RealEstate) //suspend for use another thread
-
 
     //we can't delete a property....
     @Delete

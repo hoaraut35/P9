@@ -40,7 +40,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
             applicationScope.launch {
 
-                    dao.insert(
+                    dao.insertRealEstate(
                         RealEstate(
                             numberOfBathRoom = 2,
                             numberOfBedRoom = 3,
@@ -59,7 +59,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         )
                     )
 
-                dao.insert(
+                dao.insertRealEstate(
                     RealEstate(
                         numberOfBathRoom = 3,
                         numberOfBedRoom = 2,
@@ -77,7 +77,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         )
                     )
                 )
-                dao.insert(
+                dao.insertRealEstate(
                     RealEstate(
                         numberOfBathRoom = 1,
                         numberOfBedRoom = 1,
@@ -100,7 +100,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     RealEstateMedia(
                         realEstateParentId = 1,
                         name = "Photo cuisine",
-                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
+                        uri = "/data/data/0/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
 
                     )
                 )
@@ -108,14 +108,14 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     RealEstateMedia(
                         realEstateParentId = 2,
                         name = "Photo chambre",
-                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
+                        uri = "/data/data/0/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )
                 )
                 dao.insertMedia(
                     RealEstateMedia(
                         realEstateParentId = 3,
                         name = "Photo garage",
-                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
+                        uri = "/data/data/0/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )
                 )
                 dao.insertMedia(
