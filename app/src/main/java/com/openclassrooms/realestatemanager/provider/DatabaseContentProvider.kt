@@ -10,7 +10,6 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import java.lang.IllegalStateException
 
 //to expose data to another application
 
@@ -18,10 +17,9 @@ import java.lang.IllegalStateException
 class DatabaseContentProvider : ContentProvider() {
 
     companion object {
-        //FOR DATA
-        val AUTHORITY: String = "com.openclassrooms.realestatemanager.provider"
-        val TABLE_NAME: String = RealEstate::class.java.simpleName
-        val URI_ITEM: Uri = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
+        private const val myAuthority: String = "com.openclassrooms.realestatemanager.provider"
+        private val myTableName: String = RealEstate::class.java.simpleName
+        val myUriItem: Uri = Uri.parse("content://$myAuthority/$myTableName")
     }
 
     //https://developer.android.com/training/dependency-injection/hilt-android
@@ -45,11 +43,12 @@ class DatabaseContentProvider : ContentProvider() {
     ): Cursor? {
 
         val app = context?.applicationContext ?: throw IllegalStateException()
-        val hiltEntryPointForDao = EntryPointAccessors.fromApplication(app, EntryPointForContentProvider::class.java)
+        val hiltEntryPointForDao =
+            EntryPointAccessors.fromApplication(app, EntryPointForContentProvider::class.java)
         val dao = hiltEntryPointForDao.getRealEstateDao().getRealEstateWithCursor()
 
-        val cursor : Cursor = dao
-        cursor.setNotificationUri(app.contentResolver,p0)
+        val cursor: Cursor = dao
+        cursor.setNotificationUri(app.contentResolver, p0)
 
         return cursor
     }

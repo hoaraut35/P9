@@ -20,7 +20,7 @@ class TestConnectivityManager {
     }
 
     @Test
-    fun checkIFInternetISEnabled(){
+    fun checkIfInternetIsEnabled(){
         Utils.isInternetAvailable(context)
         Assert.assertTrue(Utils.isInternetAvailable(context))
     }

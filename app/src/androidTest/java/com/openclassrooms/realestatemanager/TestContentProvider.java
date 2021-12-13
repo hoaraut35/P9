@@ -36,7 +36,7 @@ public class TestContentProvider {
 
     @Test
     public void getRealEstate(){
-        final Cursor cursor = myContentResolver.query(ContentUris.withAppendedId(DatabaseContentProvider.Companion.getURI_ITEM(),1),  null,null,null,null);
+        final Cursor cursor = myContentResolver.query(ContentUris.withAppendedId(DatabaseContentProvider.Companion.getMyUriItem(),1),  null,null,null,null);
         assertThat(cursor,notNullValue());
         assertThat(cursor.getCount(), is(5));
         cursor.close();

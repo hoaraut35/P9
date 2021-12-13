@@ -110,14 +110,7 @@ interface RealEStateDao {
     @Query("SELECT * FROM realEstate_table")
     fun getRealEstateWithCursor(): Cursor
 
-
     @Delete
     suspend fun deleteMedia(media: RealEstateMedia)
-
-
-
-
-
-
 
 }
