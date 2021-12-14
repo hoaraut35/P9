@@ -22,7 +22,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -35,7 +34,9 @@ import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.MainViewModel
+import com.openclassrooms.realestatemanager.utils.CreateUtils
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -136,56 +137,95 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         }
 
 
-        //launcher for open video from gallery
+
+
+
+
+
+        //open photo from gallery
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
-            ActivityResultCallback {
+            ActivityResultCallback { uri ->
 
-                //to show image
-                binding.imageOfGallery?.setImageURI(it)
-
-                if (it != null) {
+                if (uri != null) {
 
                     val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
-                        context?.applicationContext?.contentResolver, it
+                        context?.applicationContext?.contentResolver, uri
                     )
 
-                    val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     val fileName = "Photo_"
 
                     if (bitmap != null) {
+                        val fileNameUri: String?
+                        fileNameUri =
+                            context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
 
-                        var fileNameUri: String?
-                        fileNameUri = context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
+                        savePhotoToInternalMemory("$dateFileName", bitmap)
+                        recyclerView!!.adapter?.notifyDataSetChanged()
 
-
-                        if (CreateUtils.savePhotoToInternalMemory(
-                                requireContext(),
-                                "Photo_$dateFileName",
-                                bitmap
-                            )
-                        ) {
-                            //add in viewmodel list
-                            viewModelCreate.addMediaToList(
-                                RealEstateMedia(
-                                    uri = fileNameUri,
-                                    name = "media",
-                                    realEstateParentId = 1
-                                )
-                            )
-
-                        }
-
-
-
-
-
-                        recyclerView.adapter?.notifyDataSetChanged()
+                      //CreateUtils.savePhotoToInternalMemory("Photo_$dateFileName", bitmap)
+                        //recyclerViewMedias!!.adapter?.notifyDataSetChanged()
                     }
 
                 }
             }
         )
+
+
+
+
+//        //launcher for open video from gallery
+//        val getImageFromGallery = registerForActivityResult(
+//            ActivityResultContracts.GetContent(),
+//            ActivityResultCallback {uri->
+//
+//                //to show image
+//                binding.imageOfGallery?.setImageURI(uri)
+//
+//                if (uri != null) {
+//
+//                    val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
+//                        context?.applicationContext?.contentResolver, uri
+//                    )
+//
+//                    val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+//                    val fileName = "Photo_"
+//
+//                    if (bitmap != null) {
+//
+//                        var fileNameUri: String?
+//                        fileNameUri =
+//                            context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
+//
+//
+//                        if (CreateUtils.savePhotoToInternalMemory(
+//                                requireContext(),
+//                                "Photo_$dateFileName",
+//                                bitmap
+//                            )
+//                        ) {
+//                            //add in viewmodel list
+//                            viewModelCreate.addMediaToList(
+//                                RealEstateMedia(
+//                                    uri = fileNameUri,
+//                                    name = "media",
+//                                    realEstateParentId = 1
+//                                )
+//                            )
+//
+//                        }
+//
+//
+//
+//
+//
+//                        recyclerView.adapter?.notifyDataSetChanged()
+//                    }
+//
+//                }
+//            }
+//        )
 
         //click listener for take photo from camera
         binding.addPhotoCamera.setOnClickListener {
@@ -196,12 +236,14 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         //setup callback for camera
         setupActivityResultForCamera()
 
-        //listener for button click gallery pick
+
+
         binding.addPhotoFromMemory?.setOnClickListener {
             getImageFromGallery.launch("image/*")
-            // setupGetPhotoFromGalery()
-            Log.i("[THOMAS]", "test ouverture photo")
         }
+
+
+
 
         //setup callback for gallery
         setupActivityResultForGallery()
@@ -238,12 +280,13 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         }
 
 
-        mainViewModel.observeRowId().observe(viewLifecycleOwner){
+        mainViewModel.observeRowId().observe(viewLifecycleOwner) {
 
 
             //Toast.makeText(requireContext(),"Event on row id",Toast.LENGTH_LONG).show()
-            notification("RealEsatzte","Sauvegarde temrinée")
-            val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
+            notification("RealEsatzte", "Sauvegarde temrinée")
+            val navHostFragment =
+                requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
 
             val navController = navHostFragment.navController
             navController.navigateUp()
@@ -259,6 +302,37 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         return rootView
     }
 
+    //TODO: move to util class?
+    private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
+        return try {
+            context?.openFileOutput("$filename.jpg", Activity.MODE_PRIVATE).use { stream ->
+
+                //compress photo
+                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
+                    throw IOException("erreur compression")
+                }
+
+                val fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
+
+
+                //add in viewmodel list
+                viewModelCreate.addMediaToList(
+                    RealEstateMedia(
+                        uri = fileNameUri!!,
+                        name = "test",
+                        realEstateParentId = 1
+                    )
+                )
+
+            }
+            true
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            false
+
+        }
+    }
 
     private fun setupViewModel(recyclerView: RecyclerView) {
 
@@ -267,28 +341,66 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
                 setupRecyclerView(recyclerView, it)
 
-                val simpleCallback = object :
-                    ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
-                        0) {
-                    override fun onMove(
-                        recyclerView: RecyclerView,
-                        viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder,
-                    ): Boolean {
-                        val fromPosition = viewHolder.absoluteAdapterPosition
-                        val toPosition = target.absoluteAdapterPosition
-                        Collections.swap(it, fromPosition, toPosition)
-                        recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
-                        return false
-                    }
-
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        //SWIPE DELETE FEATURE
-                    }
-                }
-
-                val itemTouchHelper = ItemTouchHelper(simpleCallback)
-                itemTouchHelper.attachToRecyclerView(recyclerView)
+//                val simpleCallback = object :
+//                    ItemTouchHelper.SimpleCallback(
+//                        ItemTouchHelper.START or ItemTouchHelper.END,
+//                        0
+//                    ) {
+//
+//                    override fun onMove(
+//                        recyclerView: RecyclerView,
+//                        viewHolder: RecyclerView.ViewHolder,
+//                        target: RecyclerView.ViewHolder,
+//                    ): Boolean {
+//                        val fromPosition = viewHolder.adapterPosition
+//                        val toPosition = target.adapterPosition
+//                        Collections.swap(it, fromPosition, toPosition)
+//                        recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
+//                        return false
+//                    }
+//
+//                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                        //SWIPE DELETE FEATURE
+//                    }
+//
+//
+////                    override fun onSelectedChanged(
+////                        viewHolder: RecyclerView.ViewHolder?,
+////                        actionState: Int
+////                    ) {
+////                        super.onSelectedChanged(viewHolder, actionState)
+////
+////                        //start drag
+////                        when (actionState) {
+////                            2 -> viewHolder?.itemView?.setBackgroundColor(
+////                                ContextCompat.getColor(
+////                                    requireContext(),
+////                                    R.color.red
+////                                )
+////
+////                            )
+////
+////                            0 -> viewHolder?.itemView?.isVisible = true
+////
+////
+////                            8 -> viewHolder?.itemView?.setBackgroundColor(
+////                                ContextCompat.getColor(
+////                                    requireContext(),
+////                                    R.color.design_default_color_on_secondary
+////                                )
+////                            )
+////
+////
+////                        }
+////
+////
+////                    }
+//
+//
+//                }
+//
+//                val itemTouchHelper = ItemTouchHelper(simpleCallback)
+//                itemTouchHelper.attachToRecyclerView(recyclerView)
 
 
             })
@@ -296,13 +408,16 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
     }
 
 
-
-    private fun notification(task:String,desc:String){
+    private fun notification(task: String, desc: String) {
         val manager =
             requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
-                NotificationChannel("realEstate", "realEstate", NotificationManager.IMPORTANCE_DEFAULT)
+                NotificationChannel(
+                    "realEstate",
+                    "realEstate",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
             manager.createNotificationChannel(channel)
         }
         val builder: NotificationCompat.Builder =
@@ -313,7 +428,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                 .setSmallIcon(R.mipmap.ic_launcher)
         manager.notify(1, builder.build())
     }
-
 
 
     private fun getSoldStateBtn() {
