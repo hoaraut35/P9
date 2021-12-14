@@ -48,6 +48,8 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
         val recyclerViewMedias: RecyclerView = binding.recyclerviewMedias
 
+
+
         setHasOptionsMenu(true)
 
         detailViewModel.getRealEstateFullById(realEstateIdFromBundle!!.toInt())
@@ -152,6 +154,8 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
         recyclerView.adapter = RealEstateDetailAdapter(myRealEstateWithMediaList)
+
+
     }
 
     companion object {

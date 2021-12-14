@@ -2,15 +2,16 @@ package com.openclassrooms.realestatemanager.ui.search
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.sqlite.db.SimpleSQLiteQuery
+import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.Slider
 import com.openclassrooms.realestatemanager.databinding.FragmentSearchBinding
-import com.openclassrooms.realestatemanager.ui.detail.ViewModelDetail
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
 import java.util.*
@@ -45,24 +46,53 @@ class SearchFragment : Fragment() {
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        binding.priceRange?.setLabelFormatter{
+
+
+
+        binding.priceRange?.setLabelFormatter {
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
             format.currency = Currency.getInstance("USD")
             format.format(it.toDouble())
         }
 
-        binding.surfaceRange?.setLabelFormatter{
+
+        val touchListener: RangeSlider.OnSliderTouchListener = object :
+            RangeSlider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: RangeSlider) {
+
+            }
+
+            override fun onStopTrackingTouch(slider: RangeSlider) {
+                Log.i("SLIDER",slider.values[0].toString())
+                Log.i("SLIDER",slider.values[1].toString())
+
+                //Toast.makeText(requireContext(), slider.values[0].toString(), Toast.LENGTH_LONG).show()
+
+            }
+
+        }
+
+        binding.priceRange?.addOnSliderTouchListener(touchListener)
+
+
+          binding.priceRange?.addOnChangeListener { slider, value, fromUser ->
+            // Responds to when slider's value is changed
+          //    Toast.makeText(requireContext(), value.toString(), Toast.LENGTH_LONG).show()
+        }
+
+
+                binding . surfaceRange ?. setLabelFormatter {
             "${it}m²"
         }
 
-        binding.searchBtn?.setOnClickListener{
+                binding . searchBtn ?. setOnClickListener {
 
-            Toast.makeText(requireContext(),"Search", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Search", Toast.LENGTH_LONG).show()
 
             var queryString = ""
             var args = mutableListOf<Any>()
-            var containsCondition  = false
+            var containsCondition = false
 
             queryString += "SELECT * FROM realEstate_table"
 
@@ -72,27 +102,22 @@ class SearchFragment : Fragment() {
             //add surface
             queryString += " AND "
             queryString += " surface BETWEEN 10 AND 50"
-
-
             queryString += ";"
 
-
-            searchViewModel.getRealEstateFiltered(SimpleSQLiteQuery(queryString, args.toTypedArray())).observe(viewLifecycleOwner){
-
-
-                it.forEach{
-                    Log.i("[SQL]","data" + it.realEstateFullData.typeOfProduct)
+            searchViewModel.getRealEstateFiltered(
+                SimpleSQLiteQuery(
+                    queryString,
+                    args.toTypedArray()
+                )
+            ).observe(viewLifecycleOwner) {
+                it?.forEach {
+                    Log.i("[SQL]", "data" + it.realEstateFullData.typeOfProduct)
                 }
-
-
             }
-
-
-
 
         }
 
-        return binding.root
+            return binding.root
 
     }
 

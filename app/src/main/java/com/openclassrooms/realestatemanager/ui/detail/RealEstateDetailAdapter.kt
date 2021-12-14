@@ -38,4 +38,6 @@ class RealEstateDetailAdapter(private val realEstateMedias: List<RealEstateMedia
         val image: ImageView = binding.imageview
     }
 
+
+
 }
