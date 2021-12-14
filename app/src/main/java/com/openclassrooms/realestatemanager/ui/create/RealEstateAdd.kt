@@ -2,8 +2,12 @@ package com.openclassrooms.realestatemanager.ui.create
 
 import android.app.Activity
 import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -13,12 +17,12 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.NotificationCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -34,18 +38,6 @@ import com.openclassrooms.realestatemanager.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
-import android.app.NotificationManager
-
-import android.app.NotificationChannel
-import android.content.Context
-
-import android.os.Build
-import androidx.core.app.NotificationCompat
-
-
-
-
-
 
 
 @AndroidEntryPoint
@@ -159,12 +151,12 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                     )
 
                     val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                    val fileName = "Media"
+                    val fileName = "Photo_"
 
                     if (bitmap != null) {
 
                         var fileNameUri: String?
-                        fileNameUri = context?.filesDir.toString() + "/" + fileName + ".jpg"
+                        fileNameUri = context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
 
 
                         if (CreateUtils.savePhotoToInternalMemory(
@@ -258,6 +250,12 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
         }
 
+
+
+
+
+
+
         return rootView
     }
 
@@ -266,8 +264,33 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
         viewModelCreate.getMediasListForUI()
             .observe(viewLifecycleOwner, {
-                Log.i("[MEDIA]", "Get data from viewModel : $it")
+
                 setupRecyclerView(recyclerView, it)
+
+                val simpleCallback = object :
+                    ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
+                        0) {
+                    override fun onMove(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder,
+                    ): Boolean {
+                        val fromPosition = viewHolder.absoluteAdapterPosition
+                        val toPosition = target.absoluteAdapterPosition
+                        Collections.swap(it, fromPosition, toPosition)
+                        recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
+                        return false
+                    }
+
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        //SWIPE DELETE FEATURE
+                    }
+                }
+
+                val itemTouchHelper = ItemTouchHelper(simpleCallback)
+                itemTouchHelper.attachToRecyclerView(recyclerView)
+
+
             })
 
     }
@@ -472,7 +495,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         recyclerView: RecyclerView,
         myRealEstateList: List<RealEstateMedia>
     ) {
-        val myLayoutManager = LinearLayoutManager(activity)
+        val myLayoutManager = LinearLayoutManager(requireContext())
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
         recyclerView.adapter = CreateAdapter(myRealEstateList, this)

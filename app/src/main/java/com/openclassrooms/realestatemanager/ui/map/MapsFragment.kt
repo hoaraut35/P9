@@ -101,14 +101,17 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         viewModelMap.getLatLngForUI()
             .observe(viewLifecycleOwner) { responseGeocoding ->
 
-                viewModelMap.realEstate.realEstateId = responseGeocoding.idRealEstate!!
-                viewModelMap.realEstate.address?.lat =
-                    responseGeocoding.results!![0]!!.geometry!!.location!!.lat!!
-                viewModelMap.realEstate.address?.lng =
-                    responseGeocoding.results[0]!!.geometry!!.location!!.lng!!
+                if (responseGeocoding != null){
+                    viewModelMap.realEstate.realEstateId = responseGeocoding.idRealEstate!!
+                    viewModelMap.realEstate.address?.lat =
+                        responseGeocoding.results!![0]!!.geometry!!.location!!.lat!!
+                    viewModelMap.realEstate.address?.lng =
+                        responseGeocoding.results[0]!!.geometry!!.location!!.lng!!
 
-                if (viewModelMap.realEstate.address?.lat != null && viewModelMap.realEstate.address?.lng != null) {
-                    viewModelMap.updateRealEstate(viewModelMap.realEstate)
+                    if (viewModelMap.realEstate.address?.lat != null && viewModelMap.realEstate.address?.lng != null) {
+                        viewModelMap.updateRealEstate(viewModelMap.realEstate)
+                    }
+
                 }
 
             }

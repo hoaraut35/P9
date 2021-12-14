@@ -43,10 +43,6 @@ class CreateUtils {
                         throw IOException("erreur compression")
                     }
 
-
-
-
-
                 }
                 true
 
