@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.repositories
 
 
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.database.RealEStateDao
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
@@ -40,5 +41,9 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
 
     suspend fun deleteMedia(media: RealEstateMedia) {  realEstateDao.deleteMedia(media)  }
+
+
+    //for search fragment
+    fun getRealEstateFiltered(query: SupportSQLiteQuery) = realEstateDao.getRealEstateFiltered(query)
 
 }

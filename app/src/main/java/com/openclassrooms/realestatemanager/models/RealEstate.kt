@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.models
 
-import android.content.ContentValues
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -25,18 +24,4 @@ data class RealEstate(
     @Embedded
     var agent: RealEstateAgent? = null
 
-){
-
-//    //translation for coontent provider
-//    fun fromContentValues(values : ContentValues):RealEstate{
-//        val realEstate:RealEstate = RealEstate()
-//
-//        if (values.containsKey("typeOfProduct")) {
-//            realEstate.realEstateId = values.getAsInteger("realEstateId")
-//            realEstate.typeOfProduct = values.getAsString("typeOfProduct")
-//            //add other fields...
-//        }
-//        return realEstate
-//    }
-
-}
+)
