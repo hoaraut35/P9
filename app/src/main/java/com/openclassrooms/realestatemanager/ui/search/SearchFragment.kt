@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.google.android.material.slider.RangeSlider
-import com.google.android.material.slider.Slider
 import com.openclassrooms.realestatemanager.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
@@ -32,6 +31,11 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
+    private var minPrice: Int? = null
+    private var maxPrice: Int? = null
+    private var minSurface: Int? = null
+    private var maxSurface: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -45,9 +49,6 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-
-
-
 
         binding.priceRange?.setLabelFormatter {
             val format = NumberFormat.getCurrencyInstance()
@@ -64,11 +65,10 @@ class SearchFragment : Fragment() {
             }
 
             override fun onStopTrackingTouch(slider: RangeSlider) {
-                Log.i("SLIDER",slider.values[0].toString())
-                Log.i("SLIDER",slider.values[1].toString())
-
-                //Toast.makeText(requireContext(), slider.values[0].toString(), Toast.LENGTH_LONG).show()
-
+                minPrice = slider.values[0].toInt()
+                maxPrice = slider.values[1].toInt()
+                Log.i("SLIDER", slider.values[0].toString())
+                Log.i("SLIDER", slider.values[1].toString())
             }
 
         }
@@ -76,17 +76,34 @@ class SearchFragment : Fragment() {
         binding.priceRange?.addOnSliderTouchListener(touchListener)
 
 
-          binding.priceRange?.addOnChangeListener { slider, value, fromUser ->
-            // Responds to when slider's value is changed
-          //    Toast.makeText(requireContext(), value.toString(), Toast.LENGTH_LONG).show()
+
+        val touchListenerSurface: RangeSlider.OnSliderTouchListener = object :
+            RangeSlider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: RangeSlider) {
+
+            }
+
+            override fun onStopTrackingTouch(slider: RangeSlider) {
+                minSurface = slider.values[0].toInt()
+                maxSurface = slider.values[1].toInt()
+                Log.i("SLIDER", slider.values[0].toString())
+                Log.i("SLIDER", slider.values[1].toString())
+            }
+
         }
 
+        binding.surfaceRange?.addOnSliderTouchListener(touchListenerSurface)
 
-                binding . surfaceRange ?. setLabelFormatter {
+
+
+
+
+
+        binding.surfaceRange?.setLabelFormatter {
             "${it}m²"
         }
 
-                binding . searchBtn ?. setOnClickListener {
+        binding.searchBtn?.setOnClickListener {
 
             Toast.makeText(requireContext(), "Search", Toast.LENGTH_LONG).show()
 
@@ -97,11 +114,27 @@ class SearchFragment : Fragment() {
             queryString += "SELECT * FROM realEstate_table"
 
             //add price
-            queryString += " WHERE"
-            queryString += " price BETWEEN 10 AND 1000"
+            if (minPrice != null && maxPrice != null) {
+                if (containsCondition) {
+                    queryString += " AND"
+                } else {
+                    queryString += " WHERE"
+                    containsCondition = true
+                }
+                queryString += " price BETWEEN $minPrice AND $maxPrice"
+            }
+
             //add surface
-            queryString += " AND "
-            queryString += " surface BETWEEN 10 AND 50"
+            if (minSurface != null && maxSurface != null) {
+                if (containsCondition) {
+                    queryString += " AND "
+                } else {
+                    queryString += " WHERE"
+                    containsCondition = true
+                }
+                queryString += " surface BETWEEN $minSurface AND $maxSurface"
+            }
+
             queryString += ";"
 
             searchViewModel.getRealEstateFiltered(
@@ -117,7 +150,7 @@ class SearchFragment : Fragment() {
 
         }
 
-            return binding.root
+        return binding.root
 
     }
 
