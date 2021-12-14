@@ -66,7 +66,13 @@ class SearchFragment : Fragment() {
 
             queryString += "SELECT * FROM realEstate_table"
 
-            //add filters
+            //add price
+            queryString += " WHERE"
+            queryString += " price BETWEEN 10 AND 1000"
+            //add surface
+            queryString += " AND "
+            queryString += " surface BETWEEN 10 AND 50"
+
 
             queryString += ";"
 
@@ -74,7 +80,11 @@ class SearchFragment : Fragment() {
             searchViewModel.getRealEstateFiltered(SimpleSQLiteQuery(queryString, args.toTypedArray())).observe(viewLifecycleOwner){
 
 
-                Log.i("[SQL]","data" + it[0].realEstateFullData.typeOfProduct)
+                it.forEach{
+                    Log.i("[SQL]","data" + it.realEstateFullData.typeOfProduct)
+                }
+
+
             }
 
 
