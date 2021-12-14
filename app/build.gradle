@@ -75,7 +75,7 @@ dependencies {
     androidTestUtil("androidx.test:orchestrator:1.4.0")
 
     //add selection design for recyclerview
-    implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
+ //   implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
 
     implementation 'com.google.code.gson:gson:2.8.9'
 
@@ -93,9 +93,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
 
     //UI
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
+  //  implementation("androidx.recyclerview:recyclerview:1.2.1")
     // For control over item selection of both touch and mouse driven selection
-    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
+  //  implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
 
 
     //Glide

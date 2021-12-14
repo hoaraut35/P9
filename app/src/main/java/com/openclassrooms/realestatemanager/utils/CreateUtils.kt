@@ -1,10 +1,9 @@
-package com.openclassrooms.realestatemanager.ui.create
+package com.openclassrooms.realestatemanager.utils
 
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.text.Editable
-import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import java.io.IOException
 
 class CreateUtils {
@@ -36,7 +35,7 @@ class CreateUtils {
 
         fun savePhotoToInternalMemory(context : Context, filename: String, bmp: Bitmap): Boolean {
             return try {
-                context?.openFileOutput("$filename.jpg", Activity.MODE_PRIVATE).use { stream ->
+                context?.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
 
                     //compress photo
                     if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {

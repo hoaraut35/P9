@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.utils.CreateUtils
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -34,6 +34,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,20 +54,40 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
             activityResultLauncherForPhoto.launch(intent)
         }
 
-        //launcher for open video from gallery
+        //open photo from gallery
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
-            ActivityResultCallback {
-                if (it != null) {
+            ActivityResultCallback { uri ->
+
+                if (uri != null) {
 
                     val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
-                        context?.applicationContext?.contentResolver, it
+                        context?.applicationContext?.contentResolver, uri
                     )
 
-                    val fileName2: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    val fileName = "Photo_"
+                    val fileNameDestination = "Photo_" + dateFileName + ".jpg"
+                    val fileNameUri: String?
+                    fileNameUri = context?.filesDir.toString() + "/"  + "$fileName$dateFileName.jpg"
 
                     if (bitmap != null) {
-                        savePhotoToInternalMemory("Photo_$fileName2", bitmap)
+
+                        if (CreateUtils.savePhotoToInternalMemory(
+                                requireContext(),
+                                fileNameDestination,
+                                bitmap
+                            )
+                        ) {
+                            viewModelUpdate.addMediaToList(
+                                RealEstateMedia(
+                                    realEstateParentId = viewModelUpdate.realEstate.realEstateId,
+                                    uri = fileNameUri,
+                                    name = ""
+                                )
+                            )
+                        }
+
                         recyclerViewMedias!!.adapter?.notifyDataSetChanged()
                     }
 
@@ -74,11 +95,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
             }
         )
 
-        //listener for button click gallery pick
+        //onClickListener to open photo from gallery
         binding.addPhotoFromMemory?.setOnClickListener {
             getImageFromGallery.launch("image/*")
-            // setupGetPhotoFromGalery()
-            Log.i("[THOMAS]", "test ouverture photo")
         }
 
 
@@ -134,6 +153,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         //observe
         viewModelUpdate.getRealEstateFullById()
             .observe(viewLifecycleOwner) { RealEstateFullObserve ->
+
 
                 binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
                 binding.edittextSurface?.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
@@ -296,7 +316,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
                     RealEstateMedia(
                         uri = fileNameUri!!,
                         name = "test",
-                        realEstateParentId = 1
+                        realEstateParentId = viewModelUpdate.realEstate.realEstateId
                     )
                 )
 
