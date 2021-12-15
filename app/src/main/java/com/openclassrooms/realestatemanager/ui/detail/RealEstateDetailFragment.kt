@@ -97,13 +97,13 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
                     else -> binding.textState?.text = "Etat Inconnu"
                 }
 
-                if (!RealEstateObserved.realEstateFullData.dateOfEntry.isNullOrEmpty()) {
-                    binding.textSaleDate?.text = RealEstateObserved.realEstateFullData.dateOfEntry
-                }
+//                if (!RealEstateObserved.realEstateFullData.dateOfEntry.isNullOrEmpty()) {
+//                    binding.textSaleDate?.text = RealEstateObserved.realEstateFullData.dateOfEntry
+//                }
 
-                if (!RealEstateObserved.realEstateFullData.releaseDate.isNullOrEmpty()) {
-                    binding.textDateOfSale?.text = RealEstateObserved.realEstateFullData.releaseDate
-                }
+//                if (!RealEstateObserved.realEstateFullData.releaseDate.isNullOrEmpty()) {
+//                    binding.textDateOfSale?.text = RealEstateObserved.realEstateFullData.releaseDate
+//                }
 
                 binding.textAgent?.text =
                     "${RealEstateObserved.realEstateFullData.agent?.agent_firstName} ${RealEstateObserved.realEstateFullData.agent?.agent_lastName}"

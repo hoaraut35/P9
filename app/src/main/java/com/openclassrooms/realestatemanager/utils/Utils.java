@@ -69,6 +69,10 @@ public class Utils {
         return dateFormat.format(new Date());
     }
 
+    public static Long getTodayDateToLong(){
+        return System.currentTimeMillis();
+    }
+
 
 
 

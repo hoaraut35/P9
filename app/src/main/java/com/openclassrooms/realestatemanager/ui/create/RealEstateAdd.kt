@@ -491,7 +491,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
                 mainViewModel.insertRealEstate(
                     RealEstate(
-                        dateOfEntry = "timestamp",
+
                         typeOfProduct = viewModelCreate.realEstateVM.typeOfProduct,
                         price = binding.edittextPrice?.text.toString().toInt(),
                         surface = binding.edittextSurface?.text.toString().toInt(),

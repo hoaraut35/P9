@@ -18,8 +18,8 @@ data class RealEstate(
     @Embedded
     var address: RealEstateAddress? = null,
     var status: Boolean? = null,
-    var dateOfEntry: String? = null,
-    var releaseDate: String? = null,
+    var dateOfEntry: Long? = null,
+    var releaseDate: Long? = null,
     var staticMapUri: String? = null,
     @Embedded
     var agent: RealEstateAgent? = null

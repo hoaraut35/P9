@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -22,9 +23,10 @@ import java.text.NumberFormat
 import java.time.LocalDateTime
 import java.time.Month
 import java.util.*
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.openclassrooms.realestatemanager.R
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
@@ -52,8 +54,10 @@ class SearchFragment : Fragment() {
 
     private var numberOfPhoto: Int? = null
 
-    private var mDatePicker: MaterialDatePicker<*>? = null
-    private var mDate: String? = null
+    private var mDatePicker: MaterialDatePicker<Long>? = null
+    private var mDate: LocalDate? = null
+    private var dateFromFilter: String? = null
+    private var dateFromFilterLong: Long? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,11 +132,11 @@ class SearchFragment : Fragment() {
 
 
 
-        val version = android.database.sqlite.SQLiteDatabase.create(null).use {
-            DatabaseUtils.stringForQuery(it, "SELECT sqlite_version()", null)
-        }
-
-        Log.i("[SQL]",""+  Build.VERSION.SDK_INT + " " +  version)
+//        val version = android.database.sqlite.SQLiteDatabase.create(null).use {
+//            DatabaseUtils.stringForQuery(it, "SELECT sqlite_version()", null)
+//        }
+//
+//        Log.i("[SQL]",""+  Build.VERSION.SDK_INT + " " +  version)
 
 
 
@@ -213,26 +217,61 @@ class SearchFragment : Fragment() {
                 queryString += " surface BETWEEN $minSurface AND $maxSurface"
             }
 
+
+            if (dateFromFilter != null){
+                if (containsCondition) {
+                    queryString += " AND "
+                } else {
+                    queryString += " WHERE"
+                    containsCondition = true
+                }
+
+               // var datefromdb : Long =
+                //set date to long in database
+
+                //queryString += " dateOfEntry >= '$dateFromFilter' "
+                queryString += " dateOfEntry >= '$dateFromFilterLong' "
+
+
+            }
+
+
+
+
             //add photo number
             if (numberOfPhoto != null) {
                 queryString += " INNER JOIN RealEstateMedia ON realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= $numberOfPhoto"
             }
 
-            queryString += " INNER JOIN RealEstatePOI ON realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstatePOI.realEstateParentId HAVING RealEStatePOI.school >= $IntschoolState AND  RealEStatePOI.park >= $Intpark AND RealEstatePOI.station >= $Intstation"
+        //    queryString += " INNER JOIN RealEstatePOI ON realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstatePOI.realEstateParentId HAVING RealEStatePOI.school >= $IntschoolState AND  RealEStatePOI.park >= $Intpark AND RealEstatePOI.station >= $Intstation"
 
             queryString += ";"
 
             searchViewModel.getRealEstateFiltered(
+
                 SimpleSQLiteQuery(
                     queryString,
                     args.toTypedArray()
                 )
+
+
+
             ).observe(viewLifecycleOwner) {
                 it?.forEach {
                     Log.i("[SQL]", "data" + it.realEstateFullData.typeOfProduct)
 
                 }
             }
+
+
+
+
+
+            val navHostFragment =
+                requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
+
+            val navController = navHostFragment.navController
+            navController.navigateUp()
 
         }
 
@@ -255,14 +294,13 @@ class SearchFragment : Fragment() {
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .build()
 
-        (mDatePicker as MaterialDatePicker<Long>).addOnPositiveButtonClickListener(MaterialPickerOnPositiveButtonClickListener<Any?> { selection ->
-             Utils.getTodayDate()
-            mDate = Utils.epochMilliToLocalDate(selection as Long?).toString()
-            //Utils.getTodayDate()
-            val calendarString: String = mDate!!.format(DateTimeFormatter.ofPattern("d LLL Y"))
+        mDatePicker?.addOnPositiveButtonClickListener {
+            mDate = Utils.epochMilliToLocalDate(it)
+            dateFromFilter = mDate!!.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+            dateFromFilterLong = it
+            binding.dateBtn?.text = dateFromFilter
+        }
 
-            binding.dateBtn?.text = calendarString
-        })
     }
 
 
