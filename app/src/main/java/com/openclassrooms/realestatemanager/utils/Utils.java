@@ -19,6 +19,10 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -61,9 +65,22 @@ public class Utils {
      * @return
      */
     public static String getTodayDate() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());
     }
+
+
+
+
+
+    public static LocalDate epochMilliToLocalDate(Long millisecondsFromEpoch) {
+        Instant instant = Instant.ofEpochMilli(millisecondsFromEpoch);
+        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return dateTime.toLocalDate();
+    }
+
+
+
 
     /**
      * Vérification de la connexion réseau

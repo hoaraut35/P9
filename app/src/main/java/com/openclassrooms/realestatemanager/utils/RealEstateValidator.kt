@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.utils
 
-import androidx.compose.runtime.snapshots.SnapshotApplyResult
+//import androidx.compose.runtime.snapshots.SnapshotApplyResult
 import androidx.room.RoomOpenHelper
 import com.openclassrooms.realestatemanager.models.RealEstate
 

@@ -8,7 +8,8 @@
     tools:context=".ui.search.SearchFragment">
 
     <com.google.android.material.slider.RangeSlider
-android:layout_marginTop="40dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="40dp"
         android:id="@+id/priceRange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,6 +34,71 @@ android:layout_marginTop="40dp"
 
     </com.google.android.material.slider.RangeSlider>
 
+    <com.google.android.material.slider.Slider
+        android:layout_margin="20dp"
+        android:id="@+id/media_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="1"
+        android:valueTo="10"
+        android:stepSize="1"
+        app:layout_constraintTop_toBottomOf="@+id/surfaceRange">
+
+    </com.google.android.material.slider.Slider>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_poi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/media_number"
+        app:singleLine="true"
+        app:singleSelection="false">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/school_chip"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:tag="Ecole"
+            android:text="Ecole" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/parc_chip"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:tag="Parc"
+            android:text="Parc" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/station_chip"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:tag="Gare"
+            android:text="Gare" />
+
+
+    </com.google.android.material.chip.ChipGroup>
+
+
+    <TextView
+        android:id="@+id/date_btn"
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="From date"
+        android:drawableLeft="@drawable/ic_baseline_access_time_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chip_group_poi"
+        android:textSize="12sp"/>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/search_btn"
@@ -42,7 +108,9 @@ android:layout_marginTop="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surfaceRange"></androidx.appcompat.widget.AppCompatButton>
+        app:layout_constraintTop_toBottomOf="@+id/surfaceRange">
+
+    </androidx.appcompat.widget.AppCompatButton>
 
 
 

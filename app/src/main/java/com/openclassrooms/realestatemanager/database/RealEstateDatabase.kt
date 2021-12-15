@@ -9,6 +9,7 @@ import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
+import com.openclassrooms.realestatemanager.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -48,6 +49,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                             surface = 100,
                             typeOfProduct = "Flat",
                             price = 178700,
+                            dateOfEntry = Utils.getTodayDate(),
                             descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
                             address = RealEstateAddress(
                                 zip_code = 35220,
@@ -66,6 +68,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         numberOfRoom = 4,
                         surface = 150,
                         typeOfProduct = "House",
+                        dateOfEntry = Utils.getTodayDate(),
                         price = 211300,
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum",
                         address = RealEstateAddress(
@@ -84,6 +87,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         numberOfRoom = 2,
                         surface = 200,
                         typeOfProduct = "Duplex",
+                        dateOfEntry = Utils.getTodayDate(),
                         price = 139900,
                         descriptionOfProduct = "Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo volup",
                         address = RealEstateAddress(

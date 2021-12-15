@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.search
 
+import android.database.DatabaseUtils
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,11 +11,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.sqlite.db.SimpleSQLiteQuery
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.Slider
 import com.openclassrooms.realestatemanager.databinding.FragmentSearchBinding
+import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
+import java.time.LocalDateTime
+import java.time.Month
 import java.util.*
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
+
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.time.format.DateTimeFormatter
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +46,15 @@ class SearchFragment : Fragment() {
 
     private var minPrice: Int? = null
     private var maxPrice: Int? = null
+
     private var minSurface: Int? = null
     private var maxSurface: Int? = null
+
+    private var numberOfPhoto: Int? = null
+
+    private var mDatePicker: MaterialDatePicker<*>? = null
+    private var mDate: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +96,6 @@ class SearchFragment : Fragment() {
         binding.priceRange?.addOnSliderTouchListener(touchListener)
 
 
-
         val touchListenerSurface: RangeSlider.OnSliderTouchListener = object :
             RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {
@@ -95,6 +114,25 @@ class SearchFragment : Fragment() {
         binding.surfaceRange?.addOnSliderTouchListener(touchListenerSurface)
 
 
+        val touchListenerNumberMedia: Slider.OnSliderTouchListener = object :
+            Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                numberOfPhoto = slider.value.toInt()
+            }
+        }
+
+        binding.mediaNumber?.addOnSliderTouchListener(touchListenerNumberMedia)
+
+
+
+        val version = android.database.sqlite.SQLiteDatabase.create(null).use {
+            DatabaseUtils.stringForQuery(it, "SELECT sqlite_version()", null)
+        }
+
+        Log.i("[SQL]",""+  Build.VERSION.SDK_INT + " " +  version)
 
 
 
@@ -107,11 +145,51 @@ class SearchFragment : Fragment() {
 
             Toast.makeText(requireContext(), "Search", Toast.LENGTH_LONG).show()
 
+
+            var schoolState = false
+            var station = false
+            var park = false
+
+            var IntschoolState = 0
+            var Intstation = 0
+            var Intpark = 0
+
+
+            val pointsOfInterestChipGroup: ChipGroup = binding.chipGroupPoi!!
+
+            pointsOfInterestChipGroup.checkedChipIds.forEach { chipItem ->
+                val chipText =
+                    pointsOfInterestChipGroup.findViewById<Chip>(chipItem).text.toString()
+                val chipState =
+                    pointsOfInterestChipGroup.findViewById<Chip>(chipItem).isChecked
+                when (chipText) {
+                    "Ecole" -> schoolState = chipState
+                    "Gare" -> station = chipState
+                    "Parc" -> park = chipState
+                }
+
+                if (schoolState) {
+                    IntschoolState = 1
+                } else {
+                    IntschoolState = 0
+                }
+
+
+            }
+            Log.i("[SQL]", "$park $station $schoolState")
+            Log.i("[DATE]", "Date " + LocalDateTime.of(2021, Month.DECEMBER, 15, 14, 27, 30).toString())
+            Log.i("[DATE]", "Date util : " + Utils.getTodayDate())
+
+            // getPOIChips()
+
+            //version sqlite 3.18.2
+
             var queryString = ""
             var args = mutableListOf<Any>()
             var containsCondition = false
 
             queryString += "SELECT * FROM realEstate_table"
+            //queryString += "SELECT * FROM realEstate_table INNER JOIN RealEstatePOI ON RealEstatePOI.realEstateParentId = realEstate_table.realEstateId INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= 1 AND  HAVING  RealEStatePOI.school = $IntschoolState ;"
 
             //add price
             if (minPrice != null && maxPrice != null) {
@@ -135,6 +213,13 @@ class SearchFragment : Fragment() {
                 queryString += " surface BETWEEN $minSurface AND $maxSurface"
             }
 
+            //add photo number
+            if (numberOfPhoto != null) {
+                queryString += " INNER JOIN RealEstateMedia ON realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= $numberOfPhoto"
+            }
+
+            queryString += " INNER JOIN RealEstatePOI ON realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstatePOI.realEstateParentId HAVING RealEStatePOI.school >= $IntschoolState AND  RealEStatePOI.park >= $Intpark AND RealEstatePOI.station >= $Intstation"
+
             queryString += ";"
 
             searchViewModel.getRealEstateFiltered(
@@ -145,14 +230,42 @@ class SearchFragment : Fragment() {
             ).observe(viewLifecycleOwner) {
                 it?.forEach {
                     Log.i("[SQL]", "data" + it.realEstateFullData.typeOfProduct)
+
                 }
             }
 
         }
 
+        binding.dateBtn?.setOnClickListener {
+            Log.i("[BTN]","Clic sur date")
+
+            if (mDatePicker == null || !mDatePicker!!.isAdded) {
+                createDatePicker()
+                mDatePicker!!.show(childFragmentManager.beginTransaction(), "DATE_PICKER")
+            }
+        }
+
         return binding.root
 
     }
+
+    private fun createDatePicker() {
+        mDatePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select a date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+
+        (mDatePicker as MaterialDatePicker<Long>).addOnPositiveButtonClickListener(MaterialPickerOnPositiveButtonClickListener<Any?> { selection ->
+             Utils.getTodayDate()
+            mDate = Utils.epochMilliToLocalDate(selection as Long?).toString()
+            //Utils.getTodayDate()
+            val calendarString: String = mDate!!.format(DateTimeFormatter.ofPattern("d LLL Y"))
+
+            binding.dateBtn?.text = calendarString
+        })
+    }
+
+
 
     companion object {
 
