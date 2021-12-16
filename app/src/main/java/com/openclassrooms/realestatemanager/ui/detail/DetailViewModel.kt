@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelDetail @Inject constructor(
+class DetailViewModel @Inject constructor(
     private val sharedRepository: SharedRepository,
     private val localDatabaseRepository: LocalDatabaseRepository
 ) : ViewModel() {

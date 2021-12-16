@@ -9,8 +9,8 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 
-class RealEstateDetailAdapter(private val realEstateMedias: List<RealEstateMedia>) :
-    RecyclerView.Adapter<RealEstateDetailAdapter.ViewHolder>() {
+class DetailAdapter(private val realEstateMedias: List<RealEstateMedia>) :
+    RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =

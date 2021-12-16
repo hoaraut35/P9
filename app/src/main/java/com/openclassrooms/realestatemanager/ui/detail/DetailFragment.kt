@@ -18,11 +18,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
+class DetailFragment : Fragment(), MyRequestImageListener.Callback {
 
     private var _binding: FragmentRealEstateDetailBinding? = null
     private val binding get() = _binding!!
-    private val detailViewModel by viewModels<ViewModelDetail>()
+    private val detailViewModel by viewModels<DetailViewModel>()
     private var realEstateIdFromBundle: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,7 +153,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
-        recyclerView.adapter = RealEstateDetailAdapter(myRealEstateWithMediaList)
+        recyclerView.adapter = DetailAdapter(myRealEstateWithMediaList)
 
 
     }
@@ -164,7 +164,7 @@ class RealEstateDetailFragment : Fragment(), MyRequestImageListener.Callback {
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            RealEstateDetailFragment().apply {
+            DetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_REAL_ESTATE_ID, param1)
                 }

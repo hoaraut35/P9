@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentMapsBinding
-import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
+import com.openclassrooms.realestatemanager.ui.detail.DetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val LOCATION_REQUEST_INTERVAL_MS = 10000
@@ -183,7 +183,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
             val realEstateId = it.tag
             //we set bundle
             val bundle = Bundle()
-            bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, realEstateId.toString())
+            bundle.putString(DetailFragment.ARG_REAL_ESTATE_ID, realEstateId.toString())
             //we call fragment
             findNavController().navigate(
                 R.id.action_mapsFragment_to_realEstateDetailFragment,

@@ -15,7 +15,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentListRealestateBinding
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.ui.MainViewModel
-import com.openclassrooms.realestatemanager.ui.detail.RealEstateDetailFragment
+import com.openclassrooms.realestatemanager.ui.detail.DetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +45,7 @@ class RealEstateListFragment : Fragment() {
             val item = realEstateView.tag
             //create bundle
             val bundle = Bundle()
-            bundle.putString(RealEstateDetailFragment.ARG_REAL_ESTATE_ID, item.toString())
+            bundle.putString(DetailFragment.ARG_REAL_ESTATE_ID, item.toString())
             //if fragment detail is displayed mode tablet
             if (realEstateDetailFragment != null) {
                 realEstateDetailFragment.findNavController()
