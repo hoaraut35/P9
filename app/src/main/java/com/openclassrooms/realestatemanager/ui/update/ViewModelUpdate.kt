@@ -5,7 +5,7 @@ import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
-import com.openclassrooms.realestatemanager.repositories.Shared
+import com.openclassrooms.realestatemanager.repositories.SharedRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ViewModelUpdate @Inject constructor(
     private val localDatabaseRepository: LocalDatabaseRepository,
-    private val shared: Shared
+    private val sharedRepository: SharedRepository
 ) :
     ViewModel() {
 
@@ -22,7 +22,7 @@ class ViewModelUpdate @Inject constructor(
     var listOfMediaToRemove: MutableList<RealEstateMedia> = mutableListOf()
 
     fun getRealEstateFullById(): LiveData<RealEstateFull> =
-        localDatabaseRepository.getFlowRealEstateFullById(shared.getPropertyId()).asLiveData()
+        localDatabaseRepository.getFlowRealEstateFullById(sharedRepository.getPropertyId()).asLiveData()
 
     fun insertMedia(media: RealEstateMedia) =
         viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(media) }

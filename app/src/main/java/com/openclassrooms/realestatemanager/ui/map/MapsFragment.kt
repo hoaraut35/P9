@@ -57,6 +57,8 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
+
+
         viewModelMap.getRealEstateFull().observe(viewLifecycleOwner) { listRealEstate ->
 
             for (realEstate in listRealEstate) {
@@ -86,7 +88,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
 
                         viewModelMap.realEstate = realEstate.realEstateFullData
 
-                        viewModelMap.getLatLngForUI(
+                        viewModelMap.getLatLngAddressForUI(
                             address,
                             realEstate.realEstateFullData.realEstateId
                         )
@@ -98,23 +100,20 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
             }
         }
 
-        viewModelMap.getLatLngForUI()
-            .observe(viewLifecycleOwner) { responseGeocoding ->
+        //update latLng
+        viewModelMap.getLatLngAddressForUI().observe(viewLifecycleOwner) { responseGeocoding ->
+            if (responseGeocoding != null) {
+                viewModelMap.realEstate.realEstateId = responseGeocoding.idRealEstate!!
+                viewModelMap.realEstate.address?.lat =
+                    responseGeocoding.results!![0]!!.geometry!!.location!!.lat!!
+                viewModelMap.realEstate.address?.lng =
+                    responseGeocoding.results[0]!!.geometry!!.location!!.lng!!
 
-                if (responseGeocoding != null){
-                    viewModelMap.realEstate.realEstateId = responseGeocoding.idRealEstate!!
-                    viewModelMap.realEstate.address?.lat =
-                        responseGeocoding.results!![0]!!.geometry!!.location!!.lat!!
-                    viewModelMap.realEstate.address?.lng =
-                        responseGeocoding.results[0]!!.geometry!!.location!!.lng!!
-
-                    if (viewModelMap.realEstate.address?.lat != null && viewModelMap.realEstate.address?.lng != null) {
-                        viewModelMap.updateRealEstate(viewModelMap.realEstate)
-                    }
-
+                if (viewModelMap.realEstate.address?.lat != null && viewModelMap.realEstate.address?.lng != null) {
+                    viewModelMap.updateRealEstate(viewModelMap.realEstate)
                 }
-
             }
+        }
 
         return rootView
     }
@@ -128,7 +127,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
 
         fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
-                viewModelMap.latLng = viewModelMap.setLocation(location)
+                viewModelMap.latLng = viewModelMap.getLocationToLatLng(location)
                 setupMyLocation(viewModelMap.latLng!!)
                 setupZoom()
             }
@@ -155,7 +154,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
 
-            viewModelMap.latLng = viewModelMap.setLocation(locationResult.lastLocation)
+            viewModelMap.latLng = viewModelMap.getLocationToLatLng(locationResult.lastLocation)
             setupMyLocation(viewModelMap.latLng!!)
             setupZoom()
 
@@ -169,11 +168,11 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
     ) {
 
         if (requestCode == 0 && grantResults[0] != -1) {
-            MapsUtils.checkGpsState(requireContext(),requireActivity())
+            MapsUtils.checkGpsState(requireContext(), requireActivity())
             startGPS2()
 
         } else {
-        //    startGPS()
+            //    startGPS()
         }
     }
 

@@ -40,7 +40,7 @@ class DatabaseContentProvider : ContentProvider() {
         p2: String?,
         p3: Array<out String>?,
         p4: String?
-    ): Cursor? {
+    ): Cursor {
 
         val app = context?.applicationContext ?: throw IllegalStateException()
         val hiltEntryPointForDao =

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.api.ResponseGeocoding
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.repositories.GeocodingRepository
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,23 +21,31 @@ class ViewModelMap @Inject constructor(
     private val localisationRepository: GeocodingRepository
 ) : ViewModel() {
 
+    //ok
     var latLng: LatLng? = null
     var realEstate: RealEstate = RealEstate()
 
-    fun getRealEstateFull() = localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
-
-    fun setLocation(location: Location): LatLng {
+    //ok
+    fun getLocationToLatLng(location: Location): LatLng {
         return LatLng(location.latitude, location.longitude)
     }
 
-    fun getLatLngForUI(address: String, id: Int) {
-        localisationRepository.getLatLngAddress(address, id)
+    //ok
+    fun getRealEstateFull() : LiveData<List<RealEstateFull>> {
+        return localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
     }
 
-    fun getLatLngForUI(): LiveData<ResponseGeocoding> {
-        return localisationRepository.getLatLngList()
+    //ok
+    fun getLatLngAddressForUI(address: String, realEstateId: Int) {
+        localisationRepository.getLatLngAddress(address, realEstateId)
     }
 
+    //ok
+    fun getLatLngAddressForUI(): LiveData<ResponseGeocoding> {
+        return localisationRepository.getLatLngLiveData()
+    }
+
+    //ok
     fun updateRealEstate(realEstate: RealEstate) {
         viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
     }

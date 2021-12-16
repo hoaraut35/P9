@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.injection.ApplicationScope
 import com.openclassrooms.realestatemanager.models.RealEstate
@@ -15,15 +14,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-//i use Multimap because room support only that in version 2.4 and higher
-
-
 @Database(
     entities = [RealEstate::class, RealEstateMedia::class, RealEstatePOI::class],
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+
 abstract class RealEstateDatabase : RoomDatabase() {
 
     abstract fun realEstateDao(): RealEStateDao //
@@ -104,7 +100,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     RealEstateMedia(
                         realEstateParentId = 1,
                         name = "Photo cuisine",
-                        uri = "/data/data/0/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
+                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
 
                     )
                 )
@@ -112,14 +108,14 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     RealEstateMedia(
                         realEstateParentId = 2,
                         name = "Photo chambre",
-                        uri = "/data/data/0/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
+                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )
                 )
                 dao.insertMedia(
                     RealEstateMedia(
                         realEstateParentId = 3,
                         name = "Photo garage",
-                        uri = "/data/data/0/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
+                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )
                 )
                 dao.insertMedia(

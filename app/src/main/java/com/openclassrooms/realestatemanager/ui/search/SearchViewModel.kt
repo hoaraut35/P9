@@ -1,19 +1,17 @@
 package com.openclassrooms.realestatemanager.ui.search
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
-import com.openclassrooms.realestatemanager.repositories.Shared
-import dagger.hilt.android.AndroidEntryPoint
+import com.openclassrooms.realestatemanager.repositories.SharedRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository,private val shared: Shared) :
+class SearchViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository,private val sharedRepository: SharedRepository) :
     ViewModel() {
 
     var selectedEntryDate: Long? = null
@@ -35,7 +33,7 @@ class SearchViewModel @Inject constructor(private val localDatabaseRepository: L
 
 
     fun setResultListFromSearch(list : MutableList<RealEstateFull>){
-        shared.setResultListFromSearch(list)
+        sharedRepository.setResultListFromSearch(list)
     }
 
 

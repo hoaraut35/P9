@@ -4,14 +4,14 @@ import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
-import com.openclassrooms.realestatemanager.repositories.Shared
+import com.openclassrooms.realestatemanager.repositories.SharedRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ViewModelDetail @Inject constructor(
-    private val shared: Shared,
+    private val sharedRepository: SharedRepository,
     private val localDatabaseRepository: LocalDatabaseRepository
 ) : ViewModel() {
 
@@ -53,7 +53,7 @@ class ViewModelDetail @Inject constructor(
 
 
     fun setPropertyId(id: Int) {
-        shared.setPropertyID(id)
+        sharedRepository.setPropertyID(id)
         //  viewModelScope.launch { localDatabaseRepository.getRealEstateFull(shared .getPropertyId()) }
     }
 

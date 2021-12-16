@@ -141,11 +141,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         }
 
 
-
-
-
-
-
         //open photo from gallery
         val getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
@@ -296,12 +291,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             navController.navigateUp()
 
         }
-
-
-
-
-
-
 
         return rootView
     }

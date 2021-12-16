@@ -50,12 +50,12 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
     }
 
     //get all RealEstate from repository
-    var allRealEstate = localDatabaseRepository.getFlowRealEstates().asLiveData()
+ //   var allRealEstate = localDatabaseRepository.getFlowRealEstates().asLiveData()
 
     //
-    fun getRealEstate(): LiveData<List<RealEstate>> {
-        return localDatabaseRepository.getFlowRealEstates().asLiveData()
-    }
+//    fun getRealEstate(): LiveData<List<RealEstate>> {
+//        return localDatabaseRepository.getFlowRealEstates().asLiveData()
+//    }
 
 
     //remove photo or video from database

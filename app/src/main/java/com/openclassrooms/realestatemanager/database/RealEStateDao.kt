@@ -14,14 +14,9 @@ interface RealEStateDao {
     fun getFlowRealEstates(): Flow<List<RealEstate>>
 
     @Update
-    suspend fun updateRealEstateTest(realEstate: RealEstate) //suspend for use another thread
-
-    @Update
     suspend fun update(realEstate: RealEstate) //suspend for use another thread
 
-    @Delete
-    suspend fun delete(realEstate: RealEstate) //suspend for use another thread
-
+    //ok 16/12/2021
     @Transaction
     @Query("SELECT * FROM realEstate_table")
     fun getFlowRealEstatesFull() : Flow<List<RealEstateFull>>
@@ -36,19 +31,6 @@ interface RealEStateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insertRealEstate(realEstate: RealEstate) : Long//suspend for use another thread
 
-
-    @Transaction
-    @Query("SELECT * FROM realEstate_table WHERE realEstateId")
-    fun getAllDataFromRealEstate(): Flow<List<RealEstateWithMedia>>
-
-    @Transaction
-    @Query("SELECT * FROM realEstate_table WHERE realEstateId = :id")
-    fun getCurrentRealEstateWithMedia(id: Int): Flow<RealEstateWithMedia>
-
-    @Transaction
-    @Query("SELECT * FROM realEstate_table WHERE realEstateId")
-    fun getAllDataWithPOI(): Flow<RealEstateWithPOIs>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insertMedia(realEstatePhoto: RealEstateMedia): Long //suspend for use another thread
 
@@ -56,7 +38,7 @@ interface RealEStateDao {
     suspend fun updateMedia(realEstateMedia: RealEstateMedia)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
-    suspend fun insertPointOfInteret(realEstatePOI: RealEstatePOI): Long //suspend for use another thread
+    suspend fun insertPOI(realEstatePOI: RealEstatePOI): Long //suspend for use another thread
 
     @Query("SELECT MAX(realEstateId) + 1 FROM realEstate_table")
     fun getLastRowId(): Flow<Int>
@@ -67,10 +49,6 @@ interface RealEStateDao {
 
     @Delete
     suspend fun deleteMedia(media: RealEstateMedia)
-
-
-
-
 
     @RawQuery
     fun getRealEstateFiltered(query: SupportSQLiteQuery) : Flow<List<RealEstateFull>>

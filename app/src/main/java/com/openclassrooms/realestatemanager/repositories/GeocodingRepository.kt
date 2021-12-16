@@ -13,31 +13,24 @@ import javax.inject.Singleton
 @Singleton
 class GeocodingRepository @Inject constructor(private val googleGeocoding: GoogleGeocoding) {
 
-    //private var mutableListOfGPS = mutableListOf<ResponseGeocoding>()
-    private lateinit var mutableListOfGPS: ResponseGeocoding
+   // private lateinit var geocodingResponse: ResponseGeocoding
+    private var mutableLiveDataOfGeocoding = MutableLiveData<ResponseGeocoding>()
 
-    //private var mutableListOfLocation = MutableLiveData<List<ResponseGeocoding>>()
-    private var mutableListOfLocation = MutableLiveData<ResponseGeocoding>()
-
-
-    //fun getLatLngList() : LiveData<List<ResponseGeocoding>>{
-    fun getLatLngList(): LiveData<ResponseGeocoding> {
-        return mutableListOfLocation
+    fun getLatLngLiveData(): LiveData<ResponseGeocoding> {
+        return mutableLiveDataOfGeocoding
     }
 
-    //get a LatLng for ViewModel
-    fun getLatLngAddress(address: String, id: Int) {
-
+    fun getLatLngAddress(address: String, realEstateId: Int) {
         googleGeocoding.getLatLngByAddress(address).enqueue(object : Callback<ResponseGeocoding> {
             override fun onResponse(
                 call: Call<ResponseGeocoding>,
                 response: Response<ResponseGeocoding>
             ) {
-
                 if (response.isSuccessful) {
-                    response.body()!!.idRealEstate = id
-                    mutableListOfGPS = response.body()!!
-                    mutableListOfLocation.value = mutableListOfGPS
+                    response.body()!!.idRealEstate = realEstateId
+                    //geocodingResponse = response.body()!!
+                    //mutableLiveDataOfGeocoding.value = geocodingResponse
+                    mutableLiveDataOfGeocoding.value = response.body()!!
                 }
             }
 
@@ -46,4 +39,3 @@ class GeocodingRepository @Inject constructor(private val googleGeocoding: Googl
         })
     }
 }
-

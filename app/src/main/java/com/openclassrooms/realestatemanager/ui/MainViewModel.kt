@@ -5,13 +5,13 @@ import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
-import com.openclassrooms.realestatemanager.repositories.Shared
+import com.openclassrooms.realestatemanager.repositories.SharedRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository, private val shared: Shared) :
+class MainViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository, private val sharedRepository: SharedRepository) :
     ViewModel() {
 
     private var mutableLiveDataRowId = MutableLiveData<Long>()
@@ -37,9 +37,9 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
 
    // fun updateRealEstate(realEstate: RealEstate) = viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
 
-    fun getResultListSearch() = shared.getResultListFromSearch()
+    fun getResultListSearch() = sharedRepository.getResultListFromSearch()
 
-    fun clearSearch() = shared.clearResult()
+    fun clearSearch() = sharedRepository.clearResult()
 
 
 

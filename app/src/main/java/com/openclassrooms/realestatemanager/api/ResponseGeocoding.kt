@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.api
 data class ResponseGeocoding(
 	val results: List<ResultsItem?>? = null,
 	val status: String? = null,
-
 	var idRealEstate : Int? = null
 )
 

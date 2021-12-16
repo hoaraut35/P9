@@ -12,11 +12,15 @@ import javax.inject.Singleton
 @Singleton
 class LocalDatabaseRepository @Inject constructor(private val realEstateDao: RealEStateDao) {
 
-    //work
-    fun getFlowRealEstates() = realEstateDao.getFlowRealEstates()
+    //ok 16/12/2021
+    suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
 
-    //work
+    //ok 16/12/2021
     fun getFlowRealEstatesFull() = realEstateDao.getFlowRealEstatesFull()
+
+
+
+
 
     //work
     fun getFlowRealEstateFullById(myRealEstate: Int) = realEstateDao.getFlowRealEstateFullById(myRealEstate)
@@ -24,26 +28,28 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     //work with one champ?
     suspend fun insertRealEstateTest(realEstate: RealEstate) = realEstateDao.insertRealEstate(realEstate)
 
-    suspend fun updateRealEstateTest(realEstate: RealEstate) = realEstateDao.updateRealEstateTest(realEstate)
 
-    fun getRealEstate(id: Int) = realEstateDao.getLiveRealEstateById(id)
-
-    fun getAllRealEstateWithMedias() = realEstateDao.getAllDataFromRealEstate()
 
     fun getLastRowId() = realEstateDao.getLastRowId()
 
     suspend fun insertRealEstate(realEstate: RealEstate) : Long = realEstateDao.insertRealEstate(realEstate)
     suspend fun insertRealEstatePhoto(realEstatePhoto: RealEstateMedia): Long =  realEstateDao.insertMedia(realEstatePhoto)
-    suspend fun updateRealEstateMedia(realEstateMedia: RealEstateMedia) = realEstateDao.updateMedia(realEstateMedia)
-    suspend fun insertRealEstatePOI(realEstatePOI: RealEstatePOI): Long =   realEstateDao.insertPointOfInteret(realEstatePOI)
+    suspend fun insertRealEstatePOI(realEstatePOI: RealEstatePOI): Long =   realEstateDao.insertPOI(realEstatePOI)
 
-    //update realEstate
-    suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
 
     suspend fun deleteMedia(media: RealEstateMedia) {  realEstateDao.deleteMedia(media)  }
 
 
     //for search fragment
     fun getRealEstateFiltered(query: SupportSQLiteQuery) = realEstateDao.getRealEstateFiltered(query)
+
+
+
+    //do not use work 16/12/2021
+    //fun getFlowRealEstates() = realEstateDao.getFlowRealEstates()
+    // suspend fun updateRealEstateMedia(realEstateMedia: RealEstateMedia) = realEstateDao.updateMedia(realEstateMedia)
+
+    //  fun getRealEstate(id: Int) = realEstateDao.getLiveRealEstateById(id)
+    // fun getAllRealEstateWithMedias() = realEstateDao.getAllDataFromRealEstate()
 
 }

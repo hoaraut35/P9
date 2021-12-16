@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Shared @Inject constructor() {
+class SharedRepository @Inject constructor() {
 
     private var propertyId: Int = 0
     private var myRealEstateSearchList: MutableLiveData<MutableList<RealEstateFull>> =
