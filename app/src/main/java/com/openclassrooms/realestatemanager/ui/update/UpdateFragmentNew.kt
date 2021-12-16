@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.utils.CreateUtils
+import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.internal.Util
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,6 +36,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
+
+
+    private var dateOfSold : Long? = null
 
 
     override fun onCreateView(
@@ -163,6 +168,12 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
                 binding.edittextCityZipcode?.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
                 binding.edittextCityName?.setText(RealEstateFullObserve.realEstateFullData.address?.city)
 
+
+
+
+                binding.isSoldSwitch?.isChecked = RealEstateFullObserve.realEstateFullData.releaseDate != null
+
+
                 viewModelUpdate.initialListOfMedia =
                     RealEstateFullObserve.mediaList as MutableList<RealEstateMedia>
 
@@ -220,6 +231,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
                     viewModelUpdate.realEstate.address!!.city =
                         binding.edittextCityName?.text.toString()
 
+
+                    viewModelUpdate.realEstate.releaseDate = dateOfSold
+
                     viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
 
                     for (itemToremove in viewModelUpdate.listOfMediaToRemove) {
@@ -265,6 +279,15 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         }
 
 
+
+        binding.isSoldSwitch?.setOnClickListener {
+            if (binding.isSoldSwitch!!.isChecked){
+                dateOfSold = Utils.getTodayDateToLong()
+            }else
+            {
+                dateOfSold = null
+            }
+        }
 
 
         updateData()

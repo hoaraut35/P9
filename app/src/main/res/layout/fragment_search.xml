@@ -126,6 +126,8 @@
 
     <TextView
         android:id="@+id/date_btn"
+
+        android:tag="dateOfCreated"
         android:layout_margin="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -137,15 +139,30 @@
         android:textSize="12sp"/>
 
 
+    <TextView
+        android:id="@+id/date_sold_btn"
+        android:tag="dateOfSold"
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sold date"
+        android:drawableLeft="@drawable/ic_baseline_access_time_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_btn"
+        android:textSize="12sp"/>
+
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/search_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search..."
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surfaceRange">
+        app:layout_constraintTop_toBottomOf="@+id/date_sold_btn">
 
     </androidx.appcompat.widget.AppCompatButton>
 

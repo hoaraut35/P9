@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,6 +16,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentSearchBinding
 import com.openclassrooms.realestatemanager.utils.Utils
@@ -44,21 +46,18 @@ class SearchFragment : Fragment() {
 
     private var mDatePicker: MaterialDatePicker<Long>? = null
     private var mDate: LocalDate? = null
-    private var dateFromFilter: String? = null
-    private var dateFromFilterLong: Long? = null
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-//    }
+
+    //date
+   // private var dateReturn: Long? = null
+    private var selectedEntryDate: Long? = null
+    private var selectedSoldDate: Long? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         binding.priceRange?.setLabelFormatter {
@@ -67,7 +66,6 @@ class SearchFragment : Fragment() {
             format.currency = Currency.getInstance("USD")
             format.format(it.toDouble())
         }
-
 
         val touchListener: RangeSlider.OnSliderTouchListener = object :
             RangeSlider.OnSliderTouchListener {
@@ -176,6 +174,11 @@ class SearchFragment : Fragment() {
             //STEP 1 : SELECT...
             queryString += "SELECT * FROM realEstate_table"
 
+
+            //STEP2 : INNER JOIN...
+            //  queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId "
+
+
             if (maxPrice != null && minPrice != null) {
                 containsCondition = true
                 queryString += " WHERE price BETWEEN $minPrice AND $maxPrice"
@@ -191,15 +194,17 @@ class SearchFragment : Fragment() {
                 queryString += " surface BETWEEN $minSurface AND $maxSurface"
             }
 
-            if (dateFromFilterLong != null) {
+            if (selectedEntryDate != null) {
                 if (containsCondition) {
                     queryString += " AND "
                 } else {
                     queryString += " WHERE"
                     containsCondition = true
                 }
-                queryString += " dateOfCreation >= '$dateFromFilterLong'"
+                queryString += " dateOfEntry >= '$selectedEntryDate'"
             }
+
+
 
             if (numberOfPhoto != null) {
                 queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId " +
@@ -207,6 +212,11 @@ class SearchFragment : Fragment() {
                         "HAVING COUNT(RealEstateMedia.realEstateParentId) >= $numberOfPhoto"
                 //containsOtherCondition = true
             }
+
+
+
+
+
 
             queryString += ";"
 
@@ -220,22 +230,37 @@ class SearchFragment : Fragment() {
                     args.toTypedArray()
                 )
             ).observe(viewLifecycleOwner) {
-                it?.forEach { myresult ->
-                    Log.i("[SQL]", "data" + myresult.realEstateFullData.typeOfProduct)
 
 
-                    //  closeFragment()
+                if (it.isNullOrEmpty()) {
+                    Snackbar.make(
+                        requireView(),
+                        "Modify search and try again",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                } else {
+                    it?.forEach { myresult ->
+                        Log.i("[SQL]", "data" + myresult.realEstateFullData.typeOfProduct)
+                        closeFragment()
+                    }
                 }
+
+
             }
 
 
         }
 
         binding.dateBtn?.setOnClickListener {
-            Log.i("[BTN]", "Clic sur date")
-
             if (mDatePicker == null || !mDatePicker!!.isAdded) {
-                createDatePicker()
+                createDatePicker(it as TextView)
+                mDatePicker!!.show(childFragmentManager.beginTransaction(), "DATE_PICKER")
+            }
+        }
+
+        binding.dateSoldBtn?.setOnClickListener {
+            if (mDatePicker == null || !mDatePicker!!.isAdded) {
+                createDatePicker(it!! as TextView)
                 mDatePicker!!.show(childFragmentManager.beginTransaction(), "DATE_PICKER")
             }
         }
@@ -253,7 +278,8 @@ class SearchFragment : Fragment() {
     }
 
 
-    private fun createDatePicker() {
+    private fun createDatePicker(view: TextView) {
+
         mDatePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select a date")
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
@@ -261,24 +287,21 @@ class SearchFragment : Fragment() {
 
         mDatePicker?.addOnPositiveButtonClickListener {
             mDate = Utils.epochMilliToLocalDate(it)
-            dateFromFilter = mDate!!.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-            dateFromFilterLong = it
-            binding.dateBtn?.text = dateFromFilter
+            val dateFromFilter : String = mDate!!.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+
+            if (view.tag == "dateOfCreated"){
+                selectedEntryDate = it
+            }else
+            {
+                selectedSoldDate = it
+            }
+
+
+
+            view.text = dateFromFilter
+
         }
 
     }
 
-
-//    companion object {
-//
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//       // fun newInstance(param1: String, param2: String) =
-//            SearchFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
 }
