@@ -21,6 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RealEstateListFragment : Fragment() {
 
+    private var searchinProgress: Boolean = false
+    lateinit var estateList: List<RealEstateFull>
+
     private val mainViewModel by viewModels<MainViewModel>()
 
     private var _binding: FragmentListRealestateBinding? = null
@@ -52,8 +55,28 @@ class RealEstateListFragment : Fragment() {
             }
         }
 
+
+        //observe filtered list
+        mainViewModel.getResultListSearch().observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                searchinProgress = true
+                setupRecyclerView(recyclerView, it, onClickListener)
+                binding.floatingSearch?.show()
+            }
+        }
+
         mainViewModel.getRealEstateFull().observe(viewLifecycleOwner) { listOfEstates ->
-            setupRecyclerView(recyclerView, listOfEstates, onClickListener)
+            estateList = listOfEstates
+            if (!searchinProgress) {
+                setupRecyclerView(recyclerView, listOfEstates, onClickListener)
+            }
+        }
+
+        binding.floatingSearch?.setOnClickListener {
+            mainViewModel.clearSearch()
+            setupRecyclerView(recyclerView, estateList, onClickListener)
+            searchinProgress = false
+            binding.floatingSearch?.hide()
         }
 
     }

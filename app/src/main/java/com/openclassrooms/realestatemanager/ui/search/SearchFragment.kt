@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.sqlite.db.SimpleSQLiteQuery
@@ -22,7 +23,6 @@ import com.openclassrooms.realestatemanager.databinding.FragmentSearchBinding
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.format.DateTimeFormatter
@@ -34,21 +34,15 @@ class SearchFragment : Fragment() {
     private val searchViewModel by viewModels<SearchViewModel>()
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private var minPrice: Int? = null
-    private var maxPrice: Int? = null
-    private var minSurface: Int? = null
-    private var maxSurface: Int? = null
-    private var numberOfPhoto: Int? = null
-    private var mDatePicker: MaterialDatePicker<Long>? = null
-    private var mDate: LocalDate? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
+        //price label
         binding.priceRange?.setLabelFormatter {
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
@@ -56,69 +50,59 @@ class SearchFragment : Fragment() {
             format.format(it.toDouble())
         }
 
-        val touchListener: RangeSlider.OnSliderTouchListener = object :
+        //price listener
+        val priceListener: RangeSlider.OnSliderTouchListener = object :
             RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {
-
             }
 
             override fun onStopTrackingTouch(slider: RangeSlider) {
-                minPrice = slider.values[0].toInt()
-                maxPrice = slider.values[1].toInt()
-                Log.i("SLIDER", slider.values[0].toString())
-                Log.i("SLIDER", slider.values[1].toString())
+                searchViewModel.minPrice = slider.values[0].toInt()
+                searchViewModel.maxPrice = slider.values[1].toInt()
             }
+        }
+        binding.priceRange?.addOnSliderTouchListener(priceListener)
 
+        //surface label
+        binding.surfaceRange?.setLabelFormatter {
+            "${it}m²"
         }
 
-        binding.priceRange?.addOnSliderTouchListener(touchListener)
-
-
-        val touchListenerSurface: RangeSlider.OnSliderTouchListener = object :
+        //surface listener
+        val surfaceListener: RangeSlider.OnSliderTouchListener = object :
             RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {
-
             }
 
             override fun onStopTrackingTouch(slider: RangeSlider) {
-                minSurface = slider.values[0].toInt()
-                maxSurface = slider.values[1].toInt()
-                Log.i("SLIDER", slider.values[0].toString())
-                Log.i("SLIDER", slider.values[1].toString())
+                searchViewModel.minSurface = slider.values[0].toInt()
+                searchViewModel.maxSurface = slider.values[1].toInt()
             }
-
         }
+        binding.surfaceRange?.addOnSliderTouchListener(surfaceListener)
 
-        binding.surfaceRange?.addOnSliderTouchListener(touchListenerSurface)
-
-
-        val touchListenerNumberMedia: Slider.OnSliderTouchListener = object :
+        //media number listener
+        val mediaNumberListener: Slider.OnSliderTouchListener = object :
             Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {
             }
 
             override fun onStopTrackingTouch(slider: Slider) {
-                numberOfPhoto = slider.value.toInt()
+                searchViewModel.numberOfPhoto = slider.value.toInt()
             }
         }
+        binding.mediaNumber?.addOnSliderTouchListener(mediaNumberListener)
 
-        binding.mediaNumber?.addOnSliderTouchListener(touchListenerNumberMedia)
-
-
-        binding.surfaceRange?.setLabelFormatter {
-            "${it}m²"
-        }
-
+        //search button listener
         binding.searchBtn?.setOnClickListener {
 
             Log.i("[SQL]", SearchUtils.checkSQLiteVersion())
 
-            Toast.makeText(requireContext(), "Search", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Search in progress...", Toast.LENGTH_SHORT).show()
 
             var schoolState = false
             var station = false
             var park = false
-
             var IntschoolState = 0
             var Intstation = 0
             var Intpark = 0
@@ -168,19 +152,19 @@ class SearchFragment : Fragment() {
             //  queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId "
 
 
-            if (maxPrice != null && minPrice != null) {
+            if (searchViewModel.maxPrice != null && searchViewModel.minPrice != null) {
                 containsCondition = true
-                queryString += " WHERE price BETWEEN $minPrice AND $maxPrice"
+                queryString += " WHERE price BETWEEN ${searchViewModel.minPrice} AND ${searchViewModel.maxPrice}"
             }
 
-            if (maxSurface != null && minSurface != null) {
+            if (searchViewModel.maxSurface != null && searchViewModel.minSurface != null) {
                 if (containsCondition) {
                     queryString += " AND "
                 } else {
                     queryString += " WHERE"
                     containsCondition = true
                 }
-                queryString += " surface BETWEEN $minSurface AND $maxSurface"
+                queryString += " surface BETWEEN ${searchViewModel.minSurface} AND ${searchViewModel.maxSurface}"
             }
 
             if (searchViewModel.selectedEntryDate != null) {
@@ -203,19 +187,12 @@ class SearchFragment : Fragment() {
                 queryString += " releaseDate >= '${searchViewModel.selectedSoldDate}'"
             }
 
-
-
-            if (numberOfPhoto != null) {
+            if (searchViewModel.numberOfPhoto != null) {
                 queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId " +
                         "GROUP BY RealEstateMedia.realEstateParentId " +
-                        "HAVING COUNT(RealEstateMedia.realEstateParentId) >= $numberOfPhoto"
+                        "HAVING COUNT(RealEstateMedia.realEstateParentId) >= ${searchViewModel.numberOfPhoto}"
                 //containsOtherCondition = true
             }
-
-
-
-
-
 
             queryString += ";"
 
@@ -238,8 +215,15 @@ class SearchFragment : Fragment() {
                         Snackbar.LENGTH_SHORT
                     ).show()
                 } else {
-                    it?.forEach { myresult ->
-                        Log.i("[SQL]", "data" + myresult.realEstateFullData.typeOfProduct)
+
+                    //update shared repository
+                    searchViewModel.setResultListFromSearch(it.toMutableList())
+
+                    it?.forEach { mySearchResult ->
+                        Log.i("[SQL]", "data" + mySearchResult.realEstateFullData.typeOfProduct)
+
+
+
                         closeFragment()
                     }
                 }
@@ -251,17 +235,11 @@ class SearchFragment : Fragment() {
         }
 
         binding.dateBtn?.setOnClickListener {
-            if (mDatePicker == null || !mDatePicker!!.isAdded) {
-                createDatePicker(it as TextView)
-                mDatePicker!!.show(childFragmentManager.beginTransaction(), "DATE_PICKER")
-            }
+            createDatePicker(it as TextView, childFragmentManager)
         }
 
         binding.dateSoldBtn?.setOnClickListener {
-            if (mDatePicker == null || !mDatePicker!!.isAdded) {
-                createDatePicker(it!! as TextView)
-                mDatePicker!!.show(childFragmentManager.beginTransaction(), "DATE_PICKER")
-            }
+            createDatePicker(it!! as TextView, childFragmentManager)
         }
 
         return binding.root
@@ -276,42 +254,47 @@ class SearchFragment : Fragment() {
         navController.navigateUp()
     }
 
+    private fun createDatePicker(view: TextView, childFragmentManager: FragmentManager) {
 
-    private fun createDatePicker(view: TextView) {
+        var mDatePicker: MaterialDatePicker<Long>? = null
 
-        mDatePicker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select a date")
-            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-            .build()
+        if (mDatePicker == null || !mDatePicker!!.isAdded) {
+            mDatePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select a date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
 
-        mDatePicker?.addOnPositiveButtonClickListener {
-            mDate = Utils.epochMilliToLocalDate(it)
-            val dateFromFilter : String = mDate!!.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+            mDatePicker?.addOnPositiveButtonClickListener {
+                searchViewModel.mDate = Utils.epochMilliToLocalDate(it)
+                val dateFromFilter: String =
+                    searchViewModel.mDate!!.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
-            if (view.tag == "dateOfCreated"){
-                searchViewModel.selectedEntryDate = it
-            }else
-            {
-                searchViewModel.selectedSoldDate = it
+                if (view.tag == "dateOfCreated") {
+                    searchViewModel.selectedEntryDate = it
+                } else {
+                    searchViewModel.selectedSoldDate = it
+                }
+
+                view.text = dateFromFilter
+
             }
-
-            view.text = dateFromFilter
-
+            mDatePicker.show(childFragmentManager.beginTransaction(), "DATE_PICKER")
         }
-
     }
 
     override fun onResume() {
         super.onResume()
 
-        if (searchViewModel.selectedEntryDate != null){
-            binding.dateBtn?.text = Utils.epochMilliToLocalDate(searchViewModel.selectedEntryDate).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        if (searchViewModel.selectedEntryDate != null) {
+            binding.dateBtn?.text = Utils.epochMilliToLocalDate(searchViewModel.selectedEntryDate)
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         }
 
-        if (searchViewModel.selectedSoldDate != null){
-            binding.dateSoldBtn?.text = Utils.epochMilliToLocalDate(searchViewModel.selectedSoldDate).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        if (searchViewModel.selectedSoldDate != null) {
+            binding.dateSoldBtn?.text =
+                Utils.epochMilliToLocalDate(searchViewModel.selectedSoldDate)
+                    .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         }
-
     }
 
 }

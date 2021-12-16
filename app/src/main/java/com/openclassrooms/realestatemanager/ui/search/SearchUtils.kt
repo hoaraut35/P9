@@ -7,9 +7,7 @@ class SearchUtils {
 
     companion object {
 
-
-
-        public fun checkSQLiteVersion() : String{
+       fun checkSQLiteVersion(): String {
             val version = android.database.sqlite.SQLiteDatabase.create(null).use {
                 DatabaseUtils.stringForQuery(it, "SELECT sqlite_version()", null)
             }

@@ -3,14 +3,16 @@ package com.openclassrooms.realestatemanager.ui
 import android.util.Log
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
+import com.openclassrooms.realestatemanager.repositories.Shared
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository) :
+class MainViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository, private val shared: Shared) :
     ViewModel() {
 
     private var mutableLiveDataRowId = MutableLiveData<Long>()
@@ -32,10 +34,17 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
 
     var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
 
-    fun insertPhoto(photo: RealEstateMedia) =
-        viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(photo) }
+    fun insertPhoto(photo: RealEstateMedia) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(photo) }
 
-    fun updateRealEstate(realEstate: RealEstate) =
-        viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
+    fun updateRealEstate(realEstate: RealEstate) = viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
+
+
+
+
+    fun getResultListSearch() = shared.getResultListFromSearch()
+
+    fun clearSearch() = shared.clearResult()
+
+
 
 }
