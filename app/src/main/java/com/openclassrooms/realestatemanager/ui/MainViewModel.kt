@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.ui
 import android.util.Log
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import com.openclassrooms.realestatemanager.repositories.Shared
@@ -20,7 +19,7 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
     fun insertRealEstate(realEstate: RealEstate) = viewModelScope.launch {
         val myResult = localDatabaseRepository.insertRealEstate(realEstate)
         mutableLiveDataRowId.value = myResult
-        Log.i("[DAO]", "Id row added : " + myResult.toString())
+        Log.i("[DAO]", "Id row added : $myResult")
     }
 
     //for UI
@@ -36,10 +35,7 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
 
     fun insertPhoto(photo: RealEstateMedia) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(photo) }
 
-    fun updateRealEstate(realEstate: RealEstate) = viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
-
-
-
+   // fun updateRealEstate(realEstate: RealEstate) = viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
 
     fun getResultListSearch() = shared.getResultListFromSearch()
 

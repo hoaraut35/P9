@@ -15,16 +15,13 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 
 class UpdateAdapter(
-
-    private val mediaList: List<RealEstateMedia>,
-    callback: InterfacePhotoTitleChanged
+   val mediaList: List<RealEstateMedia>,
+    callback: InterfaceMediaAdapter
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    //callback
-    private var callback: InterfacePhotoTitleChanged? = callback
+    private var callback: InterfaceMediaAdapter? = callback
 
-    interface InterfacePhotoTitleChanged {
-        //method here...
+    interface InterfaceMediaAdapter {
         fun onChangedTitlePhoto(title: String, uri: String)
         fun onDeleteMedia(media: RealEstateMedia)
     }

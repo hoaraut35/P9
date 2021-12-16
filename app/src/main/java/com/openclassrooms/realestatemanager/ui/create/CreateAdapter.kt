@@ -15,7 +15,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 
 class CreateAdapter(
-    private val mediaList: List<RealEstateMedia>,
+    val mediaList: List<RealEstateMedia>,
     callback: InterfacePhotoTitleChanged
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

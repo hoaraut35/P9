@@ -123,12 +123,6 @@ public class Utils {
 
     //**********************************************************************************************
 
-
-    public static File createOrGetFile(File destination, String fileName, String folderName) {
-        File folder = new File(destination, folderName);
-        return new File(folder, fileName);
-    }
-
     //TODO: move ti utils class
     public static NumberFormat getCurrencyFormat() {
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();

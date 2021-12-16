@@ -12,10 +12,14 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.utils.CreateUtils
@@ -26,7 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
+class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     private val viewModelUpdate by viewModels<ViewModelUpdate>()
 
@@ -36,9 +40,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
     lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
-
     private var dateOfSold: Long? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -157,6 +159,72 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
         //observe
         viewModelUpdate.getRealEstateFullById()
             .observe(viewLifecycleOwner) { RealEstateFullObserve ->
+
+//                val simpleCallback = object :
+//                    ItemTouchHelper.SimpleCallback(
+//                        ItemTouchHelper.START or ItemTouchHelper.END,
+//                        0
+//                    ) {
+//
+//                    override fun onMove(
+//                        recyclerView: RecyclerView,
+//                        viewHolder: RecyclerView.ViewHolder,
+//                        target: RecyclerView.ViewHolder,
+//                    ): Boolean {
+//                        val fromPosition = viewHolder.adapterPosition
+//                        val toPosition = target.adapterPosition
+//                        Collections.swap(RealEstateFullObserve, fromPosition, toPosition)
+//                        recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
+//
+//                        val adapterList = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
+//
+//                        return false
+//                    }
+//
+//                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                        //SWIPE DELETE FEATURE
+//                    }
+//
+//
+//                    override fun onSelectedChanged(
+//                        viewHolder: RecyclerView.ViewHolder?,
+//                        actionState: Int
+//                    ) {
+//                        super.onSelectedChanged(viewHolder, actionState)
+//
+//                        //start drag
+//                        when (actionState) {
+//                            2 -> viewHolder?.itemView?.setBackgroundColor(
+//                                ContextCompat.getColor(
+//                                    requireContext(),
+//                                    R.color.red
+//                                )
+//
+//                            )
+//
+//                            0 -> viewHolder?.itemView?.isVisible = true
+//
+//
+//                            8 -> viewHolder?.itemView?.setBackgroundColor(
+//                                ContextCompat.getColor(
+//                                    requireContext(),
+//                                    R.color.design_default_color_on_secondary
+//                                )
+//                            )
+//
+//
+//                        }
+//
+//
+//                    }
+//
+//
+//                }
+//
+//                val itemTouchHelper = ItemTouchHelper(simpleCallback)
+//                itemTouchHelper.attachToRecyclerView(binding.recyclerview)
+
+                //**********************************************************************************
 
 
                 binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
@@ -358,6 +426,16 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = myLayoutManager
         recyclerView.adapter = UpdateAdapter(mediaList, this)
+
+
+
+
+
+
+
+
+
+
     }
 
     companion object {

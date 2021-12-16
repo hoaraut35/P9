@@ -18,10 +18,13 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -34,6 +37,7 @@ import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.MainViewModel
+import com.openclassrooms.realestatemanager.ui.update.UpdateAdapter
 import com.openclassrooms.realestatemanager.utils.CreateUtils
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -341,66 +345,90 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
                 setupRecyclerView(recyclerView, it)
 
-//                val simpleCallback = object :
-//                    ItemTouchHelper.SimpleCallback(
-//                        ItemTouchHelper.START or ItemTouchHelper.END,
-//                        0
-//                    ) {
-//
-//                    override fun onMove(
-//                        recyclerView: RecyclerView,
-//                        viewHolder: RecyclerView.ViewHolder,
-//                        target: RecyclerView.ViewHolder,
-//                    ): Boolean {
-//                        val fromPosition = viewHolder.adapterPosition
-//                        val toPosition = target.adapterPosition
-//                        Collections.swap(it, fromPosition, toPosition)
-//                        recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
-//                        return false
-//                    }
-//
-//                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                        //SWIPE DELETE FEATURE
-//                    }
-//
-//
-////                    override fun onSelectedChanged(
-////                        viewHolder: RecyclerView.ViewHolder?,
-////                        actionState: Int
-////                    ) {
-////                        super.onSelectedChanged(viewHolder, actionState)
-////
-////                        //start drag
-////                        when (actionState) {
-////                            2 -> viewHolder?.itemView?.setBackgroundColor(
-////                                ContextCompat.getColor(
-////                                    requireContext(),
-////                                    R.color.red
-////                                )
-////
-////                            )
-////
-////                            0 -> viewHolder?.itemView?.isVisible = true
-////
-////
-////                            8 -> viewHolder?.itemView?.setBackgroundColor(
-////                                ContextCompat.getColor(
-////                                    requireContext(),
-////                                    R.color.design_default_color_on_secondary
-////                                )
-////                            )
-////
-////
-////                        }
-////
-////
-////                    }
-//
-//
-//                }
-//
-//                val itemTouchHelper = ItemTouchHelper(simpleCallback)
-//                itemTouchHelper.attachToRecyclerView(recyclerView)
+
+
+
+                val simpleCallback = object :
+                    ItemTouchHelper.SimpleCallback(
+                        ItemTouchHelper.START or ItemTouchHelper.END,
+                        0
+                    ) {
+
+                    override fun onMove(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder,
+                    ): Boolean {
+                        val fromPosition = viewHolder.adapterPosition
+                        val toPosition = target.adapterPosition
+                        Collections.swap(it, fromPosition, toPosition)
+                        recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
+
+
+                        val adapterList = (binding.recyclerview.adapter as CreateAdapter).mediaList
+                        if (!adapterList.isNullOrEmpty()){
+                            Log.i("[LIST]", "list adapte r: $adapterList")
+                        }
+
+
+                        return false
+                    }
+
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        //SWIPE DELETE FEATURE
+                    }
+
+
+                    override fun onSelectedChanged(
+                        viewHolder: RecyclerView.ViewHolder?,
+                        actionState: Int
+                    ) {
+                        super.onSelectedChanged(viewHolder, actionState)
+
+                        //start drag
+                        when (actionState) {
+                            2 -> viewHolder?.itemView?.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.red
+                                )
+
+                            )
+
+                            0 -> viewHolder?.itemView?.isVisible = true
+
+
+                            8 -> viewHolder?.itemView?.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.design_default_color_on_secondary
+                                )
+                            )
+
+
+                        }
+
+
+                    }
+
+
+                }
+
+                val itemTouchHelper = ItemTouchHelper(simpleCallback)
+                itemTouchHelper.attachToRecyclerView(recyclerView)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             })
