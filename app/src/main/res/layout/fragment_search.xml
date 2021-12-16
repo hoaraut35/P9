@@ -7,6 +7,17 @@
 
     tools:context=".ui.search.SearchFragment">
 
+    <TextView
+        android:id="@+id/text_price"
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Price"/>
+
+
     <com.google.android.material.slider.RangeSlider
         android:layout_margin="20dp"
         android:layout_marginTop="40dp"
@@ -16,10 +27,25 @@
         android:stepSize="10000.0"
         android:valueFrom="10000"
         android:valueTo="100000"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_price"
+        app:labelBehavior="floating"
         app:values="@array/initial_slider_values">
 
     </com.google.android.material.slider.RangeSlider>
+
+
+
+
+
+    <TextView
+        android:id="@+id/text_surface"
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/priceRange"
+        android:text="Surface"/>
 
     <com.google.android.material.slider.RangeSlider
         android:layout_margin="20dp"
@@ -30,9 +56,20 @@
         android:valueTo="1000"
         android:stepSize="50.0"
         app:values="@array/initial_surface_values"
-        app:layout_constraintTop_toBottomOf="@+id/priceRange">
+        app:layout_constraintTop_toBottomOf="@+id/text_surface">
 
     </com.google.android.material.slider.RangeSlider>
+
+
+    <TextView
+        android:id="@+id/text_number_Media"
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/surfaceRange"
+        android:text="Media number"/>
 
     <com.google.android.material.slider.Slider
         android:layout_margin="20dp"
@@ -42,7 +79,7 @@
         android:valueFrom="1"
         android:valueTo="10"
         android:stepSize="1"
-        app:layout_constraintTop_toBottomOf="@+id/surfaceRange">
+        app:layout_constraintTop_toBottomOf="@+id/text_number_Media">
 
     </com.google.android.material.slider.Slider>
 

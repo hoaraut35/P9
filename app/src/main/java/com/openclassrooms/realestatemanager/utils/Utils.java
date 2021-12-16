@@ -33,7 +33,6 @@ import java.util.Locale;
 
 public class Utils {
 
-
     public static boolean result = false;
 
     /**
@@ -73,18 +72,11 @@ public class Utils {
         return System.currentTimeMillis();
     }
 
-
-
-
-
     public static LocalDate epochMilliToLocalDate(Long millisecondsFromEpoch) {
         Instant instant = Instant.ofEpochMilli(millisecondsFromEpoch);
         LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return dateTime.toLocalDate();
     }
-
-
-
 
     /**
      * Vérification de la connexion réseau

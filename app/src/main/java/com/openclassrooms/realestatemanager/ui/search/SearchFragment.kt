@@ -1,7 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.search
 
-import android.database.DatabaseUtils
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,32 +12,22 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentSearchBinding
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
-import java.util.*
-
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.openclassrooms.realestatemanager.R
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import java.util.*
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     private val searchViewModel by viewModels<SearchViewModel>()
 
@@ -59,14 +47,13 @@ class SearchFragment : Fragment() {
     private var dateFromFilter: String? = null
     private var dateFromFilterLong: Long? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        arguments?.let {
+//            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -131,24 +118,15 @@ class SearchFragment : Fragment() {
         binding.mediaNumber?.addOnSliderTouchListener(touchListenerNumberMedia)
 
 
-
-//        val version = android.database.sqlite.SQLiteDatabase.create(null).use {
-//            DatabaseUtils.stringForQuery(it, "SELECT sqlite_version()", null)
-//        }
-//
-//        Log.i("[SQL]",""+  Build.VERSION.SDK_INT + " " +  version)
-
-
-
-
         binding.surfaceRange?.setLabelFormatter {
             "${it}m²"
         }
 
         binding.searchBtn?.setOnClickListener {
 
-            Toast.makeText(requireContext(), "Search", Toast.LENGTH_LONG).show()
+            Log.i("[SQL]", SearchUtils.checkSQLiteVersion())
 
+            Toast.makeText(requireContext(), "Search", Toast.LENGTH_LONG).show()
 
             var schoolState = false
             var station = false
@@ -157,7 +135,6 @@ class SearchFragment : Fragment() {
             var IntschoolState = 0
             var Intstation = 0
             var Intpark = 0
-
 
             val pointsOfInterestChipGroup: ChipGroup = binding.chipGroupPoi!!
 
@@ -178,10 +155,14 @@ class SearchFragment : Fragment() {
                     IntschoolState = 0
                 }
 
-
             }
-            Log.i("[SQL]", "$park $station $schoolState")
-            Log.i("[DATE]", "Date " + LocalDateTime.of(2021, Month.DECEMBER, 15, 14, 27, 30).toString())
+
+            //Log.i("[SQL]", "$park $station $schoolState")
+
+            Log.i(
+                "[DATE]",
+                "Date " + LocalDateTime.of(2021, Month.DECEMBER, 15, 14, 27, 30).toString()
+            )
             Log.i("[DATE]", "Date util : " + Utils.getTodayDate())
 
             // getPOIChips()
@@ -192,22 +173,15 @@ class SearchFragment : Fragment() {
             var args = mutableListOf<Any>()
             var containsCondition = false
 
+            //STEP 1 : SELECT...
             queryString += "SELECT * FROM realEstate_table"
-            //queryString += "SELECT * FROM realEstate_table INNER JOIN RealEstatePOI ON RealEstatePOI.realEstateParentId = realEstate_table.realEstateId INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= 1 AND  HAVING  RealEStatePOI.school = $IntschoolState ;"
 
-            //add price
-            if (minPrice != null && maxPrice != null) {
-                if (containsCondition) {
-                    queryString += " AND"
-                } else {
-                    queryString += " WHERE"
-                    containsCondition = true
-                }
-                queryString += " price BETWEEN $minPrice AND $maxPrice"
+            if (maxPrice != null && minPrice != null) {
+                containsCondition = true
+                queryString += " WHERE price BETWEEN $minPrice AND $maxPrice"
             }
 
-            //add surface
-            if (minSurface != null && maxSurface != null) {
+            if (maxSurface != null && minSurface != null) {
                 if (containsCondition) {
                     queryString += " AND "
                 } else {
@@ -217,66 +191,48 @@ class SearchFragment : Fragment() {
                 queryString += " surface BETWEEN $minSurface AND $maxSurface"
             }
 
-
-            if (dateFromFilter != null){
+            if (dateFromFilterLong != null) {
                 if (containsCondition) {
                     queryString += " AND "
                 } else {
                     queryString += " WHERE"
                     containsCondition = true
                 }
-
-               // var datefromdb : Long =
-                //set date to long in database
-
-                //queryString += " dateOfEntry >= '$dateFromFilter' "
-                queryString += " dateOfEntry >= '$dateFromFilterLong' "
-
-
+                queryString += " dateOfCreation >= '$dateFromFilterLong'"
             }
 
-
-
-
-            //add photo number
             if (numberOfPhoto != null) {
-                queryString += " INNER JOIN RealEstateMedia ON realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= $numberOfPhoto"
+                queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId " +
+                        "GROUP BY RealEstateMedia.realEstateParentId " +
+                        "HAVING COUNT(RealEstateMedia.realEstateParentId) >= $numberOfPhoto"
+                //containsOtherCondition = true
             }
-
-        //    queryString += " INNER JOIN RealEstatePOI ON realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstatePOI.realEstateParentId HAVING RealEStatePOI.school >= $IntschoolState AND  RealEStatePOI.park >= $Intpark AND RealEstatePOI.station >= $Intstation"
 
             queryString += ";"
 
-            searchViewModel.getRealEstateFiltered(
+            //show query in log...
+            Log.i("[SQL]", "My query : $queryString")
 
+            //load query to sqlite...
+            searchViewModel.getRealEstateFiltered(
                 SimpleSQLiteQuery(
                     queryString,
                     args.toTypedArray()
                 )
-
-
-
             ).observe(viewLifecycleOwner) {
-                it?.forEach {
-                    Log.i("[SQL]", "data" + it.realEstateFullData.typeOfProduct)
+                it?.forEach { myresult ->
+                    Log.i("[SQL]", "data" + myresult.realEstateFullData.typeOfProduct)
 
+
+                    //  closeFragment()
                 }
             }
 
 
-
-
-
-            val navHostFragment =
-                requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
-
-            val navController = navHostFragment.navController
-            navController.navigateUp()
-
         }
 
         binding.dateBtn?.setOnClickListener {
-            Log.i("[BTN]","Clic sur date")
+            Log.i("[BTN]", "Clic sur date")
 
             if (mDatePicker == null || !mDatePicker!!.isAdded) {
                 createDatePicker()
@@ -287,6 +243,15 @@ class SearchFragment : Fragment() {
         return binding.root
 
     }
+
+    private fun closeFragment() {
+        val navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
+
+        val navController = navHostFragment.navController
+        navController.navigateUp()
+    }
+
 
     private fun createDatePicker() {
         mDatePicker = MaterialDatePicker.Builder.datePicker()
@@ -304,17 +269,16 @@ class SearchFragment : Fragment() {
     }
 
 
-
-    companion object {
-
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+//    companion object {
+//
+//        // TODO: Rename and change types and number of parameters
+//        @JvmStatic
+//       // fun newInstance(param1: String, param2: String) =
+//            SearchFragment().apply {
+//                arguments = Bundle().apply {
+//                    putString(ARG_PARAM1, param1)
+//                    putString(ARG_PARAM2, param2)
+//                }
+//            }
+//    }
 }
