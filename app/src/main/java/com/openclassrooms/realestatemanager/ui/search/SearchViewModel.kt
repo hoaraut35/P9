@@ -12,6 +12,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository) :
     ViewModel() {
 
+    var selectedEntryDate: Long? = null
+    var selectedSoldDate: Long? = null
 
     fun getRealEstateFiltered(query: SupportSQLiteQuery) =
         localDatabaseRepository.getRealEstateFiltered(query).asLiveData()

@@ -21,7 +21,6 @@ import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.utils.CreateUtils
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.Util
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,7 +37,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
 
-    private var dateOfSold : Long? = null
+    private var dateOfSold: Long? = null
 
 
     override fun onCreateView(
@@ -74,7 +73,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
                     val fileName = "Photo_"
                     val fileNameDestination = "Photo_" + dateFileName + ".jpg"
                     val fileNameUri: String?
-                    fileNameUri = context?.filesDir.toString() + "/"  + "$fileName$dateFileName.jpg"
+                    fileNameUri = context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
 
                     if (bitmap != null) {
 
@@ -171,7 +170,8 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
 
 
-                binding.isSoldSwitch?.isChecked = RealEstateFullObserve.realEstateFullData.releaseDate != null
+                binding.isSoldSwitch?.isChecked =
+                    RealEstateFullObserve.realEstateFullData.releaseDate != null
 
 
                 viewModelUpdate.initialListOfMedia =
@@ -240,6 +240,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
                         viewModelUpdate.deleteMedia(itemToremove)
                     }
 
+
                     for (item in viewModelUpdate.getMediaListFromVM().value!!) {
 
                         if (!RealEstateFullObserve.mediaList.contains(item)) {
@@ -281,10 +282,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
 
         binding.isSoldSwitch?.setOnClickListener {
-            if (binding.isSoldSwitch!!.isChecked){
+            if (binding.isSoldSwitch!!.isChecked) {
                 dateOfSold = Utils.getTodayDateToLong()
-            }else
-            {
+            } else {
                 dateOfSold = null
             }
         }

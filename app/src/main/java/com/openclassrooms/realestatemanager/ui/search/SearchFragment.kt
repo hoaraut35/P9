@@ -32,26 +32,15 @@ import java.util.*
 class SearchFragment : Fragment() {
 
     private val searchViewModel by viewModels<SearchViewModel>()
-
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-
     private var minPrice: Int? = null
     private var maxPrice: Int? = null
-
     private var minSurface: Int? = null
     private var maxSurface: Int? = null
-
     private var numberOfPhoto: Int? = null
-
     private var mDatePicker: MaterialDatePicker<Long>? = null
     private var mDate: LocalDate? = null
-
-
-    //date
-   // private var dateReturn: Long? = null
-    private var selectedEntryDate: Long? = null
-    private var selectedSoldDate: Long? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -194,14 +183,24 @@ class SearchFragment : Fragment() {
                 queryString += " surface BETWEEN $minSurface AND $maxSurface"
             }
 
-            if (selectedEntryDate != null) {
+            if (searchViewModel.selectedEntryDate != null) {
                 if (containsCondition) {
                     queryString += " AND "
                 } else {
                     queryString += " WHERE"
                     containsCondition = true
                 }
-                queryString += " dateOfEntry >= '$selectedEntryDate'"
+                queryString += " dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
+            }
+
+            if (searchViewModel.selectedSoldDate != null) {
+                if (containsCondition) {
+                    queryString += " AND "
+                } else {
+                    queryString += " WHERE"
+                    containsCondition = true
+                }
+                queryString += " releaseDate >= '${searchViewModel.selectedSoldDate}'"
             }
 
 
@@ -290,16 +289,27 @@ class SearchFragment : Fragment() {
             val dateFromFilter : String = mDate!!.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
             if (view.tag == "dateOfCreated"){
-                selectedEntryDate = it
+                searchViewModel.selectedEntryDate = it
             }else
             {
-                selectedSoldDate = it
+                searchViewModel.selectedSoldDate = it
             }
-
-
 
             view.text = dateFromFilter
 
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (searchViewModel.selectedEntryDate != null){
+            binding.dateBtn?.text = Utils.epochMilliToLocalDate(searchViewModel.selectedEntryDate).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        }
+
+        if (searchViewModel.selectedSoldDate != null){
+            binding.dateSoldBtn?.text = Utils.epochMilliToLocalDate(searchViewModel.selectedSoldDate).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         }
 
     }
