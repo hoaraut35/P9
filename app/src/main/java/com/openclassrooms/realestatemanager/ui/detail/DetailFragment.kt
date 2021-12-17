@@ -61,17 +61,19 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                     //*********************************************************************************
 
                     binding.textType?.text = RealEstateObserved.realEstateFullData.typeOfProduct
+
+
                     binding.textPrice?.text =
-                        RealEstateObserved.realEstateFullData.price.toString() + "€"
+                        RealEstateObserved.realEstateFullData.price.toString().plus(" € ")
                     binding.textSurface?.text =
-                        RealEstateObserved.realEstateFullData.surface.toString() + "m²"
+                        RealEstateObserved.realEstateFullData.surface.toString().plus(" m² ")
 
                     binding.textNumberRoom?.text =
-                        RealEstateObserved.realEstateFullData.numberOfRoom.toString() + " Room"
+                        RealEstateObserved.realEstateFullData.numberOfRoom.toString().plus(resources.getString(R.string.textRoom))
                     binding.textNumberBathroom?.text =
-                        RealEstateObserved.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
+                        RealEstateObserved.realEstateFullData.numberOfBathRoom.toString().plus(resources.getString(R.string.textBathRoom))
                     binding.textNumberBedroom?.text =
-                        RealEstateObserved.realEstateFullData.numberOfBedRoom.toString() + " Bedroom"
+                        RealEstateObserved.realEstateFullData.numberOfBedRoom.toString().plus(resources.getString(R.string.textBedRoom))
 
                     binding.textDescription?.text =
                         RealEstateObserved.realEstateFullData.descriptionOfProduct

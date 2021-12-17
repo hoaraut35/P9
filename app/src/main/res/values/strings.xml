@@ -41,4 +41,11 @@
     <string name="qty_surface">200</string>
     <string name="menu_map">Map</string>
     <string name="float_btn_description">disable search button</string>
+    <string name="textRoom">" Room"</string>
+    <string name="textSurface">" m²"</string>
+    <string name="textCurrency">" €"</string>
+    <string name="textBathRoom">" Bathroom"</string>
+    <string name="textBedRoom">" Bedroom"</string>
+    <string name="date_of_creation">Date de création</string>
+    <string name="date_of_sold">Date de vente</string>
 </resources>

@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- use material design -->
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="5dp"
-    android:layout_height="120dp">
+    android:layout_height="120dp"
+    android:layout_margin="5dp">
 
-
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
-
         app:cardCornerRadius="4dp"
+        app:strokeColor="@color/colorPrimaryDark"
+        app:strokeWidth="2dp"
         tools:layout_editor_absoluteX="10dp"
         tools:layout_editor_absoluteY="10dp">
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-
 
             <ImageView
                 android:id="@+id/realEstate_image"
@@ -34,7 +29,6 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="0dp"
-
                 android:background="@color/cardview_shadow_end_color"
                 android:contentDescription="description"
                 android:src="@drawable/ic_baseline_no_photography_24" />
@@ -52,7 +46,7 @@
                     android:layout_marginTop="16dp"
                     android:text="House"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/city_text"
@@ -69,14 +63,13 @@
                     android:layout_height="wrap_content"
                     android:text="$21,130,000"
                     android:textSize="18sp"
-                    android:textStyle="bold"></TextView>
+                    android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.cardview.widget.CardView>
-
+    </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

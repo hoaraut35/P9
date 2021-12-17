@@ -23,7 +23,7 @@ class SearchViewModel @Inject constructor(private val localDatabaseRepository: L
     var minSurface: Int? = null
     var maxSurface: Int? = null
 
-    var numberOfPhoto: Int? = null
+    var numberOfMedia: Int? = null
 
 
     var mDate: LocalDate? = null

@@ -43,6 +43,9 @@ interface RealEStateDao {
     @Query("SELECT MAX(realEstateId) + 1 FROM realEstate_table")
     fun getLastRowId(): Flow<Int>
 
+    @Query("SELECT MAX(photo_id) + 1 FROM RealEstateMedia")
+    fun getLastRowIdForMedia(): Flow<Int>
+
     //used by CONTENT PROVIDER for testing
     @Query("SELECT * FROM realEstate_table")
     fun getRealEstateWithCursor(): Cursor

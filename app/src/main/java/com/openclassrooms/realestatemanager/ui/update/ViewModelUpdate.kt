@@ -28,6 +28,9 @@ class ViewModelUpdate @Inject constructor(
         viewModelScope.launch { localDatabaseRepository.insertRealEstateMedia(media) }
 
     var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
+    var getLastRowIdForMedia = localDatabaseRepository.getLastRowIdForMedia().asLiveData()
+
+
 
     var initialListOfMedia: MutableList<RealEstateMedia> = mutableListOf()
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()

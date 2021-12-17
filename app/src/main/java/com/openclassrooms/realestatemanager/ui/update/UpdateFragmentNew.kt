@@ -42,10 +42,8 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
     private lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
-    private var dateOfSold: Long? = null
-
-
     private var newList = mutableListOf<RealEstateMedia>()
+    private var dateOfSold: Long? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

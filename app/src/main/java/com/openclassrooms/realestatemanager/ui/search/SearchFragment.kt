@@ -88,7 +88,7 @@ class SearchFragment : Fragment() {
             }
 
             override fun onStopTrackingTouch(slider: Slider) {
-                searchViewModel.numberOfPhoto = slider.value.toInt()
+                searchViewModel.numberOfMedia = slider.value.toInt()
             }
         }
         binding.mediaNumber?.addOnSliderTouchListener(mediaNumberListener)
@@ -140,23 +140,27 @@ class SearchFragment : Fragment() {
 
             //version sqlite 3.18.2
 
+
+
             var queryString = ""
-            var args = mutableListOf<Any>()
+            val args = mutableListOf<Any>()
             var containsCondition = false
 
-            //STEP 1 : SELECT...
             queryString += "SELECT * FROM realEstate_table"
 
-
-            //STEP2 : INNER JOIN...
-            //  queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId "
-
-
-            if (searchViewModel.maxPrice != null && searchViewModel.minPrice != null) {
-                containsCondition = true
-                queryString += " WHERE price BETWEEN ${searchViewModel.minPrice} AND ${searchViewModel.maxPrice}"
+            if (searchViewModel.numberOfMedia != null) {
+                queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId"
             }
 
+            queryString += " INNER JOIN RealEstatePOI ON RealEstatePOI.realEstateParentId = realEstate_table.realEstateId"
+
+            //ok
+            if (searchViewModel.maxPrice != null && searchViewModel.minPrice != null) {
+                containsCondition = true
+                queryString += " WHERE realEstate_table.price BETWEEN ${searchViewModel.minPrice} AND ${searchViewModel.maxPrice}"
+            }
+
+            //ok
             if (searchViewModel.maxSurface != null && searchViewModel.minSurface != null) {
                 if (containsCondition) {
                     queryString += " AND "
@@ -164,37 +168,108 @@ class SearchFragment : Fragment() {
                     queryString += " WHERE"
                     containsCondition = true
                 }
-                queryString += " surface BETWEEN ${searchViewModel.minSurface} AND ${searchViewModel.maxSurface}"
+                queryString += " realEstate_table.surface BETWEEN ${searchViewModel.minSurface} AND ${searchViewModel.maxSurface}"
             }
 
-            if (searchViewModel.selectedEntryDate != null) {
-                if (containsCondition) {
-                    queryString += " AND "
-                } else {
-                    queryString += " WHERE"
-                    containsCondition = true
-                }
-                queryString += " dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
-            }
+//            if (searchViewModel.selectedEntryDate != null) {
+//                if (containsCondition) {
+//                    queryString += " AND "
+//                } else {
+//                    queryString += " WHERE"
+//                    containsCondition = true
+//                }
+//                queryString += " realEstate_table.dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
+//            }
 
-            if (searchViewModel.selectedSoldDate != null) {
-                if (containsCondition) {
-                    queryString += " AND "
-                } else {
-                    queryString += " WHERE"
-                    containsCondition = true
-                }
-                queryString += " releaseDate >= '${searchViewModel.selectedSoldDate}'"
-            }
+//            if (searchViewModel.selectedSoldDate != null) {
+//                if (containsCondition) {
+//                    queryString += " AND "
+//                } else {
+//                    queryString += " WHERE"
+//                }
+//                queryString += " property_table.dateOfSale >= '${searchViewModel.selectedSoldDate}'"
+//            }
 
-            if (searchViewModel.numberOfPhoto != null) {
-                queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId " +
-                        "GROUP BY RealEstateMedia.realEstateParentId " +
-                        "HAVING COUNT(RealEstateMedia.realEstateParentId) >= ${searchViewModel.numberOfPhoto}"
-                //containsOtherCondition = true
+            if (searchViewModel.numberOfMedia != null) {
+                queryString += " GROUP BY RealEstateMedia.realEstateParentId,"
+                queryString += " RealEstatePOI.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= ${searchViewModel.numberOfMedia} "+
+                 " AND RealEstatePOI.park >= $Intpark AND RealEstatePOI.school >= $IntschoolState AND RealEstatePOI.station >= $Intstation"
+            } else {
+                queryString += " GROUP BY RealEstatePOI.realEstateParentId HAVING RealEstatePOI.park >= $Intpark AND RealEstatePOI.school >= $IntschoolState " +
+                        "AND RealEstatePOI.station >= $Intstation"
             }
 
             queryString += ";"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//            //STEP 1 : SELECT...
+//            queryString += "SELECT * FROM realEstate_table"
+//
+//
+//
+//
+//            //STEP2 : INNER JOIN...
+//            //  queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId "
+//
+//
+//            if (searchViewModel.maxPrice != null && searchViewModel.minPrice != null) {
+//                containsCondition = true
+//                queryString += " WHERE price BETWEEN ${searchViewModel.minPrice} AND ${searchViewModel.maxPrice}"
+//            }
+//
+//            if (searchViewModel.maxSurface != null && searchViewModel.minSurface != null) {
+//                if (containsCondition) {
+//                    queryString += " AND "
+//                } else {
+//                    queryString += " WHERE"
+//                    containsCondition = true
+//                }
+//                queryString += " surface BETWEEN ${searchViewModel.minSurface} AND ${searchViewModel.maxSurface}"
+//            }
+//
+//            if (searchViewModel.selectedEntryDate != null) {
+//                if (containsCondition) {
+//                    queryString += " AND "
+//                } else {
+//                    queryString += " WHERE"
+//                    containsCondition = true
+//                }
+//                queryString += " dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
+//            }
+//
+//            if (searchViewModel.selectedSoldDate != null) {
+//                if (containsCondition) {
+//                    queryString += " AND "
+//                } else {
+//                    queryString += " WHERE"
+//                    containsCondition = true
+//                }
+//                queryString += " releaseDate >= '${searchViewModel.selectedSoldDate}'"
+//            }
+//
+//            if (searchViewModel.numberOfPhoto != null) {
+//                queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId " +
+//                        "GROUP BY RealEstateMedia.realEstateParentId " +
+//                        "HAVING COUNT(RealEstateMedia.realEstateParentId) >= ${searchViewModel.numberOfPhoto}"
+//                //containsOtherCondition = true
+//            }
+//
+//            queryString += ";"
 
             //show query in log...
             Log.i("[SQL]", "My query : $queryString")

@@ -410,18 +410,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
             })
 
     }
@@ -538,7 +526,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                                 uri = item.uri,
                                 realEstateParentId = lastIndex,
                                 name = item.name,
-                                position = lastIndex
+                                position = mainViewModel.getLastRowIdForMedia.value
                             )
                         )
                     }
