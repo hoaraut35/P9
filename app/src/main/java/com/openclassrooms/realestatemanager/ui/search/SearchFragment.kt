@@ -194,6 +194,8 @@ class SearchFragment : Fragment() {
                 queryString += " realEstate_table.dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
             }
 
+
+
             if (searchViewModel.selectedSoldDate != null) {
                 if (containsCondition) {
                     queryString += " AND "
