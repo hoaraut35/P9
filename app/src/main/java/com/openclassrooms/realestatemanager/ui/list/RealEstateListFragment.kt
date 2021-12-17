@@ -87,7 +87,7 @@ class RealEstateListFragment : Fragment() {
         onClickListener: View.OnClickListener
     ) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = RealEstateListAdapter(myRealEstateList, onClickListener)
+        recyclerView.adapter = ListAdapter(myRealEstateList, onClickListener)
     }
 
     override fun onCreateView(

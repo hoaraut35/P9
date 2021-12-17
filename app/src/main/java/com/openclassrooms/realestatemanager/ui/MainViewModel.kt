@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
 
     var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
 
-    fun insertPhoto(photo: RealEstateMedia) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(photo) }
+    fun insertPhoto(photo: RealEstateMedia) = viewModelScope.launch { localDatabaseRepository.insertRealEstateMedia(photo) }
 
    // fun updateRealEstate(realEstate: RealEstate) = viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
 

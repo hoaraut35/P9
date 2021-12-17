@@ -339,7 +339,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
                 val simpleCallback = object :
                     ItemTouchHelper.SimpleCallback(
-                        ItemTouchHelper.START or ItemTouchHelper.END,
+                        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
                         0
                     ) {
 
@@ -348,6 +348,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                         viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder,
                     ): Boolean {
+
+
                         val fromPosition = viewHolder.adapterPosition
                         val toPosition = target.adapterPosition
                         Collections.swap(it, fromPosition, toPosition)
@@ -360,7 +362,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                         }
 
 
-                        return false
+                        return true
                     }
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -535,7 +537,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                             RealEstateMedia(
                                 uri = item.uri,
                                 realEstateParentId = lastIndex,
-                                name = item.name
+                                name = item.name,
+                                position = lastIndex
                             )
                         )
                     }

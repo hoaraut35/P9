@@ -5,7 +5,7 @@ import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import com.openclassrooms.realestatemanager.repositories.SharedRepository
 import javax.inject.Inject
 
-class ViewModelList @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository, private val sharedRepository: SharedRepository) :
+class ListViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository, private val sharedRepository: SharedRepository) :
     ViewModel() {
 
 

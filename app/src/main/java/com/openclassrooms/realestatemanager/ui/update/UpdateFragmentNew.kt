@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,10 +39,13 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
     private var _binding: FragmentUpdateNewBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
+    private lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
     private var dateOfSold: Long? = null
+
+
+    private var newList = mutableListOf<RealEstateMedia>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +61,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         //click listener for take photo from camera
         binding.addPhotoCamera?.setOnClickListener {
-            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             activityResultLauncherForPhoto.launch(intent)
         }
 
@@ -73,7 +78,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                     val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     val fileName = "Photo_"
-                    val fileNameDestination = "Photo_" + dateFileName + ".jpg"
+                    val fileNameDestination = "Photo_$dateFileName.jpg"
                     val fileNameUri: String?
                     fileNameUri = context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
 
@@ -160,69 +165,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         viewModelUpdate.getRealEstateFullById()
             .observe(viewLifecycleOwner) { RealEstateFullObserve ->
 
-//                val simpleCallback = object :
-//                    ItemTouchHelper.SimpleCallback(
-//                        ItemTouchHelper.START or ItemTouchHelper.END,
-//                        0
-//                    ) {
-//
-//                    override fun onMove(
-//                        recyclerView: RecyclerView,
-//                        viewHolder: RecyclerView.ViewHolder,
-//                        target: RecyclerView.ViewHolder,
-//                    ): Boolean {
-//                        val fromPosition = viewHolder.adapterPosition
-//                        val toPosition = target.adapterPosition
-//                        Collections.swap(RealEstateFullObserve, fromPosition, toPosition)
-//                        recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
-//
-//                        val adapterList = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
-//
-//                        return false
-//                    }
-//
-//                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                        //SWIPE DELETE FEATURE
-//                    }
-//
-//
-//                    override fun onSelectedChanged(
-//                        viewHolder: RecyclerView.ViewHolder?,
-//                        actionState: Int
-//                    ) {
-//                        super.onSelectedChanged(viewHolder, actionState)
-//
-//                        //start drag
-//                        when (actionState) {
-//                            2 -> viewHolder?.itemView?.setBackgroundColor(
-//                                ContextCompat.getColor(
-//                                    requireContext(),
-//                                    R.color.red
-//                                )
-//
-//                            )
-//
-//                            0 -> viewHolder?.itemView?.isVisible = true
-//
-//
-//                            8 -> viewHolder?.itemView?.setBackgroundColor(
-//                                ContextCompat.getColor(
-//                                    requireContext(),
-//                                    R.color.design_default_color_on_secondary
-//                                )
-//                            )
-//
-//
-//                        }
-//
-//
-//                    }
-//
-//
-//                }
-//
-//                val itemTouchHelper = ItemTouchHelper(simpleCallback)
-//                itemTouchHelper.attachToRecyclerView(binding.recyclerview)
 
                 //**********************************************************************************
 
@@ -309,24 +251,45 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     }
 
 
-                    for (item in viewModelUpdate.getMediaListFromVM().value!!) {
+//                    for (item in viewModelUpdate.getMediaListFromVM().value!!) {
+//
+//                        if (!RealEstateFullObserve.mediaList.contains(item)) {
+//
+//                            if (!viewModelUpdate.mediaList.contains(item)) {
+//
+//                                val long = viewModelUpdate.insertMedia(
+//                                    RealEstateMedia(
+//                                        uri = item.uri,
+//                                        realEstateParentId = viewModelUpdate.realEstate.realEstateId,
+//                                        name = item.name,
+//                                        position = viewModelUpdate.realEstate.realEstateId
+//                                    )
+//                                )
+//
+//
+//                            }
+//                        }
+//
+//
+//                    }
+
+
+                    for (item in newList) {
 
                         if (!RealEstateFullObserve.mediaList.contains(item)) {
-
                             if (!viewModelUpdate.mediaList.contains(item)) {
-
                                 val long = viewModelUpdate.insertMedia(
                                     RealEstateMedia(
                                         uri = item.uri,
                                         realEstateParentId = viewModelUpdate.realEstate.realEstateId,
-                                        name = item.name
+                                        name = item.name,
+                                        position = item.position
                                     )
                                 )
 
 
                             }
                         }
-
 
                     }
 
@@ -338,13 +301,104 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     }
 
 
+                    //notification("RealEsatzte", "Update terminé")
+                    val navHostFragment =
+                        requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
+
+                    val navController = navHostFragment.navController
+                    navController.navigateUp()
+
+
                 }
 
 
             }
 
-        viewModelUpdate.getMediaListFromVM().observe(viewLifecycleOwner) {
-            setupRecyclerView(recyclerViewMedias!!, it)
+        viewModelUpdate.getMediaListFromVM().observe(viewLifecycleOwner) { myMedia ->
+
+
+            setupRecyclerView(recyclerViewMedias!!, myMedia.sortedBy { it.position })
+
+
+            val simpleCallback = object :
+                ItemTouchHelper.SimpleCallback(
+                    ItemTouchHelper.START or ItemTouchHelper.END,
+                    0
+                ) {
+
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder,
+                ): Boolean {
+                    val fromPosition = viewHolder.adapterPosition
+                    val toPosition = target.adapterPosition
+                    Collections.swap(myMedia, fromPosition, toPosition)
+                    recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
+
+
+                    val adapterList =
+                        (binding.recyclerview?.adapter as UpdateAdapter).mediaList as MutableList<RealEstateMedia>
+
+                    for (i in adapterList.indices) {
+                        adapterList[i].position = i
+                    }
+
+                    newList = adapterList
+                    Log.i("[LIST]", newList.toString())
+
+
+
+
+
+
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    //SWIPE DELETE FEATURE
+                }
+
+
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
+                    super.onSelectedChanged(viewHolder, actionState)
+
+                    //start drag
+                    when (actionState) {
+                        2 -> viewHolder?.itemView?.setBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.red
+                            )
+
+                        )
+
+                        0 -> viewHolder?.itemView?.isVisible = true
+
+
+                        8 -> viewHolder?.itemView?.setBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.design_default_color_on_secondary
+                            )
+                        )
+
+
+                    }
+
+
+                }
+
+
+            }
+
+            val itemTouchHelper = ItemTouchHelper(simpleCallback)
+            itemTouchHelper.attachToRecyclerView(binding.recyclerview)
+
+
         }
 
 
@@ -377,7 +431,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                 if (result?.resultCode == Activity.RESULT_OK) {
 
-                    var bitmap = result!!.data!!.extras!!.get("data") as Bitmap
+                    var bitmap = result.data!!.extras!!.get("data") as Bitmap
 
                     val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     //val storageDir = File(context?.filesDir, "test")
@@ -405,7 +459,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 //add in viewmodel list
                 viewModelUpdate.addMediaToList(
                     RealEstateMedia(
-                        uri = fileNameUri!!,
+                        uri = fileNameUri,
                         name = "test",
                         realEstateParentId = viewModelUpdate.realEstate.realEstateId
                     )
@@ -428,22 +482,8 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         recyclerView.adapter = UpdateAdapter(mediaList, this)
 
 
-
-
-
-
-
-
-
-
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            UpdateFragmentNew().apply {
-            }
-    }
 
     override fun onChangedTitlePhoto(title: String, uri: String) {
         viewModelUpdate.updateMediaTitle(title, uri)

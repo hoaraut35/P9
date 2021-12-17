@@ -78,7 +78,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                     RealEstateObserved.realEstateFullData.descriptionOfProduct
 
                 RealEstateObserved.mediaList?.let { myRealEstateMediaList ->
-                    setupRecyclerView(recyclerViewMedias, myRealEstateMediaList)
+                    setupRecyclerView(recyclerViewMedias, myRealEstateMediaList.sortedBy { it.position })
                 }
 
                 binding.textStreetNumber?.text =

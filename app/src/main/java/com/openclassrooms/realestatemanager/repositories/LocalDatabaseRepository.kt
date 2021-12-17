@@ -33,9 +33,10 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     fun getLastRowId() = realEstateDao.getLastRowId()
 
     suspend fun insertRealEstate(realEstate: RealEstate) : Long = realEstateDao.insertRealEstate(realEstate)
-    suspend fun insertRealEstatePhoto(realEstatePhoto: RealEstateMedia): Long =  realEstateDao.insertMedia(realEstatePhoto)
-    suspend fun insertRealEstatePOI(realEstatePOI: RealEstatePOI): Long =   realEstateDao.insertPOI(realEstatePOI)
 
+    suspend fun insertRealEstateMedia(realEstatePhoto: RealEstateMedia): Long =  realEstateDao.insertMedia(realEstatePhoto)
+
+    suspend fun insertRealEstatePOI(realEstatePOI: RealEstatePOI): Long =   realEstateDao.insertPOI(realEstatePOI)
 
     suspend fun deleteMedia(media: RealEstateMedia) {  realEstateDao.deleteMedia(media)  }
 

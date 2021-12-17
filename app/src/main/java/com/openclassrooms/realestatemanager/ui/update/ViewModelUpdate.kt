@@ -25,7 +25,7 @@ class ViewModelUpdate @Inject constructor(
         localDatabaseRepository.getFlowRealEstateFullById(sharedRepository.getPropertyId()).asLiveData()
 
     fun insertMedia(media: RealEstateMedia) =
-        viewModelScope.launch { localDatabaseRepository.insertRealEstatePhoto(media) }
+        viewModelScope.launch { localDatabaseRepository.insertRealEstateMedia(media) }
 
     var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
 
@@ -46,7 +46,7 @@ class ViewModelUpdate @Inject constructor(
     //to add media
     fun addMediaToList(media: RealEstateMedia) {
         listOfMedia.add(media)
-        listOfMedia.sortBy { it.uri }
+        listOfMedia.sortBy { it.position }
         mutableListOfMedia.value = listOfMedia
     }
 

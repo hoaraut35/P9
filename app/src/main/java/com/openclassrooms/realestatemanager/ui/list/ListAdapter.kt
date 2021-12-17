@@ -14,10 +14,10 @@ import com.openclassrooms.realestatemanager.utils.Utils
 import java.text.NumberFormat
 import java.util.*
 
-class RealEstateListAdapter(
+class ListAdapter(
     private val realEstateFullData: List<RealEstateFull>,
     private val onClickListener: View.OnClickListener
-) : RecyclerView.Adapter<RealEstateListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
