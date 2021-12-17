@@ -37,25 +37,25 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
             applicationScope.launch {
 
-                    dao.insertRealEstate(
-                        RealEstate(
-                            numberOfBathRoom = 2,
-                            numberOfBedRoom = 3,
-                            numberOfRoom = 5,
-                            surface = 100,
-                            typeOfProduct = "Flat",
-                            price = 178700,
-                            dateOfEntry = Utils.getTodayDateToLong(),
-                            descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
-                            address = RealEstateAddress(
-                                zip_code = 35220,
-                                city = "Saint Didier",
-                                street_name = "rue du champ fleuri",
-                                street_number = 7,
-                                country = "FRANCE"
-                            ),
-                        )
+                dao.insertRealEstate(
+                    RealEstate(
+                        numberOfBathRoom = 2,
+                        numberOfBedRoom = 3,
+                        numberOfRoom = 5,
+                        surface = 100,
+                        typeOfProduct = "Flat",
+                        price = 178700,
+                        dateOfEntry = Utils.getTodayDateToLong(),
+                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
+                        address = RealEstateAddress(
+                            zip_code = 35220,
+                            city = "Saint Didier",
+                            street_name = "rue du champ fleuri",
+                            street_number = 7,
+                            country = "FRANCE"
+                        ),
                     )
+                )
 
                 dao.insertRealEstate(
                     RealEstate(
@@ -141,6 +141,29 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
                     )
                 )
+
+                dao.insertPOI(
+                    RealEstatePOI(
+                    park = true,
+                    station = true,
+                    school = true,
+                    realEstateParentId = 1
+                )
+                )
+
+                dao.insertPOI(RealEstatePOI(
+                    park = true,
+                    station = true,
+                    school = true,
+                    realEstateParentId = 2
+                ))
+                dao.insertPOI(RealEstatePOI(
+                    park = true,
+                    station = true,
+                    school = true,
+                    realEstateParentId = 3
+                ))
+
 
             }
 

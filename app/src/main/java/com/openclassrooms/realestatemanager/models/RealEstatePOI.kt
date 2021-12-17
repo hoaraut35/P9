@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 @Entity
 data class RealEstatePOI(
 
-    @PrimaryKey(autoGenerate = true) val poiId: Int?,
-    var realEstateParentId: Int? = null,
-    var school: Boolean? = null,
-    var station: Boolean? = null,
-    var park: Boolean? = null
+    @PrimaryKey(autoGenerate = true) val poiId: Int =0,
+    var realEstateParentId: Int?,
+    var school: Boolean? ,
+    var station: Boolean?,
+    var park: Boolean?
 
 )
 

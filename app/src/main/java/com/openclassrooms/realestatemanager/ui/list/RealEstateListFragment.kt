@@ -22,13 +22,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RealEstateListFragment : Fragment() {
 
-    private var searchInProgress: Boolean = false
-    lateinit var estateList: List<RealEstateFull>
-
-    private val mainViewModel by viewModels<MainViewModel>()
+    private val listViewModel by viewModels<ListViewModel>()
 
     private var _binding: FragmentListRealestateBinding? = null
     private val binding get() = _binding!!
+
+    lateinit var estateList: List<RealEstateFull>
+    private var searchInProgress: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,9 +56,8 @@ class RealEstateListFragment : Fragment() {
             }
         }
 
-
-        //observe filtered list
-        mainViewModel.getResultListSearch().observe(viewLifecycleOwner) {
+        //Observe...
+        listViewModel.getResultListSearch().observe(viewLifecycleOwner){
             if (!it.isNullOrEmpty()) {
                 searchInProgress = true
                 setupRecyclerView(recyclerView, it, onClickListener)
@@ -66,15 +65,19 @@ class RealEstateListFragment : Fragment() {
             }
         }
 
-        mainViewModel.getRealEstateFull().observe(viewLifecycleOwner) { listOfEstates ->
-            estateList = listOfEstates
+        //Observe...
+        listViewModel.getRealEstateFull().observe(viewLifecycleOwner){listRealEstate ->
+            //save new list to viewmodel...
+            estateList = listRealEstate
             if (!searchInProgress) {
-                setupRecyclerView(recyclerView, listOfEstates, onClickListener)
+                setupRecyclerView(recyclerView, listRealEstate, onClickListener)
             }
         }
 
+        //Listener...
         binding.floatingSearch?.setOnClickListener {
-            mainViewModel.clearSearch()
+            //clear list...
+            listViewModel.clearSearch()
             setupRecyclerView(recyclerView, estateList, onClickListener)
             searchInProgress = false
             binding.floatingSearch?.hide()

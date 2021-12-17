@@ -103,6 +103,7 @@ class SearchFragment : Fragment() {
             var schoolState = false
             var station = false
             var park = false
+
             var IntschoolState = 0
             var Intstation = 0
             var Intpark = 0
@@ -124,6 +125,18 @@ class SearchFragment : Fragment() {
                     IntschoolState = 1
                 } else {
                     IntschoolState = 0
+                }
+
+                if (station) {
+                    Intstation = 1
+                } else {
+                    Intstation = 0
+                }
+
+                if (park) {
+                    Intpark = 1
+                } else {
+                    Intpark = 0
                 }
 
             }
@@ -171,32 +184,32 @@ class SearchFragment : Fragment() {
                 queryString += " realEstate_table.surface BETWEEN ${searchViewModel.minSurface} AND ${searchViewModel.maxSurface}"
             }
 
-//            if (searchViewModel.selectedEntryDate != null) {
-//                if (containsCondition) {
-//                    queryString += " AND "
-//                } else {
-//                    queryString += " WHERE"
-//                    containsCondition = true
-//                }
-//                queryString += " realEstate_table.dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
-//            }
+            if (searchViewModel.selectedEntryDate != null) {
+                if (containsCondition) {
+                    queryString += " AND "
+                } else {
+                    queryString += " WHERE"
+                    containsCondition = true
+                }
+                queryString += " realEstate_table.dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
+            }
 
-//            if (searchViewModel.selectedSoldDate != null) {
-//                if (containsCondition) {
-//                    queryString += " AND "
-//                } else {
-//                    queryString += " WHERE"
-//                }
-//                queryString += " property_table.dateOfSale >= '${searchViewModel.selectedSoldDate}'"
-//            }
+            if (searchViewModel.selectedSoldDate != null) {
+                if (containsCondition) {
+                    queryString += " AND "
+                } else {
+                    queryString += " WHERE"
+                }
+                queryString += " property_table.dateOfSale >= '${searchViewModel.selectedSoldDate}'"
+            }
 
             if (searchViewModel.numberOfMedia != null) {
                 queryString += " GROUP BY RealEstateMedia.realEstateParentId,"
                 queryString += " RealEstatePOI.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= ${searchViewModel.numberOfMedia} "+
                  " AND RealEstatePOI.park >= $Intpark AND RealEstatePOI.school >= $IntschoolState AND RealEstatePOI.station >= $Intstation"
             } else {
-                queryString += " GROUP BY RealEstatePOI.realEstateParentId HAVING RealEstatePOI.park >= $Intpark AND RealEstatePOI.school >= $IntschoolState " +
-                        "AND RealEstatePOI.station >= $Intstation"
+                queryString += " GROUP BY RealEstatePOI.realEstateParentId HAVING RealEstatePOI.park >= $park AND RealEstatePOI.school >= $schoolState " +
+                        "AND RealEstatePOI.station >= $station"
             }
 
             queryString += ";"
