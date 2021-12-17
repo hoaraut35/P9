@@ -40,4 +40,5 @@
     <string name="description_type">House</string>
     <string name="qty_surface">200</string>
     <string name="menu_map">Map</string>
+    <string name="float_btn_description">disable search button</string>
 </resources>

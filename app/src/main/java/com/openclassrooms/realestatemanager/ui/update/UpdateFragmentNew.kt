@@ -94,7 +94,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                                 RealEstateMedia(
                                     realEstateParentId = viewModelUpdate.realEstate.realEstateId,
                                     uri = fileNameUri,
-                                    name = ""
+                                    name = "Photo"
                                 )
                             )
                         }
@@ -139,7 +139,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         RealEstateMedia(
                             uri = it.toString(),
                             realEstateParentId = 1,
-                            name = "video"
+                            name = "Video"
                         )
                     )
 
@@ -346,10 +346,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                     newList = adapterList
                     Log.i("[LIST]", newList.toString())
-
-
-
-
 
 
                     return false

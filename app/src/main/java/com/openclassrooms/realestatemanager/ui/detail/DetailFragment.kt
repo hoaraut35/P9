@@ -41,61 +41,62 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
 
         _binding = FragmentRealEstateDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
         val recyclerViewMedias: RecyclerView = binding.recyclerviewMedias
 
-
-
         setHasOptionsMenu(true)
 
-        detailViewModel.getRealEstateFullById(realEstateIdFromBundle!!.toInt())
-            .observe(viewLifecycleOwner) { RealEstateObserved ->
+        if (realEstateIdFromBundle != null) {
+            detailViewModel.getRealEstateFullById(realEstateIdFromBundle!!.toInt())
+                .observe(viewLifecycleOwner) { RealEstateObserved ->
 
-                //*********************************************************************************
+                    //*********************************************************************************
 
-                detailViewModel.actualRealEstate = RealEstateObserved.realEstateFullData
+                    detailViewModel.actualRealEstate = RealEstateObserved.realEstateFullData
 
-                //*********************************************************************************
+                    //*********************************************************************************
 
-                binding.textType?.text = RealEstateObserved.realEstateFullData.typeOfProduct
-                binding.textPrice?.text =
-                    RealEstateObserved.realEstateFullData.price.toString() + "€"
-                binding.textSurface?.text =
-                    RealEstateObserved.realEstateFullData.surface.toString() + "m²"
+                    binding.textType?.text = RealEstateObserved.realEstateFullData.typeOfProduct
+                    binding.textPrice?.text =
+                        RealEstateObserved.realEstateFullData.price.toString() + "€"
+                    binding.textSurface?.text =
+                        RealEstateObserved.realEstateFullData.surface.toString() + "m²"
 
-                binding.textNumberRoom?.text =
-                    RealEstateObserved.realEstateFullData.numberOfRoom.toString() + " Room"
-                binding.textNumberBathroom?.text =
-                    RealEstateObserved.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
-                binding.textNumberBedroom?.text =
-                    RealEstateObserved.realEstateFullData.numberOfBedRoom.toString() + " Bedroom"
+                    binding.textNumberRoom?.text =
+                        RealEstateObserved.realEstateFullData.numberOfRoom.toString() + " Room"
+                    binding.textNumberBathroom?.text =
+                        RealEstateObserved.realEstateFullData.numberOfBathRoom.toString() + " Bathroom"
+                    binding.textNumberBedroom?.text =
+                        RealEstateObserved.realEstateFullData.numberOfBedRoom.toString() + " Bedroom"
 
-                binding.textDescription?.text =
-                    RealEstateObserved.realEstateFullData.descriptionOfProduct
+                    binding.textDescription?.text =
+                        RealEstateObserved.realEstateFullData.descriptionOfProduct
 
-                RealEstateObserved.mediaList?.let { myRealEstateMediaList ->
-                    setupRecyclerView(recyclerViewMedias, myRealEstateMediaList.sortedBy { it.position })
-                }
+                    RealEstateObserved.mediaList?.let { myRealEstateMediaList ->
+                        setupRecyclerView(
+                            recyclerViewMedias,
+                            myRealEstateMediaList.sortedBy { it.position })
+                    }
 
-                binding.textStreetNumber?.text =
-                    RealEstateObserved.realEstateFullData.address?.street_number.toString()
-                binding.textStreetName?.text =
-                    RealEstateObserved.realEstateFullData.address?.street_name
-                binding.textZipCode?.text =
-                    RealEstateObserved.realEstateFullData.address?.zip_code.toString()
-                binding.textCityName?.text = RealEstateObserved.realEstateFullData.address?.city
+                    binding.textStreetNumber?.text =
+                        RealEstateObserved.realEstateFullData.address?.street_number.toString()
+                    binding.textStreetName?.text =
+                        RealEstateObserved.realEstateFullData.address?.street_name
+                    binding.textZipCode?.text =
+                        RealEstateObserved.realEstateFullData.address?.zip_code.toString()
+                    binding.textCityName?.text = RealEstateObserved.realEstateFullData.address?.city
 
-                //TODO: add POI here...
+                    //TODO: add POI here...
 
-                when (RealEstateObserved.realEstateFullData.status) {
-                    true -> binding.textState?.text = "Vendu"
-                    false -> binding.textState?.text = "A vendre"
-                    else -> binding.textState?.text = "Etat Inconnu"
-                }
+                    when (RealEstateObserved.realEstateFullData.status) {
+                        true -> binding.textState?.text = "Vendu"
+                        false -> binding.textState?.text = "A vendre"
+                        else -> binding.textState?.text = "Etat Inconnu"
+                    }
 
 //                if (!RealEstateObserved.realEstateFullData.dateOfEntry.isNullOrEmpty()) {
 //                    binding.textSaleDate?.text = RealEstateObserved.realEstateFullData.dateOfEntry
@@ -105,36 +106,38 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
 //                    binding.textDateOfSale?.text = RealEstateObserved.realEstateFullData.releaseDate
 //                }
 
-                binding.textAgent?.text =
-                    "${RealEstateObserved.realEstateFullData.agent?.agent_firstName} ${RealEstateObserved.realEstateFullData.agent?.agent_lastName}"
+                    binding.textAgent?.text =
+                        "${RealEstateObserved.realEstateFullData.agent?.agent_firstName} ${RealEstateObserved.realEstateFullData.agent?.agent_lastName}"
 
-                //**********************************************************************************
+                    //**********************************************************************************
 
-                val addressForApi =
-                    RealEstateObserved.realEstateFullData.address?.city + "+" + RealEstateObserved.realEstateFullData.address?.zip_code + "+" + RealEstateObserved.realEstateFullData.address?.street_name + "+" + RealEstateObserved.realEstateFullData.address?.street_number.toString()
+                    val addressForApi =
+                        RealEstateObserved.realEstateFullData.address?.city + "+" + RealEstateObserved.realEstateFullData.address?.zip_code + "+" + RealEstateObserved.realEstateFullData.address?.street_name + "+" + RealEstateObserved.realEstateFullData.address?.street_number.toString()
 
-                val urlForApi =
-                    "https://maps.googleapis.com/maps/api/staticmap?center=" + addressForApi + "&zoom=15&size=600x300&maptype=roadmap" +
-                            "&key=" + BuildConfig.GOOGLE_MAP_KEY;
+                    val urlForApi =
+                        "https://maps.googleapis.com/maps/api/staticmap?center=" + addressForApi + "&zoom=15&size=600x300&maptype=roadmap" +
+                                "&key=" + BuildConfig.GOOGLE_MAP_KEY;
 
-                val imageViewForMap = binding.imageMap
+                    val imageViewForMap = binding.imageMap
 
-                //if we have already an uri in dataBase then we load the local image ...
-                if (!RealEstateObserved.realEstateFullData.staticMapUri.isNullOrEmpty()) {
-                    Glide.with(this)
-                        .load(RealEstateObserved.realEstateFullData.staticMapUri)
-                        .error(R.drawable.ic_baseline_error_24).into(binding.imageMap)
-                } else {
-                    Glide
-                        .with(this)
-                        .load(urlForApi)
-                        .centerCrop()
-                        .listener(MyRequestImageListener(this))//called to create a bitmap on internal storage
-                        .into(imageViewForMap)
+                    //if we have already an uri in dataBase then we load the local image ...
+                    if (!RealEstateObserved.realEstateFullData.staticMapUri.isNullOrEmpty()) {
+                        Glide.with(this)
+                            .load(RealEstateObserved.realEstateFullData.staticMapUri)
+                            .error(R.drawable.ic_baseline_error_24).into(binding.imageMap)
+                    } else {
+                        Glide
+                            .with(this)
+                            .load(urlForApi)
+                            .centerCrop()
+                            .listener(MyRequestImageListener(this))//called to create a bitmap on internal storage
+                            .into(imageViewForMap)
+                    }
+
+                    //*********************************************************************************
                 }
+        }
 
-                //*********************************************************************************
-            }
         return rootView
     }
 

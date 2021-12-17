@@ -68,7 +68,6 @@ class ViewModelUpdate @Inject constructor(
         viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
     }
 
-
     //update title in list for photo or video
     fun updateMediaTitle(title: String, uri: String) {
         listOfMedia.find { it.uri == uri }?.name = title

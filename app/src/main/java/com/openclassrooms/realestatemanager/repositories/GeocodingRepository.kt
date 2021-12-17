@@ -13,7 +13,6 @@ import javax.inject.Singleton
 @Singleton
 class GeocodingRepository @Inject constructor(private val googleGeocoding: GoogleGeocoding) {
 
-   // private lateinit var geocodingResponse: ResponseGeocoding
     private var mutableLiveDataOfGeocoding = MutableLiveData<ResponseGeocoding>()
 
     fun getLatLngLiveData(): LiveData<ResponseGeocoding> {
@@ -28,8 +27,6 @@ class GeocodingRepository @Inject constructor(private val googleGeocoding: Googl
             ) {
                 if (response.isSuccessful) {
                     response.body()!!.idRealEstate = realEstateId
-                    //geocodingResponse = response.body()!!
-                    //mutableLiveDataOfGeocoding.value = geocodingResponse
                     mutableLiveDataOfGeocoding.value = response.body()!!
                 }
             }

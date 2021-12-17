@@ -20,14 +20,11 @@ import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint  //Hilt annotation for activity
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    //private val mainViewModel by viewModels<MainViewModel>()
     private lateinit var appBarConfiguration: AppBarConfiguration
-
     private lateinit var navController: NavController
 
     //TODO: do not remove for exam
@@ -51,14 +48,11 @@ class MainActivity : AppCompatActivity() {
 
         Utils.isInternetAvailable(this)
 
-
         Log.i("[INTERNET]", "Isconnected : "  +  Utils.isInternetAvailable(this))
         Utils.checkInternet(this)
 
-
         val wifiManager = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
         wifiManager.setWifiEnabled(false)
-      //  Log.i("[INTERNET]", Utils.isGoogleOnline(this).toString())
 
     }
 
@@ -76,7 +70,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_item_detail)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
 
     //    private fun configureTextViewMain() {
     //       /* binding.activityMainActivityTextViewMain!!.textSize=15f

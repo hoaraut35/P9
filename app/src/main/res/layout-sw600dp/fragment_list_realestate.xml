@@ -11,9 +11,7 @@
         android:name="RealEstateListFragment"
         android:layout_width="400dp"
         android:layout_height="match_parent"
-
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context="com.openclassrooms.realestatemanager.ui.MainActivity"
@@ -24,14 +22,13 @@
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="410dp"/>
+        app:layout_constraintGuide_begin="410dp" />
 
     <fragment
         android:id="@+id/item_detail_nav_container"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-
         android:layout_marginStart="8dp"
         app:defaultNavHost="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,6 +36,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/primary_details_sub_nav_graph" />
+        app:navGraph="@navigation/primary_details_sub_nav_graph" /> 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

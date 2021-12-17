@@ -18,17 +18,11 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     //ok 16/12/2021
     fun getFlowRealEstatesFull() = realEstateDao.getFlowRealEstatesFull()
 
-
-
-
-
     //work
     fun getFlowRealEstateFullById(myRealEstate: Int) = realEstateDao.getFlowRealEstateFullById(myRealEstate)
 
     //work with one champ?
     suspend fun insertRealEstateTest(realEstate: RealEstate) = realEstateDao.insertRealEstate(realEstate)
-
-
 
     fun getLastRowId() = realEstateDao.getLastRowId()
 
@@ -40,17 +34,7 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
 
     suspend fun deleteMedia(media: RealEstateMedia) {  realEstateDao.deleteMedia(media)  }
 
-
     //for search fragment
     fun getRealEstateFiltered(query: SupportSQLiteQuery) = realEstateDao.getRealEstateFiltered(query)
-
-
-
-    //do not use work 16/12/2021
-    //fun getFlowRealEstates() = realEstateDao.getFlowRealEstates()
-    // suspend fun updateRealEstateMedia(realEstateMedia: RealEstateMedia) = realEstateDao.updateMedia(realEstateMedia)
-
-    //  fun getRealEstate(id: Int) = realEstateDao.getLiveRealEstateById(id)
-    // fun getAllRealEstateWithMedias() = realEstateDao.getAllDataFromRealEstate()
 
 }
