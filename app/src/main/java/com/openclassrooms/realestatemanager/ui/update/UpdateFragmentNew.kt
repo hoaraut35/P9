@@ -164,9 +164,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         viewModelUpdate.getRealEstateFullById()
             .observe(viewLifecycleOwner) { RealEstateFullObserve ->
 
-
                 //**********************************************************************************
-
 
                 binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
                 binding.edittextSurface?.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
@@ -175,7 +173,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 binding.edittextStreetName?.setText(RealEstateFullObserve.realEstateFullData.address?.street_name)
                 binding.edittextCityZipcode?.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
                 binding.edittextCityName?.setText(RealEstateFullObserve.realEstateFullData.address?.city)
-
 
 
 
@@ -326,35 +323,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 ) {
 
 
-                override fun onMoved(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    fromPos: Int,
-                    target: RecyclerView.ViewHolder,
-                    toPos: Int,
-                    x: Int,
-                    y: Int
-                ) {
-                    super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
-
-//                        recyclerView.adapter?.registerAdapterDataObserver{
-//
-//                        }
-
-
-                    val adapterList = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
-
-
-                    for (i in adapterList.indices) {
-                        adapterList[i].name?.let { Log.i("[ADAPTER]", it) }
-                            adapterList[i].position = i
-                    }
-
-
-                    Log.i("[ADAPTER]", "NEW:" + adapterList.toString())
-
-
-                }
 
 
                 override fun onMove(
@@ -362,22 +330,29 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder,
                 ): Boolean {
+
                     val fromPosition = viewHolder.adapterPosition
                     val toPosition = target.adapterPosition
-                    Collections.swap(myMedia, fromPosition, toPosition)
 
-                    recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
+                    if (fromPosition < toPosition) {
+                        for (i in fromPosition until toPosition) {
+                            Collections.swap(myMedia, i, i + 1)
+                        }
+                    } else {
+                        for (i in fromPosition downTo toPosition + 1) {
+                            Collections.swap(myMedia, i, i - 1)
+                        }
+                    }
 
-//                    val adapterList = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
-//
-//                    Log.i("[ADAPTER]","ORIGIN:" + adapterList.toString())
+                    recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
+
 
 
                     return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    Log.i("[ADAPTER]","ORIGIN:")
+                    Log.i("[ADAPTER]", "ORIGIN:")
                 }
 
 
@@ -401,10 +376,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     )
 
 
-                    if (actionState == ItemTouchHelper.ACTION_STATE_DRAG){
+                    if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
                         viewHolder.itemView.setBackgroundColor(Color.parseColor("#FFEB3B"))
-                    }else
-                    {
+                    } else {
                         viewHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     }
 

@@ -356,26 +356,14 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                             }
                         }
 
-                        recyclerView.adapter?.notifyItemMoved(fromPosition,toPosition)
-
-                       // val adapterList = (binding.recyclerview.adapter as CreateAdapter).mediaList
-
-                        if (!it.isNullOrEmpty()) {
-                            Log.i("[LIST]", "New list adapter: $it")
-                        }else{
-                            Log.i("[LIST]","No data !")
-                        }
-
-                        //save new it list here...
-
+                        recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
 
                         return true
                     }
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        //SWIPE DELETE FEATURE
+                        //
                     }
-
 
                     override fun onSelectedChanged(
                         viewHolder: RecyclerView.ViewHolder?,
@@ -415,11 +403,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                 val itemTouchHelper = ItemTouchHelper(simpleCallback)
                 itemTouchHelper.attachToRecyclerView(recyclerView)
 
-
             })
-
     }
-
 
     private fun notification(task: String, desc: String) {
         val manager =

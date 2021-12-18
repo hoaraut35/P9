@@ -130,4 +130,7 @@ public class Utils {
         currencyFormat.setCurrency(Currency.getInstance(Locale.FRANCE));
         return currencyFormat;
     }
+
+
+
 }

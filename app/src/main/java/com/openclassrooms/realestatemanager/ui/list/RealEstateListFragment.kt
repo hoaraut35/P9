@@ -28,6 +28,7 @@ class RealEstateListFragment : Fragment() {
     private val binding get() = _binding!!
 
     lateinit var estateList: List<RealEstateFull>
+
     private var searchInProgress: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DetailUtils {
 
@@ -30,6 +32,12 @@ class DetailUtils {
             }
         }
 
+
+        fun convertLongToTime(time: Long): String {
+            val date = Date(time)
+            val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
+            return format.format(date)
+        }
 
     }
 }

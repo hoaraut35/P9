@@ -92,6 +92,10 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                         RealEstateObserved.realEstateFullData.address?.zip_code.toString()
                     binding.textCityName?.text = RealEstateObserved.realEstateFullData.address?.city
 
+
+                    binding.textSaleDate?.text = DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!).toString()
+
+
                     //TODO: add POI here...
 
                     when (RealEstateObserved.realEstateFullData.status) {
