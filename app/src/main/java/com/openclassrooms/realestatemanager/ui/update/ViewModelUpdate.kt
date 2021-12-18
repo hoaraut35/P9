@@ -54,7 +54,7 @@ class ViewModelUpdate @Inject constructor(
     }
 
 
-    //to delete media
+    //to delete media from the list
     fun deleteMedia(media: RealEstateMedia) {
         listOfMedia.remove(media)
         mutableListOfMedia.value = listOfMedia

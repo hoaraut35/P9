@@ -93,7 +93,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                     binding.textCityName?.text = RealEstateObserved.realEstateFullData.address?.city
 
 
-                    binding.textSaleDate?.text = DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!).toString()
+            //        binding.textSaleDate?.text = DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!).toString()
 
 
                     //TODO: add POI here...

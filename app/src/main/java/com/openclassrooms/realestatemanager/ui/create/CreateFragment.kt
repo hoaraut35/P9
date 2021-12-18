@@ -330,7 +330,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
                 setupRecyclerView(recyclerView, it)
 
-
                 val simpleCallback = object :
                     ItemTouchHelper.SimpleCallback(
                         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,

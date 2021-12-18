@@ -160,11 +160,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         }
 
 
-        //observe
+        //observe the actual realEsatet for update....
         viewModelUpdate.getRealEstateFullById()
             .observe(viewLifecycleOwner) { RealEstateFullObserve ->
-
-                //**********************************************************************************
 
                 binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
                 binding.edittextSurface?.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
@@ -174,20 +172,17 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 binding.edittextCityZipcode?.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
                 binding.edittextCityName?.setText(RealEstateFullObserve.realEstateFullData.address?.city)
 
+                binding.isSoldSwitch?.isChecked = RealEstateFullObserve.realEstateFullData.releaseDate != null
 
-
-                binding.isSoldSwitch?.isChecked =
-                    RealEstateFullObserve.realEstateFullData.releaseDate != null
-
-
+                //setup initial media list in viewmod
                 viewModelUpdate.initialListOfMedia =
                     RealEstateFullObserve.mediaList as MutableList<RealEstateMedia>
 
-                if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
-                        .isEmpty()
-                ) {
-                    viewModelUpdate.initList()
-                }
+//                if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
+//                        .isEmpty()
+//                ) {
+//                    viewModelUpdate.initList()
+//                }
 
 
                 //get name of chip selected
@@ -217,8 +212,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 //update actual estate
                 viewModelUpdate.realEstate = RealEstateFullObserve.realEstateFullData
 
-
-                //button listener
+               //button listener
                 binding.saveBtn?.setOnClickListener {
 
                     viewModelUpdate.realEstate.typeOfProduct = "House"
@@ -238,8 +232,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         binding.edittextCityName?.text.toString()
 
 
-                    viewModelUpdate.realEstate.releaseDate = dateOfSold
 
+                    //Update the realEsatte ....
+                    viewModelUpdate.realEstate.releaseDate = dateOfSold
                     viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
 
                     for (itemToremove in viewModelUpdate.listOfMediaToRemove) {
@@ -304,7 +299,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     val navController = navHostFragment.navController
                     navController.navigateUp()
 
-
                 }
 
 
@@ -312,18 +306,13 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         viewModelUpdate.getMediaListFromVM().observe(viewLifecycleOwner) { myMedia ->
 
-
             setupRecyclerView(recyclerViewMedias!!, myMedia.sortedBy { it.position })
-
 
             val simpleCallback = object :
                 ItemTouchHelper.SimpleCallback(
                     ItemTouchHelper.START or ItemTouchHelper.END,
                     0
                 ) {
-
-
-
 
                 override fun onMove(
                     recyclerView: RecyclerView,
@@ -346,8 +335,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                     recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
 
-
-
                     return true
                 }
 
@@ -355,85 +342,19 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     Log.i("[ADAPTER]", "ORIGIN:")
                 }
 
-
-                override fun onChildDraw(
-                    c: Canvas,
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    dX: Float,
-                    dY: Float,
-                    actionState: Int,
-                    isCurrentlyActive: Boolean
-                ) {
-                    super.onChildDraw(
-                        c,
-                        recyclerView,
-                        viewHolder,
-                        dX,
-                        dY,
-                        actionState,
-                        isCurrentlyActive
-                    )
-
-
-                    if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                        viewHolder.itemView.setBackgroundColor(Color.parseColor("#FFEB3B"))
-                    } else {
-                        viewHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
-                    }
-
-                }
-
                 override fun onSelectedChanged(
                     viewHolder: RecyclerView.ViewHolder?,
                     actionState: Int
                 ) {
                     super.onSelectedChanged(viewHolder, actionState)
-
-
-
-
-
-                    if (actionState == 0) {
-
-//                        val adapterList = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
-//
-//                        for (i in adapterList.indices) {
-//                            adapterList[i].position = i
-//                        }
-//
-//                        //newList = adapterList
-//                        Log.i("[ADAPTER]","NEW :" + adapterList.toString())
-                    }
-
-
-                    //start drag
-                    when (actionState) {
-
-
-                        8 -> viewHolder?.itemView?.setBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.design_default_color_on_secondary
-                            )
-                        )
-
-
-                    }
-
-
                 }
-
 
             }
 
             val itemTouchHelper = ItemTouchHelper(simpleCallback)
             itemTouchHelper.attachToRecyclerView(binding.recyclerview)
 
-
         }
-
-
 
         binding.isSoldSwitch?.setOnClickListener {
             if (binding.isSoldSwitch!!.isChecked) {
@@ -443,18 +364,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
             }
         }
 
-
-        updateData()
-
         return rootView
 
     }
-
-    private fun updateData() {
-
-
-    }
-
 
     //TODO: move to util class ?
     private fun setupActivityResultForCamera() {
@@ -512,10 +424,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = myLayoutManager
         recyclerView.adapter = UpdateAdapter(mediaList, this)
-
-
     }
-
 
     override fun onChangedTitlePhoto(title: String, uri: String) {
         viewModelUpdate.updateMediaTitle(title, uri)
