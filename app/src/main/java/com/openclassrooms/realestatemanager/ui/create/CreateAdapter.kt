@@ -19,7 +19,7 @@ class CreateAdapter(
     callback: InterfacePhotoTitleChanged
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    //callback
+    //**********************************************************************************************
     private var callback: InterfacePhotoTitleChanged? = callback
 
     interface InterfacePhotoTitleChanged {
@@ -27,6 +27,8 @@ class CreateAdapter(
         fun onChangedTitlePhoto(title: String, uri: String)
         fun onDeletePhoto(media: RealEstateMedia)
     }
+    //**********************************************************************************************
+
 
     inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(photoModel: RealEstateMedia) {
@@ -50,7 +52,6 @@ class CreateAdapter(
             delete.setOnClickListener {
                 callback?.onDeletePhoto(photoModel)
             }
-
 
 
         }
@@ -158,4 +159,9 @@ class CreateAdapter(
             (holder as VideoViewHolder).bind(mediaList[position])
         }
     }
+
+
+
+
+
 }

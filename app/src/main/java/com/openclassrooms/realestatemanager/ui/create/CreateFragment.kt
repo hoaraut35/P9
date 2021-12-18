@@ -37,7 +37,6 @@ import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.MainViewModel
-import com.openclassrooms.realestatemanager.ui.update.UpdateAdapter
 import com.openclassrooms.realestatemanager.utils.CreateUtils
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -163,15 +162,13 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                         savePhotoToInternalMemory("$dateFileName", bitmap)
                         recyclerView!!.adapter?.notifyDataSetChanged()
 
-                      //CreateUtils.savePhotoToInternalMemory("Photo_$dateFileName", bitmap)
+                        //CreateUtils.savePhotoToInternalMemory("Photo_$dateFileName", bitmap)
                         //recyclerViewMedias!!.adapter?.notifyDataSetChanged()
                     }
 
                 }
             }
         )
-
-
 
 
 //        //launcher for open video from gallery
@@ -242,8 +239,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         }
 
 
-
-
         //setup callback for gallery
         setupActivityResultForGallery()
 
@@ -295,6 +290,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         return rootView
     }
 
+
     //TODO: move to util class?
     private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
         return try {
@@ -335,8 +331,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                 setupRecyclerView(recyclerView, it)
 
 
-
-
                 val simpleCallback = object :
                     ItemTouchHelper.SimpleCallback(
                         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
@@ -349,17 +343,30 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                         target: RecyclerView.ViewHolder,
                     ): Boolean {
 
-
                         val fromPosition = viewHolder.adapterPosition
                         val toPosition = target.adapterPosition
-                        Collections.swap(it, fromPosition, toPosition)
-                        recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
 
-
-                        val adapterList = (binding.recyclerview.adapter as CreateAdapter).mediaList
-                        if (!adapterList.isNullOrEmpty()){
-                            Log.i("[LIST]", "list adapte r: $adapterList")
+                        if (fromPosition < toPosition) {
+                            for (i in fromPosition until toPosition) {
+                                Collections.swap(it, i, i + 1)
+                            }
+                        } else {
+                            for (i in fromPosition downTo toPosition + 1) {
+                                Collections.swap(it, i, i - 1)
+                            }
                         }
+
+                        recyclerView.adapter?.notifyItemMoved(fromPosition,toPosition)
+
+                       // val adapterList = (binding.recyclerview.adapter as CreateAdapter).mediaList
+
+                        if (!it.isNullOrEmpty()) {
+                            Log.i("[LIST]", "New list adapter: $it")
+                        }else{
+                            Log.i("[LIST]","No data !")
+                        }
+
+                        //save new it list here...
 
 
                         return true
@@ -407,7 +414,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
                 val itemTouchHelper = ItemTouchHelper(simpleCallback)
                 itemTouchHelper.attachToRecyclerView(recyclerView)
-
 
 
             })

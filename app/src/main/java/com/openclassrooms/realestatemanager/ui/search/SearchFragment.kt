@@ -151,7 +151,6 @@ class SearchFragment : Fragment() {
 
             // getPOIChips()
 
-            //version sqlite 3.18.2
 
 
 

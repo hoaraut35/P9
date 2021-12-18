@@ -128,6 +128,7 @@ class UpdateAdapter(
         return mediaList.size
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == 0) {
             val view = LayoutInflater.from(parent.context)
@@ -155,4 +156,10 @@ class UpdateAdapter(
             (holder as VideoViewHolder).bind(mediaList[position])
         }
     }
+
+
+
+
+
+
 }

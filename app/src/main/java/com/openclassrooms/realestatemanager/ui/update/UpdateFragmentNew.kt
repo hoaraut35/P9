@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.ui.update
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -14,7 +16,6 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -324,6 +325,38 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     0
                 ) {
 
+
+                override fun onMoved(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    fromPos: Int,
+                    target: RecyclerView.ViewHolder,
+                    toPos: Int,
+                    x: Int,
+                    y: Int
+                ) {
+                    super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
+
+//                        recyclerView.adapter?.registerAdapterDataObserver{
+//
+//                        }
+
+
+                    val adapterList = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
+
+
+                    for (i in adapterList.indices) {
+                        adapterList[i].name?.let { Log.i("[ADAPTER]", it) }
+                            adapterList[i].position = i
+                    }
+
+
+                    Log.i("[ADAPTER]", "NEW:" + adapterList.toString())
+
+
+                }
+
+
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
@@ -332,27 +365,50 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     val fromPosition = viewHolder.adapterPosition
                     val toPosition = target.adapterPosition
                     Collections.swap(myMedia, fromPosition, toPosition)
+
                     recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
 
-
-                    val adapterList =
-                        (binding.recyclerview?.adapter as UpdateAdapter).mediaList as MutableList<RealEstateMedia>
-
-                    for (i in adapterList.indices) {
-                        adapterList[i].position = i
-                    }
-
-                    newList = adapterList
-                    Log.i("[LIST]", newList.toString())
+//                    val adapterList = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
+//
+//                    Log.i("[ADAPTER]","ORIGIN:" + adapterList.toString())
 
 
-                    return false
+                    return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    //SWIPE DELETE FEATURE
+                    Log.i("[ADAPTER]","ORIGIN:")
                 }
 
+
+                override fun onChildDraw(
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
+                    super.onChildDraw(
+                        c,
+                        recyclerView,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+
+
+                    if (actionState == ItemTouchHelper.ACTION_STATE_DRAG){
+                        viewHolder.itemView.setBackgroundColor(Color.parseColor("#FFEB3B"))
+                    }else
+                    {
+                        viewHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                    }
+
+                }
 
                 override fun onSelectedChanged(
                     viewHolder: RecyclerView.ViewHolder?,
@@ -360,17 +416,25 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 ) {
                     super.onSelectedChanged(viewHolder, actionState)
 
+
+
+
+
+                    if (actionState == 0) {
+
+//                        val adapterList = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
+//
+//                        for (i in adapterList.indices) {
+//                            adapterList[i].position = i
+//                        }
+//
+//                        //newList = adapterList
+//                        Log.i("[ADAPTER]","NEW :" + adapterList.toString())
+                    }
+
+
                     //start drag
                     when (actionState) {
-                        2 -> viewHolder?.itemView?.setBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.red
-                            )
-
-                        )
-
-                        0 -> viewHolder?.itemView?.isVisible = true
 
 
                         8 -> viewHolder?.itemView?.setBackgroundColor(
