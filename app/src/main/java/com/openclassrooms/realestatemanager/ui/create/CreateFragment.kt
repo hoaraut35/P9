@@ -145,25 +145,48 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
 
+                //we have selected a phot from gallery...
                 if (uri != null) {
 
+                    //we get the bitmap from uri
                     val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
                         context?.applicationContext?.contentResolver, uri
                     )
 
+                    //we set the file date...
                     val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+
+                    //we set file name...
                     val fileName = "Photo_"
 
+                    //full name...
+                    val fileNameDestination = "$fileName$dateFileName.jpg"
+
+                    //set uri
+                    val fileNameUri: String?
+                    fileNameUri = context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
+
+                    //if we have a bitmap then ...
                     if (bitmap != null) {
-                        val fileNameUri: String?
-                        fileNameUri =
-                            context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
 
-                        savePhotoToInternalMemory("$dateFileName", bitmap)
-                        recyclerView!!.adapter?.notifyDataSetChanged()
+//                        if (savePhotoToInternalMemory(fileNameDestination, bitmap)){
+//
+//                            //add in database
+//                            viewModelCreate.addMediaToList(
+//                                RealEstateMedia(
+//                                    uri = fileNameUri!!,
+//                                    name = "test",
+//                                    realEstateParentId = 1
+//                                )
+//                            )
+//                            recyclerView!!.adapter?.notifyDataSetChanged()
+//                        }
 
-                        //CreateUtils.savePhotoToInternalMemory("Photo_$dateFileName", bitmap)
-                        //recyclerViewMedias!!.adapter?.notifyDataSetChanged()
+
+                       savePhotoToInternalMemory("$dateFileName", bitmap)
+                                            recyclerView!!.adapter?.notifyDataSetChanged()
+
+
                     }
 
                 }

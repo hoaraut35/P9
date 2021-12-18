@@ -212,10 +212,31 @@
                 app:layout_constraintTop_toBottomOf="@id/description_property">
 
                 <TextView
+                    android:id="@+id/poi_school_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Ecole Commerce">
+                   android:layout_gravity="center"
+                    android:text="test">
+
+                </TextView>
+                <TextView
+                    android:id="@+id/poi_station_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+
+                    android:layout_gravity="left"
+                    android:text="test">
+
+                </TextView>
+                <TextView
+                    android:id="@+id/poi_park_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                   android:layout_gravity="right"
+                    android:text="test">
 
                 </TextView>
 

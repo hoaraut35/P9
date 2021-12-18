@@ -77,7 +77,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                     val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     val fileName = "Photo_"
-                    val fileNameDestination = "Photo_$dateFileName.jpg"
+                    val fileNameDestination = "$fileName$dateFileName.jpg"
                     val fileNameUri: String?
                     fileNameUri = context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
 
@@ -178,11 +178,12 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 viewModelUpdate.initialListOfMedia =
                     RealEstateFullObserve.mediaList as MutableList<RealEstateMedia>
 
-//                if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
-//                        .isEmpty()
-//                ) {
-//                    viewModelUpdate.initList()
-//                }
+                //if the we don't have modified list then show initial list...
+                if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
+                        .isEmpty()
+                ) {
+                    viewModelUpdate.initList()
+                }
 
 
                 //get name of chip selected

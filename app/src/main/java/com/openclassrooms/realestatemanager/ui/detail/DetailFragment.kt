@@ -69,11 +69,14 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                         RealEstateObserved.realEstateFullData.surface.toString().plus(" m² ")
 
                     binding.textNumberRoom?.text =
-                        RealEstateObserved.realEstateFullData.numberOfRoom.toString().plus(resources.getString(R.string.textRoom))
+                        RealEstateObserved.realEstateFullData.numberOfRoom.toString()
+                            .plus(resources.getString(R.string.textRoom))
                     binding.textNumberBathroom?.text =
-                        RealEstateObserved.realEstateFullData.numberOfBathRoom.toString().plus(resources.getString(R.string.textBathRoom))
+                        RealEstateObserved.realEstateFullData.numberOfBathRoom.toString()
+                            .plus(resources.getString(R.string.textBathRoom))
                     binding.textNumberBedroom?.text =
-                        RealEstateObserved.realEstateFullData.numberOfBedRoom.toString().plus(resources.getString(R.string.textBedRoom))
+                        RealEstateObserved.realEstateFullData.numberOfBedRoom.toString()
+                            .plus(resources.getString(R.string.textBedRoom))
 
                     binding.textDescription?.text =
                         RealEstateObserved.realEstateFullData.descriptionOfProduct
@@ -93,10 +96,23 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                     binding.textCityName?.text = RealEstateObserved.realEstateFullData.address?.city
 
 
-            //        binding.textSaleDate?.text = DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!).toString()
+                    //        binding.textSaleDate?.text = DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!).toString()
 
 
-                    //TODO: add POI here...
+                    //show Point of interest...
+                    when (RealEstateObserved.poi?.school) {
+                        true -> binding.poiSchoolText?.text = "Ecole"
+                        false -> binding.poiSchoolText?.text = ""
+                    }
+                    when (RealEstateObserved.poi?.park) {
+                        true -> binding.poiParkText?.text = "Parc"
+                        false -> binding.poiParkText?.text = ""
+                    }
+                    when (RealEstateObserved.poi?.station) {
+                        true -> binding.poiStationText?.text = "Gare"
+                        false -> binding.poiStationText?.text = ""
+                    }
+
 
                     when (RealEstateObserved.realEstateFullData.status) {
                         true -> binding.textState?.text = "Vendu"
