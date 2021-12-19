@@ -37,11 +37,7 @@ class MainViewModel @Inject constructor(private val localDatabaseRepository: Loc
 
 
     fun insertPhoto(photo: RealEstateMedia) = viewModelScope.launch { localDatabaseRepository.insertRealEstateMedia(photo) }
-
-   // fun updateRealEstate(realEstate: RealEstate) = viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
-
     fun getResultListSearch() = sharedRepository.getResultListFromSearch()
-
     fun clearSearch() = sharedRepository.clearResult()
 
 

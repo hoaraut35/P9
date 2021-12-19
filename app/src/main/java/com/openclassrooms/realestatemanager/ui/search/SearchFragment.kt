@@ -209,8 +209,8 @@ class SearchFragment : Fragment() {
                 queryString += " RealEstatePOI.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= ${searchViewModel.numberOfMedia} "+
                  " AND RealEstatePOI.park >= $Intpark AND RealEstatePOI.school >= $IntschoolState AND RealEstatePOI.station >= $Intstation"
             } else {
-                queryString += " GROUP BY RealEstatePOI.realEstateParentId HAVING RealEstatePOI.park >= $park AND RealEstatePOI.school >= $schoolState " +
-                        "AND RealEstatePOI.station >= $station"
+                queryString += " GROUP BY RealEstatePOI.realEstateParentId HAVING RealEstatePOI.park >= $Intpark AND RealEstatePOI.school >= $IntschoolState " +
+                        "AND RealEstatePOI.station >= $Intstation"
             }
 
             queryString += ";"

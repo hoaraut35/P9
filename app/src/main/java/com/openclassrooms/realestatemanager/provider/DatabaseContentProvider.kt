@@ -33,7 +33,6 @@ class DatabaseContentProvider : ContentProvider() {
         return true
     }
 
-    //take an uri as input and retireve the data (by a cursor) from room
     override fun query(
         p0: Uri,
         p1: Array<out String>?,
@@ -59,17 +58,14 @@ class DatabaseContentProvider : ContentProvider() {
         //     return "vnd.android.cursor.realEstate/com.openclassrooms.realestatemanager.provider." + RealEstate::class.java.simpleName
     }
 
-    //take a URIO as input and insert data in ContentValues format into the destination room
     override fun insert(p0: Uri, p1: ContentValues?): Uri? {
         return null
     }
 
-    //take an uri as input adn delete in ContentValues format ffrom room
     override fun delete(p0: Uri, p1: String?, p2: Array<out String>?): Int {
         return 0
     }
 
-    //take a URI as input and update dat ainCOntent Values in the destination room
     override fun update(p0: Uri, p1: ContentValues?, p2: String?, p3: Array<out String>?): Int {
         return 0
     }

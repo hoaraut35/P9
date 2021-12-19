@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.api
 
-//POJO CLASS WITH ROBOPOJOGENERATOR
+//POJO CLASS WITH ROBOT POJO GENERATOR
 data class ResponseGeocoding(
 	val results: List<ResultsItem?>? = null,
 	val status: String? = null,
