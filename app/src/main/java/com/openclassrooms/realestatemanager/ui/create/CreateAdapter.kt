@@ -24,7 +24,7 @@ class CreateAdapter(
 
     interface InterfacePhotoTitleChanged {
         //method here...
-        fun onChangedTitlePhoto(title: String, uri: String)
+        fun onChangedTitleMedia(title: String, uri: String)
         fun onDeletePhoto(media: RealEstateMedia)
     }
     //**********************************************************************************************
@@ -44,7 +44,7 @@ class CreateAdapter(
             val photoTitle: EditText = itemView.findViewById(R.id.photo_title)
 
             photoTitle.addTextChangedListener {
-                callback?.onChangedTitlePhoto(photoTitle.text.toString(), photoModel.uri!!)
+                callback?.onChangedTitleMedia(photoTitle.text.toString(), photoModel.uri!!)
             }
 
             photoTitle.setText(photoModel.name)
@@ -69,7 +69,7 @@ class CreateAdapter(
             val videoTitle: EditText = itemView.findViewById(R.id.video_title)
 
             videoTitle.addTextChangedListener {
-                callback?.onChangedTitlePhoto(videoTitle.text.toString(), videoModel.uri!!)
+                callback?.onChangedTitleMedia(videoTitle.text.toString(), videoModel.uri!!)
             }
 
             delete.setOnClickListener {

@@ -15,9 +15,6 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
     ViewModel() {
 
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
-
-    //private val realEstate: MutableLiveData<RealEstate>? = null
-
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
 
     val realEstateVM : RealEstate = RealEstate()
@@ -50,31 +47,14 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
         return mutableListOfMedia
     }
 
-    //get all RealEstate from repository
- //   var allRealEstate = localDatabaseRepository.getFlowRealEstates().asLiveData()
-
-    //
-//    fun getRealEstate(): LiveData<List<RealEstate>> {
-//        return localDatabaseRepository.getFlowRealEstates().asLiveData()
-//    }
-
-
-    //remove photo or video from database
-    fun removeMediaFromList(media: RealEstateMedia) {
-        //listOfMedia.re
-    }
-
-
     fun propertyTypeChanged(type: String) {
         Log.i("[PROPERTY]", "Type of property : $type")
     }
-
 
     fun deleteMedia(media: RealEstateMedia) {
         listOfMedia.remove(media)
         mutableListOfMedia.value = listOfMedia
     }
-
 
 }
 

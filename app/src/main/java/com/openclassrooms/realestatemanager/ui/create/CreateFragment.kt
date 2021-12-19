@@ -481,22 +481,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
     }
 
-    private fun getSelectedChipsType() {
-
-        val listTest = listOf<String>()
-        val valChipGroupMulti: ChipGroup = binding.chipGroupType
-
-        valChipGroupMulti.checkedChipIds.forEach {
-            val chip = binding.chipGroupType.findViewById<Chip>(it).text.toString()
-
-            viewModelCreate.listOfChip.add(chip)
-
-            Log.i("[CHIP]", "chip ${chip.isNotEmpty()}")
-        }
-
-    }
-
-
     private fun saveRealEstateInDB() {
 
         mainViewModel.getLAstRowId.observe(viewLifecycleOwner) {
@@ -644,7 +628,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
     }
 
     //callBack recyclerView
-    override fun onChangedTitlePhoto(title: String, uri: String) {
+    override fun onChangedTitleMedia(title: String, uri: String) {
         viewModelCreate.updateMediaTitle(title, uri)
     }
 
