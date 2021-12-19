@@ -3,8 +3,6 @@ package com.openclassrooms.realestatemanager.ui.update
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -15,7 +13,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -57,6 +54,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         val recyclerViewMedias: RecyclerView? = binding.recyclerview
 
         setupActivityResultForCamera()
+
 
         //click listener for take photo from camera
         binding.addPhotoCamera?.setOnClickListener {
@@ -172,26 +170,35 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 binding.edittextCityZipcode?.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
                 binding.edittextCityName?.setText(RealEstateFullObserve.realEstateFullData.address?.city)
 
-                binding.isSoldSwitch?.isChecked = RealEstateFullObserve.realEstateFullData.releaseDate != null
+                binding.isSoldSwitch?.isChecked =
+                    RealEstateFullObserve.realEstateFullData.releaseDate != null
 
                 //setup initial media list in viewmod
                 viewModelUpdate.initialListOfMedia =
                     RealEstateFullObserve.mediaList as MutableList<RealEstateMedia>
 
+                Log.i(
+                    "[UPMEDIA]",
+                    "Initial list : " + viewModelUpdate.initialListOfMedia.toString()
+                )
+
                 //if the we don't have modified list then show initial list...
                 if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
                         .isEmpty()
                 ) {
+                    Log.i("[UPMEDIA]", "Initial list already updated load it ... : ")
                     viewModelUpdate.initList()
                 }
 
 
-                //get name of chip selected
-                var typeOfProduct: String? = RealEstateFullObserve.realEstateFullData.typeOfProduct
+                //type of product...
+                when (RealEstateFullObserve.realEstateFullData.typeOfProduct) {
+                    "House" -> binding.chipHouse?.isChecked = true
+                    "Flat" -> binding.chipFlat?.isChecked = true
+                    "Duplex" -> binding.chipDuplex?.isChecked = true
+                }
 
-                //    valChipGroupType.setS
-
-
+                //point of interest...
                 when (RealEstateFullObserve.poi?.station) {
                     true -> binding.stationChip?.isChecked = true
                     false -> binding.stationChip?.isChecked = false
@@ -213,7 +220,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 //update actual estate
                 viewModelUpdate.realEstate = RealEstateFullObserve.realEstateFullData
 
-               //button listener
+                //button listener
                 binding.saveBtn?.setOnClickListener {
 
                     viewModelUpdate.realEstate.typeOfProduct = "House"
@@ -231,7 +238,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         binding.edittextCityZipcode?.text.toString().toInt()
                     viewModelUpdate.realEstate.address!!.city =
                         binding.edittextCityName?.text.toString()
-
 
 
                     //Update the realEsatte ....
@@ -369,6 +375,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     }
 
+
     //TODO: move to util class ?
     private fun setupActivityResultForCamera() {
         activityResultLauncherForPhoto =
@@ -421,21 +428,18 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView, mediaList: List<RealEstateMedia>) {
-        val myLayoutManager =
+        recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.layoutManager = myLayoutManager
         recyclerView.adapter = UpdateAdapter(mediaList, this)
     }
 
     override fun onChangedTitlePhoto(title: String, uri: String) {
         viewModelUpdate.updateMediaTitle(title, uri)
-        viewModelUpdate.setDescriptionTitle(title, uri)
     }
 
     override fun onDeleteMedia(media: RealEstateMedia) {
-        context?.deleteFile(media.uri?.substringAfterLast("/"))
         viewModelUpdate.deleteMedia(media)
-        viewModelUpdate.listOfMediaToRemove.add(media)
-
+        UpdateUtils.deleteMediaFromInternalMemory(requireContext(), media)
     }
+
 }

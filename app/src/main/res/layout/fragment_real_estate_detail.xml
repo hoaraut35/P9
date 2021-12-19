@@ -215,27 +215,29 @@
                     android:id="@+id/poi_school_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:padding="10dp"
-                   android:layout_gravity="center"
                     android:text="test">
 
                 </TextView>
+
                 <TextView
                     android:id="@+id/poi_station_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-
                     android:layout_gravity="left"
+
+                    android:padding="10dp"
                     android:text="test">
 
                 </TextView>
+
                 <TextView
                     android:id="@+id/poi_park_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:padding="10dp"
-                   android:layout_gravity="right"
                     android:text="test">
 
                 </TextView>
@@ -317,30 +319,17 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
-
-
-
-
-
-
-
-
-
-
             </androidx.cardview.widget.CardView>
 
 
-
-
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/image_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/cardviewlocation">
@@ -372,7 +361,22 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/agent_card"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@+id/image_layout">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="Suivi par : HOARAU Thomas">
+
+                </TextView>
+
+            </com.google.android.material.card.MaterialCardView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

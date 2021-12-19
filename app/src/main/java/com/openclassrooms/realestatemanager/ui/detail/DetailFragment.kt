@@ -96,7 +96,22 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                     binding.textCityName?.text = RealEstateObserved.realEstateFullData.address?.city
 
 
-                    //        binding.textSaleDate?.text = DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!).toString()
+                    //show entry date...
+                    if (RealEstateObserved.realEstateFullData.dateOfEntry != null) {
+                        binding.textSaleDate?.text =
+                            DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!)
+                                .toString()
+                    }
+
+                    //show sold date...
+                    if (RealEstateObserved.realEstateFullData.releaseDate != null && RealEstateObserved.realEstateFullData.releaseDate!! >= RealEstateObserved.realEstateFullData.dateOfEntry!!) {
+                        binding.textDateOfSale?.text =
+                            DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.releaseDate!!)
+                                .toString()
+                        binding.textState?.text = "Vendu"
+                    } else {
+                        binding.textState?.text = "A vendre"
+                    }
 
 
                     //show Point of interest...
@@ -113,12 +128,6 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                         false -> binding.poiStationText?.text = ""
                     }
 
-
-                    when (RealEstateObserved.realEstateFullData.status) {
-                        true -> binding.textState?.text = "Vendu"
-                        false -> binding.textState?.text = "A vendre"
-                        else -> binding.textState?.text = "Etat Inconnu"
-                    }
 
 //                if (!RealEstateObserved.realEstateFullData.dateOfEntry.isNullOrEmpty()) {
 //                    binding.textSaleDate?.text = RealEstateObserved.realEstateFullData.dateOfEntry

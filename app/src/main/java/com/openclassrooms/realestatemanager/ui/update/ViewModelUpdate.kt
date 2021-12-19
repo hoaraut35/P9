@@ -22,7 +22,8 @@ class ViewModelUpdate @Inject constructor(
     var listOfMediaToRemove: MutableList<RealEstateMedia> = mutableListOf()
 
     fun getRealEstateFullById(): LiveData<RealEstateFull> =
-        localDatabaseRepository.getFlowRealEstateFullById(sharedRepository.getPropertyId()).asLiveData()
+        localDatabaseRepository.getFlowRealEstateFullById(sharedRepository.getPropertyId())
+            .asLiveData()
 
     fun insertMedia(media: RealEstateMedia) =
         viewModelScope.launch { localDatabaseRepository.insertRealEstateMedia(media) }
@@ -31,9 +32,13 @@ class ViewModelUpdate @Inject constructor(
     var getLastRowIdForMedia = localDatabaseRepository.getLastRowIdForMedia().asLiveData()
 
 
-
+    //the starting list...
     var initialListOfMedia: MutableList<RealEstateMedia> = mutableListOf()
+
+    //the new list...
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
+
+    //actual list of media...
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
 
     fun getMutableListOfMedia(): MutableList<RealEstateMedia> {
@@ -57,7 +62,9 @@ class ViewModelUpdate @Inject constructor(
     //to delete media from the list
     fun deleteMedia(media: RealEstateMedia) {
         listOfMedia.remove(media)
+        listOfMediaToRemove.add(media)
         mutableListOfMedia.value = listOfMedia
+        //delete it in database...
         viewModelScope.launch { localDatabaseRepository.deleteMedia(media) }
 
     }
@@ -71,23 +78,23 @@ class ViewModelUpdate @Inject constructor(
         viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
     }
 
-    //update title in list for photo or video
-    fun updateMediaTitle(title: String, uri: String) {
-        listOfMedia.find { it.uri == uri }?.name = title
-    }
 
     val mediaList: MutableList<RealEstateMedia> = mutableListOf()
 
-    fun setDescriptionTitle(description: String, uri: String) {
+    //update the title in the list  of media...
+    fun updateMediaTitle(title: String, uri: String) {
+
         for (media in listOfMedia) {
             if (media.uri == uri) {
-                media.name = description
+                media.name = title
             }
             if (!mediaList.contains(media)) {
                 mediaList.add(media)
             }
         }
+
     }
+
 
 }
 

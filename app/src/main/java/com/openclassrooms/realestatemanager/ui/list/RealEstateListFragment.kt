@@ -6,6 +6,8 @@ import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -91,8 +93,12 @@ class RealEstateListFragment : Fragment() {
         myRealEstateList: List<RealEstateFull>,
         onClickListener: View.OnClickListener
     ) {
+        val controller : LayoutAnimationController = AnimationUtils.loadLayoutAnimation(context,R.anim.layout_animation_fall_down)
+        recyclerView.layoutAnimation = controller
         recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.scheduleLayoutAnimation()
         recyclerView.adapter = ListAdapter(myRealEstateList, onClickListener)
+
     }
 
     override fun onCreateView(
