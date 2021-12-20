@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.ui.update
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -40,7 +39,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
     private var _binding: FragmentUpdateNewBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
+    private lateinit var resultForPhotoGallery: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
     private var dateOfSold: Long? = null
@@ -57,11 +56,10 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         setupActivityResultForCamera()
 
-
         //click listener for take photo from camera
         binding.addPhotoCamera?.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            activityResultLauncherForPhoto.launch(intent)
+            resultForPhotoGallery.launch(intent)
         }
 
         //open photo from gallery
@@ -350,7 +348,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
                 }
 
             }
@@ -375,7 +372,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     //TODO: move to util class ?
     private fun setupActivityResultForCamera() {
-        activityResultLauncherForPhoto =
+        resultForPhotoGallery =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
 
                 if (result?.resultCode == Activity.RESULT_OK) {
