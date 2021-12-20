@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class ExampleUnitTest {
 
-    private val myDate = "13/12/2021"
+    private val myDate = "20_12_2021"
     private val myEURO = 89
     private val myDOLLARS = 100
 

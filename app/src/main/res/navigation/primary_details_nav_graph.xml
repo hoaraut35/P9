@@ -32,7 +32,8 @@
             app:destination="@id/realEstateCreateBtn" />
         <action
             android:id="@+id/action_realEstateDetailFragment_to_realEstateUpdateBtnNew"
-            app:destination="@id/realEstateUpdateBtnNew" />
+            app:destination="@id/realEstateUpdateBtnNew"
+            />
         <action
             android:id="@+id/action_realEstateDetailFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
@@ -49,7 +50,8 @@
         android:id="@+id/realEstateUpdateBtnNew"
         android:name="com.openclassrooms.realestatemanager.ui.update.UpdateFragmentNew"
         android:label="Modification RealEstate"
-        tools:layout="@layout/fragment_update_new" />
+        tools:layout="@layout/fragment_update_new"
+        />
 
     <fragment
         android:id="@+id/searchFragment"

@@ -13,7 +13,6 @@ import dagger.hilt.components.SingletonComponent
 
 //to expose data to another application
 
-
 class DatabaseContentProvider : ContentProvider() {
 
     companion object {

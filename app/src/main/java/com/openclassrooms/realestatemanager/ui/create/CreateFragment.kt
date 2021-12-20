@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.create
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
@@ -41,6 +42,7 @@ import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.utils.CreateUtils
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
+import java.lang.reflect.Field
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -59,7 +61,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
     private lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     private lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
-    private lateinit var getImageFromGallery: ActivityResultLauncher<String>
+    private lateinit var getPhotoFromGallery: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -147,7 +149,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
 
         //open photo from gallery
-        getImageFromGallery = registerForActivityResult(
+        getPhotoFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
 
@@ -175,20 +177,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
                     //if we have a bitmap then ...
                     if (bitmap != null) {
-
-//                        if (savePhotoToInternalMemory(fileNameDestination, bitmap)){
-//
-//                            //add in database
-//                            viewModelCreate.addMediaToList(
-//                                RealEstateMedia(
-//                                    uri = fileNameUri!!,
-//                                    name = "test",
-//                                    realEstateParentId = 1
-//                                )
-//                            )
-//                            recyclerView!!.adapter?.notifyDataSetChanged()
-//                        }
-
 
                         savePhotoToInternalMemory("$dateFileName", bitmap)
                         recyclerView!!.adapter?.notifyDataSetChanged()
@@ -265,7 +253,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
 
         binding.addPhotoFromMemory?.setOnClickListener {
-            getImageFromGallery.launch("image/*")
+            getPhotoFromGallery.launch("image/*")
         }
 
 
@@ -427,11 +415,44 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
     }
 
 
+    @SuppressLint("DiscouragedPrivateApi")
     private fun showPopupMenu(view: View) {
-        val popup = PopupMenu(requireContext(), view)
-        val inflater: MenuInflater = popup.menuInflater
-        inflater.inflate(R.menu.popup, popup.menu)
-        popup.show()
+        val popupMenu = PopupMenu(requireContext(), view)
+        popupMenu.inflate(R.menu.popup)
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.photoFromGallery -> {
+                    Toast.makeText(context, "Choix photo gallery", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.photoFromCamera -> {
+                    Toast.makeText(context, "Choix photo appareil", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.videoFromCamera -> {
+                    Toast.makeText(context, "Choix video appareil", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+               R.id.videoFromGallery -> {
+                   Toast.makeText(context, "Choix video gallerie", Toast.LENGTH_SHORT).show()
+                   true
+               }
+
+
+                else -> true
+            }
+        }
+
+        val popup: Field = PopupMenu::class.java.getDeclaredField("mPopup")
+        popup.isAccessible = true
+        val menu: Any? = popup.get(popupMenu)
+        menu?.javaClass?.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+            ?.invoke(menu, true)
+
+        popupMenu.show()
+
     }
 
 
@@ -648,7 +669,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
     override fun onMenuItemClick(p0: MenuItem?): Boolean {
 
         when (p0?.itemId) {
-            R.id.photoFromGallery -> getImageFromGallery.launch("image/*")
+            R.id.photoFromGallery -> getPhotoFromGallery.launch("image/*")
             R.id.photoFromCamera -> true
             R.id.videoFromGallery -> true
             R.id.videoFromCamera -> true
