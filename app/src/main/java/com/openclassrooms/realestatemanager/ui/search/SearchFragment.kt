@@ -193,8 +193,6 @@ class SearchFragment : Fragment() {
                 queryString += " realEstate_table.dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
             }
 
-
-
             if (searchViewModel.selectedSoldDate != null) {
                 if (containsCondition) {
                     queryString += " AND "
@@ -223,67 +221,6 @@ class SearchFragment : Fragment() {
 
 
 
-
-
-
-
-
-
-
-
-//            //STEP 1 : SELECT...
-//            queryString += "SELECT * FROM realEstate_table"
-//
-//
-//
-//
-//            //STEP2 : INNER JOIN...
-//            //  queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId GROUP BY RealEstateMedia.realEstateParentId "
-//
-//
-//            if (searchViewModel.maxPrice != null && searchViewModel.minPrice != null) {
-//                containsCondition = true
-//                queryString += " WHERE price BETWEEN ${searchViewModel.minPrice} AND ${searchViewModel.maxPrice}"
-//            }
-//
-//            if (searchViewModel.maxSurface != null && searchViewModel.minSurface != null) {
-//                if (containsCondition) {
-//                    queryString += " AND "
-//                } else {
-//                    queryString += " WHERE"
-//                    containsCondition = true
-//                }
-//                queryString += " surface BETWEEN ${searchViewModel.minSurface} AND ${searchViewModel.maxSurface}"
-//            }
-//
-//            if (searchViewModel.selectedEntryDate != null) {
-//                if (containsCondition) {
-//                    queryString += " AND "
-//                } else {
-//                    queryString += " WHERE"
-//                    containsCondition = true
-//                }
-//                queryString += " dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
-//            }
-//
-//            if (searchViewModel.selectedSoldDate != null) {
-//                if (containsCondition) {
-//                    queryString += " AND "
-//                } else {
-//                    queryString += " WHERE"
-//                    containsCondition = true
-//                }
-//                queryString += " releaseDate >= '${searchViewModel.selectedSoldDate}'"
-//            }
-//
-//            if (searchViewModel.numberOfPhoto != null) {
-//                queryString += " INNER JOIN RealEstateMedia ON RealEstateMedia.realEstateParentId = realEstate_table.realEstateId " +
-//                        "GROUP BY RealEstateMedia.realEstateParentId " +
-//                        "HAVING COUNT(RealEstateMedia.realEstateParentId) >= ${searchViewModel.numberOfPhoto}"
-//                //containsOtherCondition = true
-//            }
-//
-//            queryString += ";"
 
             //show query in log...
             Log.i("[SQL]", "My query : $queryString")

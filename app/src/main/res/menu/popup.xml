@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/photoFromGallery"
+        android:icon="@drawable/ic_baseline_add_a_photo_24"
+        android:title="Add photo from gallery" />
+    <item
+        android:id="@+id/photoFromCamera"
+        android:icon="@drawable/ic_baseline_photo_camera_24"
+        android:title="Add photo from camera" />
+    <item
+        android:id="@+id/videoFromGallery"
+        android:icon="@drawable/ic_baseline_video_call_24"
+        android:title="Add video from gallery" />
+    <item
+        android:id="@+id/videoFromCamera"
+        android:icon="@drawable/ic_baseline_videocam_24"
+        android:title="Add video from camera" />
+</menu>

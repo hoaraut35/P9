@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -45,7 +46,8 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() {
+class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
+    PopupMenu.OnMenuItemClickListener {
 
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
@@ -57,6 +59,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
     private lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     private lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
+    private lateinit var getImageFromGallery: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -71,11 +74,14 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         //bind recyclerview
         val recyclerView = binding.recyclerview
 
+
         //get the type of property
         // val valChipGroupType = binding.chipGroupType
         var resultType: String? = null
 
         binding.chipGroupType.setOnCheckedChangeListener { group, checkedId ->
+
+            showPopupMenu(binding.chipGroupType)
             viewModelCreate.realEstateVM.typeOfProduct =
                 group.findViewById<Chip>(checkedId)?.text.toString()
         }
@@ -141,7 +147,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
 
         //open photo from gallery
-        val getImageFromGallery = registerForActivityResult(
+        getImageFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
 
@@ -164,7 +170,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
                     //set uri
                     val fileNameUri: String?
-                    fileNameUri = context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
+                    fileNameUri =
+                        context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
 
                     //if we have a bitmap then ...
                     if (bitmap != null) {
@@ -183,8 +190,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 //                        }
 
 
-                       savePhotoToInternalMemory("$dateFileName", bitmap)
-                                            recyclerView!!.adapter?.notifyDataSetChanged()
+                        savePhotoToInternalMemory("$dateFileName", bitmap)
+                        recyclerView!!.adapter?.notifyDataSetChanged()
 
 
                     }
@@ -368,16 +375,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                         val fromPosition = viewHolder.adapterPosition
                         val toPosition = target.adapterPosition
 
-                        if (fromPosition < toPosition) {
-                            for (i in fromPosition until toPosition) {
-                                Collections.swap(it, i, i + 1)
-                            }
-                        } else {
-                            for (i in fromPosition downTo toPosition + 1) {
-                                Collections.swap(it, i, i - 1)
-                            }
-                        }
-
+                        Collections.swap(it, fromPosition, toPosition)
                         recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
 
                         return true
@@ -427,6 +425,15 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
             })
     }
+
+
+    private fun showPopupMenu(view: View) {
+        val popup = PopupMenu(requireContext(), view)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.popup, popup.menu)
+        popup.show()
+    }
+
 
     private fun notification(task: String, desc: String) {
         val manager =
@@ -636,6 +643,20 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
     override fun onDeletePhoto(media: RealEstateMedia) {
         viewModelCreate.deleteMedia(media)
         context?.deleteFile(media.uri?.substringAfterLast("/"))
+    }
+
+    override fun onMenuItemClick(p0: MenuItem?): Boolean {
+
+        when (p0?.itemId) {
+            R.id.photoFromGallery -> getImageFromGallery.launch("image/*")
+            R.id.photoFromCamera -> true
+            R.id.videoFromGallery -> true
+            R.id.videoFromCamera -> true
+            else -> false
+        }
+
+        return true
+
     }
 
 }

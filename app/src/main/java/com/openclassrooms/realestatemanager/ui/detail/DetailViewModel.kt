@@ -60,7 +60,7 @@ class DetailViewModel @Inject constructor(
     //call repository to update a RealEstate
     fun updateRealEstate(realEstate: RealEstate) {
         viewModelScope.launch {
-            localDatabaseRepository.insertRealEstateTest(realEstate)
+            localDatabaseRepository.insertRealEstate(realEstate)
         }
     }
 }

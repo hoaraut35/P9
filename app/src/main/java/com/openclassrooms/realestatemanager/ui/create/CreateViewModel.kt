@@ -21,7 +21,7 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
     val listOfChip : MutableList<String> = mutableListOf()
     val chip  : String? = null
 
-    fun insertPOI(poi:RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertRealEstatePOI(poi) }
+    fun insertPOI(poi:RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertPOI(poi) }
 
     //update photo or video to database
     fun addMediaToList(media: RealEstateMedia) {

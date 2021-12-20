@@ -40,7 +40,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
     private lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
     lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
 
-    private var newList = mutableListOf<RealEstateMedia>()
     private var dateOfSold: Long? = null
 
     override fun onCreateView(
@@ -244,60 +243,43 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     viewModelUpdate.realEstate.releaseDate = dateOfSold
                     viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
 
-                    for (itemToremove in viewModelUpdate.listOfMediaToRemove) {
-                        viewModelUpdate.deleteMedia(itemToremove)
+
+                    //to remove media...
+                    for (itemToRemove in viewModelUpdate.listOfMediaToRemove) {
+                        viewModelUpdate.deleteMedia(itemToRemove)
                     }
 
-
-//                    for (item in viewModelUpdate.getMediaListFromVM().value!!) {
-//
-//                        if (!RealEstateFullObserve.mediaList.contains(item)) {
-//
-//                            if (!viewModelUpdate.mediaList.contains(item)) {
-//
-//                                val long = viewModelUpdate.insertMedia(
-//                                    RealEstateMedia(
-//                                        uri = item.uri,
-//                                        realEstateParentId = viewModelUpdate.realEstate.realEstateId,
-//                                        name = item.name,
-//                                        position = viewModelUpdate.realEstate.realEstateId
-//                                    )
-//                                )
-//
-//
-//                            }
-//                        }
-//
-//
-//                    }
+                    //to add
 
 
-                    for (item in newList) {
-
-                        if (!RealEstateFullObserve.mediaList.contains(item)) {
-                            if (!viewModelUpdate.mediaList.contains(item)) {
-                                val long = viewModelUpdate.insertMedia(
-                                    RealEstateMedia(
-                                        uri = item.uri,
-                                        realEstateParentId = viewModelUpdate.realEstate.realEstateId,
-                                        name = item.name,
-                                        position = item.position
+                    if (viewModelUpdate.getMediaListFromVM().value != null) {
+                        for (item in viewModelUpdate.getMediaListFromVM().value!!) {
+                            if (!RealEstateFullObserve.mediaList.contains(item)) {
+                                if (!viewModelUpdate.mediaList.contains(item)) {
+                                    val long = viewModelUpdate.insertMedia(
+                                        RealEstateMedia(
+                                            uri = item.uri,
+                                            realEstateParentId = RealEstateFullObserve.realEstateFullData.realEstateId,
+                                            name = item.name,
+                                            position = viewModelUpdate.realEstate.realEstateId
+                                        )
                                     )
-                                )
-
-
+                                }
                             }
                         }
-
                     }
 
+                    //update position
+                    viewModelUpdate.newListOfMedia.forEachIndexed { index, media ->
+                        media.position = index
+                    }
 
+                    //for title
                     for (media in viewModelUpdate.mediaList) {
                         if (!viewModelUpdate.listOfMediaToRemove.contains(media)) {
                             viewModelUpdate.insertMedia(media)
                         }
                     }
-
 
                     //notification("RealEsatzte", "Update terminé")
                     val navHostFragment =
@@ -327,33 +309,24 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     target: RecyclerView.ViewHolder,
                 ): Boolean {
 
+                    val adapter = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
+
                     val fromPosition = viewHolder.adapterPosition
                     val toPosition = target.adapterPosition
 
-                    if (fromPosition < toPosition) {
-                        for (i in fromPosition until toPosition) {
-                            Collections.swap(myMedia, i, i + 1)
-                        }
-                    } else {
-                        for (i in fromPosition downTo toPosition + 1) {
-                            Collections.swap(myMedia, i, i - 1)
-                        }
-                    }
+                    Collections.swap(adapter, fromPosition, toPosition)
+
 
                     recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
+                    viewModelUpdate.newListOfMedia = adapter as MutableList<RealEstateMedia>
+
+                    viewModelUpdate.newListOfMedia.forEachIndexed { index, realEstateMedia -> Log.i("[NEWLIST]", "Media name : " + realEstateMedia.name + " index: " + index)  }
 
                     return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     Log.i("[ADAPTER]", "ORIGIN:")
-                }
-
-                override fun onSelectedChanged(
-                    viewHolder: RecyclerView.ViewHolder?,
-                    actionState: Int
-                ) {
-                    super.onSelectedChanged(viewHolder, actionState)
                 }
 
             }

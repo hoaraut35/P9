@@ -96,51 +96,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     )
                 )
 
-                dao.insertMedia(
-                    RealEstateMedia(
-                        realEstateParentId = 1,
-                        name = "Photo cuisine",
-                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
 
-                    )
-                )
-                dao.insertMedia(
-                    RealEstateMedia(
-                        realEstateParentId = 2,
-                        name = "Photo chambre",
-                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
-                    )
-                )
-                dao.insertMedia(
-                    RealEstateMedia(
-                        realEstateParentId = 3,
-                        name = "Photo garage",
-                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
-                    )
-                )
-                dao.insertMedia(
-                    RealEstateMedia(
-                        realEstateParentId = 1,
-                        name = "Photo chambre",
-                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
-                    )
-                )
-
-                dao.insertMedia(
-                    RealEstateMedia(
-                        realEstateParentId = 2,
-                        name = "Photo chambre2",
-                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
-                    )
-                )
-
-                dao.insertMedia(
-                    RealEstateMedia(
-                        realEstateParentId = 3,
-                        name = "Cuisine",
-                        uri = "/data/data/com.openclassrooms.realestatemanager/files/Photo_20211201_163141.jpg"
-                    )
-                )
 
                 dao.insertPOI(
                     RealEstatePOI(

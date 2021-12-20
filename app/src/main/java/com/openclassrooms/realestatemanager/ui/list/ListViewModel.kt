@@ -12,8 +12,6 @@ class ListViewModel @Inject constructor(private val localDatabaseRepository: Loc
     ViewModel() {
 
     fun getResultListSearch() = sharedRepository.getResultListFromSearch()
-
     fun getRealEstateFull() = localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
-
     fun clearSearch() = sharedRepository.clearResult()
 }

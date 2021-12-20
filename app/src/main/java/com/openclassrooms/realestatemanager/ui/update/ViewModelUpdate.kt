@@ -26,7 +26,7 @@ class ViewModelUpdate @Inject constructor(
             .asLiveData()
 
     fun insertMedia(media: RealEstateMedia) =
-        viewModelScope.launch { localDatabaseRepository.insertRealEstateMedia(media) }
+        viewModelScope.launch { localDatabaseRepository.insertMedia(media) }
 
     var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
     var getLastRowIdForMedia = localDatabaseRepository.getLastRowIdForMedia().asLiveData()
@@ -34,6 +34,9 @@ class ViewModelUpdate @Inject constructor(
 
     //the starting list...
     var initialListOfMedia: MutableList<RealEstateMedia> = mutableListOf()
+    var newListOfMedia: MutableList<RealEstateMedia> = mutableListOf()
+
+
 
     //the new list...
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
