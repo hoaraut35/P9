@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.update
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -13,6 +14,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -28,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 @AndroidEntryPoint
 class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
@@ -315,18 +318,39 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     val toPosition = target.adapterPosition
 
                     Collections.swap(adapter, fromPosition, toPosition)
-
-
                     recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
                     viewModelUpdate.newListOfMedia = adapter as MutableList<RealEstateMedia>
-
-                    viewModelUpdate.newListOfMedia.forEachIndexed { index, realEstateMedia -> Log.i("[NEWLIST]", "Media name : " + realEstateMedia.name + " index: " + index)  }
 
                     return true
                 }
 
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
+                    super.onSelectedChanged(viewHolder, actionState)
+
+                    if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                        viewHolder?.itemView?.setBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.myColorItem
+                            )
+                        )
+                    }
+
+                }
+
+                override fun clearView(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ) {
+                    super.clearView(recyclerView, viewHolder)
+                     viewHolder.itemView.setBackgroundColor(0)
+                }
+
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    Log.i("[ADAPTER]", "ORIGIN:")
+
                 }
 
             }
