@@ -13,15 +13,18 @@ import javax.inject.Singleton
 class LocalDatabaseRepository @Inject constructor(private val realEstateDao: RealEStateDao) {
 
     suspend fun insertRealEstate(realEstate: RealEstate) : Long = realEstateDao.insertRealEstate(realEstate)
-    suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.update(realEstate)
-    suspend fun deleteMedia(media: RealEstateMedia) {  realEstateDao.deleteMedia(media)  }
-    suspend fun insertMedia(media: RealEstateMedia): Long =  realEstateDao.insertMedia(media)
-    suspend fun insertPOI(poi: RealEstatePOI): Long =   realEstateDao.insertPOI(poi)
+    suspend fun updateRealEstate(realEstate: RealEstate) = realEstateDao.updateRealEstate(realEstate)
 
-    fun getFlowRealEstateFullById(myRealEstate: Int) = realEstateDao.getFlowRealEstateFullById(myRealEstate)
-    fun getFlowRealEstatesFull() = realEstateDao.getFlowRealEstatesFull()
+    suspend fun insertMedia(media: RealEstateMedia): Long = realEstateDao.insertMedia(media)
+    suspend fun deleteMedia(media: RealEstateMedia) { realEstateDao.deleteMedia(media)  }
+
+    suspend fun insertPOI(poi: RealEstatePOI): Long = realEstateDao.insertPOI(poi)
+
+    fun getRealEstateFullById(myRealEstate: Int) = realEstateDao.getFlowRealEstateFullById(myRealEstate)
+    fun getRealEstatesFullList() = realEstateDao.getAllRealEstatesFull()
+    fun getRealEstatesFullListFiltered(query: SupportSQLiteQuery) = realEstateDao.getRealEstateFiltered(query)
+
+    fun getLastRowIdForRealEstate() = realEstateDao.getLastRowId()
     fun getLastRowIdForMedia() = realEstateDao.getLastRowIdForMedia()
-    fun getRealEstateFiltered(query: SupportSQLiteQuery) = realEstateDao.getRealEstateFiltered(query)
-    fun getLastRowId() = realEstateDao.getLastRowId()
 
 }

@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.create
 import android.util.Log
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
@@ -14,13 +15,18 @@ import javax.inject.Inject
 class CreateViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository) :
     ViewModel() {
 
+    //for insertion realestate
+    private var mutableLiveDataRowId = MutableLiveData<Long>()
+
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
 
-    val realEstateVM : RealEstate = RealEstate()
+    var realEstateVM  : RealEstate = RealEstate()
+
     val listOfChip : MutableList<String> = mutableListOf()
     val chip  : String? = null
 
+    //insert POI in database
     fun insertPOI(poi:RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertPOI(poi) }
 
     //update photo or video to database
@@ -56,6 +62,15 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
         mutableListOfMedia.value = listOfMedia
     }
 
+
+    fun insertRealEstate(realEstate: RealEstate) = viewModelScope.launch {
+        val myResult = localDatabaseRepository.insertRealEstate(realEstate)
+        mutableLiveDataRowId.value = myResult
+    }
+
+    fun observeRowId() : LiveData<Long>{
+        return mutableLiveDataRowId
+    }
 }
 
 

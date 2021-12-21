@@ -32,7 +32,7 @@ class ViewModelMap @Inject constructor(
 
     //ok
     fun getRealEstateFull() : LiveData<List<RealEstateFull>> {
-        return localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
+        return localDatabaseRepository.getRealEstatesFullList().asLiveData()
     }
 
     //ok

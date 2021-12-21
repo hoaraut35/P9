@@ -11,7 +11,6 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -77,20 +76,20 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
         val recyclerView = binding.recyclerview
 
 
-        //get the type of property
-        // val valChipGroupType = binding.chipGroupType
-        var resultType: String? = null
+        //TODO: move on selct media buton
+        showPopupMenu(binding.chipRealEstateType)
 
-        binding.chipGroupType.setOnCheckedChangeListener { group, checkedId ->
 
-            showPopupMenu(binding.chipGroupType)
+        //get the type of product...
+        binding.chipRealEstateType.setOnCheckedChangeListener { group, checkedId ->
             viewModelCreate.realEstateVM.typeOfProduct =
                 group.findViewById<Chip>(checkedId)?.text.toString()
         }
 
-        binding.chipGroupPoi.setOnCheckedChangeListener { group, checkedId ->
-            viewModelCreate.propertyTypeChanged(group.findViewById<Chip>(checkedId)?.text.toString())
-        }
+//        //
+//        binding.chipRealEstatePoi.setOnCheckedChangeListener { group, checkedId ->
+//            viewModelCreate.propertyTypeChanged(group.findViewById<Chip>(checkedId)?.text.toString())
+//        }
 
 
         binding.edittextPrice?.addTextChangedListener {
@@ -250,18 +249,12 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
         //setup callback for camera
         setupActivityResultForCamera()
 
-
-
         binding.addPhotoFromMemory?.setOnClickListener {
             getPhotoFromGallery.launch("image/*")
         }
 
-
         //setup callback for gallery
         setupActivityResultForGallery()
-
-        //get all chips selected
-        //getSelectedChips()
 
         //get sold state of property
         getSoldStateBtn()
@@ -292,7 +285,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
         }
 
 
-        mainViewModel.observeRowId().observe(viewLifecycleOwner) {
+        viewModelCreate.observeRowId().observe(viewLifecycleOwner) {
 
 
             //Toast.makeText(requireContext(),"Event on row id",Toast.LENGTH_LONG).show()
@@ -370,7 +363,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
                     }
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        //
                     }
 
                     override fun onSelectedChanged(
@@ -398,14 +390,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
                                     R.color.design_default_color_on_secondary
                                 )
                             )
-
-
                         }
-
-
                     }
-
-
                 }
 
                 val itemTouchHelper = ItemTouchHelper(simpleCallback)
@@ -435,10 +421,10 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
                     true
                 }
 
-               R.id.videoFromGallery -> {
-                   Toast.makeText(context, "Choix video gallerie", Toast.LENGTH_SHORT).show()
-                   true
-               }
+                R.id.videoFromGallery -> {
+                    Toast.makeText(context, "Choix video gallerie", Toast.LENGTH_SHORT).show()
+                    true
+                }
 
 
                 else -> true
@@ -494,36 +480,18 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
     }
 
-    private fun getSelectedChips() {
-
-        val listTest = listOf<String>()
-        val valChipGroupMulti: ChipGroup? = binding.chipGroupPoi
-
-        valChipGroupMulti?.checkedChipIds?.forEach {
-            val chip = binding.chipGroupPoi.findViewById<Chip>(it).text.toString()
-
-            viewModelCreate.listOfChip.add(chip)
-
-            Log.i("[CHIP]", "chip ${chip.isNotEmpty()}")
-        }
-
-    }
-
     private fun saveRealEstateInDB() {
 
         mainViewModel.getLAstRowId.observe(viewLifecycleOwner) {
 
+            //get last index of realEstate
             val lastIndex: Int = it
 
             binding.saveBtn.setOnClickListener {
 
-
-                getSelectedChips()
-
-
-                mainViewModel.insertRealEstate(
+                //insert generic data ...
+                viewModelCreate.insertRealEstate(
                     RealEstate(
-
                         typeOfProduct = viewModelCreate.realEstateVM.typeOfProduct,
                         price = binding.edittextPrice?.text.toString().toInt(),
                         surface = binding.edittextSurface?.text.toString().toInt(),
@@ -542,11 +510,10 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
                     )
                 )
 
-
                 //add medias to database
                 if (!viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
                     for (item in viewModelCreate.getMediasListForUI().value!!) {
-                        val long = mainViewModel.insertPhoto(
+                        mainViewModel.insertPhoto(
                             RealEstateMedia(
                                 uri = item.uri,
                                 realEstateParentId = lastIndex,
@@ -555,35 +522,28 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
                             )
                         )
                     }
-
                 }
 
-
-                val valChipGroupMulti: ChipGroup = binding.chipGroupPoi
+                //insert poi
                 var school = false
                 var park = false
                 var gare = false
 
-                valChipGroupMulti.checkedChipIds.forEach {
-
-                    val chipText = binding.chipGroupPoi.findViewById<Chip>(it).text.toString()
-                    val check = binding.chipGroupPoi.findViewById<Chip>(it).isChecked
-
-                    when (chipText) {
-                        "Ecole" -> school = check
-                        "Parc" -> park = check
-                        "Gare" -> gare = check
+                binding.chipRealEstatePoi.checkedChipIds.forEach { myChip ->
+                    val chipState = binding.chipRealEstatePoi.findViewById<Chip>(myChip).isChecked
+                    when (binding.chipRealEstatePoi.findViewById<Chip>(myChip).text.toString()) {
+                        "Ecole" -> school = chipState
+                        "Parc" -> park = chipState
+                        "Gare" -> gare = chipState
                     }
-
                 }
 
                 viewModelCreate.insertPOI(
                     RealEstatePOI(
-                        poiId = 1,
                         school = school,
                         park = park,
                         station = gare,
-                        realEstateParentId = 1
+                        realEstateParentId = lastIndex
                     )
                 )
 

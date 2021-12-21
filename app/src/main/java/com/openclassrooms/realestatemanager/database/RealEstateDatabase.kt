@@ -100,25 +100,29 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
                 dao.insertPOI(
                     RealEstatePOI(
-                    park = true,
-                    station = true,
-                    school = true,
-                    realEstateParentId = 1
-                )
+                        park = true,
+                        station = true,
+                        school = true,
+                        realEstateParentId = 1
+                    )
                 )
 
-                dao.insertPOI(RealEstatePOI(
-                    park = true,
-                    station = true,
-                    school = true,
-                    realEstateParentId = 2
-                ))
-                dao.insertPOI(RealEstatePOI(
-                    park = true,
-                    station = true,
-                    school = true,
-                    realEstateParentId = 3
-                ))
+                dao.insertPOI(
+                    RealEstatePOI(
+                        park = true,
+                        station = true,
+                        school = true,
+                        realEstateParentId = 2
+                    )
+                )
+                dao.insertPOI(
+                    RealEstatePOI(
+                        park = true,
+                        station = true,
+                        school = true,
+                        realEstateParentId = 3
+                    )
+                )
 
 
             }

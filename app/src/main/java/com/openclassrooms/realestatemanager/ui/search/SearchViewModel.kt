@@ -29,7 +29,7 @@ class SearchViewModel @Inject constructor(private val localDatabaseRepository: L
     var mDate: LocalDate? = null
 
     fun getRealEstateFiltered(query: SupportSQLiteQuery) =
-        localDatabaseRepository.getRealEstateFiltered(query).asLiveData()
+        localDatabaseRepository.getRealEstatesFullListFiltered(query).asLiveData()
 
 
     fun setResultListFromSearch(list : MutableList<RealEstateFull>){

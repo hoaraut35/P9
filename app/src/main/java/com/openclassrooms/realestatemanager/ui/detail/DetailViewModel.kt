@@ -29,7 +29,7 @@ class DetailViewModel @Inject constructor(
 
     //work
     fun getRealEstateFullById(id: Int): LiveData<RealEstateFull> =
-        localDatabaseRepository.getFlowRealEstateFullById(id).asLiveData()
+        localDatabaseRepository.getRealEstateFullById(id).asLiveData()
 
 //    //work with one champ
 //    fun updateRealEstateTest(realEstate: RealEstate) =

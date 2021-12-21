@@ -108,7 +108,7 @@ class SearchFragment : Fragment() {
             var Intstation = 0
             var Intpark = 0
 
-            val pointsOfInterestChipGroup: ChipGroup = binding.chipGroupPoi!!
+            val pointsOfInterestChipGroup: ChipGroup = binding.chipRealEstatePoi!!
 
             pointsOfInterestChipGroup.checkedChipIds.forEach { chipItem ->
                 val chipText =
@@ -141,13 +141,9 @@ class SearchFragment : Fragment() {
 
             }
 
-            //Log.i("[SQL]", "$park $station $schoolState")
 
-            Log.i(
-                "[DATE]",
-                "Date " + LocalDateTime.of(2021, Month.DECEMBER, 15, 14, 27, 30).toString()
-            )
-            Log.i("[DATE]", "Date util : " + Utils.getTodayDate())
+
+
 
             // getPOIChips()
 

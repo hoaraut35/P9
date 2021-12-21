@@ -30,8 +30,6 @@ class SharedRepository @Inject constructor() {
         return myRealEstateSearchList
     }
 
-    fun clearResult() {
-        myRealEstateSearchList.value?.clear()
-    }
+    fun clearResult() = myRealEstateSearchList.value?.clear()
 
 }

@@ -14,12 +14,11 @@ interface RealEStateDao {
     fun getFlowRealEstates(): Flow<List<RealEstate>>
 
     @Update
-    suspend fun update(realEstate: RealEstate) //suspend for use another thread
+    suspend fun updateRealEstate(realEstate: RealEstate)
 
-    //ok 16/12/2021
     @Transaction
     @Query("SELECT * FROM realEstate_table")
-    fun getFlowRealEstatesFull() : Flow<List<RealEstateFull>>
+    fun getAllRealEstatesFull() : Flow<List<RealEstateFull>>
 
     @Transaction
     @Query("SELECT * FROM realEstate_table WHERE realEstateId = :myRealEstate")
@@ -46,13 +45,14 @@ interface RealEStateDao {
     @Query("SELECT MAX(photo_id) + 1 FROM RealEstateMedia")
     fun getLastRowIdForMedia(): Flow<Int>
 
-    //used by CONTENT PROVIDER for testing
-    @Query("SELECT * FROM realEstate_table")
-    fun getRealEstateWithCursor(): Cursor
-
     @Delete
     suspend fun deleteMedia(media: RealEstateMedia)
 
+    //for content provider
+    @Query("SELECT * FROM realEstate_table")
+    fun getRealEstateWithCursor(): Cursor
+
+    //for search fragment
     @RawQuery
     fun getRealEstateFiltered(query: SupportSQLiteQuery) : Flow<List<RealEstateFull>>
 

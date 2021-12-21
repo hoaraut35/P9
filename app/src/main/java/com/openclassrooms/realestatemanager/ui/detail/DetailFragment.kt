@@ -100,14 +100,14 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                     if (RealEstateObserved.realEstateFullData.dateOfEntry != null) {
                         binding.textSaleDate?.text =
                             DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!)
-                                .toString()
+
                     }
 
                     //show sold date...
                     if (RealEstateObserved.realEstateFullData.releaseDate != null && RealEstateObserved.realEstateFullData.releaseDate!! >= RealEstateObserved.realEstateFullData.dateOfEntry!!) {
                         binding.textDateOfSale?.text =
                             DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.releaseDate!!)
-                                .toString()
+
                         binding.textState?.text = "Vendu"
                     } else {
                         binding.textState?.text = "A vendre"

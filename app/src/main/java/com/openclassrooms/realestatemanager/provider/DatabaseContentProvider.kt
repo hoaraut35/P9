@@ -41,20 +41,16 @@ class DatabaseContentProvider : ContentProvider() {
     ): Cursor {
 
         val app = context?.applicationContext ?: throw IllegalStateException()
-        val hiltEntryPointForDao =
-            EntryPointAccessors.fromApplication(app, EntryPointForContentProvider::class.java)
+        val hiltEntryPointForDao = EntryPointAccessors.fromApplication(app, EntryPointForContentProvider::class.java)
         val dao = hiltEntryPointForDao.getRealEstateDao().getRealEstateWithCursor()
-
         val cursor: Cursor = dao
         cursor.setNotificationUri(app.contentResolver, p0)
-
         return cursor
     }
 
     //return the type MIME associated with the URI to identify the type of data
     override fun getType(p0: Uri): String? {
         return null
-        //     return "vnd.android.cursor.realEstate/com.openclassrooms.realestatemanager.provider." + RealEstate::class.java.simpleName
     }
 
     override fun insert(p0: Uri, p1: ContentValues?): Uri? {

@@ -46,7 +46,6 @@ object AppModule { //must be object
         .build()
 
     //provide scope
-
     @ApplicationScope
     @Provides
     @Singleton

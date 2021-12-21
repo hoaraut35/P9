@@ -22,13 +22,13 @@ class ViewModelUpdate @Inject constructor(
     var listOfMediaToRemove: MutableList<RealEstateMedia> = mutableListOf()
 
     fun getRealEstateFullById(): LiveData<RealEstateFull> =
-        localDatabaseRepository.getFlowRealEstateFullById(sharedRepository.getPropertyId())
+        localDatabaseRepository.getRealEstateFullById(sharedRepository.getPropertyId())
             .asLiveData()
 
     fun insertMedia(media: RealEstateMedia) =
         viewModelScope.launch { localDatabaseRepository.insertMedia(media) }
 
-    var getLAstRowId = localDatabaseRepository.getLastRowId().asLiveData()
+    var getLAstRowId = localDatabaseRepository.getLastRowIdForRealEstate().asLiveData()
     var getLastRowIdForMedia = localDatabaseRepository.getLastRowIdForMedia().asLiveData()
 
 

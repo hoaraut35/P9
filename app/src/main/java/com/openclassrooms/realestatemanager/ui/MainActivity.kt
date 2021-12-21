@@ -1,8 +1,6 @@
 package com.openclassrooms.realestatemanager.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -46,13 +44,11 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(this, navController, appBarConfiguration)
 
-        Utils.isInternetAvailable(this)
 
+        //TODO:update this..
+        Utils.isInternetAvailable(this)
         Log.i("[INTERNET]", "Isconnected : "  +  Utils.isInternetAvailable(this))
         Utils.checkInternet(this)
-
-        val wifiManager = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        wifiManager.setWifiEnabled(false)
 
     }
 
