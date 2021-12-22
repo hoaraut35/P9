@@ -93,6 +93,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     "House" -> binding.chipHouse?.isChecked = true
                     "Flat" -> binding.chipFlat?.isChecked = true
                     "Duplex" -> binding.chipDuplex?.isChecked = true
+                    "Penthouse" -> binding.chipPenthouse?.isChecked = true
                 }
 
                 //point of interest...
@@ -127,14 +128,35 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     viewModelUpdate.initList()
                 }
 
-
                 //update actual estate
                 viewModelUpdate.realEstate = RealEstateFullObserve.realEstateFullData
 
                 //button listener
                 binding.saveBtn?.setOnClickListener {
 
-                    viewModelUpdate.realEstate.typeOfProduct = "House"
+
+
+                    //TODO: penthouse don't work ?
+//                    when (RealEstateFullObserve.realEstateFullData.typeOfProduct) {
+//                        "House" -> binding.chipHouse?.isChecked = true
+//                        "Flat" -> binding.chipFlat?.isChecked = true
+//                        "Duplex" -> binding.chipDuplex?.isChecked = true
+//                        "Penthouse" -> binding.chipPenthouse?.isChecked = true
+//                    }
+
+                    if (binding.chipHouse?.isChecked == true){
+                        viewModelUpdate.realEstate.typeOfProduct = binding.chipHouse?.tag.toString()
+                    }
+                    if (binding.chipFlat?.isChecked == true){
+                        viewModelUpdate.realEstate.typeOfProduct = binding.chipFlat?.tag.toString()
+                    }
+                    if (binding.chipPenthouse?.isChecked == true){
+                        viewModelUpdate.realEstate.typeOfProduct = binding.chipPenthouse?.tag.toString()
+                    }
+                    if (binding.chipDuplex?.isChecked == true){
+                        viewModelUpdate.realEstate.typeOfProduct = binding.chipDuplex?.tag.toString()
+                    }
+
 
                     viewModelUpdate.realEstate.price =
                         binding.edittextPrice?.text.toString().toInt()
@@ -325,7 +347,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                                 name = "Photo"
                             )
                         )
-                    }else {
+                    } else {
                         Toast.makeText(
                             requireContext(),
                             "Fail to save photo to internal memory",
