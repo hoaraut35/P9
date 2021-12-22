@@ -35,35 +35,17 @@
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@+id/recyclerview">
 
-
                 <Button
-                    android:id="@+id/add_photo_from_memory"
+                    android:id="@+id/add_media_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="photo gallery"
-                    android:textSize="10sp" />
-
-                <Button
-                    android:id="@+id/add_photo_camera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="photo camera"
-                    android:textSize="10sp" />
+                    android:text="Add Media ..."></Button>
 
 
-                <Button
-                    android:id="@+id/add_video_from_memory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="video gallery"
-                    android:textSize="10sp" />
 
-                <Button
-                    android:id="@+id/add_video_from_camera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="video camera"
-                    android:textSize="10sp" />
+
+
+
 
 
                 <com.google.android.material.chip.ChipGroup

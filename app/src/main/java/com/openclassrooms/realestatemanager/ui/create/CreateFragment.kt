@@ -208,12 +208,19 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
 
         //observe database for notification
         viewModelCreate.observeRowId().observe(viewLifecycleOwner) {
-            notification("RealEstate Manager", "Sauvegarde terminée")
-            val navHostFragment =
-                requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
 
-            val navController = navHostFragment.navController
-            navController.navigateUp()
+            if (it.toInt() == viewModelCreate.observeRowId().value?.toInt() ) {
+                notification("RealEstate Manager", "Sauvegarde terminée")
+
+                val navHostFragment =
+                    requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
+
+                val navController = navHostFragment.navController
+                navController.navigateUp()
+
+            }
+
+
         }
 
         return rootView

@@ -36,20 +36,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/recyclerview">
 
 
-
-
                 <Button
                     android:id="@+id/open_media"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="OpenMedia"
-                    ></Button>
-
-
-
-
-
-
+                    android:text="OpenMedia"></Button>
 
 
                 <com.google.android.material.chip.ChipGroup
@@ -100,7 +91,6 @@
                         android:text="Flat">
 
                     </com.google.android.material.chip.Chip>
-
 
 
                 </com.google.android.material.chip.ChipGroup>
@@ -199,7 +189,6 @@
                     </com.google.android.material.textfield.TextInputEditText>
 
 
-
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -217,8 +206,8 @@
                     </com.google.android.material.textfield.TextInputEditText>
 
 
-
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_nbbedroom_text"
                     android:layout_width="match_parent"
@@ -234,15 +223,7 @@
                     </com.google.android.material.textfield.TextInputEditText>
 
 
-
                 </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-
-
-
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -257,8 +238,7 @@
                         android:layout_height="wrap_content"
 
                         app:helperText="ne peux etre vide"
-                        app:helperTextEnabled="true"
-                        >
+                        app:helperTextEnabled="true">
 
                     </com.google.android.material.textfield.TextInputEditText>
 
@@ -327,7 +307,16 @@
                         android:layout_height="wrap_content">
 
                     </com.google.android.material.textfield.TextInputEditText>
+
+
                 </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Spinner
+                    android:id="@+id/planets_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
 
 
                 <Button
@@ -345,11 +334,7 @@
                     app:layout_constraintRight_toRightOf="parent" />
 
 
-
-
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

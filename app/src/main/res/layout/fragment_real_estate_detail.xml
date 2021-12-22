@@ -17,11 +17,16 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
+
+
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_medias"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:orientation="horizontal"
+
                 app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/item_real_estate" />
 

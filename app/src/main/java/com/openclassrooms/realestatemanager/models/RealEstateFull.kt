@@ -10,12 +10,14 @@ data class RealEstateFull(
         parentColumn = "realEstateId",
         entityColumn = "realEstateParentId"
     )
+    //one to many
     val mediaList: List<RealEstateMedia>? = null,
 
     @Relation(
         parentColumn = "realEstateId",
         entityColumn = "realEstateParentId"
     )
+    //one to one
     val poi: RealEstatePOI? = null
 
 )

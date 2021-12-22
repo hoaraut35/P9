@@ -46,7 +46,7 @@ class TestRoom {
     fun insert() = runBlocking {
 
         val realEstate = RealEstate(price = 100000)
-        realEStateDao.insert(realEstate)
+        realEStateDao.insertRealEstate(realEstate)
         val size = realEStateDao.getFlowRealEstates().take(1)
         assertEquals(1, size.first().size)
 

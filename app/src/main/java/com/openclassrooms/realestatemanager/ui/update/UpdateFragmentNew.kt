@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.update
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -27,9 +29,9 @@ import com.openclassrooms.realestatemanager.utils.CreateUtils
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
+import java.lang.reflect.Field
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 @AndroidEntryPoint
 class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
@@ -39,8 +41,12 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
     private var _binding: FragmentUpdateNewBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var resultForPhotoGallery: ActivityResultLauncher<Intent>
-    lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
+    private lateinit var getPhotoFromCamera: ActivityResultLauncher<Intent>
+    private lateinit var getVideoFromCamera: ActivityResultLauncher<Intent>
+
+    private lateinit var getPhotoFromGallery: ActivityResultLauncher<String>
+
+    private lateinit var getVideoFromGallery: ActivityResultLauncher<String>
 
     private var dateOfSold: Long? = null
 
@@ -56,14 +62,13 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         setupActivityResultForCamera()
 
-        //click listener for take photo from camera
-        binding.addPhotoCamera?.setOnClickListener {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            resultForPhotoGallery.launch(intent)
+        //open a media...
+        binding.addMediaBtn?.setOnClickListener {
+            showPopupMenu(binding.addMediaBtn!!)
         }
 
-        //open photo from gallery
-        val getImageFromGallery = registerForActivityResult(
+        //open a photo from gallery...
+         getPhotoFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
 
@@ -103,14 +108,8 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
             }
         )
 
-        //onClickListener to open photo from gallery
-        binding.addPhotoFromMemory?.setOnClickListener {
-            getImageFromGallery.launch("image/*")
-        }
-
-
-        //get result for a video from the camera
-        activityResultLauncherForVideo =
+        //open a video from camera...
+        getVideoFromCamera =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
                 if (result!!.resultCode == Activity.RESULT_OK) {
                     viewModelUpdate.addMediaToList(
@@ -125,9 +124,8 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 }
             }
 
-
-        //get result for a video from gallery
-        val getVideoFromGallery = registerForActivityResult(
+        //open a video from gallery...
+        getVideoFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback {
 
@@ -146,16 +144,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         )
 
 
-        //click listener to get video from camera
-        binding.addVideoFromCamera?.setOnClickListener {
-            val intentVideo = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-            activityResultLauncherForVideo.launch(intentVideo)
-        }
 
-        //click listener for open video from gallery
-        binding.addVideoFromMemory?.setOnClickListener {
-            getVideoFromGallery.launch("video/*")
-        }
+
+
 
 
         //observe the actual realEsatet for update....
@@ -342,7 +333,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     viewHolder: RecyclerView.ViewHolder
                 ) {
                     super.clearView(recyclerView, viewHolder)
-                     viewHolder.itemView.setBackgroundColor(0)
+                    viewHolder.itemView.setBackgroundColor(0)
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -367,10 +358,51 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     }
 
+    @SuppressLint("DiscouragedPrivateApi")
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(requireContext(), view)
+        popupMenu.inflate(R.menu.popup)
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                //ok
+                R.id.photoFromGallery -> {
+                    getPhotoFromGallery.launch("image/*")
+                    true
+                }
+                R.id.photoFromCamera -> {
+                    getPhotoFromCamera.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
+                    true
+                }
+
+                R.id.videoFromCamera -> {
+                    val intentVideo = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+                    getVideoFromCamera.launch(intentVideo)
+                    true
+                }
+
+                R.id.videoFromGallery -> {
+                    getVideoFromGallery.launch("video/*")
+                    true
+                }
+
+                else -> true
+            }
+        }
+
+        //to show icon in popup menu
+        val popup: Field = PopupMenu::class.java.getDeclaredField("mPopup")
+        popup.isAccessible = true
+        val menu: Any? = popup.get(popupMenu)
+        menu?.javaClass?.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+            ?.invoke(menu, true)
+        popupMenu.show()
+
+    }
+
 
     //TODO: move to util class ?
     private fun setupActivityResultForCamera() {
-        resultForPhotoGallery =
+        getPhotoFromCamera =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
 
                 if (result?.resultCode == Activity.RESULT_OK) {
