@@ -1,17 +1,16 @@
 package com.openclassrooms.realestatemanager.ui.update
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import java.io.FileInputStream
 import java.io.IOException
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class UpdateUtils {
 
@@ -66,6 +65,33 @@ class UpdateUtils {
                 e.printStackTrace()
                 false
             }
+        }
+
+
+        fun savePhotoToInternalMemory(filename: String, bmp: Bitmap, context : Context): Boolean {
+            return try {
+                context?.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
+
+                    //compress photo
+                    if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
+                        throw IOException("erreur compression")
+                    }
+
+                }
+                true
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+                false
+            }
+        }
+
+
+
+        fun getTodayDate(): String? {
+            @SuppressLint("SimpleDateFormat") val dateFormat: DateFormat =
+                SimpleDateFormat("dd_MM_yyyy_HH_mm_ss", Locale.getDefault())
+            return dateFormat.format(Date())
         }
 
     }

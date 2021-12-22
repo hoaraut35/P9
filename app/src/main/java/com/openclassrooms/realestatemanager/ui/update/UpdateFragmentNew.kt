@@ -16,6 +16,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -25,12 +26,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
-import com.openclassrooms.realestatemanager.utils.CreateUtils
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.IOException
 import java.lang.reflect.Field
-import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -166,7 +164,10 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                             //    viewModelUpdate.deleteMediaFromDatabase(itemToRemove)
                             //move to save btn
-                            UpdateUtils.deleteMediaFromInternalMemory(requireContext(), itemToRemove)
+                            UpdateUtils.deleteMediaFromInternalMemory(
+                                requireContext(),
+                                itemToRemove
+                            )
 
 
                             //context?.deleteFile(mediaToDelete.uri.substringAfterLast("/"))
@@ -303,9 +304,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     context?.applicationContext?.contentResolver, uri
                 )
 
-                //val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                val dateFileName: String =
-                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRANCE).format(Date())
+                val dateFileName: String = UpdateUtils.getTodayDate().toString()
                 val fileName = "Photo_"
                 val fileNameDestination = "$fileName$dateFileName.jpg"
                 val fileNameUri: String?
@@ -313,10 +312,10 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                 if (bitmap != null) {
 
-                    if (CreateUtils.savePhotoToInternalMemory(
-                            requireContext(),
+                    if (UpdateUtils.savePhotoToInternalMemory(
                             fileNameDestination,
-                            bitmap
+                            bitmap,
+                            requireContext()
                         )
                     ) {
                         viewModelUpdate.addMediaToList(
@@ -326,9 +325,15 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                                 name = "Photo"
                             )
                         )
+                    }else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Fail to save photo to internal memory",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
-                    recyclerView.adapter?.notifyDataSetChanged()
+
                 }
 
             }
@@ -342,11 +347,19 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 if (result?.resultCode == Activity.RESULT_OK) {
 
                     val bitmap = result.data!!.extras!!.get("data") as Bitmap
-                    val fileName: String =
-                        "Photo_" + SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()) + ".jpg"
 
-                    if (savePhotoToInternalMemory("Photo_$fileName", bitmap)) {
-                        val fileNameUri = context?.filesDir.toString() + "/" + fileName
+                    val dateFileName: String = UpdateUtils.getTodayDate().toString()
+                    val fileName = "Photo_"
+                    val fileNameDestination = "$fileName$dateFileName.jpg"
+                    val fileNameUri: String?
+                    fileNameUri = context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
+
+                    if (UpdateUtils.savePhotoToInternalMemory(
+                            fileNameDestination,
+                            bitmap,
+                            requireContext()
+                        )
+                    ) {
                         viewModelUpdate.addMediaToList(
                             RealEstateMedia(
                                 uri = fileNameUri,
@@ -354,7 +367,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                                 realEstateParentId = viewModelUpdate.realEstate.realEstateId
                             )
                         )
-
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -372,11 +384,18 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         )
         {
             if (it != null) {
-                val fileName: String =
-                    "Video_" + SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()) + ".mp4"
 
-                if (UpdateUtils.saveVideoToInternalStorage("$fileName", it, requireContext())) {
-                    val fileNameUri = context?.filesDir.toString() + "/" + fileName
+                val dateFileName: String = UpdateUtils.getTodayDate().toString()
+                val fileName = "Video_"
+                val fileNameDestination = "$fileName$dateFileName.mp4"
+
+                if (UpdateUtils.saveVideoToInternalStorage(
+                        fileNameDestination,
+                        it,
+                        requireContext()
+                    )
+                ) {
+                    val fileNameUri = context?.filesDir.toString() + "/" + fileNameDestination
 
                     viewModelUpdate.addMediaToList(
                         RealEstateMedia(
@@ -396,20 +415,38 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         }
     }
 
-
     private fun setupGetVideoFromCamera(recyclerView: RecyclerView) {
         getVideoFromCamera =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-                if (result!!.resultCode == Activity.RESULT_OK) {
-                    viewModelUpdate.addMediaToList(
-                        RealEstateMedia(
-                            uri = result.data?.data.toString(),
-                            realEstateParentId = 1,
-                            name = "video"
-                        )
-                    )
 
-                    //   recyclerView!!.adapter?.notifyDataSetChanged()
+                if (result!!.resultCode == Activity.RESULT_OK) {
+
+
+                    val dateFileName: String = UpdateUtils.getTodayDate().toString()
+                    val fileName = "Video_"
+                    val fileNameDestination = "$fileName$dateFileName.mp4"
+
+                    if (UpdateUtils.saveVideoToInternalStorage(
+                            fileNameDestination,
+                            result.data?.data.toString().toUri(),
+                            requireContext()
+                        )
+                    ) {
+                        val fileNameUri = context?.filesDir.toString() + "/" + fileNameDestination
+                        viewModelUpdate.addMediaToList(
+                            RealEstateMedia(
+                                uri = fileNameUri,
+                                realEstateParentId = viewModelUpdate.realEstate.realEstateId,
+                                name = "Video"
+                            )
+                        )
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Fail to save video to internal memory",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
     }
@@ -455,25 +492,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     }
 
-
-    private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
-        return try {
-            context?.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
-
-                //compress photo
-                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                    throw IOException("erreur compression")
-                }
-
-
-            }
-            true
-
-        } catch (e: IOException) {
-            e.printStackTrace()
-            false
-        }
-    }
 
     //setup recyclerview...
     private fun setupRecyclerView(recyclerView: RecyclerView, mediaList: List<RealEstateMedia>) {
