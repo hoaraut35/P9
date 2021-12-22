@@ -67,9 +67,11 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    //TODO:present bug correct
+
     //    private fun configureTextViewMain() {
     //       /* binding.activityMainActivityTextViewMain!!.textSize=15f
-    //        binding.activityMainActivityTextViewMain!!.text="Le premier bien immobilier enregistré vaut "
+    //          binding.activityMainActivityTextViewMain!!.text="Le premier bien immobilier enregistré vaut "
     //        //textViewMain!!.textSize = 15f
     //        //textViewMain!!.text = "Le premier bien immobilier enregistré vaut "
     //

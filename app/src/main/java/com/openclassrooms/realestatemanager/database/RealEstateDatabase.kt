@@ -4,10 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.injection.ApplicationScope
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstateAddress
-import com.openclassrooms.realestatemanager.models.RealEstateMedia
-import com.openclassrooms.realestatemanager.models.RealEstatePOI
+import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -96,6 +93,25 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     )
                 )
 
+
+//                dao.insertAgent(
+//                    RealEstateAgent(
+//                        agent_lastName = "DURAND",
+//                        agent_firstName = "David"
+//                    )
+//                )
+//                dao.insertAgent(
+//                    RealEstateAgent(
+//                        agent_lastName = "DUPONT",
+//                        agent_firstName = "Emilie"
+//                    )
+//                )
+//                dao.insertAgent(
+//                    RealEstateAgent(
+//                        agent_lastName = "MESSAGER",
+//                        agent_firstName = "Laurent"
+//                    )
+//                )
 
 
                 dao.insertPOI(

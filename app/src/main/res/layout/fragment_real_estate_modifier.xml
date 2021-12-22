@@ -36,34 +36,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/recyclerview">
 
 
-                <Button
-                    android:id="@+id/add_photo_from_memory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="photo gallery"
-                    android:textSize="10sp" />
-
-                <Button
-                    android:id="@+id/add_photo_camera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="photo camera"
-                    android:textSize="10sp" />
 
 
                 <Button
-                    android:id="@+id/add_video_from_memory"
+                    android:id="@+id/open_media"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="video gallery"
-                    android:textSize="10sp" />
+                    android:text="OpenMedia"
+                    ></Button>
 
-                <Button
-                    android:id="@+id/add_video_from_camera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="video camera"
-                    android:textSize="10sp" />
+
+
+
+
+
 
 
                 <com.google.android.material.chip.ChipGroup
@@ -343,18 +329,6 @@
                     </com.google.android.material.textfield.TextInputEditText>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- insert PIO here -->
-
-
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/property_state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/property_state"
-                    android:visibility="invisible" />
-
 
                 <Button
                     android:id="@+id/save_btn"
@@ -371,14 +345,6 @@
                     app:layout_constraintRight_toRightOf="parent" />
 
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/is_sold_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Is sold "
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageview" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>

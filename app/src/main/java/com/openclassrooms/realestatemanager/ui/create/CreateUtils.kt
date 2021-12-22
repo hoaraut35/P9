@@ -1,10 +1,14 @@
 package com.openclassrooms.realestatemanager.ui.create
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import java.io.IOException
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CreateUtils {
 

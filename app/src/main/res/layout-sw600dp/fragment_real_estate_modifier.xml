@@ -17,25 +17,14 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-
-
             <Button
-                android:id="@+id/add_photo_from_memory"
+                android:id="@+id/open_media"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Get photo from gallery..."/>
+                android:text="Open media..."></Button>
 
-            <Button
-                android:id="@+id/add_photo_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Get photo from camera..." />
 
-            <ImageView
-                android:id="@+id/imageOfGallery"
-                android:background="@color/colorPrimaryDark"
-                android:layout_width="200dp"
-                android:layout_height="200dp"/>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
@@ -46,8 +35,6 @@
                 >
 
             </androidx.recyclerview.widget.RecyclerView>
-
-
 
 
             <com.google.android.material.chip.ChipGroup
@@ -85,9 +72,6 @@
             </com.google.android.material.chip.ChipGroup>
 
 
-
-
-
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,9 +83,6 @@
                     android:text="type choice ">
 
                 </TextView>
-
-
-
 
 
                 <RadioButton
@@ -319,9 +300,7 @@
                 android:id="@+id/text_uri"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="uri picture"/>
-
-
+                android:text="uri picture" />
 
 
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -329,14 +308,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Is sold "
-                app:layout_constraintTop_toBottomOf="@id/imageview"
-                app:layout_constraintStart_toStartOf="parent"/>
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageview" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 
     </ScrollView>
@@ -359,6 +335,10 @@
 
 
 
-
-
+    <ImageView
+        android:id="@+id/imageOfGallery"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="invisible"
+        android:background="@color/colorPrimaryDark" />
 </androidx.constraintlayout.widget.ConstraintLayout>

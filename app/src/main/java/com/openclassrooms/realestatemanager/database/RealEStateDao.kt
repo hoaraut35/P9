@@ -56,4 +56,8 @@ interface RealEStateDao {
     @RawQuery
     fun getRealEstateFiltered(query: SupportSQLiteQuery) : Flow<List<RealEstateFull>>
 
+
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun insertAgent(realEstateAgent: RealEstateAgent)
+
 }

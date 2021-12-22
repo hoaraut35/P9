@@ -33,8 +33,6 @@ import java.util.Locale;
 
 public class Utils {
 
-    public static boolean result = false;
-
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
@@ -66,18 +64,6 @@ public class Utils {
     public static String getTodayDate() {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy");
         return dateFormat.format(new Date());
-    }
-
-
-
-    public static Long getTodayDateToLong(){
-        return System.currentTimeMillis();
-    }
-
-    public static LocalDate epochMilliToLocalDate(Long millisecondsFromEpoch) {
-        Instant instant = Instant.ofEpochMilli(millisecondsFromEpoch);
-        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        return dateTime.toLocalDate();
     }
 
     /**
@@ -133,6 +119,15 @@ public class Utils {
         return currencyFormat;
     }
 
+    public static Long getTodayDateToLong(){
+        return System.currentTimeMillis();
+    }
+
+    public static LocalDate epochMilliToLocalDate(Long millisecondsFromEpoch) {
+        Instant instant = Instant.ofEpochMilli(millisecondsFromEpoch);
+        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return dateTime.toLocalDate();
+    }
 
 
 }

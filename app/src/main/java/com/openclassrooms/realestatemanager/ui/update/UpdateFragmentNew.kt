@@ -251,8 +251,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     }
 
                     //to add
-
-
                     if (viewModelUpdate.getMediaListFromVM().value != null) {
                         for (item in viewModelUpdate.getMediaListFromVM().value!!) {
                             if (!RealEstateFullObserve.mediaList.contains(item)) {

@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateModifierBinding
@@ -39,16 +38,16 @@ import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.utils.CreateUtils
+import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 import java.lang.reflect.Field
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 @AndroidEntryPoint
-class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
-    PopupMenu.OnMenuItemClickListener {
+class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
+    {
 
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
@@ -58,10 +57,12 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
     private val listOfMediasToSave = mutableListOf<RealEstateMedia>()
 
-    private lateinit var activityResultLauncherForPhoto: ActivityResultLauncher<Intent>
-    private lateinit var activityResultLauncherForVideo: ActivityResultLauncher<Intent>
+    private lateinit var getPhotoFromCamera: ActivityResultLauncher<Intent>
+    private lateinit var getVideoFromCamera: ActivityResultLauncher<Intent>
     private lateinit var getPhotoFromGallery: ActivityResultLauncher<String>
+    private lateinit var getVideoFromGallery: ActivityResultLauncher<String>
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -69,16 +70,14 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
         _binding = FragmentRealEstateModifierBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-        //for setup topBar
         setHasOptionsMenu(true)
 
-        //bind recyclerview
         val recyclerView = binding.recyclerview
 
-
-        //TODO: move on selct media buton
-        showPopupMenu(binding.chipRealEstateType)
-
+        //open media ...
+        binding.openMedia?.setOnClickListener {
+            showPopupMenu(binding.openMedia!!)
+        }
 
         //get the type of product...
         binding.chipRealEstateType.setOnCheckedChangeListener { group, checkedId ->
@@ -86,10 +85,10 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
                 group.findViewById<Chip>(checkedId)?.text.toString()
         }
 
-//        //
-//        binding.chipRealEstatePoi.setOnCheckedChangeListener { group, checkedId ->
-//            viewModelCreate.propertyTypeChanged(group.findViewById<Chip>(checkedId)?.text.toString())
-//        }
+
+        //binding.chipRealEstatePoi.setOnCheckedChangeListener { group, checkedId ->
+        //  viewModelCreate.propertyTypeChanged(group.findViewById<Chip>(checkedId)?.text.toString())
+        //}
 
 
         binding.edittextPrice?.addTextChangedListener {
@@ -100,14 +99,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
         //setupActionAfterGetImageFromGallery()
 
-        //click listener to get video from camera
-        binding.addVideoFromCamera?.setOnClickListener {
-            val intentVideo = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-            activityResultLauncherForVideo.launch(intentVideo)
-        }
-
-        //get result for a video from the camera
-        activityResultLauncherForVideo =
+        //work fine...
+        getVideoFromCamera =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
                 if (result!!.resultCode == Activity.RESULT_OK) {
                     viewModelCreate.addMediaToList(
@@ -117,147 +110,76 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
                             name = "video"
                         )
                     )
-
-                    recyclerView.adapter?.notifyDataSetChanged()
                 }
             }
 
-        //get result for a video from gallery
-        val getVideoFromGallery = registerForActivityResult(
-            ActivityResultContracts.GetContent(),
-            ActivityResultCallback {
 
-                if (it != null) {
-                    viewModelCreate.addMediaToList(
-                        RealEstateMedia(
-                            uri = it.toString(),
-                            realEstateParentId = 1,
-                            name = "video"
-                        )
+        //work fine...
+        getVideoFromGallery = registerForActivityResult(ActivityResultContracts.GetContent())
+        {
+            if (it != null) {
+                viewModelCreate.addMediaToList(
+                    RealEstateMedia(
+                        uri = it.toString(),
+                        realEstateParentId = 1,
+                        name = "video"
                     )
-
-                    recyclerView.adapter?.notifyDataSetChanged()
-                }
+                )
             }
-        )
-
-        //click listener for open video from gallery
-        binding.addVideoFromMemory?.setOnClickListener {
-            getVideoFromGallery.launch("video/*")
         }
 
+        //work fine...
+        getPhotoFromGallery = registerForActivityResult(ActivityResultContracts.GetContent())
+        { uri ->
 
-        //open photo from gallery
-        getPhotoFromGallery = registerForActivityResult(
-            ActivityResultContracts.GetContent(),
-            ActivityResultCallback { uri ->
+            if (uri != null) {
 
-                //we have selected a phot from gallery...
-                if (uri != null) {
+                val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
+                    context?.applicationContext?.contentResolver, uri
+                )
 
-                    //we get the bitmap from uri
-                    val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
-                        context?.applicationContext?.contentResolver, uri
-                    )
+                val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                val fileName = "Photo_"
+                val fileNameDestination = "$fileName$dateFileName.jpg"
 
-                    //we set the file date...
-                    val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                //set uri
+                val fileNameUri: String?
+                fileNameUri = context?.filesDir.toString() + "/" + fileNameDestination + ".jpg"
 
-                    //we set file name...
-                    val fileName = "Photo_"
-
-                    //full name...
-                    val fileNameDestination = "$fileName$dateFileName.jpg"
-
-                    //set uri
-                    val fileNameUri: String?
-                    fileNameUri =
-                        context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
-
-                    //if we have a bitmap then ...
-                    if (bitmap != null) {
-
-                        savePhotoToInternalMemory("$dateFileName", bitmap)
-                        recyclerView!!.adapter?.notifyDataSetChanged()
-
-
-                    }
-
+                //if we have a bitmap then ...
+                if (bitmap != null) {
+                    savePhotoToInternalMemory("$fileName$dateFileName", bitmap)
+                    // recyclerView!!.adapter?.notifyDataSetChanged()
                 }
+
             }
-        )
-
-
-//        //launcher for open video from gallery
-//        val getImageFromGallery = registerForActivityResult(
-//            ActivityResultContracts.GetContent(),
-//            ActivityResultCallback {uri->
-//
-//                //to show image
-//                binding.imageOfGallery?.setImageURI(uri)
-//
-//                if (uri != null) {
-//
-//                    val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
-//                        context?.applicationContext?.contentResolver, uri
-//                    )
-//
-//                    val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-//                    val fileName = "Photo_"
-//
-//                    if (bitmap != null) {
-//
-//                        var fileNameUri: String?
-//                        fileNameUri =
-//                            context?.filesDir.toString() + "/" + fileName + dateFileName + ".jpg"
-//
-//
-//                        if (CreateUtils.savePhotoToInternalMemory(
-//                                requireContext(),
-//                                "Photo_$dateFileName",
-//                                bitmap
-//                            )
-//                        ) {
-//                            //add in viewmodel list
-//                            viewModelCreate.addMediaToList(
-//                                RealEstateMedia(
-//                                    uri = fileNameUri,
-//                                    name = "media",
-//                                    realEstateParentId = 1
-//                                )
-//                            )
-//
-//                        }
-//
-//
-//
-//
-//
-//                        recyclerView.adapter?.notifyDataSetChanged()
-//                    }
-//
-//                }
-//            }
-//        )
-
-        //click listener for take photo from camera
-        binding.addPhotoCamera.setOnClickListener {
-            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            activityResultLauncherForPhoto.launch(intent)
         }
 
-        //setup callback for camera
+        getPhotoFromCamera =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+
+                if (result?.resultCode == Activity.RESULT_OK) {
+
+                    val bitmap = result.data!!.extras!!.get("data") as Bitmap
+                    val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+
+                    val fileName: String = "Photo_"
+
+                    //val storageDir = File(context?.filesDir, "test")
+
+                    savePhotoToInternalMemory("$dateFileName", bitmap)
+
+                }
+
+            }
+
+
+
         setupActivityResultForCamera()
-
-        binding.addPhotoFromMemory?.setOnClickListener {
-            getPhotoFromGallery.launch("image/*")
-        }
-
-        //setup callback for gallery
-        setupActivityResultForGallery()
+        //setupActivityResultForGallery()
 
         //get sold state of property
-        getSoldStateBtn()
+        //getSoldStateBtn()
 
         //save data to database
         saveRealEstateInDB()
@@ -279,23 +201,20 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
                 CreateUtils.validPriceText(binding.edittextDescription!!.text)
         }
 
-        binding.edittextDescription?.setOnFocusChangeListener { _, focused ->
+        binding.edittextDescription?.setOnFocusChangeListener { _, _ ->
             binding.propertyDescriptionText.helperText =
                 CreateUtils.validPriceText(binding.edittextDescription!!.text)
         }
 
 
+        //observe database for notification
         viewModelCreate.observeRowId().observe(viewLifecycleOwner) {
-
-
-            //Toast.makeText(requireContext(),"Event on row id",Toast.LENGTH_LONG).show()
-            notification("RealEsatzte", "Sauvegarde temrinée")
+            notification("RealEstate Manager", "Sauvegarde terminée")
             val navHostFragment =
                 requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
 
             val navController = navHostFragment.navController
             navController.navigateUp()
-
         }
 
         return rootView
@@ -333,6 +252,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
         }
     }
+
 
     private fun setupViewModel(recyclerView: RecyclerView) {
 
@@ -407,40 +327,40 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
         popupMenu.inflate(R.menu.popup)
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
+                //ok
                 R.id.photoFromGallery -> {
-                    Toast.makeText(context, "Choix photo gallery", Toast.LENGTH_SHORT).show()
+                    getPhotoFromGallery.launch("image/*")
                     true
                 }
                 R.id.photoFromCamera -> {
-                    Toast.makeText(context, "Choix photo appareil", Toast.LENGTH_SHORT).show()
+                    getPhotoFromCamera.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
                     true
                 }
 
                 R.id.videoFromCamera -> {
-                    Toast.makeText(context, "Choix video appareil", Toast.LENGTH_SHORT).show()
+                    val intentVideo = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+                    getVideoFromCamera.launch(intentVideo)
                     true
                 }
 
                 R.id.videoFromGallery -> {
-                    Toast.makeText(context, "Choix video gallerie", Toast.LENGTH_SHORT).show()
+                    getVideoFromGallery.launch("video/*")
                     true
                 }
-
 
                 else -> true
             }
         }
 
+        //to show icon in popup menu
         val popup: Field = PopupMenu::class.java.getDeclaredField("mPopup")
         popup.isAccessible = true
         val menu: Any? = popup.get(popupMenu)
         menu?.javaClass?.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
             ?.invoke(menu, true)
-
         popupMenu.show()
 
     }
-
 
     private fun notification(task: String, desc: String) {
         val manager =
@@ -463,22 +383,17 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
         manager.notify(1, builder.build())
     }
 
+//    private fun getSoldStateBtn() {
+//        val isSoldButton: SwitchMaterial = binding.isSoldSwitch
+//        isSoldButton.setOnClickListener(View.OnClickListener {
+//            if (isSoldButton.isChecked) {
+//                Toast.makeText(requireContext(), "enabled", Toast.LENGTH_LONG).show()
+//            } else {
+//                Toast.makeText(requireContext(), "disable", Toast.LENGTH_LONG).show()
+//            }
+//        })
+//    }
 
-    private fun getSoldStateBtn() {
-
-        val isSoldButton: SwitchMaterial = binding.isSoldSwitch
-
-        isSoldButton.setOnClickListener(View.OnClickListener {
-
-            if (isSoldButton.isChecked) {
-                Toast.makeText(requireContext(), "enabled", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(requireContext(), "disable", Toast.LENGTH_LONG).show()
-            }
-        })
-
-
-    }
 
     private fun saveRealEstateInDB() {
 
@@ -489,64 +404,82 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
             binding.saveBtn.setOnClickListener {
 
-                //insert generic data ...
-                viewModelCreate.insertRealEstate(
-                    RealEstate(
-                        typeOfProduct = viewModelCreate.realEstateVM.typeOfProduct,
-                        price = binding.edittextPrice?.text.toString().toInt(),
-                        surface = binding.edittextSurface?.text.toString().toInt(),
-                        numberOfRoom = binding.edittextNumberRoom?.text.toString().toInt(),
-                        numberOfBathRoom = binding.edittextNumberBathroom?.text.toString().toInt(),
-                        numberOfBedRoom = binding.edittextNumberBedroom?.text.toString().toInt(),
-                        descriptionOfProduct = binding.edittextDescription?.text?.toString(),
-                        address = RealEstateAddress(
-                            street_name = binding.edittextStreetName?.text.toString(),
-                            street_number = binding.edittextStreetNumber?.text.toString().toInt(),
-                            city = binding.edittextCityName?.text.toString(),
-                            zip_code = binding.edittextCityZipcode?.text.toString().toInt(),
-                            country = null
-                        ),
-                        status = false
-                    )
-                )
 
-                //add medias to database
+                //TODO: check if we have one photo
+
                 if (!viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
-                    for (item in viewModelCreate.getMediasListForUI().value!!) {
-                        mainViewModel.insertPhoto(
-                            RealEstateMedia(
-                                uri = item.uri,
-                                realEstateParentId = lastIndex,
-                                name = item.name,
-                                position = mainViewModel.getLastRowIdForMedia.value
-                            )
+
+
+                    //insert generic data ...
+                    viewModelCreate.insertRealEstate(
+                        RealEstate(
+                            typeOfProduct = viewModelCreate.realEstateVM.typeOfProduct,
+                            dateOfEntry = Utils.getTodayDateToLong(),
+                            price = binding.edittextPrice?.text.toString().toInt(),
+                            surface = binding.edittextSurface?.text.toString().toInt(),
+                            numberOfRoom = binding.edittextNumberRoom?.text.toString().toInt(),
+                            numberOfBathRoom = binding.edittextNumberBathroom?.text.toString()
+                                .toInt(),
+                            numberOfBedRoom = binding.edittextNumberBedroom?.text.toString()
+                                .toInt(),
+                            descriptionOfProduct = binding.edittextDescription?.text?.toString(),
+                            address = RealEstateAddress(
+                                street_name = binding.edittextStreetName?.text.toString(),
+                                street_number = binding.edittextStreetNumber?.text.toString()
+                                    .toInt(),
+                                city = binding.edittextCityName?.text.toString(),
+                                zip_code = binding.edittextCityZipcode?.text.toString().toInt(),
+                                country = null
+                            ),
+                            status = false
                         )
-                    }
-                }
-
-                //insert poi
-                var school = false
-                var park = false
-                var gare = false
-
-                binding.chipRealEstatePoi.checkedChipIds.forEach { myChip ->
-                    val chipState = binding.chipRealEstatePoi.findViewById<Chip>(myChip).isChecked
-                    when (binding.chipRealEstatePoi.findViewById<Chip>(myChip).text.toString()) {
-                        "Ecole" -> school = chipState
-                        "Parc" -> park = chipState
-                        "Gare" -> gare = chipState
-                    }
-                }
-
-                viewModelCreate.insertPOI(
-                    RealEstatePOI(
-                        school = school,
-                        park = park,
-                        station = gare,
-                        realEstateParentId = lastIndex
                     )
-                )
 
+
+                    //add medias to database
+                    if (!viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
+
+                        viewModelCreate.getMediasListForUI().value!!.forEachIndexed { index, realEstateMedia ->
+                            mainViewModel.insertPhoto(
+                                RealEstateMedia(
+                                    uri = realEstateMedia.uri,
+                                    realEstateParentId = lastIndex,
+                                    name = realEstateMedia.name,
+                                    position = index
+                                )
+                            )
+                        }
+
+
+                    }
+
+                    //insert poi
+                    var school = false
+                    var park = false
+                    var gare = false
+
+                    binding.chipRealEstatePoi.checkedChipIds.forEach { myChip ->
+                        val chipState =
+                            binding.chipRealEstatePoi.findViewById<Chip>(myChip).isChecked
+                        when (binding.chipRealEstatePoi.findViewById<Chip>(myChip).text.toString()) {
+                            "Ecole" -> school = chipState
+                            "Parc" -> park = chipState
+                            "Gare" -> gare = chipState
+                        }
+                    }
+
+                    viewModelCreate.insertPOI(
+                        RealEstatePOI(
+                            school = school,
+                            park = park,
+                            station = gare,
+                            realEstateParentId = lastIndex
+                        )
+                    )
+                }else
+                {
+                    Toast.makeText(requireContext(),"Add one photo minimum" , Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -558,7 +491,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
             ActivityResultContracts.GetContent(),
 
             ActivityResultCallback {
-                binding.imageOfGallery?.setImageURI(it)
+          //      binding.imageOfGallery?.setImageURI(it)
                 val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                 //val storageDir = File(context?.filesDir, "test")
                 //savePhotoToInternalMemory("Photo_$fileName", it)
@@ -579,22 +512,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
 
     //TODO: move to util class ?
     private fun setupActivityResultForCamera() {
-        activityResultLauncherForPhoto =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-
-                if (result?.resultCode == Activity.RESULT_OK) {
-                    val bitmap = result.data!!.extras!!.get("data") as Bitmap
-                    val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                    //val storageDir = File(context?.filesDir, "test")
-                    CreateUtils.savePhotoToInternalMemory(
-                        requireContext(),
-                        "Photo_$fileName",
-                        bitmap
-                    )
-                }
-
-            }
-
     }
 
     //setup recyclerView
@@ -626,18 +543,5 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment(),
         context?.deleteFile(media.uri?.substringAfterLast("/"))
     }
 
-    override fun onMenuItemClick(p0: MenuItem?): Boolean {
-
-        when (p0?.itemId) {
-            R.id.photoFromGallery -> getPhotoFromGallery.launch("image/*")
-            R.id.photoFromCamera -> true
-            R.id.videoFromGallery -> true
-            R.id.videoFromCamera -> true
-            else -> false
-        }
-
-        return true
-
-    }
 
 }
