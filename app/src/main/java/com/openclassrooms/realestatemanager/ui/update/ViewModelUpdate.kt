@@ -19,6 +19,7 @@ class ViewModelUpdate @Inject constructor(
 
     var realEstate: RealEstate = RealEstate()
 
+    private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
     var listOfMediaToRemove: MutableList<RealEstateMedia> = mutableListOf()
 
     fun getRealEstateFullById(): LiveData<RealEstateFull> =
@@ -42,7 +43,7 @@ class ViewModelUpdate @Inject constructor(
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
 
     //actual list of media...
-    private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
+
 
     fun getMutableListOfMedia(): MutableList<RealEstateMedia> {
         return listOfMedia
@@ -57,17 +58,28 @@ class ViewModelUpdate @Inject constructor(
     //to add media
     fun addMediaToList(media: RealEstateMedia) {
         listOfMedia.add(media)
-        listOfMedia.sortBy { it.position }
+       // listOfMedia.sortBy { it.position }
         mutableListOfMedia.value = listOfMedia
     }
 
 
     //to delete media from the list
     fun deleteMedia(media: RealEstateMedia) {
+        //for update ui only...
         listOfMedia.remove(media)
-        listOfMediaToRemove.add(media)
+
+        //for ui only ...
         mutableListOfMedia.value = listOfMedia
         //delete it in database...
+
+
+
+    }
+
+    fun deleteMediaFromDatabase(media: RealEstateMedia){
+        //for add media to the list of deleted media
+        listOfMediaToRemove.add(media)
+        //move to fragfment ?
         viewModelScope.launch { localDatabaseRepository.deleteMedia(media) }
 
     }

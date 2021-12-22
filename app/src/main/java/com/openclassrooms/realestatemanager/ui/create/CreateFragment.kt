@@ -450,8 +450,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
                                 RealEstateMedia(
                                     uri = realEstateMedia.uri,
                                     realEstateParentId = lastIndex,
-                                    name = realEstateMedia.name,
-                                    position = index
+                                    name = realEstateMedia.name
+                                    //position = index
                                 )
                             )
                         }

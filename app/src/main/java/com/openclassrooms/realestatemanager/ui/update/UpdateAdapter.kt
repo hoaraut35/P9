@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.VideoView
 import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
@@ -15,17 +14,19 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 
 class UpdateAdapter(
-   val mediaList: List<RealEstateMedia>,
+    val mediaList: List<RealEstateMedia>,
     callback: InterfaceMediaAdapter
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var callback: InterfaceMediaAdapter? = callback
 
     interface InterfaceMediaAdapter {
-        fun onChangedTitlePhoto(title: String, uri: String)
+        fun onChangedTitleMedia(title: String, uri: String)
         fun onDeleteMedia(media: RealEstateMedia)
+        fun onToast(text: String)
     }
 
+    //for photo...
     inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(photoModel: RealEstateMedia) {
 
@@ -40,67 +41,49 @@ class UpdateAdapter(
             val photoTitle: EditText = itemView.findViewById(R.id.photo_title)
 
             photoTitle.addTextChangedListener {
-                callback?.onChangedTitlePhoto(photoTitle.text.toString(), photoModel.uri!!)
+                callback?.onChangedTitleMedia(photoTitle.text.toString(), photoModel.uri!!)
             }
 
             photoTitle.setText(photoModel.name)
 
             delete.setOnClickListener {
-                callback?.onDeleteMedia(photoModel)
+                if (mediaList.size > 1) {
+                    callback?.onDeleteMedia(photoModel)
+                } else {
+                    callback?.onToast("Gardez au moins un media")
+                }
+
             }
-
-
         }
     }
 
+    //for video...
     inner class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(videoModel: RealEstateMedia) {
 
-            itemView.findViewById<TextView>(R.id.video_title).text = videoModel.name
-
-            // val imageMask: ImageView = itemView.findViewById(R.id.image_view_mask)
             val video: VideoView = itemView.findViewById(R.id.video_view_add)
             val delete = itemView.findViewById<ImageView>(R.id.delete_btn)
-
             val videoTitle: EditText = itemView.findViewById(R.id.video_title)
 
             videoTitle.addTextChangedListener {
-                callback?.onChangedTitlePhoto(videoTitle.text.toString(), videoModel.uri!!)
+                callback?.onChangedTitleMedia(videoTitle.text.toString(), videoModel.uri!!)
             }
-
-            delete.setOnClickListener {
-                callback?.onDeleteMedia(videoModel)
-            }
-
 
             videoTitle.setText(videoModel.name)
 
-            video.setVideoURI(videoModel.uri?.toUri())
-//            Glide.with(itemView)
-//                .load(videoModel.uri)
-//                .centerCrop()
-//                .into(imageMask)
+            delete.setOnClickListener {
+                if (mediaList.size > 1) {
+                    callback?.onDeleteMedia(videoModel)
+                } else {
+                    callback?.onToast("Gardez au moins un media")
+                }
 
-            //add listener on image view mask
-//            imageMask.setOnClickListener {
-//
-//                imageMask.isVisible = false
-//                video.setVideoURI(videoModel.uri?.toUri())
-//                video.start()
-//                video.isVisible = true
-//
-//                video.setOnFocusChangeListener { view, b ->
-//                    view.isVisible = false
-//                    imageMask.isVisible = true
-//                }
-//
-//                val videoTitle: EditText = itemView.findViewById(R.id.video_title)
-//
-//                videoTitle.addTextChangedListener {
-//                    callback?.onChangedTitlePhoto(videoTitle.text.toString(), videoModel.uri!!)
-//                }
-//
-//            }
+            }
+
+
+
+
+            video.setVideoURI(videoModel.uri?.toUri())
 
             video.setOnClickListener(View.OnClickListener {
                 video.start()
@@ -111,7 +94,7 @@ class UpdateAdapter(
                 video.pause()
             }
 
-            video.setOnFocusChangeListener { view, b ->
+            video.setOnFocusChangeListener { _, _ ->
                 video.start()
                 video.pause()
             }
@@ -142,7 +125,7 @@ class UpdateAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (mediaList[position].uri?.contains("/data/user/")!!) {
+        return if (mediaList[position].uri?.contains("Photo")!!) {
             0
         } else {
             1
@@ -156,10 +139,6 @@ class UpdateAdapter(
             (holder as VideoViewHolder).bind(mediaList[position])
         }
     }
-
-
-
-
 
 
 }

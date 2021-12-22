@@ -11,8 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -64,98 +64,18 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         }
 
         //open a photo from gallery...
-        getPhotoFromGallery = registerForActivityResult(
-            ActivityResultContracts.GetContent(),
-            ActivityResultCallback { uri ->
-
-                if (uri != null) {
-
-                    val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
-                        context?.applicationContext?.contentResolver, uri
-                    )
-
-                    val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                    val fileName = "Photo_"
-                    val fileNameDestination = "$fileName$dateFileName.jpg"
-                    val fileNameUri: String?
-                    fileNameUri = context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
-
-                    if (bitmap != null) {
-
-                        if (CreateUtils.savePhotoToInternalMemory(
-                                requireContext(),
-                                fileNameDestination,
-                                bitmap
-                            )
-                        ) {
-                            viewModelUpdate.addMediaToList(
-                                RealEstateMedia(
-                                    realEstateParentId = viewModelUpdate.realEstate.realEstateId,
-                                    uri = fileNameUri,
-                                    name = "Photo"
-                                )
-                            )
-                        }
-
-                        recyclerViewMedias!!.adapter?.notifyDataSetChanged()
-                    }
-
-                }
-            }
-        )
+        setupGetPhotoFromGallery(recyclerViewMedias!!)
 
         //open a video from camera...
-        getVideoFromCamera =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-                if (result!!.resultCode == Activity.RESULT_OK) {
-                    viewModelUpdate.addMediaToList(
-                        RealEstateMedia(
-                            uri = result.data?.data.toString(),
-                            realEstateParentId = 1,
-                            name = "video"
-                        )
-                    )
-
-                    recyclerViewMedias!!.adapter?.notifyDataSetChanged()
-                }
-            }
+        setupGetVideoFromCamera(recyclerViewMedias)
 
         //open a video from gallery...
-        getVideoFromGallery = registerForActivityResult(
-            ActivityResultContracts.GetContent(),
-            ActivityResultCallback {
-
-                if (it != null) {
-                    viewModelUpdate.addMediaToList(
-                        RealEstateMedia(
-                            uri = it.toString(),
-                            realEstateParentId = 1,
-                            name = "Video"
-                        )
-                    )
-
-                    recyclerViewMedias!!.adapter?.notifyDataSetChanged()
-                }
-            }
-        )
+        setupGetVideoFromGallery(recyclerViewMedias)
 
         //open a photo from camera...
-        getPhotoFromCamera =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+        setupGetPhotoFromCamera()
 
-                if (result?.resultCode == Activity.RESULT_OK) {
-
-                    var bitmap = result.data!!.extras!!.get("data") as Bitmap
-
-                    val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                    //val storageDir = File(context?.filesDir, "test")
-                    savePhotoToInternalMemory("Photo_$fileName", bitmap)
-                }
-
-            }
-
-
-        //observe the actual realEsatet for update....
+        //observe updated realEstate...
         viewModelUpdate.getRealEstateFullById()
             .observe(viewLifecycleOwner) { RealEstateFullObserve ->
 
@@ -169,24 +89,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                 binding.isSoldSwitch?.isChecked =
                     RealEstateFullObserve.realEstateFullData.releaseDate != null
-
-                //setup initial media list in viewmod
-                viewModelUpdate.initialListOfMedia =
-                    RealEstateFullObserve.mediaList as MutableList<RealEstateMedia>
-
-                Log.i(
-                    "[UPMEDIA]",
-                    "Initial list : " + viewModelUpdate.initialListOfMedia.toString()
-                )
-
-                //if the we don't have modified list then show initial list...
-                if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
-                        .isEmpty()
-                ) {
-                    Log.i("[UPMEDIA]", "Initial list already updated load it ... : ")
-                    viewModelUpdate.initList()
-                }
-
 
                 //type of product...
                 when (RealEstateFullObserve.realEstateFullData.typeOfProduct) {
@@ -214,6 +116,20 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     else -> binding.parcChip?.isChecked = false
                 }
 
+
+                //save the initial list of media in viewModel
+                viewModelUpdate.initialListOfMedia =
+                    RealEstateFullObserve.mediaList as MutableList<RealEstateMedia>
+
+                //if the we don't have modified list then show initial list...
+                if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
+                        .isEmpty()
+                ) {
+                    Log.i("[UPMEDIA]", "Initial list already updated load it ... : ")
+                    viewModelUpdate.initList()
+                }
+
+
                 //update actual estate
                 viewModelUpdate.realEstate = RealEstateFullObserve.realEstateFullData
 
@@ -221,6 +137,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 binding.saveBtn?.setOnClickListener {
 
                     viewModelUpdate.realEstate.typeOfProduct = "House"
+
                     viewModelUpdate.realEstate.price =
                         binding.edittextPrice?.text.toString().toInt()
                     viewModelUpdate.realEstate.surface =
@@ -242,9 +159,19 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
 
 
-                    //to remove media...
-                    for (itemToRemove in viewModelUpdate.listOfMediaToRemove) {
-                        viewModelUpdate.deleteMedia(itemToRemove)
+
+                    if (!viewModelUpdate.listOfMediaToRemove.isNullOrEmpty()) {
+                        for (itemToRemove in viewModelUpdate.listOfMediaToRemove) {
+                            //    viewModelUpdate.deleteMedia(itemToRemove)
+
+                            //    viewModelUpdate.deleteMediaFromDatabase(itemToRemove)
+                            //move to save btn
+                            UpdateUtils.deleteMediaFromInternalMemory(requireContext(), itemToRemove)
+
+
+                            //context?.deleteFile(mediaToDelete.uri.substringAfterLast("/"))
+                            //viewModel.deletePropertyMediaFromDb(mediaToDelete)
+                        }
                     }
 
                     //to add
@@ -256,8 +183,8 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                                         RealEstateMedia(
                                             uri = item.uri,
                                             realEstateParentId = RealEstateFullObserve.realEstateFullData.realEstateId,
-                                            name = item.name,
-                                            position = viewModelUpdate.realEstate.realEstateId
+                                            name = item.name
+
                                         )
                                     )
                                 }
@@ -265,10 +192,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         }
                     }
 
-                    //update position
-                    viewModelUpdate.newListOfMedia.forEachIndexed { index, media ->
-                        media.position = index
-                    }
 
                     //for title
                     for (media in viewModelUpdate.mediaList) {
@@ -291,7 +214,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         viewModelUpdate.getMediaListFromVM().observe(viewLifecycleOwner) { myMedia ->
 
-            setupRecyclerView(recyclerViewMedias!!, myMedia.sortedBy { it.position })
+            setupRecyclerView(recyclerViewMedias, myMedia)
 
             val simpleCallback = object :
                 ItemTouchHelper.SimpleCallback(
@@ -368,6 +291,129 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     }
 
+    private fun setupGetPhotoFromGallery(recyclerView: RecyclerView) {
+        getPhotoFromGallery = registerForActivityResult(
+            ActivityResultContracts.GetContent()
+        )
+        { uri ->
+
+            if (uri != null) {
+
+                val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
+                    context?.applicationContext?.contentResolver, uri
+                )
+
+                //val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                val dateFileName: String =
+                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRANCE).format(Date())
+                val fileName = "Photo_"
+                val fileNameDestination = "$fileName$dateFileName.jpg"
+                val fileNameUri: String?
+                fileNameUri = context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
+
+                if (bitmap != null) {
+
+                    if (CreateUtils.savePhotoToInternalMemory(
+                            requireContext(),
+                            fileNameDestination,
+                            bitmap
+                        )
+                    ) {
+                        viewModelUpdate.addMediaToList(
+                            RealEstateMedia(
+                                realEstateParentId = viewModelUpdate.realEstate.realEstateId,
+                                uri = fileNameUri,
+                                name = "Photo"
+                            )
+                        )
+                    }
+
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+
+            }
+        }
+    }
+
+    private fun setupGetPhotoFromCamera() {
+        getPhotoFromCamera =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+
+                if (result?.resultCode == Activity.RESULT_OK) {
+
+                    val bitmap = result.data!!.extras!!.get("data") as Bitmap
+                    val fileName: String =
+                        "Photo_" + SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()) + ".jpg"
+
+                    if (savePhotoToInternalMemory("Photo_$fileName", bitmap)) {
+                        val fileNameUri = context?.filesDir.toString() + "/" + fileName
+                        viewModelUpdate.addMediaToList(
+                            RealEstateMedia(
+                                uri = fileNameUri,
+                                name = "Photo",
+                                realEstateParentId = viewModelUpdate.realEstate.realEstateId
+                            )
+                        )
+
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Fail to save photo to internal memory",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+    }
+
+    private fun setupGetVideoFromGallery(recyclerViewMedias: RecyclerView) {
+        getVideoFromGallery = registerForActivityResult(
+            ActivityResultContracts.GetContent()
+        )
+        {
+            if (it != null) {
+                val fileName: String =
+                    "Video_" + SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()) + ".mp4"
+
+                if (UpdateUtils.saveVideoToInternalStorage("$fileName", it, requireContext())) {
+                    val fileNameUri = context?.filesDir.toString() + "/" + fileName
+
+                    viewModelUpdate.addMediaToList(
+                        RealEstateMedia(
+                            uri = fileNameUri,
+                            realEstateParentId = viewModelUpdate.realEstate.realEstateId,
+                            name = "Video"
+                        )
+                    )
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Fail to save video to internal memory",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+
+    private fun setupGetVideoFromCamera(recyclerView: RecyclerView) {
+        getVideoFromCamera =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+                if (result!!.resultCode == Activity.RESULT_OK) {
+                    viewModelUpdate.addMediaToList(
+                        RealEstateMedia(
+                            uri = result.data?.data.toString(),
+                            realEstateParentId = 1,
+                            name = "video"
+                        )
+                    )
+
+                    //   recyclerView!!.adapter?.notifyDataSetChanged()
+                }
+            }
+    }
+
     @SuppressLint("DiscouragedPrivateApi")
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
@@ -409,26 +455,16 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     }
 
+
     private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
         return try {
-            context?.openFileOutput("$filename.jpg", Activity.MODE_PRIVATE).use { stream ->
+            context?.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
 
                 //compress photo
                 if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
                     throw IOException("erreur compression")
                 }
 
-                val fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
-
-
-                //add in viewmodel list
-                viewModelUpdate.addMediaToList(
-                    RealEstateMedia(
-                        uri = fileNameUri,
-                        name = "test",
-                        realEstateParentId = viewModelUpdate.realEstate.realEstateId
-                    )
-                )
 
             }
             true
@@ -436,7 +472,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
             false
-
         }
     }
 
@@ -448,14 +483,20 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
     }
 
     //callback adapter...
-    override fun onChangedTitlePhoto(title: String, uri: String) {
+    override fun onChangedTitleMedia(title: String, uri: String) {
         viewModelUpdate.updateMediaTitle(title, uri)
     }
 
     //callback adapter...
     override fun onDeleteMedia(media: RealEstateMedia) {
         viewModelUpdate.deleteMedia(media)
-        UpdateUtils.deleteMediaFromInternalMemory(requireContext(), media)
+        viewModelUpdate.deleteMediaFromDatabase(media)
+        viewModelUpdate.listOfMediaToRemove.add(media)
+    }
+
+    //callback adapter...
+    override fun onToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
 }
