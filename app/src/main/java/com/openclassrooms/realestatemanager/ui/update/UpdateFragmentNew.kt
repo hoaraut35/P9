@@ -43,9 +43,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     private lateinit var getPhotoFromCamera: ActivityResultLauncher<Intent>
     private lateinit var getVideoFromCamera: ActivityResultLauncher<Intent>
-
     private lateinit var getPhotoFromGallery: ActivityResultLauncher<String>
-
     private lateinit var getVideoFromGallery: ActivityResultLauncher<String>
 
     private var dateOfSold: Long? = null
@@ -60,15 +58,13 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         val recyclerViewMedias: RecyclerView? = binding.recyclerview
 
-        setupActivityResultForCamera()
-
         //open a media...
         binding.addMediaBtn?.setOnClickListener {
             showPopupMenu(binding.addMediaBtn!!)
         }
 
         //open a photo from gallery...
-         getPhotoFromGallery = registerForActivityResult(
+        getPhotoFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
 
@@ -143,10 +139,20 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
             }
         )
 
+        //open a photo from camera...
+        getPhotoFromCamera =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
 
+                if (result?.resultCode == Activity.RESULT_OK) {
 
+                    var bitmap = result.data!!.extras!!.get("data") as Bitmap
 
+                    val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    //val storageDir = File(context?.filesDir, "test")
+                    savePhotoToInternalMemory("Photo_$fileName", bitmap)
+                }
 
+            }
 
 
         //observe the actual realEsatet for update....
@@ -346,11 +352,15 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         }
 
+        //sold button...
         binding.isSoldSwitch?.setOnClickListener {
-            if (binding.isSoldSwitch!!.isChecked) {
-                dateOfSold = Utils.getTodayDateToLong()
-            } else {
-                dateOfSold = null
+            dateOfSold = when {
+                binding.isSoldSwitch!!.isChecked -> {
+                    Utils.getTodayDateToLong()
+                }
+                else -> {
+                    null
+                }
             }
         }
 
@@ -399,27 +409,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     }
 
-
-    //TODO: move to util class ?
-    private fun setupActivityResultForCamera() {
-        getPhotoFromCamera =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-
-                if (result?.resultCode == Activity.RESULT_OK) {
-
-                    var bitmap = result.data!!.extras!!.get("data") as Bitmap
-
-                    val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                    //val storageDir = File(context?.filesDir, "test")
-                    savePhotoToInternalMemory("Photo_$fileName", bitmap)
-                }
-
-            }
-
-    }
-
-
-    //TODO: move to util class?
     private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
         return try {
             context?.openFileOutput("$filename.jpg", Activity.MODE_PRIVATE).use { stream ->
@@ -451,16 +440,19 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         }
     }
 
+    //setup recyclerview...
     private fun setupRecyclerView(recyclerView: RecyclerView, mediaList: List<RealEstateMedia>) {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = UpdateAdapter(mediaList, this)
     }
 
+    //callback adapter...
     override fun onChangedTitlePhoto(title: String, uri: String) {
         viewModelUpdate.updateMediaTitle(title, uri)
     }
 
+    //callback adapter...
     override fun onDeleteMedia(media: RealEstateMedia) {
         viewModelUpdate.deleteMedia(media)
         UpdateUtils.deleteMediaFromInternalMemory(requireContext(), media)
