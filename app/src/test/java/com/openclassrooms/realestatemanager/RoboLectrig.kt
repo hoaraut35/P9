@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.openclassrooms.realestatemanager.utils.Utils
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -28,18 +29,14 @@ class RoboLectrig {
 
     @Test
     fun testisConnected() {
-
         shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTED)
-        Assert.assertTrue(connectivityManager!!.activeNetworkInfo!!.isConnectedOrConnecting)
-        Assert.assertTrue(connectivityManager!!.activeNetworkInfo!!.isConnected)
+        Assert.assertTrue(Utils.isInternetAvailable(getApplicationContext()))
+    }
 
-        shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTING)
-        Assert.assertTrue(connectivityManager!!.activeNetworkInfo!!.isConnectedOrConnecting)
-        Assert.assertFalse(connectivityManager!!.activeNetworkInfo!!.isConnected)
-
+    @Test
+    fun testIfDisconnected(){
         shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.DISCONNECTED)
-        Assert.assertFalse(connectivityManager!!.activeNetworkInfo!!.isConnectedOrConnecting)
-        Assert.assertFalse(connectivityManager!!.activeNetworkInfo!!.isConnected)
+        Assert.assertTrue(Utils.isInternetAvailable(getApplicationContext()))
     }
 
 }
