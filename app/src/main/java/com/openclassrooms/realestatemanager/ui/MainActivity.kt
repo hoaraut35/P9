@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         //TODO:update this..
         Utils.isInternetAvailable(this)
         Log.i("[INTERNET]", "Isconnected : "  +  Utils.isInternetAvailable(this))
-        Utils.checkInternet(this)
+        //Utils.checkInternet(this)
 
     }
 

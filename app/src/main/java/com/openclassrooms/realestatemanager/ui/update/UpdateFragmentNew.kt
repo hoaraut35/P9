@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
+import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -166,9 +167,17 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     viewModelUpdate.realEstate.address!!.city =
                         binding.edittextCityName?.text.toString()
 
+                    viewModelUpdate.realEstate.staticMapUri = null
+                    viewModelUpdate.realEstate.address!!.lat = null
+                    viewModelUpdate.realEstate.address!!.lng = null
 
                     //Update the realEsatte ....
                     viewModelUpdate.realEstate.releaseDate = dateOfSold
+
+
+
+
+
                     viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
 
 

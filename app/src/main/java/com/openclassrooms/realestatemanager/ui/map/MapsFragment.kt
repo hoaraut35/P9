@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -118,22 +117,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         return rootView
     }
 
-    //TODO: see to automatic update
-    @SuppressLint("MissingPermission")
-    private fun startGPS() {
 
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
-            if (location != null) {
-                viewModelMap.latLng = viewModelMap.getLocationToLatLng(location)
-                setupMyLocation(viewModelMap.latLng!!)
-                setupZoom()
-            }
-        }
-
-    }
 
     @SuppressLint("MissingPermission")
     private fun startGPS2() {
@@ -171,8 +155,6 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
             MapsUtils.checkGpsState(requireContext(), requireActivity())
             startGPS2()
 
-        } else {
-            //    startGPS()
         }
     }
 

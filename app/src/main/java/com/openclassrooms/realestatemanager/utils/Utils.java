@@ -4,18 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -87,27 +78,27 @@ public class Utils {
         return isConnected;
     }
 
-    public static void checkInternet(Context context) {
-
-        RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://www.google.com";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(context, "Intertnet is enabled", Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Intertnet is not enabled", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        queue.add(stringRequest);
-
-    }
+//    public static void checkInternet(Context context) {
+//
+//        RequestQueue queue = Volley.newRequestQueue(context);
+//        String url = "http://www.google.com";
+//
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        Toast.makeText(context, "Intertnet is enabled", Toast.LENGTH_SHORT).show();
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(context, "Intertnet is not enabled", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        queue.add(stringRequest);
+//
+//    }
 
     //**********************************************************************************************
 
