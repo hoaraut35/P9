@@ -2,13 +2,8 @@ package com.openclassrooms.realestatemanager.ui.create
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.*
@@ -18,7 +13,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -36,7 +30,7 @@ import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.MainViewModel
-import com.openclassrooms.realestatemanager.utils.CreateUtils
+import com.openclassrooms.realestatemanager.utils.SharedUtils
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -45,8 +39,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
-    {
+class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
@@ -79,6 +72,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
         }
 
         //get the type of product...
+
         binding.chipRealEstateType.setOnCheckedChangeListener { group, checkedId ->
             viewModelCreate.realEstateVM.typeOfProduct =
                 group.findViewById<Chip>(checkedId)?.text.toString()
@@ -92,7 +86,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
 
         binding.edittextPrice?.addTextChangedListener {
             binding.propertyPriceText.helperText =
-                CreateUtils.validPriceText(binding.edittextPrice!!.text)
+                SharedUtils.validPriceText(binding.edittextPrice!!.text)
         }
 
 
@@ -177,8 +171,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
         setupActivityResultForCamera()
         //setupActivityResultForGallery()
 
-        //get sold state of property
-        //getSoldStateBtn()
 
         //save data to database
         saveRealEstateInDB()
@@ -187,30 +179,34 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
 
         binding.edittextPrice?.addTextChangedListener {
             binding.propertyPriceText.helperText =
-                CreateUtils.validPriceText(binding.edittextPrice!!.text)
+                SharedUtils.validPriceText(binding.edittextPrice!!.text)
         }
 
         binding.edittextPrice?.setOnFocusChangeListener { _, focused ->
             binding.propertyPriceText.helperText =
-                CreateUtils.validPriceText(binding.edittextPrice!!.text)
+                SharedUtils.validPriceText(binding.edittextPrice!!.text)
         }
 
         binding.edittextDescription?.addTextChangedListener {
             binding.propertyDescriptionText.helperText =
-                CreateUtils.validPriceText(binding.edittextDescription!!.text)
+                SharedUtils.validPriceText(binding.edittextDescription!!.text)
         }
 
         binding.edittextDescription?.setOnFocusChangeListener { _, _ ->
             binding.propertyDescriptionText.helperText =
-                CreateUtils.validPriceText(binding.edittextDescription!!.text)
+                SharedUtils.validPriceText(binding.edittextDescription!!.text)
         }
 
 
         //observe database for notification
         viewModelCreate.observeRowId().observe(viewLifecycleOwner) {
 
-            if (it.toInt() == viewModelCreate.observeRowId().value?.toInt() ) {
-                notification("RealEstate Manager", "Sauvegarde terminée")
+            if (it.toInt() == viewModelCreate.observeRowId().value?.toInt()) {
+                SharedUtils.notification(
+                    "RealEstate Manager",
+                    "Sauvegarde terminée",
+                    requireContext()
+                )
 
                 val navHostFragment =
                     requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
@@ -368,55 +364,18 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
 
     }
 
-    private fun notification(task: String, desc: String) {
-        val manager =
-            requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel =
-                NotificationChannel(
-                    "realEstate",
-                    "realEstate",
-                    NotificationManager.IMPORTANCE_DEFAULT
-                )
-            manager.createNotificationChannel(channel)
-        }
-        val builder: NotificationCompat.Builder =
-            NotificationCompat.Builder(requireContext(), "realEstate")
-                .setContentTitle("RealEsatate")
-                .setStyle(NotificationCompat.BigTextStyle().bigText("Sauvegarde terminée"))
-                .setDefaults(Notification.DEFAULT_SOUND)
-                .setSmallIcon(R.mipmap.ic_launcher)
-        manager.notify(1, builder.build())
-    }
-
-//    private fun getSoldStateBtn() {
-//        val isSoldButton: SwitchMaterial = binding.isSoldSwitch
-//        isSoldButton.setOnClickListener(View.OnClickListener {
-//            if (isSoldButton.isChecked) {
-//                Toast.makeText(requireContext(), "enabled", Toast.LENGTH_LONG).show()
-//            } else {
-//                Toast.makeText(requireContext(), "disable", Toast.LENGTH_LONG).show()
-//            }
-//        })
-//    }
-
 
     private fun saveRealEstateInDB() {
 
         mainViewModel.getLAstRowId.observe(viewLifecycleOwner) {
 
-            //get last index of realEstate
+            //get last index of realEstate table...
             val lastIndex: Int = it
 
             binding.saveBtn.setOnClickListener {
 
+                if (testForm().isNullOrEmpty()) {
 
-                //TODO: check if we have one photo
-
-                if (!viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
-
-
-                    //insert generic data ...
                     viewModelCreate.insertRealEstate(
                         RealEstate(
                             typeOfProduct = viewModelCreate.realEstateVM.typeOfProduct,
@@ -482,9 +441,9 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
                             realEstateParentId = lastIndex
                         )
                     )
-                }else
-                {
-                    Toast.makeText(requireContext(),"Add one photo minimum" , Toast.LENGTH_SHORT).show()
+
+                } else {
+                    Toast.makeText(requireContext(), testForm(), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -497,7 +456,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
             ActivityResultContracts.GetContent(),
 
             ActivityResultCallback {
-          //      binding.imageOfGallery?.setImageURI(it)
+                //      binding.imageOfGallery?.setImageURI(it)
                 val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                 //val storageDir = File(context?.filesDir, "test")
                 //savePhotoToInternalMemory("Photo_$fileName", it)
@@ -530,6 +489,56 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment()
         recyclerView.layoutManager = myLayoutManager
         recyclerView.adapter = CreateAdapter(myRealEstateList, this)
     }
+
+    //check datas..
+    private fun testForm(): String? {
+
+        var messagetest: String? = ""
+
+        if (viewModelCreate.realEstateVM.typeOfProduct.isNullOrEmpty()) {
+            messagetest += "You must to select a type of product \r\n"
+        }
+
+        if (viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
+            messagetest += "You minium one media for the product \r\n"
+        }
+
+        if (binding.edittextPrice?.text.toString().isNullOrEmpty()) {
+            messagetest += "You must choice a price \r\n"
+        }
+
+        if (binding.edittextSurface?.text.toString().isNullOrEmpty()) {
+            messagetest += "You must choice a surface \r\n"
+        }
+
+        if (binding.edittextNumberBathroom?.text.toString().isNullOrEmpty()){
+            messagetest += "You must choice a number of bathroom \r\n"
+        }
+
+        if (binding.edittextNumberBedroom?.text.toString().isNullOrEmpty()){
+            messagetest += "You must choice a number of Bedroom \r\n"
+        }
+
+        if (binding.edittextNumberRoom?.text.toString().isNullOrEmpty()){
+            messagetest += "You must choice a number of room \r\n"
+        }
+
+        if (binding.edittextDescription?.text.toString().isNullOrEmpty()){
+            messagetest += "You must enter a description \r\n"
+        }
+
+        if (binding.edittextStreetNumber?.text.toString().isNullOrEmpty()){
+            messagetest += "You must enter a street number \r\n"
+        }
+
+        //steeetname
+        //city
+        //zip
+        //country
+        return messagetest
+
+    }
+
 
     //setup menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

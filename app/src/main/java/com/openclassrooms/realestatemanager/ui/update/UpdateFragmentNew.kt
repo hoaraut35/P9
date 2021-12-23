@@ -61,16 +61,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
             showPopupMenu(binding.addMediaBtn!!)
         }
 
-        //open a photo from gallery...
         setupGetPhotoFromGallery(recyclerViewMedias!!)
-
-        //open a video from camera...
         setupGetVideoFromCamera(recyclerViewMedias)
-
-        //open a video from gallery...
         setupGetVideoFromGallery(recyclerViewMedias)
-
-        //open a photo from camera...
         setupGetPhotoFromCamera()
 
         //observe updated realEstate...
@@ -443,7 +436,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                 if (result!!.resultCode == Activity.RESULT_OK) {
 
-
                     val dateFileName: String = UpdateUtils.getTodayDate().toString()
                     val fileName = "Video_"
                     val fileNameDestination = "$fileName$dateFileName.mp4"
@@ -513,7 +505,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         popupMenu.show()
 
     }
-
 
     //setup recyclerview...
     private fun setupRecyclerView(recyclerView: RecyclerView, mediaList: List<RealEstateMedia>) {

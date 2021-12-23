@@ -71,12 +71,9 @@ class UpdateUtils {
         fun savePhotoToInternalMemory(filename: String, bmp: Bitmap, context : Context): Boolean {
             return try {
                 context?.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
-
-                    //compress photo
                     if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
                         throw IOException("erreur compression")
                     }
-
                 }
                 true
 

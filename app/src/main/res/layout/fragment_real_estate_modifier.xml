@@ -40,8 +40,7 @@
                     android:id="@+id/open_media"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="OpenMedia"></Button>
-
+                    android:text="OpenMedia"/>
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chip_realEstate_type"

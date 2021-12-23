@@ -13,6 +13,7 @@ class ExampleUnitTest {
     private val myEURO = 89
     private val myDOLLARS = 100
 
+    //update variable before
     @Test
     fun getFormatDateForToday() {
         assertEquals(Utils.getTodayDate(), myDate)
