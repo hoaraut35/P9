@@ -42,6 +42,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         surface = 100,
                         typeOfProduct = "Flat",
                         price = 178700,
+                        agent = "",
                         dateOfEntry = Utils.getTodayDateToLong(),
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
                         address = RealEstateAddress(
@@ -70,7 +71,9 @@ abstract class RealEstateDatabase : RoomDatabase() {
                             street_name = "cr des Alliés",
                             street_number = 1,
                             country = "FRANCE"
-                        )
+                        ),
+                        agent = ""
+
                     )
                 )
                 dao.insertRealEstate(
@@ -89,30 +92,10 @@ abstract class RealEstateDatabase : RoomDatabase() {
                             street_name = "rue de Malville",
                             street_number = 1,
                             country = "FRANCE"
-                        )
+                        ),
+                        agent = ""
                     )
                 )
-
-
-//                dao.insertAgent(
-//                    RealEstateAgent(
-//                        agent_lastName = "DURAND",
-//                        agent_firstName = "David"
-//                    )
-//                )
-//                dao.insertAgent(
-//                    RealEstateAgent(
-//                        agent_lastName = "DUPONT",
-//                        agent_firstName = "Emilie"
-//                    )
-//                )
-//                dao.insertAgent(
-//                    RealEstateAgent(
-//                        agent_lastName = "MESSAGER",
-//                        agent_firstName = "Laurent"
-//                    )
-//                )
-
 
                 dao.insertPOI(
                     RealEstatePOI(

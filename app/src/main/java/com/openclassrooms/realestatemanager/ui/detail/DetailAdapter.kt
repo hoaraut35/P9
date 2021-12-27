@@ -8,9 +8,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.ui.create.CreateAdapter
 
-class DetailAdapter(private val realEstateMedias: List<RealEstateMedia>) :
+class DetailAdapter(
+    private val realEstateMedias: List<RealEstateMedia>,
+    callback: InterfacePhotoFullScreen) :
     RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
+
+    //**********************************************************************************************
+    private var callback: InterfacePhotoFullScreen? = callback
+
+    interface InterfacePhotoFullScreen {
+        fun onViewFullScreenMedia(title: String, uri: String)
+
+    }
+    //**********************************************************************************************
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -26,6 +39,11 @@ class DetailAdapter(private val realEstateMedias: List<RealEstateMedia>) :
             .load(realEstateMedias[position].uri)
             .centerCrop()
             .into(holder.image)
+
+
+        holder.itemView.setOnClickListener {
+            callback?.onViewFullScreenMedia(realEstateMedias[position].name.toString(), realEstateMedias[position].uri!!)
+        }
 
     }
 

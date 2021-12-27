@@ -4,8 +4,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import androidx.core.graphics.drawable.toBitmap
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,7 +17,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class DetailFragment : Fragment(), MyRequestImageListener.Callback {
+class DetailFragment : Fragment(), MyRequestImageListener.Callback,
+    DetailAdapter.InterfacePhotoFullScreen {
 
     private var _binding: FragmentRealEstateDetailBinding? = null
     private val binding get() = _binding!!
@@ -47,6 +47,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
         val rootView = binding.root
 
         val recyclerViewMedias: RecyclerView = binding.recyclerviewMedias
+
 
         setHasOptionsMenu(true)
 
@@ -84,7 +85,8 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                     RealEstateObserved.mediaList?.let { myRealEstateMediaList ->
                         setupRecyclerView(
                             recyclerViewMedias,
-                            myRealEstateMediaList)
+                            myRealEstateMediaList
+                        )
                     }
 
                     binding.textStreetNumber?.text =
@@ -138,7 +140,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
 //                }
 
                     binding.textAgent?.text =
-                        "${RealEstateObserved.realEstateFullData.agent?.agent_firstName} ${RealEstateObserved.realEstateFullData.agent?.agent_lastName}"
+                        "${RealEstateObserved.realEstateFullData.agent}"
 
                     //**********************************************************************************
 
@@ -187,7 +189,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
         val myLayoutManager = LinearLayoutManager(activity)
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
-        recyclerView.adapter = DetailAdapter(myRealEstateWithMediaList)
+        recyclerView.adapter = DetailAdapter(myRealEstateWithMediaList, this)
 
 
     }
@@ -234,5 +236,13 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback {
                 detailViewModel.updateRealEstate(detailViewModel.actualRealEstate)
             }
         }
+    }
+
+    override fun onViewFullScreenMedia(title: String, uri: String) {
+        val args = Bundle()
+        args.putString("uri", uri)
+        val dialog = FullScreenFragment()
+        dialog.arguments = args
+        dialog.show(childFragmentManager, "test")
     }
 }

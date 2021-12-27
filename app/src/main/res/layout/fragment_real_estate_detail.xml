@@ -30,6 +30,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/item_real_estate" />
 
+
+
             <TextView
                 android:id="@+id/title_description"
                 android:layout_width="match_parent"

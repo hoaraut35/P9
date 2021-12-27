@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_realEstateDetailFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_DetailFragment_to_blankFragment"
+            app:destination="@id/blankFragment" />
     </fragment>
 
 
@@ -69,5 +72,10 @@
             android:id="@+id/action_mapsFragment_to_realEstateDetailFragment"
             app:destination="@id/DetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.openclassrooms.realestatemanager.ui.fullscreen.BlankFragment"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_blank" />
 
 </navigation>

@@ -10,7 +10,7 @@ data class RealEstate(
     @PrimaryKey(autoGenerate = true) var realEstateId: Int = 0,
     var typeOfProduct: String? = null,
     var price: Int? = null,
-    var surface: Int? = null, //max 32767m²
+    var surface: Int? = null,
     var numberOfRoom: Int? = null,
     var numberOfBathRoom: Int? = null,
     var numberOfBedRoom: Int? = null,
@@ -21,7 +21,6 @@ data class RealEstate(
     var dateOfEntry: Long? = null,
     var releaseDate: Long? = null,
     var staticMapUri: String? = null,
-    @Embedded
-    var agent: RealEstateAgent? = null
+    var agent: String?=null
 
 )

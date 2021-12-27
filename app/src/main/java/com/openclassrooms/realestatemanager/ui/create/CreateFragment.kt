@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.*
+import android.widget.ArrayAdapter
 import android.widget.PopupMenu
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -38,6 +41,7 @@ import java.lang.reflect.Field
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 @AndroidEntryPoint
 class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
@@ -65,6 +69,19 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         setHasOptionsMenu(true)
 
         val recyclerView = binding.recyclerview
+        val agentSpinner: Spinner? = binding.agentsSpinner
+        val agent1 = "David"
+        val agent2 = "Thierry"
+        val agent3 = "Patrick"
+        val agentList = listOf(agent1, agent2, agent3)
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            agentList
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        agentSpinner?.adapter = adapter
+
 
         //open media ...
         binding.openMedia?.setOnClickListener {
@@ -120,6 +137,10 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                 )
             }
         }
+
+
+
+
 
         //work fine...
         getPhotoFromGallery = registerForActivityResult(ActivityResultContracts.GetContent())
@@ -221,7 +242,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
         return rootView
     }
-
 
     //TODO: move to util class?
     private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
@@ -396,7 +416,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                                 zip_code = binding.edittextCityZipcode?.text.toString().toInt(),
                                 country = null
                             ),
-                            status = false
+                            status = false,
+                            agent = binding.agentsSpinner?.selectedItem.toString()
                         )
                     )
 
@@ -511,23 +532,23 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             messagetest += "You must choice a surface \r\n"
         }
 
-        if (binding.edittextNumberBathroom?.text.toString().isNullOrEmpty()){
+        if (binding.edittextNumberBathroom?.text.toString().isNullOrEmpty()) {
             messagetest += "You must choice a number of bathroom \r\n"
         }
 
-        if (binding.edittextNumberBedroom?.text.toString().isNullOrEmpty()){
+        if (binding.edittextNumberBedroom?.text.toString().isNullOrEmpty()) {
             messagetest += "You must choice a number of Bedroom \r\n"
         }
 
-        if (binding.edittextNumberRoom?.text.toString().isNullOrEmpty()){
+        if (binding.edittextNumberRoom?.text.toString().isNullOrEmpty()) {
             messagetest += "You must choice a number of room \r\n"
         }
 
-        if (binding.edittextDescription?.text.toString().isNullOrEmpty()){
+        if (binding.edittextDescription?.text.toString().isNullOrEmpty()) {
             messagetest += "You must enter a description \r\n"
         }
 
-        if (binding.edittextStreetNumber?.text.toString().isNullOrEmpty()){
+        if (binding.edittextStreetNumber?.text.toString().isNullOrEmpty()) {
             messagetest += "You must enter a street number \r\n"
         }
 

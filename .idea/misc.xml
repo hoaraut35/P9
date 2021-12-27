@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/perso/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.1125" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3287037037037037" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.3287037037037037" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/drawable/ic_baseline_bathtub_24.xml" value="0.3287037037037037" />
@@ -28,7 +29,8 @@
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/item_real_estate_photo_editor.xml" value="0.5" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/item_real_estate_video_create.xml" value="0.2625" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/activity_main.xml" value="0.3225806451612903" />
-        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_blank.xml" value="0.12239583333333333" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_blank.xml" value="0.5" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_fullscreen.xml" value="0.3359375" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_list_realestate.xml" value="0.25" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_maps.xml" value="0.31875" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_real_estate_detail.xml" value="0.1423611111111111" />
@@ -36,6 +38,7 @@
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_real_estate_update.xml" value="0.33" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_search.xml" value="0.35625" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_update_new.xml" value="0.3177257525083612" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fullscreen_media.xml" value="0.3359375" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate_photo.xml" value="0.8566978193146417" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate_photo_create.xml" value="0.67" />

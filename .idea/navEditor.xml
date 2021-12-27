@@ -84,6 +84,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_DetailFragment_to_blankFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_realEstateDetailFragment_to_mapsFragment">
                               <value>
                                 <LayoutPositions />
@@ -100,6 +105,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="blankFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-132" />
+                            <option name="y" value="1144" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

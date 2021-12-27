@@ -48,4 +48,9 @@
     <string name="textBedRoom">" Bedroom"</string>
     <string name="date_of_creation">Date de création</string>
     <string name="date_of_sold">Date de vente</string>
+    <string name="order_confirmation">valid</string>
+    <string name="positiveBtn">ok</string>
+    <string name="ok">ok</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

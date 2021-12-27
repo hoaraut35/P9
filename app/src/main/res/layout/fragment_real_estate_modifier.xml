@@ -312,7 +312,7 @@
 
 
                 <Spinner
-                    android:id="@+id/planets_spinner"
+                    android:id="@+id/agents_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
