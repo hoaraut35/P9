@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.VideoView
-import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,6 +22,7 @@ class CreateAdapter(
 
     interface InterfacePhotoTitleChanged {
         //method here...
+        fun onViewFullScreenMedia(title: String, uri: String)
         fun onChangedTitleMedia(title: String, uri: String)
         fun onDeletePhoto(media: RealEstateMedia)
     }
@@ -53,6 +52,9 @@ class CreateAdapter(
                 callback?.onDeletePhoto(photoModel)
             }
 
+            itemView.setOnClickListener {
+                callback?.onViewFullScreenMedia(photoModel.name.toString(), photoModel.uri!!)
+            }
 
         }
     }
@@ -62,11 +64,9 @@ class CreateAdapter(
 
             itemView.findViewById<TextView>(R.id.video_title).text = videoModel.name
 
-            // val imageMask: ImageView = itemView.findViewById(R.id.image_view_mask)
-            val video: VideoView = itemView.findViewById(R.id.video_view_add)
-            val delete = itemView.findViewById<ImageView>(R.id.delete_btn)
-
             val videoTitle: EditText = itemView.findViewById(R.id.video_title)
+            val video: ImageView = itemView.findViewById(R.id.video_view_add)
+            val delete = itemView.findViewById<ImageView>(R.id.delete_btn)
 
             videoTitle.addTextChangedListener {
                 callback?.onChangedTitleMedia(videoTitle.text.toString(), videoModel.uri!!)
@@ -76,53 +76,16 @@ class CreateAdapter(
                 callback?.onDeletePhoto(videoModel)
             }
 
-
             videoTitle.setText(videoModel.name)
 
-            video.setVideoURI(videoModel.uri?.toUri())
-//            Glide.with(itemView)
-//                .load(videoModel.uri)
-//                .centerCrop()
-//                .into(imageMask)
+            Glide.with(itemView)
+                .load(videoModel.uri)
+                .centerCrop()
+                .into(video)
 
-            //add listener on image view mask
-//            imageMask.setOnClickListener {
-//
-//                imageMask.isVisible = false
-//                video.setVideoURI(videoModel.uri?.toUri())
-//                video.start()
-//                video.isVisible = true
-//
-//                video.setOnFocusChangeListener { view, b ->
-//                    view.isVisible = false
-//                    imageMask.isVisible = true
-//                }
-//
-//                val videoTitle: EditText = itemView.findViewById(R.id.video_title)
-//
-//                videoTitle.addTextChangedListener {
-//                    callback?.onChangedTitlePhoto(videoTitle.text.toString(), videoModel.uri!!)
-//                }
-//
-//            }
 
-            video.setOnClickListener(View.OnClickListener {
-                video.start()
-            })
-
-            video.setOnCompletionListener {
-                video.start()
-                video.pause()
-            }
-
-            video.setOnFocusChangeListener { view, b ->
-                video.start()
-                video.pause()
-            }
-
-            video.setOnPreparedListener {
-                video.start()
-                video.pause()
+            itemView.setOnClickListener {
+                callback?.onViewFullScreenMedia(videoModel.name.toString(), videoModel.uri!!)
             }
 
         }
@@ -133,14 +96,14 @@ class CreateAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == 0) {
+        return if (viewType == 0) {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_real_estate_photo_create, parent, false)
-            return PhotoViewHolder(view.rootView)
+            PhotoViewHolder(view.rootView)
         } else {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_real_estate_video, parent, false)
-            return VideoViewHolder(view)
+            VideoViewHolder(view)
         }
     }
 

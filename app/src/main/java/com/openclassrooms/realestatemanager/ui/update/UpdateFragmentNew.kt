@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.ui.detail.FullScreenFragment
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Field
@@ -519,6 +520,14 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = UpdateAdapter(mediaList, this)
+    }
+
+    override fun onViewFullScreenMedia(title: String, uri: String) {
+        val args = Bundle()
+        args.putString("uri", uri)
+        val dialog = FullScreenFragment()
+        dialog.arguments = args
+        dialog.show(childFragmentManager, "test")
     }
 
     //callback adapter...

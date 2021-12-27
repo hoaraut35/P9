@@ -21,6 +21,7 @@ class UpdateAdapter(
     private var callback: InterfaceMediaAdapter? = callback
 
     interface InterfaceMediaAdapter {
+        fun onViewFullScreenMedia(title: String, uri: String)
         fun onChangedTitleMedia(title: String, uri: String)
         fun onDeleteMedia(media: RealEstateMedia)
         fun onToast(text: String)
@@ -54,6 +55,11 @@ class UpdateAdapter(
                 }
 
             }
+
+
+
+
+
         }
     }
 
@@ -61,7 +67,7 @@ class UpdateAdapter(
     inner class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(videoModel: RealEstateMedia) {
 
-            val video: VideoView = itemView.findViewById(R.id.video_view_add)
+            val video: ImageView = itemView.findViewById(R.id.video_view_add)
             val delete = itemView.findViewById<ImageView>(R.id.delete_btn)
             val videoTitle: EditText = itemView.findViewById(R.id.video_title)
 
@@ -80,29 +86,15 @@ class UpdateAdapter(
 
             }
 
-
-
-
-            video.setVideoURI(videoModel.uri?.toUri())
+            Glide.with(itemView)
+                .load(videoModel.uri)
+                .centerCrop()
+                .into(video)
 
             video.setOnClickListener(View.OnClickListener {
-                video.start()
+                //video.start()
+                callback?.onViewFullScreenMedia(videoModel.name.toString(), videoModel.uri!!)
             })
-
-            video.setOnCompletionListener {
-                video.start()
-                video.pause()
-            }
-
-            video.setOnFocusChangeListener { _, _ ->
-                video.start()
-                video.pause()
-            }
-
-            video.setOnPreparedListener {
-                video.start()
-                video.pause()
-            }
 
         }
     }

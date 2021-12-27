@@ -33,6 +33,7 @@ import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.MainViewModel
+import com.openclassrooms.realestatemanager.ui.detail.FullScreenFragment
 import com.openclassrooms.realestatemanager.utils.SharedUtils
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -566,6 +567,14 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         super.onCreateOptionsMenu(menu, inflater)
         menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
         menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
+    }
+
+    override fun onViewFullScreenMedia(title: String, uri: String) {
+        val args = Bundle()
+        args.putString("uri", uri)
+        val dialog = FullScreenFragment()
+        dialog.arguments = args
+        dialog.show(childFragmentManager, "test")
     }
 
     //callBack recyclerView

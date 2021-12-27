@@ -20,7 +20,6 @@ class DetailAdapter(
 
     interface InterfacePhotoFullScreen {
         fun onViewFullScreenMedia(title: String, uri: String)
-
     }
     //**********************************************************************************************
 
@@ -55,7 +54,5 @@ class DetailAdapter(
         val type: TextView = binding.photoTitle
         val image: ImageView = binding.imageview
     }
-
-
 
 }

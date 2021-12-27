@@ -20,12 +20,18 @@
 
 
 
-            <VideoView
+            <ImageView
                 android:id="@+id/video_view_add"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
                 android:src="@drawable/realestate_1"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_baseline_play_circle_filled_24"/>
 
             <EditText
                 android:id="@+id/video_title"
