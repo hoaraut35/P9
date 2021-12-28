@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,17 +16,13 @@ class CreateAdapter(
     callback: InterfacePhotoTitleChanged
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    //**********************************************************************************************
     private var callback: InterfacePhotoTitleChanged? = callback
 
     interface InterfacePhotoTitleChanged {
-        //method here...
         fun onViewFullScreenMedia(title: String, uri: String)
         fun onChangedTitleMedia(title: String, uri: String)
         fun onDeletePhoto(media: RealEstateMedia)
     }
-    //**********************************************************************************************
-
 
     inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(photoModel: RealEstateMedia) {
@@ -62,7 +57,7 @@ class CreateAdapter(
     inner class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(videoModel: RealEstateMedia) {
 
-            itemView.findViewById<TextView>(R.id.video_title).text = videoModel.name
+            //itemView.findViewById<TextView>(R.id.video_title).text = videoModel.name
 
             val videoTitle: EditText = itemView.findViewById(R.id.video_title)
             val video: ImageView = itemView.findViewById(R.id.video_view_add)
@@ -122,9 +117,5 @@ class CreateAdapter(
             (holder as VideoViewHolder).bind(mediaList[position])
         }
     }
-
-
-
-
 
 }

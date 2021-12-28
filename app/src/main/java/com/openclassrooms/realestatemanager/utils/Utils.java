@@ -102,7 +102,7 @@ public class Utils {
 
     //**********************************************************************************************
 
-    //TODO: move ti utils class
+
     public static NumberFormat getCurrencyFormat() {
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
         currencyFormat.setMaximumFractionDigits(0);

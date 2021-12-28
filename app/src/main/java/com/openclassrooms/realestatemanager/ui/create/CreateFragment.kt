@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.*
@@ -80,13 +79,13 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             android.R.layout.simple_list_item_1,
             agentList
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         agentSpinner?.adapter = adapter
 
 
         //open media ...
-        binding.openMedia?.setOnClickListener {
-            showPopupMenu(binding.openMedia!!)
+        binding.openMedia.setOnClickListener {
+            showPopupMenu(binding.openMedia)
         }
 
         //get the type of product...

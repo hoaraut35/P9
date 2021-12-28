@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager
 
 import android.content.Context
+import androidx.lifecycle.asLiveData
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4

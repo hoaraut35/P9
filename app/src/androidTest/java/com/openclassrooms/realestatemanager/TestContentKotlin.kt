@@ -50,7 +50,7 @@ class TestContentKotlin {
         )
 
         assertThat(cursor, Matchers.notNullValue())
-        assertEquals(cursor!!.count, 5)
+        assertEquals(cursor!!.count, 6)
         cursor?.close()
     }
 

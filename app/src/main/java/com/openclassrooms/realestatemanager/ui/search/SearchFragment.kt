@@ -50,6 +50,25 @@ class SearchFragment : Fragment() {
             format.format(it.toDouble())
         }
 
+        if (searchViewModel.minPrice != null){
+            binding.minPrice?.text = searchViewModel.minPrice.toString()
+        }
+
+        if(searchViewModel.maxPrice != null){
+            binding.maxPrice?.text = searchViewModel.maxPrice.toString()
+        }
+
+        if(searchViewModel.minSurface != null){
+            binding.minSurface?.text = searchViewModel.minSurface.toString()
+        }
+
+        if (searchViewModel.maxPrice != null){
+            binding.maxSurface?.text = searchViewModel.maxPrice.toString()
+        }
+
+
+
+
         //price listener
         val priceListener: RangeSlider.OnSliderTouchListener = object :
             RangeSlider.OnSliderTouchListener {
@@ -59,8 +78,11 @@ class SearchFragment : Fragment() {
             override fun onStopTrackingTouch(slider: RangeSlider) {
                 searchViewModel.minPrice = slider.values[0].toInt()
                 searchViewModel.maxPrice = slider.values[1].toInt()
+                binding.minPrice?.text =  Utils.getCurrencyFormat().format(slider.values[0].toInt())
+                binding.maxPrice?.text = Utils.getCurrencyFormat().format(slider.values[1].toInt())
             }
         }
+
         binding.priceRange?.addOnSliderTouchListener(priceListener)
 
         //surface label
@@ -77,6 +99,10 @@ class SearchFragment : Fragment() {
             override fun onStopTrackingTouch(slider: RangeSlider) {
                 searchViewModel.minSurface = slider.values[0].toInt()
                 searchViewModel.maxSurface = slider.values[1].toInt()
+
+                binding.minSurface?.text = slider.values[0].toString()
+                binding.maxSurface?.text = slider.values[1].toString()
+
             }
         }
         binding.surfaceRange?.addOnSliderTouchListener(surfaceListener)
@@ -89,6 +115,7 @@ class SearchFragment : Fragment() {
 
             override fun onStopTrackingTouch(slider: Slider) {
                 searchViewModel.numberOfMedia = slider.value.toInt()
+                binding.mediaNumberView?.text = slider.value.toString()
             }
         }
         binding.mediaNumber?.addOnSliderTouchListener(mediaNumberListener)
