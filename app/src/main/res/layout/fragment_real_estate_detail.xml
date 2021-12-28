@@ -351,8 +351,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
+                    android:layout_height="100dp">
 
                     <TextView
                         android:id="@+id/textAgent"
@@ -375,11 +374,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/image_layout">
 
                 <TextView
+                    android:id="@+id/agent_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:text="Suivi par : HOARAU Thomas">
+                    android:text="Suivi par : ">
 
                 </TextView>
 

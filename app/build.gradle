@@ -47,8 +47,6 @@ dependencies {
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
-//    implementation("com.android.volley:volley:1.2.1")
-
     //GoogleMap
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.google.android.gms:play-services-location:19.0.0'

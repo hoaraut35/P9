@@ -69,6 +69,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         setHasOptionsMenu(true)
 
         val recyclerView = binding.recyclerview
+
         val agentSpinner: Spinner? = binding.agentsSpinner
         val agent1 = "David"
         val agent2 = "Thierry"

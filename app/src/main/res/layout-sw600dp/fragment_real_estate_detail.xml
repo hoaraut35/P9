@@ -49,6 +49,25 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_description" />
 
+    <TextView
+        android:id="@+id/text_number_bathroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_number_bathroom"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/textDescription"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/text_number_bedroom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/text_number_bedroom"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/textDescription"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/image_number_room"
@@ -57,9 +76,8 @@
         android:scaleType="fitCenter"
         android:src="@drawable/ic_baseline_house_24"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_description">
+        app:layout_constraintTop_toBottomOf="@+id/textDescription" />
 
-    </ImageView>
 
     <TextView
         android:id="@+id/textNumberRoom"
@@ -79,7 +97,7 @@
         android:src="@drawable/ic_baseline_bathtub_24"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_description"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/textDescription" />
 
     <TextView
         android:id="@+id/text_number_room"
@@ -88,8 +106,10 @@
         android:text="@string/text_number_room"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/image_number_bedroom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image_number_room"
         app:layout_constraintTop_toBottomOf="@+id/image_number_bathroom" />
 
 
@@ -100,9 +120,8 @@
         android:scaleType="fitCenter"
         android:src="@drawable/ic_baseline_bedroom_parent_24"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_description">
+        app:layout_constraintTop_toBottomOf="@+id/textDescription" />
 
-    </ImageView>
 
     <TextView
         android:id="@+id/textNumberBathroom"
@@ -110,174 +129,86 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:text="@string/qty_number_bathroom"
-        app:layout_constraintTop_toBottomOf="@+id/image_number_bedroom"
+        android:textSize="18sp"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_number_bedroom" />
+
+
+    <TextView
+        android:id="@+id/textNumberBedroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="@string/qty_number_bedroom"
+        app:layout_constraintTop_toBottomOf="@id/textDescription"
         android:textSize="18sp" />
 
 
 
 
+    <TextView
+        android:id="@+id/textStreetNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="STREETNUMBER"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageMap"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/textStreetName" />
 
+    <TextView
+        android:id="@+id/textStreetName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="STREETNAME"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageMap"
+        app:layout_constraintLeft_toRightOf="@+id/textStreetNumber"
+        app:layout_constraintRight_toLeftOf="@+id/textZipCode" />
 
+    <TextView
+        android:id="@+id/textZipCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="ZIPCODE"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageMap"
+        app:layout_constraintLeft_toRightOf="@+id/textStreetName"
+        app:layout_constraintRight_toLeftOf="@+id/textCityName" />
 
+    <TextView
+        android:id="@+id/textCityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="CITYNAME"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageMap"
+        app:layout_constraintLeft_toRightOf="@id/textZipCode"
+        app:layout_constraintRight_toLeftOf="@id/textCountry" />
 
-
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-
-            <TextView
-                android:id="@+id/text_number_bathroom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_number_bathroom"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/imageMap"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:layout_margin="10dp" />
-
-
-
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-
-
-            <TextView
-                android:id="@+id/text_number_bedroom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_number_bedroom"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:id="@+id/textNumberBedroom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="@string/qty_number_bedroom"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/text_listphotos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="photos list" />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_baseline_location_on_24">
-
-            </ImageView>
-
-            <TextView
-                android:id="@+id/text_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_location"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/imageMapTest"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"></ImageView>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/text_number_street"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_number_street"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/text_street_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_street_name"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/text_city_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_city_name"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/text_zipcode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_zipcode"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/text_country"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_country"
-                    android:textSize="16sp" />
-
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <TextView
+        android:id="@+id/textCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="COUNTRY"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageMap"
+        app:layout_constraintLeft_toRightOf="@id/textCityName"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
     <ImageView
-        android:id="@+id/static_map_view"
-        android:layout_width="200dp"
+        android:id="@+id/imageMap"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/staticmap_demo"
+        android:layout_gravity="right"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-
-    </ImageView>
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

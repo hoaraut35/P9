@@ -56,8 +56,6 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-
-
         viewModelMap.getRealEstateFull().observe(viewLifecycleOwner) { listRealEstate ->
 
             for (realEstate in listRealEstate) {
@@ -77,13 +75,8 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
                         realEstate.realEstateFullData.address!!.city != null &&
                         realEstate.realEstateFullData.address!!.zip_code != null
                     ) {
-                        //TODO: bug on address
-                        //val address = "11 rue du vieux moulin 35220 Saint Didier"
                         val address =
-                            "${realEstate.realEstateFullData.address!!.street_name}+${realEstate.realEstateFullData.address!!.zip_code.toString()}+${realEstate.realEstateFullData.address!!.city}"
-                        //"${realEstate.realEstateFullData.address!!.street_number.toString()}+ "+" + ${realEstate.realEstateFullData.address!!.street_name}+ "+" + ${realEstate.realEstateFullData.address!!.zip_code.toString()} + "+" + ${realEstate.realEstateFullData.address!!.city}"
-                        //"" + "%20" +
-                        //""
+                            "${realEstate.realEstateFullData.address!!.street_number}+${realEstate.realEstateFullData.address!!.street_name}+${realEstate.realEstateFullData.address!!.zip_code.toString()}+${realEstate.realEstateFullData.address!!.city}"
 
                         viewModelMap.realEstate = realEstate.realEstateFullData
 
@@ -117,10 +110,8 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         return rootView
     }
 
-
-
     @SuppressLint("MissingPermission")
-    private fun startGPS2() {
+    private fun startGPS() {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
@@ -137,11 +128,9 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
     private val locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
-
             viewModelMap.latLng = viewModelMap.getLocationToLatLng(locationResult.lastLocation)
             setupMyLocation(viewModelMap.latLng!!)
             setupZoom()
-
         }
     }
 
@@ -150,16 +139,13 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-
         if (requestCode == 0 && grantResults[0] != -1) {
             MapsUtils.checkGpsState(requireContext(), requireActivity())
-            startGPS2()
-
+            startGPS()
         }
     }
 
     private fun setupMarkerCLick() {
-
         myGoogleMap!!.setOnMarkerClickListener {
             //we get the id by marker tag
             val realEstateId = it.tag

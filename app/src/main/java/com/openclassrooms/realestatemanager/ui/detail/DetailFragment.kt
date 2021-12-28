@@ -97,12 +97,12 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
                         RealEstateObserved.realEstateFullData.address?.zip_code.toString()
                     binding.textCityName?.text = RealEstateObserved.realEstateFullData.address?.city
 
+                    binding.textCountry?.text = RealEstateObserved.realEstateFullData.address?.country.toString()
 
                     //show entry date...
                     if (RealEstateObserved.realEstateFullData.dateOfEntry != null) {
                         binding.textSaleDate?.text =
                             DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!)
-
                     }
 
                     //show sold date...
@@ -130,16 +130,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
                         false -> binding.poiStationText?.text = ""
                     }
 
-
-//                if (!RealEstateObserved.realEstateFullData.dateOfEntry.isNullOrEmpty()) {
-//                    binding.textSaleDate?.text = RealEstateObserved.realEstateFullData.dateOfEntry
-//                }
-
-//                if (!RealEstateObserved.realEstateFullData.releaseDate.isNullOrEmpty()) {
-//                    binding.textDateOfSale?.text = RealEstateObserved.realEstateFullData.releaseDate
-//                }
-
-                    binding.textAgent?.text =
+                    binding.agentName?.text =
                         "${RealEstateObserved.realEstateFullData.agent}"
 
                     //**********************************************************************************
@@ -190,8 +181,6 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
         myLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recyclerView.layoutManager = myLayoutManager
         recyclerView.adapter = DetailAdapter(myRealEstateWithMediaList, this)
-
-
     }
 
     companion object {

@@ -10,7 +10,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.PopupMenu
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -56,6 +58,21 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         val rootView = binding.root
 
         val recyclerViewMedias: RecyclerView? = binding.recyclerview
+
+        val agentSpinner: Spinner? = binding.agentsSpinner
+        val agent1 = "David"
+        val agent2 = "Thierry"
+        val agent3 = "Patrick"
+        val agentList = listOf(agent1, agent2, agent3)
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            agentList
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        agentSpinner?.adapter = adapter
+
+
 
         //open a media...
         binding.addMediaBtn?.setOnClickListener {
@@ -129,15 +146,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 binding.saveBtn?.setOnClickListener {
 
 
-
-                    //TODO: penthouse don't work ?
-//                    when (RealEstateFullObserve.realEstateFullData.typeOfProduct) {
-//                        "House" -> binding.chipHouse?.isChecked = true
-//                        "Flat" -> binding.chipFlat?.isChecked = true
-//                        "Duplex" -> binding.chipDuplex?.isChecked = true
-//                        "Penthouse" -> binding.chipPenthouse?.isChecked = true
-//                    }
-
                     if (binding.chipHouse?.isChecked == true){
                         viewModelUpdate.realEstate.typeOfProduct = binding.chipHouse?.tag.toString()
                     }
@@ -171,12 +179,12 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     viewModelUpdate.realEstate.address!!.lat = null
                     viewModelUpdate.realEstate.address!!.lng = null
 
-                    //Update the realEsatte ....
+
+                    viewModelUpdate.realEstate.agent = binding.agentsSpinner?.selectedItem.toString()
+
+
+                    //Update the realEstate ....
                     viewModelUpdate.realEstate.releaseDate = dateOfSold
-
-
-
-
 
                     viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
 
@@ -239,7 +247,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         viewModelUpdate.getMediaListFromVM().observe(viewLifecycleOwner) { myMedia ->
 
-            setupRecyclerView(recyclerViewMedias, myMedia)
+            setupRecyclerView(recyclerViewMedias!!, myMedia)
 
             val simpleCallback = object :
                 ItemTouchHelper.SimpleCallback(
