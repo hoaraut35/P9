@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,10 +18,9 @@
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/linear"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
-
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -38,16 +36,11 @@
 
                 <Button
                     android:id="@+id/add_media_btn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Media ..."/>
-
-
-
-
-
-
-
+                    android:text="@string/add_media_string"
+                    app:icon="@drawable/ic_baseline_add_circle_outline_24" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chip_realEstate_type"
@@ -62,9 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="House"
-                        android:text="House">
-
-                    </com.google.android.material.chip.Chip>
+                        android:text="@string/house_chip_string" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipDuplex"
@@ -72,11 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="Duplex"
-                        android:text="Duplex">
-
-
-                    </com.google.android.material.chip.Chip>
-
+                        android:text="@string/duplex_chip_string" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipPenthouse"
@@ -84,9 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="Penthouse"
-                        android:text="Penthouse">
-
-                    </com.google.android.material.chip.Chip>
+                        android:text="@string/penthouse_chip_string" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipFlat"
@@ -94,10 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="Flat"
-                        android:text="Flat">
-
-                    </com.google.android.material.chip.Chip>
-
+                        android:text="@string/flat_chip_string" />
 
                 </com.google.android.material.chip.ChipGroup>
 
@@ -116,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:tag="Ecole"
-                        android:text="Ecole" />
+                        android:text="@string/school_chip_string" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/parc_chip"
@@ -125,7 +107,7 @@
                         android:layout_height="wrap_content"
                         android:checked="false"
                         android:tag="Parc"
-                        android:text="Parc" />
+                        android:text="@string/parc_chip_string" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/station_chip"
@@ -134,8 +116,7 @@
                         android:layout_height="wrap_content"
                         android:checked="false"
                         android:tag="Gare"
-                        android:text="Gare" />
-
+                        android:text="@string/station_chip_string" />
 
                 </com.google.android.material.chip.ChipGroup>
 
@@ -312,9 +293,14 @@
                 <Spinner
                     android:id="@+id/agents_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
 
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/is_sold_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Is sold "
+                    app:layout_constraintTop_toBottomOf="@id/save_btn" />
 
 
                 <Button
@@ -330,16 +316,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
-
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/is_sold_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Is sold "
-
-
-                    app:layout_constraintTop_toBottomOf="@id/save_btn" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>

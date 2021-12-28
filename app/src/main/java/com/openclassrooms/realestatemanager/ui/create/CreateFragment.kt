@@ -85,7 +85,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
 
         //open media ...
-        binding.openMedia.setOnClickListener {
+        binding.openMedia?.setOnClickListener {
             showPopupMenu(binding.openMedia)
         }
 

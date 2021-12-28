@@ -42,6 +42,7 @@ class RealEstateListFragment : Fragment() {
             //if the detail fragment is displayed ...
             if (realEstateDetailFragment != null) {
                 realEstateDetailFragment.findNavController().navigate(R.id.fragment_item_detail, bundle)
+
             } else {
                 //we open the detail fragment
                 realEstateView.findNavController().navigate(R.id.show_item_detail, bundle)
@@ -97,6 +98,7 @@ class RealEstateListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+
         menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
     }
 

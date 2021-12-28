@@ -167,10 +167,13 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        when (realEstateIdFromBundle != "") {
+
+        when (!realEstateIdFromBundle.isNullOrBlank()) {
             true -> menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = true
             else -> menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
         }
+
+
     }
 
     private fun setupRecyclerView(
