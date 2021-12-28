@@ -7,114 +7,128 @@
     android:padding="20dp"
     tools:context=".ui.MainActivity">
 
+    <TextView
+        android:id="@+id/text_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/title_media"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_medias"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_media"
+        tools:listitem="@layout/item_real_estate">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/text_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/title_description"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerview_medias" />
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description_detail"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_description" />
+
+
+    <ImageView
+        android:id="@+id/image_number_room"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_house_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_description">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/textNumberRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="@string/qty_number_room"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_number_room" />
+
+    <ImageView
+        android:id="@+id/image_number_bathroom"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_bathtub_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_description"></ImageView>
+
+    <TextView
+        android:id="@+id/text_number_room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_number_room"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_number_bathroom" />
+
+
+    <ImageView
+        android:id="@+id/image_number_bedroom"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_bedroom_parent_24"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_description">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/textNumberBathroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="@string/qty_number_bathroom"
+        app:layout_constraintTop_toBottomOf="@+id/image_number_bedroom"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="18sp" />
+
+
+
+
+
+
+
+
+
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/title_media"
-            android:textSize="24sp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/text_listphotos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="photos list"
-            />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_medias"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal"
-            tools:listitem="@layout/item_real_estate">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <ImageView
-            android:id="@+id/imageMapTest"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"></ImageView>
-
-        <ImageView
-            android:id="@+id/imageMap"
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:layout_height="200dp" />
-
-        <TextView
-            android:id="@+id/text_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/title_description"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/description_detail"
-            android:textSize="16sp" />
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="fitCenter"
-
-                android:src="@drawable/ic_baseline_house_24">
-
-            </ImageView>
-
-
-            <TextView
-                android:id="@+id/text_number_room"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_number_room"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textNumberRoom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="@string/qty_number_room"
-                android:textSize="18sp" />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="fitCenter"
-
-                android:src="@drawable/ic_baseline_bathtub_24">
-
-            </ImageView>
 
             <TextView
                 android:id="@+id/text_number_bathroom"
@@ -124,30 +138,22 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textNumberBathroom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="@string/qty_number_bathroom"
-                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/imageMap"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp" />
 
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="fitCenter"
-
-                android:src="@drawable/ic_baseline_bedroom_parent_24">
-
-            </ImageView>
 
             <TextView
                 android:id="@+id/text_number_bedroom"
@@ -166,6 +172,12 @@
                 android:text="@string/qty_number_bedroom"
                 android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/text_listphotos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="photos list" />
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -173,8 +185,8 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="50dp"
@@ -192,6 +204,10 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <ImageView
+                android:id="@+id/imageMapTest"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"></ImageView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

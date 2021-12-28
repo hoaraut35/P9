@@ -4,7 +4,10 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.injection.ApplicationScope
-import com.openclassrooms.realestatemanager.models.*
+import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.models.RealEstateAddress
+import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -55,6 +58,68 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     )
                 )
 
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 1,
+                        name = "Photo",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_maison1.jpg"
+
+
+                    )
+                )
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 1,
+                        name = "Salon",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_cuisine1.jpg"
+
+                    )
+                )
+
+
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 1,
+                        name = "Photo",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_salon1.jpg"
+
+
+                    )
+                )
+
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 2,
+                        name = "Photo",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_maison2.jpg"
+
+
+                    )
+                )
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 2,
+                        name = "Salon",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_cuisine2.jpg"
+
+                    )
+                )
+
+
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 2,
+                        name = "Photo",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_salon2.jpg"
+
+
+                    )
+                )
                 dao.insertRealEstate(
                     RealEstate(
                         numberOfBathRoom = 3,
