@@ -4,7 +4,8 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import androidx.core.graphics.drawable.toBitmap
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,6 +13,7 @@ import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentRealEstateDetailBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,7 +34,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
                 realEstateIdFromBundle = it.getString(ARG_REAL_ESTATE_ID)
                 realEstateIdFromBundle?.let { it1 ->
                     detailViewModel.setPropertyId(it1.toInt())
-                    detailViewModel.setMyRealEstateIdFromUI(it1?.toInt())
+                    detailViewModel.setMyRealEstateIdFromUI(it1.toInt())
                 }
             }
         }
@@ -62,13 +64,10 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
                     //*********************************************************************************
 
                     binding.textType?.text = RealEstateObserved.realEstateFullData.typeOfProduct
-
-
-                    binding.textPrice?.text =
-                        RealEstateObserved.realEstateFullData.price.toString().plus(" € ")
+                    binding.textPrice?.text = Utils.getCurrencyFormat()
+                        .format(RealEstateObserved.realEstateFullData.price)
                     binding.textSurface?.text =
                         RealEstateObserved.realEstateFullData.surface.toString().plus(" m² ")
-
                     binding.textNumberRoom?.text =
                         RealEstateObserved.realEstateFullData.numberOfRoom.toString()
                             .plus(resources.getString(R.string.textRoom))
@@ -89,49 +88,51 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
                         )
                     }
 
-                    binding.textStreetNumber?.text =
+                    binding.textStreetNumber.text =
                         RealEstateObserved.realEstateFullData.address?.street_number.toString()
-                    binding.textStreetName?.text =
+                    binding.textStreetName.text =
                         RealEstateObserved.realEstateFullData.address?.street_name
-                    binding.textZipCode?.text =
+                    binding.textZipCode.text =
                         RealEstateObserved.realEstateFullData.address?.zip_code.toString()
-                    binding.textCityName?.text = RealEstateObserved.realEstateFullData.address?.city
+                    binding.textCityName.text = RealEstateObserved.realEstateFullData.address?.city
 
-                    binding.textCountry?.text = RealEstateObserved.realEstateFullData.address?.country.toString()
+                    binding.textCountry.text =
+                        RealEstateObserved.realEstateFullData.address?.country.toString()
 
                     //show entry date...
                     if (RealEstateObserved.realEstateFullData.dateOfEntry != null) {
-                        binding.textSaleDate?.text =
-                            DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!)
+                        binding.textSaleDate?.text = getString(R.string.fromDate)+ DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!)
                     }
 
                     //show sold date...
                     if (RealEstateObserved.realEstateFullData.releaseDate != null && RealEstateObserved.realEstateFullData.releaseDate!! >= RealEstateObserved.realEstateFullData.dateOfEntry!!) {
                         binding.textDateOfSale?.text =
-                            DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.releaseDate!!)
+                            getString(R.string.soldedDate) + DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.releaseDate!!)
 
-                        binding.textState?.text = "Vendu"
+                        binding.textState?.text = getString(R.string.solded_text)
                     } else {
-                        binding.textState?.text = "A vendre"
+                        binding.textState?.text = ""
+                        binding.textDateOfSale?.text = ""
                     }
-
 
                     //show Point of interest...
                     when (RealEstateObserved.poi?.school) {
-                        true -> binding.poiSchoolText?.text = "Ecole"
+                        true -> binding.poiSchoolText?.text = getString(R.string.poi_school_text)
                         false -> binding.poiSchoolText?.text = ""
+                        else -> binding.poiSchoolText?.text = ""
                     }
                     when (RealEstateObserved.poi?.park) {
-                        true -> binding.poiParkText?.text = "Parc"
+                        true -> binding.poiParkText?.text = getString(R.string.poi_park_text)
                         false -> binding.poiParkText?.text = ""
+                        else -> binding.poiParkText?.text = ""
                     }
                     when (RealEstateObserved.poi?.station) {
-                        true -> binding.poiStationText?.text = "Gare"
+                        true -> binding.poiStationText?.text = getString(R.string.poi_station_text)
                         false -> binding.poiStationText?.text = ""
+                        else -> binding.poiStationText?.text = ""
                     }
 
-                    binding.agentName?.text =
-                        "${RealEstateObserved.realEstateFullData.agent}"
+                    binding.agentName?.text = getString(R.string.agent_text) + RealEstateObserved.realEstateFullData.agent
 
                     //**********************************************************************************
 
@@ -140,7 +141,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
 
                     val urlForApi =
                         "https://maps.googleapis.com/maps/api/staticmap?center=" + addressForApi + "&zoom=15&size=600x300&maptype=roadmap" +
-                                "&key=" + BuildConfig.GOOGLE_MAP_KEY;
+                                "&key=" + BuildConfig.GOOGLE_MAP_KEY
 
                     val imageViewForMap = binding.imageMap
 

@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.database
 
+import android.annotation.SuppressLint
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -30,6 +31,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
     ) : RoomDatabase.Callback() {
 
         //load just once for init data
+        @SuppressLint("SdCardPath")
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
 

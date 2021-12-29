@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Real Estate Manager</string>
+    <string name="duplex_chip_string">Duplex</string>
+    <string name="house_chip_string">Maison</string>
+    <string name="school_chip_string">Ecole</string>
+    <string name="parc_chip_string">Jardin</string>
+    <string name="station_chip_string">Gare</string>
+</resources>

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="120dp">
 
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +26,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="0dp"
                 android:background="@color/cardview_shadow_end_color"
-                android:contentDescription="description"
+                android:contentDescription="image for estate"
                 android:src="@drawable/ic_baseline_no_photography_24" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -41,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="House"
+                    android:text="Esatet type"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -49,7 +48,7 @@
                     android:id="@+id/city_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Montauk"
+                    android:text="City"
                     android:textSize="16sp">
 
                 </TextView>
@@ -58,35 +57,27 @@
                     android:id="@+id/price_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$21,130,000"
+                    android:text="$12,345,678"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-
-
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
             android:id="@+id/solded_tag"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/red"
             android:layout_gravity="right"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:text="vendu"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="15dp"
             android:rotation="45"
-            />
-
-
+            android:text="@string/state_text"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
 

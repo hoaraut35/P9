@@ -13,10 +13,19 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.navigateUp
+import com.google.android.gms.common.GoogleApiAvailability
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import android.widget.Toast
+
+import com.google.android.gms.common.GooglePlayServicesUtil
+
+import com.google.android.gms.common.ConnectionResult
+
+
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -43,7 +52,6 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(this, navController, appBarConfiguration)
-
 
         //TODO:update this..
         Utils.isInternetAvailable(this)

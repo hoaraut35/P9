@@ -48,16 +48,16 @@ interface RealEStateDao {
     @Delete
     suspend fun deleteMedia(media: RealEstateMedia)
 
+    //**********************************************************************************************
+
     //for content provider
     @Query("SELECT * FROM realEstate_table")
     fun getRealEstateWithCursor(): Cursor
 
+    //**********************************************************************************************
+
     //for search fragment
     @RawQuery
     fun getRealEstateFiltered(query: SupportSQLiteQuery) : Flow<List<RealEstateFull>>
-
-
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insertAgent(realEstateAgent: RealEstateAgent)
 
 }
