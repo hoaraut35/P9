@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.detail
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
@@ -43,7 +44,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentRealEstateDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
@@ -101,13 +102,13 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
 
                     //show entry date...
                     if (RealEstateObserved.realEstateFullData.dateOfEntry != null) {
-                        binding.textSaleDate?.text = getString(R.string.fromDate)+ DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!)
+                        binding.textSaleDate?.text = getString(R.string.fromDate).plus(DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!))
                     }
 
                     //show sold date...
                     if (RealEstateObserved.realEstateFullData.releaseDate != null && RealEstateObserved.realEstateFullData.releaseDate!! >= RealEstateObserved.realEstateFullData.dateOfEntry!!) {
                         binding.textDateOfSale?.text =
-                            getString(R.string.soldedDate) + DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.releaseDate!!)
+                            getString(R.string.soldedDate).plus(DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.releaseDate!!))
 
                         binding.textState?.text = getString(R.string.solded_text)
                     } else {
@@ -132,7 +133,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
                         else -> binding.poiStationText?.text = ""
                     }
 
-                    binding.agentName?.text = getString(R.string.agent_text) + RealEstateObserved.realEstateFullData.agent
+                    binding.agentName?.text = getString(R.string.agent_text).plus(RealEstateObserved.realEstateFullData.agent)
 
                     //**********************************************************************************
 
@@ -192,7 +193,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
         const val ARG_REAL_ESTATE_ID = "item_id"
 
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: String) =
             DetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_REAL_ESTATE_ID, param1)
@@ -206,9 +207,10 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
     }
 
     //GlideCallback
+    @SuppressLint("SimpleDateFormat")
     override fun onSuccess(dataSource: Drawable?) {
 
-        //if we have a bitmap from google staticmap then...
+        //if we have a bitmap from google static map then...
         if (dataSource != null) {
             val staticMapBitmap = dataSource.toBitmap()
             val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -223,7 +225,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
                     requireContext()
                 )
             ) {
-                //we set the uri for staticmapBitmap
+                //we set the uri for static map
                 detailViewModel.actualRealEstate.staticMapUri = fileNameUri
                 //we update data into database
                 detailViewModel.updateRealEstate(detailViewModel.actualRealEstate)

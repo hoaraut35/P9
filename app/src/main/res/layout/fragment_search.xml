@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tag="minPrice"
+            android:layout_marginLeft="20dp"
             android:text="min price"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_price" />
@@ -36,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="max price"
+            android:layout_marginRight="20dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_price" />
 
@@ -71,6 +73,7 @@
             android:id="@+id/minSurface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="min Surface"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_surface" />
@@ -80,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="max surface"
+            android:layout_marginRight="20dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_surface" />
 
@@ -205,7 +209,8 @@
             android:id="@+id/date_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:drawableLeft="@drawable/ic_baseline_access_time_24"
             android:tag="dateOfCreated"
             android:text="From date"
@@ -216,21 +221,19 @@
             android:id="@+id/date_sold_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginRight="20dp"
             android:drawableLeft="@drawable/ic_baseline_access_time_24"
             android:tag="dateOfSold"
             android:text="Sold date"
-            app:layout_constraintBottom_toBottomOf="@+id/dateText"
+            app:layout_constraintTop_toBottomOf="@+id/dateText"
             app:layout_constraintRight_toRightOf="parent"
-            android:textSize="12sp"
-
-            />
+            android:textSize="12sp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/search_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search..."
+            android:text="@string/search_btn_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

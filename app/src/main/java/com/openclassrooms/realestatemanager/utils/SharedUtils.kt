@@ -72,8 +72,8 @@ class SharedUtils {
             }
             val builder: NotificationCompat.Builder =
                 NotificationCompat.Builder(context, "realEstate")
-                    .setContentTitle("RealEsatate")
-                    .setStyle(NotificationCompat.BigTextStyle().bigText("Sauvegarde terminée"))
+                    .setContentTitle(task)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(desc))
                     .setDefaults(Notification.DEFAULT_SOUND)
                     .setSmallIcon(R.mipmap.ic_launcher)
             manager.notify(1, builder.build())

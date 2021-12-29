@@ -16,7 +16,6 @@
     <string name="text_city_name">New York</string>
     <string name="text_zipcode">NY10021</string>
     <string name="text_country">United States</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Fragment recherche</string>
     <string name="title_addupdate_price">Price</string>
     <string name="input_price">10010101</string>
@@ -85,4 +84,9 @@
     <string name="hintCityName">Enter city name</string>
     <string name="hintCountryName">Enter country</string>
     <string name="hintAgent">Select agent</string>
+    <string name="hint_min_media_text">Keep at least one media</string>
+    <string name="hint_update_done">Estate updated </string>
+
+    <string name="text_chip_house">House</string>
+    <string name="search_btn_text">Search...</string>
 </resources>

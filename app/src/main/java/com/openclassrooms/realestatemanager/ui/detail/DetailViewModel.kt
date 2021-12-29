@@ -17,47 +17,18 @@ class DetailViewModel @Inject constructor(
 
     var actualRealEstate: RealEstate = RealEstate()
     private var myRealEstateIdFromUI: MutableLiveData<Int>? = MutableLiveData()
-  //  private var myRealEstateWithFullData: MutableLiveData<RealEstateFull>? = MutableLiveData()
 
-    //work
-//    fun getRealEstatesLiveData(): LiveData<List<RealEstate>> =
-//        localDatabaseRepository.getFlowRealEstates().asLiveData()
-
-//    //work
-//    fun getRealEstatesFullData(): LiveData<List<RealEstateFull>> =
-//        localDatabaseRepository.getFlowRealEstatesFull().asLiveData()
-
-    //work
     fun getRealEstateFullById(id: Int): LiveData<RealEstateFull> =
         localDatabaseRepository.getRealEstateFullById(id).asLiveData()
 
-//    //work with one champ
-//    fun updateRealEstateTest(realEstate: RealEstate) =
-//        viewModelScope.launch { localDatabaseRepository.updateRealEstateTest(realEstate) }
-
-
-    //set id from UI
     fun setMyRealEstateIdFromUI(id: Int) {
         myRealEstateIdFromUI!!.value = id
     }
 
-//    //get id for UI
-//    fun getMyRealEstateIdFromUi(): MutableLiveData<Int> {
-//        return myRealEstateIdFromUI!!
-//    }
-
-//    //publish myRealEstateFullData to UI
-//    fun getPropertyFull(): MutableLiveData<RealEstateFull>? {
-//        return myRealEstateWithFullData
-//    }
-
-
     fun setPropertyId(id: Int) {
         sharedRepository.setPropertyID(id)
-        //  viewModelScope.launch { localDatabaseRepository.getRealEstateFull(shared .getPropertyId()) }
     }
 
-    //call repository to update a RealEstate
     fun updateRealEstate(realEstate: RealEstate) {
         viewModelScope.launch {
             localDatabaseRepository.insertRealEstate(realEstate)

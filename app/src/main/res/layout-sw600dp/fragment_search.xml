@@ -1,14 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/text_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Price"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/minPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="minPrice"
+            android:text="min price"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_price" />
+
+        <TextView
+            android:id="@+id/maxPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="max price"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_price" />
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/priceRange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginTop="40dp"
+            android:stepSize="10000.0"
+            android:valueFrom="0"
+            android:valueTo="1000000"
+            app:labelBehavior="floating"
+            app:layout_constraintTop_toBottomOf="@id/text_price"
+            app:values="@array/initial_slider_values">
+
+        </com.google.android.material.slider.RangeSlider>
+
+
+        <TextView
+            android:id="@+id/text_surface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Surface"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/priceRange" />
+
+        <TextView
+            android:id="@+id/minSurface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="min Surface"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_surface" />
+
+        <TextView
+            android:id="@+id/maxSurface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="max surface"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_surface" />
+
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/surfaceRange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:stepSize="50.0"
+            android:valueFrom="100"
+            android:valueTo="1000"
+            app:layout_constraintTop_toBottomOf="@+id/text_surface"
+            app:values="@array/initial_surface_values">
+
+        </com.google.android.material.slider.RangeSlider>
+
+
+        <TextView
+            android:id="@+id/text_number_Media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Media number"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/surfaceRange" />
+
+
+        <TextView
+            android:id="@+id/mediaNumberView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_number_Media">
+
+        </TextView>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/media_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:stepSize="1"
+            android:valueFrom="1"
+            android:valueTo="10"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_number_Media">
+
+        </com.google.android.material.slider.Slider>
+
+
+        <TextView
+            android:id="@+id/poiText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Point of interest"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/media_number">
+
+        </TextView>
+
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_realEstate_poi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/poiText"
+            app:singleLine="true"
+            app:singleSelection="false">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/school_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:tag="Ecole"
+                android:text="Ecole" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/parc_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:tag="Parc"
+                android:text="Parc" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/station_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:tag="Gare"
+                android:text="Gare" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="Date"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/chip_realEstate_poi"/>
+
+        <TextView
+            android:id="@+id/date_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:drawableLeft="@drawable/ic_baseline_access_time_24"
+            android:tag="dateOfCreated"
+            android:text="From date"
+            app:layout_constraintTop_toBottomOf="@+id/dateText"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/date_sold_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:drawableLeft="@drawable/ic_baseline_access_time_24"
+            android:tag="dateOfSold"
+            android:text="Sold date"
+            app:layout_constraintBottom_toBottomOf="@+id/dateText"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textSize="12sp"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search..."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_sold_btn">
+
+        </androidx.appcompat.widget.AppCompatButton>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

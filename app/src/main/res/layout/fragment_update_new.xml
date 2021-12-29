@@ -57,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="House"
-                        android:text="House">
+                        android:text="@string/text_chip_house">
 
                     </com.google.android.material.chip.Chip>
 

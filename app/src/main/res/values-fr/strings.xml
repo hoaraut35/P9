@@ -6,4 +6,6 @@
     <string name="school_chip_string">Ecole</string>
     <string name="parc_chip_string">Jardin</string>
     <string name="station_chip_string">Gare</string>
+    <string name="title_media">Bibliothèque</string>
+    <string name="text_chip_house">Maison</string>
 </resources>

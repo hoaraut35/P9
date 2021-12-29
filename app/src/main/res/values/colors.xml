@@ -4,7 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorForPhotoTitle">#80000000</color>
-
     <color name="red">#b71c1c</color>
     <color name="red2">#b2ff59</color>
     <color name="myColorItem">#9C9A9AF2</color>
@@ -13,5 +12,4 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
-
 </resources>

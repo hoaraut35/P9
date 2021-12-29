@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +29,7 @@ import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.detail.FullScreenFragment
+import com.openclassrooms.realestatemanager.utils.SharedUtils
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Field
@@ -58,9 +58,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         _binding = FragmentUpdateNewBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-        val recyclerViewMedias: RecyclerView? = binding.recyclerview
+        val recyclerViewMedias: RecyclerView = binding.recyclerview
 
-        val agentSpinner: Spinner? = binding.agentsSpinner
+        val agentSpinner: Spinner = binding.agentsSpinner
         val agent1 = "David"
         val agent2 = "Thierry"
         val agent3 = "Patrick"
@@ -71,16 +71,16 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
             agentList
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        agentSpinner?.adapter = adapter
+        agentSpinner.adapter = adapter
 
 
 
         //open a media...
-        binding.addMediaBtn?.setOnClickListener {
-            showPopupMenu(binding.addMediaBtn!!)
+        binding.addMediaBtn.setOnClickListener {
+            showPopupMenu(binding.addMediaBtn)
         }
 
-        setupGetPhotoFromGallery(recyclerViewMedias!!)
+        setupGetPhotoFromGallery(recyclerViewMedias)
         setupGetVideoFromCamera(recyclerViewMedias)
         setupGetVideoFromGallery(recyclerViewMedias)
         setupGetPhotoFromCamera()
@@ -89,18 +89,18 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         viewModelUpdate.getRealEstateFullById()
             .observe(viewLifecycleOwner) { RealEstateFullObserve ->
 
-                binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
-                binding.edittextSurface?.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
+                binding.edittextPrice.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
+                binding.edittextSurface.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
 
                 binding.edittextRoomNumber.setText(RealEstateFullObserve.realEstateFullData.numberOfRoom.toString())
                 binding.edittextNumberBathroom.setText(RealEstateFullObserve.realEstateFullData.numberOfBathRoom.toString())
                 binding.edittextNumberBedroom?.setText(RealEstateFullObserve.realEstateFullData.numberOfBedRoom.toString())
 
-                binding.edittextDescription?.setText(RealEstateFullObserve.realEstateFullData.descriptionOfProduct)
-                binding.edittextStreetNumber?.setText(RealEstateFullObserve.realEstateFullData.address?.street_number.toString())
-                binding.edittextStreetName?.setText(RealEstateFullObserve.realEstateFullData.address?.street_name)
-                binding.edittextCityZipcode?.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
-                binding.edittextCityName?.setText(RealEstateFullObserve.realEstateFullData.address?.city)
+                binding.edittextDescription.setText(RealEstateFullObserve.realEstateFullData.descriptionOfProduct)
+                binding.edittextStreetNumber.setText(RealEstateFullObserve.realEstateFullData.address?.street_number.toString())
+                binding.edittextStreetName.setText(RealEstateFullObserve.realEstateFullData.address?.street_name)
+                binding.edittextCityZipcode.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
+                binding.edittextCityName.setText(RealEstateFullObserve.realEstateFullData.address?.city)
                 binding.edittextCountryName?.setText(RealEstateFullObserve.realEstateFullData.address?.country)
 
                 for (i in 0 until binding.agentsSpinner.adapter.count){
@@ -109,33 +109,33 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     }
                 }
 
-                binding.isSoldSwitch?.isChecked =     RealEstateFullObserve.realEstateFullData.releaseDate != null
+                binding.isSoldSwitch.isChecked =     RealEstateFullObserve.realEstateFullData.releaseDate != null
 
                 //type of product...
                 when (RealEstateFullObserve.realEstateFullData.typeOfProduct) {
-                    "House" -> binding.chipHouse?.isChecked = true
-                    "Flat" -> binding.chipFlat?.isChecked = true
-                    "Duplex" -> binding.chipDuplex?.isChecked = true
-                    "Penthouse" -> binding.chipPenthouse?.isChecked = true
+                    "House" -> binding.chipHouse.isChecked = true
+                    "Flat" -> binding.chipFlat.isChecked = true
+                    "Duplex" -> binding.chipDuplex.isChecked = true
+                    "Penthouse" -> binding.chipPenthouse.isChecked = true
                 }
 
                 //point of interest...
                 when (RealEstateFullObserve.poi?.station) {
-                    true -> binding.stationChip?.isChecked = true
-                    false -> binding.stationChip?.isChecked = false
-                    else -> binding.stationChip?.isChecked = false
+                    true -> binding.stationChip.isChecked = true
+                    false -> binding.stationChip.isChecked = false
+                    else -> binding.stationChip.isChecked = false
                 }
 
                 when (RealEstateFullObserve.poi?.school) {
-                    true -> binding.schoolChip?.isChecked = true
-                    false -> binding.schoolChip?.isChecked = false
-                    else -> binding.schoolChip?.isChecked = false
+                    true -> binding.schoolChip.isChecked = true
+                    false -> binding.schoolChip.isChecked = false
+                    else -> binding.schoolChip.isChecked = false
                 }
 
                 when (RealEstateFullObserve.poi?.park) {
-                    true -> binding.parcChip?.isChecked = true
-                    false -> binding.parcChip?.isChecked = false
-                    else -> binding.parcChip?.isChecked = false
+                    true -> binding.parcChip.isChecked = true
+                    false -> binding.parcChip.isChecked = false
+                    else -> binding.parcChip.isChecked = false
                 }
 
 
@@ -147,7 +147,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 if (viewModelUpdate.initialListOfMedia.isNotEmpty() && viewModelUpdate.getMutableListOfMedia()
                         .isEmpty()
                 ) {
-                    Log.i("[UPMEDIA]", "Initial list already updated load it ... : ")
                     viewModelUpdate.initList()
                 }
 
@@ -155,70 +154,57 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 viewModelUpdate.realEstate = RealEstateFullObserve.realEstateFullData
 
                 //button listener
-                binding.saveBtn?.setOnClickListener {
+                binding.saveBtn.setOnClickListener {
 
-                    if (binding.chipHouse?.isChecked){
-                        viewModelUpdate.realEstate.typeOfProduct = binding.chipHouse?.tag.toString()
+                    if (binding.chipHouse.isChecked){
+                        viewModelUpdate.realEstate.typeOfProduct = binding.chipHouse.tag.toString()
                     }
-                    if (binding.chipFlat?.isChecked){
-                        viewModelUpdate.realEstate.typeOfProduct = binding.chipFlat?.tag.toString()
+                    if (binding.chipFlat.isChecked){
+                        viewModelUpdate.realEstate.typeOfProduct = binding.chipFlat.tag.toString()
                     }
-                    if (binding.chipPenthouse?.isChecked){
-                        viewModelUpdate.realEstate.typeOfProduct = binding.chipPenthouse?.tag.toString()
+                    if (binding.chipPenthouse.isChecked){
+                        viewModelUpdate.realEstate.typeOfProduct = binding.chipPenthouse.tag.toString()
                     }
-                    if (binding.chipDuplex?.isChecked){
-                        viewModelUpdate.realEstate.typeOfProduct = binding.chipDuplex?.tag.toString()
+                    if (binding.chipDuplex.isChecked){
+                        viewModelUpdate.realEstate.typeOfProduct = binding.chipDuplex.tag.toString()
                     }
 
                     viewModelUpdate.insertPOI(
                         RealEstatePOI(
-                            school = binding.schoolChip?.isChecked,
-                            park = binding.parcChip?.isChecked,
-                            station = binding.stationChip?.isChecked,
+                            school = binding.schoolChip.isChecked,
+                            park = binding.parcChip.isChecked,
+                            station = binding.stationChip.isChecked,
                             realEstateParentId = RealEstateFullObserve.realEstateFullData.realEstateId
                         )
                     )
 
-//                    binding.chipRealEstatePoi.checkedChipIds.forEach { myChip ->
-//                        val chipState =
-//                            binding.chipRealEstatePoi.findViewById<Chip>(myChip).isChecked
-//
-//                        when (binding.chipRealEstatePoi.findViewById<Chip>(myChip).text.toString()) {
-//                            "Ecole" -> school = chipState
-//                            "Parc" -> park = chipState
-//                            "Gare" -> gare = chipState
-//                        }
-//                    }
-
-
-
                     viewModelUpdate.realEstate.price =
-                        binding.edittextPrice?.text.toString().toInt()
+                        binding.edittextPrice.text.toString().toInt()
                     viewModelUpdate.realEstate.surface =
-                        binding.edittextSurface?.text.toString().toInt()
+                        binding.edittextSurface.text.toString().toInt()
 
 
                     viewModelUpdate.realEstate.numberOfBedRoom = binding.edittextNumberBedroom?.text.toString().toInt()
-                    viewModelUpdate.realEstate.numberOfBathRoom = binding.edittextNumberBathroom?.text.toString().toInt()
-                    viewModelUpdate.realEstate.numberOfRoom = binding.edittextRoomNumber?.text.toString().toInt()
+                    viewModelUpdate.realEstate.numberOfBathRoom = binding.edittextNumberBathroom.text.toString().toInt()
+                    viewModelUpdate.realEstate.numberOfRoom = binding.edittextRoomNumber.text.toString().toInt()
 
                     viewModelUpdate.realEstate.descriptionOfProduct =
-                        binding.edittextDescription?.text.toString()
+                        binding.edittextDescription.text.toString()
                     viewModelUpdate.realEstate.address!!.street_number =
-                        binding.edittextStreetNumber?.text.toString().toInt()
+                        binding.edittextStreetNumber.text.toString().toInt()
                     viewModelUpdate.realEstate.address!!.street_name =
-                        binding.edittextStreetName?.text.toString()
+                        binding.edittextStreetName.text.toString()
                     viewModelUpdate.realEstate.address!!.zip_code =
-                        binding.edittextCityZipcode?.text.toString().toInt()
+                        binding.edittextCityZipcode.text.toString().toInt()
                     viewModelUpdate.realEstate.address!!.city =
-                        binding.edittextCityName?.text.toString()
+                        binding.edittextCityName.text.toString()
 
                     viewModelUpdate.realEstate.staticMapUri = null
                     viewModelUpdate.realEstate.address!!.lat = null
                     viewModelUpdate.realEstate.address!!.lng = null
 
 
-                    viewModelUpdate.realEstate.agent = binding.agentsSpinner?.selectedItem.toString()
+                    viewModelUpdate.realEstate.agent = binding.agentsSpinner.selectedItem.toString()
 
 
 
@@ -252,7 +238,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         for (item in viewModelUpdate.getMediaListFromVM().value!!) {
                             if (!RealEstateFullObserve.mediaList.contains(item)) {
                                 if (!viewModelUpdate.mediaList.contains(item)) {
-                                    val long = viewModelUpdate.insertMedia(
+                                     viewModelUpdate.insertMedia(
                                         RealEstateMedia(
                                             uri = item.uri,
                                             realEstateParentId = RealEstateFullObserve.realEstateFullData.realEstateId,
@@ -275,10 +261,14 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
 
 
+                    SharedUtils.notification(
+                        "RealEstate Manager",
+                        getString(R.string.hint_update_done),
+                        requireContext()
+                    )
 
 
 
-                    //notification("RealEsatzte", "Update terminé")
                     val navHostFragment =
                         requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
 
@@ -292,7 +282,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         viewModelUpdate.getMediaListFromVM().observe(viewLifecycleOwner) { myMedia ->
 
-            setupRecyclerView(recyclerViewMedias!!, myMedia)
+            setupRecyclerView(recyclerViewMedias, myMedia)
 
             val simpleCallback = object :
                 ItemTouchHelper.SimpleCallback(
@@ -306,7 +296,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     target: RecyclerView.ViewHolder,
                 ): Boolean {
 
-                    val adapter = (binding.recyclerview?.adapter as UpdateAdapter).mediaList
+                    val adapter = (binding.recyclerview.adapter as UpdateAdapter).mediaList
 
                     val fromPosition = viewHolder.adapterPosition
                     val toPosition = target.adapterPosition
@@ -354,9 +344,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         }
 
         //sold button...
-        binding.isSoldSwitch?.setOnClickListener {
+        binding.isSoldSwitch.setOnClickListener {
             dateOfSold = when {
-                binding.isSoldSwitch!!.isChecked -> {
+                binding.isSoldSwitch.isChecked -> {
                     Utils.getTodayDateToLong()
                 }
                 else -> {
@@ -597,7 +587,12 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     //callback adapter...
     override fun onToast(text: String) {
-        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+
+
+        if (text.contains("no_delete")){
+            Toast.makeText(requireContext(), getString(R.string.hint_min_media_text), Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 }

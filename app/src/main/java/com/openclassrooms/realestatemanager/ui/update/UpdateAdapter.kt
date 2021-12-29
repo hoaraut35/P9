@@ -1,12 +1,12 @@
 package com.openclassrooms.realestatemanager.ui.update
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.VideoView
-import androidx.core.net.toUri
+import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -51,7 +51,7 @@ class UpdateAdapter(
                 if (mediaList.size > 1) {
                     callback?.onDeleteMedia(photoModel)
                 } else {
-                    callback?.onToast("Gardez au moins un media")
+                    callback?.onToast("no_delete")
                 }
 
             }

@@ -106,7 +106,7 @@ public class Utils {
     public static NumberFormat getCurrencyFormat() {
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
         currencyFormat.setMaximumFractionDigits(0);
-        currencyFormat.setCurrency(Currency.getInstance(Locale.FRANCE));
+        currencyFormat.setCurrency(Currency.getInstance(Locale.getDefault()));
         return currencyFormat;
     }
 

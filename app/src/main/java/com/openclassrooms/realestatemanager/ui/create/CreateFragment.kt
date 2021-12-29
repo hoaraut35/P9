@@ -85,7 +85,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
 
         //open media ...
-        binding.openMedia?.setOnClickListener {
+        binding.openMedia.setOnClickListener {
             showPopupMenu(binding.openMedia)
         }
 
@@ -95,12 +95,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             viewModelCreate.realEstateVM.typeOfProduct =
                 group.findViewById<Chip>(checkedId)?.text.toString()
         }
-
-
-        //binding.chipRealEstatePoi.setOnCheckedChangeListener { group, checkedId ->
-        //  viewModelCreate.propertyTypeChanged(group.findViewById<Chip>(checkedId)?.text.toString())
-        //}
-
 
         binding.edittextPrice?.addTextChangedListener {
             binding.propertyPriceText.helperText =

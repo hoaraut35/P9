@@ -62,7 +62,6 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
 
                 if (realEstate.realEstateFullData.address!!.lat != null && realEstate.realEstateFullData.address!!.lng != null) {
                     MapsUtils.addMarker(
-                        requireContext(),
                         myGoogleMap,
                         realEstate.realEstateFullData.address!!.lat!!,
                         realEstate.realEstateFullData.address!!.lng!!,
@@ -140,7 +139,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         grantResults: IntArray
     ) {
         if (requestCode == 0 && grantResults[0] != -1) {
-            MapsUtils.checkGpsState(requireContext(), requireActivity())
+            MapsUtils.checkGpsState(requireActivity())
             startGPS()
         }
     }
