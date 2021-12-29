@@ -89,4 +89,12 @@
 
     <string name="text_chip_house">House</string>
     <string name="search_btn_text">Search...</string>
+    <string name="add_media_btn">Add media ...</string>
+    <string name="house_chip_text">House</string>
+    <string name="duplex_chip">Duplex</string>
+    <string name="penthouse_chip">Penthouse</string>
+    <string name="flat_chip">Flat</string>
+    <string name="ecole_chip">Ecole</string>
+    <string name="parc_chip">Parc</string>
+    <string name="gare_chip">Gare</string>
 </resources>

@@ -40,7 +40,7 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add media ..."
+                    android:text="@string/add_media_btn"
                     app:icon="@drawable/ic_baseline_add_circle_outline_24" />
 
 
@@ -67,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="Duplex"
-                        android:text="Duplex">
+                        android:text="@string/duplex_chip">
 
 
                     </com.google.android.material.chip.Chip>
@@ -79,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="Penthouse"
-                        android:text="Penthouse">
+                        android:text="@string/penthouse_chip">
 
                     </com.google.android.material.chip.Chip>
 
@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="Flat"
-                        android:text="Flat">
+                        android:text="@string/flat_chip">
 
                     </com.google.android.material.chip.Chip>
 
@@ -111,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:tag="Ecole"
-                        android:text="Ecole" />
+                        android:text="@string/ecole_chip" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/parc_chip"
@@ -120,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:checked="false"
                         android:tag="Parc"
-                        android:text="Parc" />
+                        android:text="@string/parc_chip" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/station_chip"
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:checked="false"
                         android:tag="Gare"
-                        android:text="Gare" />
+                        android:text="@string/gare_chip" />
 
 
                 </com.google.android.material.chip.ChipGroup>
@@ -147,7 +147,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="8"
-                        app:errorEnabled="true"></com.google.android.material.textfield.TextInputEditText>
+                        app:errorEnabled="true">
+                    </com.google.android.material.textfield.TextInputEditText>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,7 +163,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="6"></com.google.android.material.textfield.TextInputEditText>
+                        android:maxLength="6">
+                    </com.google.android.material.textfield.TextInputEditText>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -310,7 +312,9 @@
                         android:id="@+id/edittext_country_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="20"></com.google.android.material.textfield.TextInputEditText>
+                        android:maxLength="20">
+
+                    </com.google.android.material.textfield.TextInputEditText>
 
                 </com.google.android.material.textfield.TextInputLayout>
 

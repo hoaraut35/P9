@@ -12,7 +12,6 @@ import android.widget.PopupMenu
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -41,7 +40,6 @@ import java.lang.reflect.Field
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 @AndroidEntryPoint
 class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() {
 
@@ -50,8 +48,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
     private val mainViewModel by viewModels<MainViewModel>()
     private val viewModelCreate by viewModels<CreateViewModel>()
-
-    private val listOfMediasToSave = mutableListOf<RealEstateMedia>()
 
     private lateinit var getPhotoFromCamera: ActivityResultLauncher<Intent>
     private lateinit var getVideoFromCamera: ActivityResultLauncher<Intent>
@@ -151,14 +147,9 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                 val fileName = "Photo_"
                 val fileNameDestination = "$fileName$dateFileName.jpg"
 
-                //set uri
-                val fileNameUri: String?
-                fileNameUri = context?.filesDir.toString() + "/" + fileNameDestination + ".jpg"
-
                 //if we have a bitmap then ...
                 if (bitmap != null) {
-                    savePhotoToInternalMemory("$fileName$dateFileName", bitmap)
-                    // recyclerView!!.adapter?.notifyDataSetChanged()
+                    savePhotoToInternalMemory(fileNameDestination, bitmap)
                 }
 
             }
@@ -172,11 +163,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                     val bitmap = result.data!!.extras!!.get("data") as Bitmap
                     val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
-                    val fileName: String = "Photo_"
-
-                    //val storageDir = File(context?.filesDir, "test")
-
-                    savePhotoToInternalMemory("$dateFileName", bitmap)
+                    savePhotoToInternalMemory(dateFileName, bitmap)
 
                 }
 
@@ -198,7 +185,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                 SharedUtils.validPriceText(binding.edittextPrice!!.text)
         }
 
-        binding.edittextPrice?.setOnFocusChangeListener { _, focused ->
+        binding.edittextPrice?.setOnFocusChangeListener { _, _ ->
             binding.propertyPriceText.helperText =
                 SharedUtils.validPriceText(binding.edittextPrice!!.text)
         }
@@ -250,11 +237,10 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
                 val fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
 
-
                 //add in viewmodel list
                 viewModelCreate.addMediaToList(
                     RealEstateMedia(
-                        uri = fileNameUri!!,
+                        uri = fileNameUri,
                         name = "test",
                         realEstateParentId = 1
                     )
@@ -409,7 +395,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                                     .toInt(),
                                 city = binding.edittextCityName?.text.toString(),
                                 zip_code = binding.edittextCityZipcode?.text.toString().toInt(),
-                                country = null
+                                country = binding.edittextCountryName?.text.toString()
                             ),
                             status = false,
                             agent = binding.agentsSpinner?.selectedItem.toString()
@@ -420,7 +406,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                     //add medias to database
                     if (!viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
 
-                        viewModelCreate.getMediasListForUI().value!!.forEachIndexed { index, realEstateMedia ->
+                        viewModelCreate.getMediasListForUI().value!!.forEachIndexed { _, realEstateMedia ->
                             mainViewModel.insertPhoto(
                                 RealEstateMedia(
                                     uri = realEstateMedia.uri,
@@ -465,30 +451,30 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         }
     }
 
-    //TODO: move to utils
-    private fun setupActivityResultForGallery() {
-        //to get image from gallery
-        val getImageFromGallery = registerForActivityResult(
-            ActivityResultContracts.GetContent(),
-
-            ActivityResultCallback {
-                //      binding.imageOfGallery?.setImageURI(it)
-                val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                //val storageDir = File(context?.filesDir, "test")
-                //savePhotoToInternalMemory("Photo_$fileName", it)
-
-
-                listOfMediasToSave.add(
-                    RealEstateMedia(
-                        uri = it.toString(),
-                        name = "photo",
-                        realEstateParentId = 1
-                    )
-                )
-
-            }
-        )
-    }
+//    //TODO: move to utils
+//    private fun setupActivityResultForGallery() {
+//        //to get image from gallery
+//        val getImageFromGallery = registerForActivityResult(
+//            ActivityResultContracts.GetContent(),
+//
+//            ActivityResultCallback {
+//                //      binding.imageOfGallery?.setImageURI(it)
+//                val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+//                //val storageDir = File(context?.filesDir, "test")
+//                //savePhotoToInternalMemory("Photo_$fileName", it)
+//
+//
+//                listOfMediasToSave.add(
+//                    RealEstateMedia(
+//                        uri = it.toString(),
+//                        name = "photo",
+//                        realEstateParentId = 1
+//                    )
+//                )
+//
+//            }
+//        )
+//    }
 
 
     //TODO: move to util class ?
@@ -519,31 +505,31 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             messagetest += "You minium one media for the product \r\n"
         }
 
-        if (binding.edittextPrice?.text.toString().isNullOrEmpty()) {
+        if (binding.edittextPrice?.text.toString().isEmpty()) {
             messagetest += "You must choice a price \r\n"
         }
 
-        if (binding.edittextSurface?.text.toString().isNullOrEmpty()) {
+        if (binding.edittextSurface?.text.toString().isEmpty()) {
             messagetest += "You must choice a surface \r\n"
         }
 
-        if (binding.edittextNumberBathroom?.text.toString().isNullOrEmpty()) {
+        if (binding.edittextNumberBathroom?.text.toString().isEmpty()) {
             messagetest += "You must choice a number of bathroom \r\n"
         }
 
-        if (binding.edittextNumberBedroom?.text.toString().isNullOrEmpty()) {
+        if (binding.edittextNumberBedroom?.text.toString().isEmpty()) {
             messagetest += "You must choice a number of Bedroom \r\n"
         }
 
-        if (binding.edittextNumberRoom?.text.toString().isNullOrEmpty()) {
+        if (binding.edittextNumberRoom?.text.toString().isEmpty()) {
             messagetest += "You must choice a number of room \r\n"
         }
 
-        if (binding.edittextDescription?.text.toString().isNullOrEmpty()) {
+        if (binding.edittextDescription?.text.toString().isEmpty()) {
             messagetest += "You must enter a description \r\n"
         }
 
-        if (binding.edittextStreetNumber?.text.toString().isNullOrEmpty()) {
+        if (binding.edittextStreetNumber?.text.toString().isEmpty()) {
             messagetest += "You must enter a street number \r\n"
         }
 

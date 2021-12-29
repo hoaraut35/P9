@@ -1,9 +1,10 @@
 package com.openclassrooms.realestatemanager.ui.create
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class CreateViewModel @Inject constructor(private val localDatabaseRepository: LocalDatabaseRepository) :
     ViewModel() {
 
-    //for insertion realestate
+    //for insertion estate
     private var mutableLiveDataRowId = MutableLiveData<Long>()
 
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
@@ -23,8 +24,8 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
 
     var realEstateVM  : RealEstate = RealEstate()
 
-    val listOfChip : MutableList<String> = mutableListOf()
-    val chip  : String? = null
+    //val listOfChip : MutableList<String> = mutableListOf()
+    //val chip  : String? = null
 
     //insert POI in database
     fun insertPOI(poi:RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertPOI(poi) }
@@ -34,7 +35,6 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
         listOfMedia.add(media)
         sortMedia()
         mutableListOfMedia.value = listOfMedia
-        Log.i("[MEDIA]", "Data from viewmodel list : $listOfMedia")
     }
 
     //sort data for UI
@@ -51,10 +51,6 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
     fun getMediasListForUI(): LiveData<List<RealEstateMedia>> {
         //Transformations.map(mutableListOfMedia,  )
         return mutableListOfMedia
-    }
-
-    fun propertyTypeChanged(type: String) {
-        Log.i("[PROPERTY]", "Type of property : $type")
     }
 
     fun deleteMedia(media: RealEstateMedia) {

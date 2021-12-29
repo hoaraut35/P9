@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.create
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 
 class CreateAdapter(
-    val mediaList: List<RealEstateMedia>,
+    private val mediaList: List<RealEstateMedia>,
     callback: InterfacePhotoTitleChanged
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -102,6 +103,7 @@ class CreateAdapter(
         }
     }
 
+    @SuppressLint("SdCardPath")
     override fun getItemViewType(position: Int): Int {
         return if (mediaList[position].uri?.contains("/data/user/")!!) {
             0

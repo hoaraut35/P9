@@ -1,16 +1,13 @@
 package com.openclassrooms.realestatemanager.utils
 
-import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.graphics.Bitmap
 import android.os.Build
 import android.text.Editable
 import androidx.core.app.NotificationCompat
 import com.openclassrooms.realestatemanager.R
-import java.io.IOException
 
 class SharedUtils {
 
@@ -36,28 +33,6 @@ class SharedUtils {
             return null
         }
 
-
-
-
-        fun savePhotoToInternalMemory(context : Context, filename: String, bmp: Bitmap): Boolean {
-            return try {
-                context?.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
-
-                    //compress photo
-                    if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                        throw IOException("erreur compression")
-                    }
-
-                }
-                true
-
-            } catch (e: IOException) {
-                e.printStackTrace()
-                false
-
-            }
-        }
-
         fun notification(task: String, desc: String, context: Context) {
             val manager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -79,21 +54,40 @@ class SharedUtils {
             manager.notify(1, builder.build())
         }
 
-        fun savePhotoToInternalMemory(filename: String, bmp: Bitmap, context : Context): Boolean {
-            return try {
-                context?.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
-                    if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                        throw IOException("erreur compression")
-                    }
-                }
-                true
+//        fun savePhotoToInternalMemory(filename: String, bmp: Bitmap, context : Context): Boolean {
+//            return try {
+//                context.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
+//                    if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
+//                        throw IOException("Error compression")
+//                    }
+//                }
+//                true
+//
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//                false
+//            }
+//        }
 
-            } catch (e: IOException) {
-                e.printStackTrace()
-                false
-            }
-        }
 
+//        fun savePhotoToInternalMemory(context : Context, filename: String, bmp: Bitmap): Boolean {
+//            return try {
+//                context.openFileOutput(filename, Activity.MODE_PRIVATE).use { stream ->
+//
+//                    //compress photo
+//                    if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
+//                        throw IOException("Error compression")
+//                    }
+//
+//                }
+//                true
+//
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//                false
+//
+//            }
+//        }
 
 
 
