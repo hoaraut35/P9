@@ -139,11 +139,7 @@
                     android:id="@+id/property_price_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez le prix"
-
-                    app:helperText="ne peux etre vide"
-
-                    app:helperTextEnabled="true">
+                    android:hint="@string/hintForPrice">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_price"
@@ -151,10 +147,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="8"
-                        app:errorEnabled="true">
-
-                    </com.google.android.material.textfield.TextInputEditText>
-
+                        app:errorEnabled="true"></com.google.android.material.textfield.TextInputEditText>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,26 +155,22 @@
                     android:id="@+id/property_surface_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez la surface">
+                    android:hint="@string/hintForSurface">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_surface"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number">
-
-                    </com.google.android.material.textfield.TextInputEditText>
-
+                        android:inputType="number"
+                        android:maxLength="6"></com.google.android.material.textfield.TextInputEditText>
 
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_room_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez le nombre de piece"
-                    app:helperText="ne peux etre vide"
+                    android:hint="@string/hintForRoomNumber"
                     app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -189,46 +178,62 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="8"
+                        android:maxLength="4"
                         app:errorEnabled="true">
 
                     </com.google.android.material.textfield.TextInputEditText>
 
-
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_bathroom_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez le nombre de bain"
-                    app:helperText="ne peux etre vide"
+                    android:hint="@string/hintForNumberBathroom"
                     app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_number_bathroom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number">
+                        android:inputType="number"
+                        android:maxLength="4">
 
                     </com.google.android.material.textfield.TextInputEditText>
+
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/property_bedroom_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hintForNumberBedroom"
+                    app:helperTextEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_number_bedroom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="4">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_description_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez la decription">
+                    android:hint="@string/hintForDescription">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_description"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:maxLength="1024">
 
                     </com.google.android.material.textfield.TextInputEditText>
-
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -236,7 +241,7 @@
                     android:id="@+id/property_streetnumber_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez le numéro de rue">
+                    android:hint="@string/hintStreetNumber">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_street_number"
@@ -246,15 +251,13 @@
 
                     </com.google.android.material.textfield.TextInputEditText>
 
-
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_streetname_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez le nom de la rue">
+                    android:hint="@string/hintForStreetName">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_street_name"
@@ -262,29 +265,31 @@
                         android:layout_height="wrap_content">
 
                     </com.google.android.material.textfield.TextInputEditText>
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_postalcode_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez le code postal">
+                    android:hint="@string/hintForZipCode">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_city_zipcode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number">
+                        android:inputType="number"
+                        android:maxLength="10">
 
                     </com.google.android.material.textfield.TextInputEditText>
-                </com.google.android.material.textfield.TextInputLayout>
 
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_cityname_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entrez le nom de la ville">
+                    android:hint="@string/hintCityName">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_city_name"
@@ -292,23 +297,46 @@
                         android:layout_height="wrap_content">
 
                     </com.google.android.material.textfield.TextInputEditText>
+
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- insert PIO here -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/property_countryName_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hintCountryName">
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/property_state"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_country_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="20"></com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/property_state"
-                    android:visibility="invisible" />
+                    android:layout_margin="5dp"
+                    android:textSize="14sp"
+                    android:text="@string/hintAgent"/>
+
 
                 <Spinner
                     android:id="@+id/agents_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/is_sold_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/update_solded_switch_text"
+                    app:layout_constraintTop_toBottomOf="@id/agents_spinner" />
 
                 <Button
                     android:id="@+id/save_btn"
@@ -326,14 +354,13 @@
 
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/is_sold_switch"
+                    android:id="@+id/property_state"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Is sold "
+                    android:layout_height="wrap_content"
+                    android:checked="true"
 
-
-                    app:layout_constraintTop_toBottomOf="@id/save_btn" />
-
+                    android:text="@string/property_state"
+                    android:visibility="invisible" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

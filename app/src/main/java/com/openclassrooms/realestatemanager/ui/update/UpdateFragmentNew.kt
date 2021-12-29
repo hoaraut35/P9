@@ -19,6 +19,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.forEach
+import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -90,14 +92,27 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                 binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
                 binding.edittextSurface?.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
+
+
+
+                binding.edittextRoomNumber.setText(RealEstateFullObserve.realEstateFullData.numberOfRoom.toString())
+                binding.edittextNumberBathroom.setText(RealEstateFullObserve.realEstateFullData.numberOfBathRoom.toString())
+                binding.edittextNumberBedroom?.setText(RealEstateFullObserve.realEstateFullData.numberOfBedRoom.toString())
+
                 binding.edittextDescription?.setText(RealEstateFullObserve.realEstateFullData.descriptionOfProduct)
                 binding.edittextStreetNumber?.setText(RealEstateFullObserve.realEstateFullData.address?.street_number.toString())
                 binding.edittextStreetName?.setText(RealEstateFullObserve.realEstateFullData.address?.street_name)
                 binding.edittextCityZipcode?.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
                 binding.edittextCityName?.setText(RealEstateFullObserve.realEstateFullData.address?.city)
+                binding.edittextCountryName?.setText(RealEstateFullObserve.realEstateFullData.address?.country)
 
-                binding.isSoldSwitch?.isChecked =
-                    RealEstateFullObserve.realEstateFullData.releaseDate != null
+                for (i in 0 until binding.agentsSpinner.adapter.count){
+                    if (adapter.getItem(i).toString().contains(RealEstateFullObserve.realEstateFullData.agent.toString())){
+                        binding.agentsSpinner.setSelection(i)
+                    }
+                }
+
+                binding.isSoldSwitch?.isChecked =     RealEstateFullObserve.realEstateFullData.releaseDate != null
 
                 //type of product...
                 when (RealEstateFullObserve.realEstateFullData.typeOfProduct) {

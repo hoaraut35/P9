@@ -72,4 +72,17 @@
     <string name="poi_park_text">Park</string>
     <string name="poi_station_text">Station</string>
     <string name="agent_text">Agent :</string>
+    <string name="update_solded_switch_text">Solded ?</string>
+    <string name="hintForPrice">Enter the price</string>
+    <string name="hintForSurface">Enter the surface</string>
+    <string name="hintForRoomNumber">Enter room number</string>
+    <string name="hintForNumberBathroom">Enter bathroom number</string>
+    <string name="hintForNumberBedroom">Enter bedroom number</string>
+    <string name="hintForDescription">Enter description</string>
+    <string name="hintStreetNumber">Enter street number</string>
+    <string name="hintForStreetName">Enter street name</string>
+    <string name="hintForZipCode">Enter zipcode</string>
+    <string name="hintCityName">Enter city name</string>
+    <string name="hintCountryName">Enter country</string>
+    <string name="hintAgent">Select agent</string>
 </resources>
