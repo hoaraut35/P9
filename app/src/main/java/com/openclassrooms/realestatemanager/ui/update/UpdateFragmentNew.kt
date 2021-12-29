@@ -19,18 +19,16 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.core.view.forEach
-import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.detail.FullScreenFragment
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -172,18 +170,14 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         viewModelUpdate.realEstate.typeOfProduct = binding.chipDuplex?.tag.toString()
                     }
 
-
-                    if(binding.parcChip?.isChecked){
-                        viewModelUpdate.
-                    }
-
-                    if(binding.schoolChip?.isChecked){
-
-                    }
-
-                    if (binding.stationChip?.isChecked){
-
-                    }
+                    viewModelUpdate.insertPOI(
+                        RealEstatePOI(
+                            school = binding.schoolChip?.isChecked,
+                            park = binding.parcChip?.isChecked,
+                            station = binding.stationChip?.isChecked,
+                            realEstateParentId = RealEstateFullObserve.realEstateFullData.realEstateId
+                        )
+                    )
 
 //                    binding.chipRealEstatePoi.checkedChipIds.forEach { myChip ->
 //                        val chipState =

@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.repositories.LocalDatabaseRepository
 import com.openclassrooms.realestatemanager.repositories.SharedRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,6 +29,8 @@ class ViewModelUpdate @Inject constructor(
 
     fun insertMedia(media: RealEstateMedia) =
         viewModelScope.launch { localDatabaseRepository.insertMedia(media) }
+
+    fun insertPOI(poi: RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertPOI(poi) }
 
     var getLAstRowId = localDatabaseRepository.getLastRowIdForRealEstate().asLiveData()
     var getLastRowIdForMedia = localDatabaseRepository.getLastRowIdForMedia().asLiveData()
