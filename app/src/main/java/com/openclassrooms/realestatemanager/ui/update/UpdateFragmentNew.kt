@@ -27,6 +27,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
@@ -93,8 +94,6 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 binding.edittextPrice?.setText(RealEstateFullObserve.realEstateFullData.price?.toString())
                 binding.edittextSurface?.setText(RealEstateFullObserve.realEstateFullData.surface.toString())
 
-
-
                 binding.edittextRoomNumber.setText(RealEstateFullObserve.realEstateFullData.numberOfRoom.toString())
                 binding.edittextNumberBathroom.setText(RealEstateFullObserve.realEstateFullData.numberOfBathRoom.toString())
                 binding.edittextNumberBedroom?.setText(RealEstateFullObserve.realEstateFullData.numberOfBedRoom.toString())
@@ -160,25 +159,55 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                 //button listener
                 binding.saveBtn?.setOnClickListener {
 
-
-                    if (binding.chipHouse?.isChecked == true){
+                    if (binding.chipHouse?.isChecked){
                         viewModelUpdate.realEstate.typeOfProduct = binding.chipHouse?.tag.toString()
                     }
-                    if (binding.chipFlat?.isChecked == true){
+                    if (binding.chipFlat?.isChecked){
                         viewModelUpdate.realEstate.typeOfProduct = binding.chipFlat?.tag.toString()
                     }
-                    if (binding.chipPenthouse?.isChecked == true){
+                    if (binding.chipPenthouse?.isChecked){
                         viewModelUpdate.realEstate.typeOfProduct = binding.chipPenthouse?.tag.toString()
                     }
-                    if (binding.chipDuplex?.isChecked == true){
+                    if (binding.chipDuplex?.isChecked){
                         viewModelUpdate.realEstate.typeOfProduct = binding.chipDuplex?.tag.toString()
                     }
+
+
+                    if(binding.parcChip?.isChecked){
+                        viewModelUpdate.
+                    }
+
+                    if(binding.schoolChip?.isChecked){
+
+                    }
+
+                    if (binding.stationChip?.isChecked){
+
+                    }
+
+//                    binding.chipRealEstatePoi.checkedChipIds.forEach { myChip ->
+//                        val chipState =
+//                            binding.chipRealEstatePoi.findViewById<Chip>(myChip).isChecked
+//
+//                        when (binding.chipRealEstatePoi.findViewById<Chip>(myChip).text.toString()) {
+//                            "Ecole" -> school = chipState
+//                            "Parc" -> park = chipState
+//                            "Gare" -> gare = chipState
+//                        }
+//                    }
+
 
 
                     viewModelUpdate.realEstate.price =
                         binding.edittextPrice?.text.toString().toInt()
                     viewModelUpdate.realEstate.surface =
                         binding.edittextSurface?.text.toString().toInt()
+
+
+                    viewModelUpdate.realEstate.numberOfBedRoom = binding.edittextNumberBedroom?.text.toString().toInt()
+                    viewModelUpdate.realEstate.numberOfBathRoom = binding.edittextNumberBathroom?.text.toString().toInt()
+                    viewModelUpdate.realEstate.numberOfRoom = binding.edittextRoomNumber?.text.toString().toInt()
+
                     viewModelUpdate.realEstate.descriptionOfProduct =
                         binding.edittextDescription?.text.toString()
                     viewModelUpdate.realEstate.address!!.street_number =
@@ -196,6 +225,8 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
 
                     viewModelUpdate.realEstate.agent = binding.agentsSpinner?.selectedItem.toString()
+
+
 
 
                     //Update the realEstate ....
@@ -247,6 +278,11 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                             viewModelUpdate.insertMedia(media)
                         }
                     }
+
+
+
+
+
 
                     //notification("RealEsatzte", "Update terminé")
                     val navHostFragment =
