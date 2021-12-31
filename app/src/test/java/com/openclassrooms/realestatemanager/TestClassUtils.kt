@@ -7,13 +7,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ExampleUnitTest {
+class TestClassUtils {
 
-    private val myDate = "20/12/2021"
+    //Must be changed before test
+    private val myDate = "31/12/2021"
+
     private val myEURO = 89
     private val myDOLLARS = 100
 
-    //update variable before
     @Test
     fun getFormatDateForToday() {
         assertEquals(Utils.getTodayDate(), myDate)
@@ -29,8 +30,5 @@ class ExampleUnitTest {
         assertEquals(Utils.convertEuroToDollar(myEURO),
             myDOLLARS)
     }
-
-    //TODO: check network here...
-
 
 }

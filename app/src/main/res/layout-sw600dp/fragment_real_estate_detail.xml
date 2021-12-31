@@ -113,6 +113,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/text_type" />
 
                 <ImageView
+                  android:contentDescription="@string/iconforbedroom"
                     android:id="@+id/image_number_bedroom"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -148,6 +149,7 @@
 
 
                 <ImageView
+                    android:contentDescription="@string/iconforroom"
                     android:id="@+id/image_number_room"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -184,6 +186,7 @@
 
 
                 <ImageView
+                    android:contentDescription="@string/icon_for_bathroom_description"
                     android:id="@+id/image_number_bathroom"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -198,7 +201,7 @@
                     android:id="@+id/text_number_bathroom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombre de salle de bain"
+                    android:text="@string/textForBathroomDetail"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/image_number_bathroom"

@@ -97,4 +97,7 @@
     <string name="ecole_chip">Ecole</string>
     <string name="parc_chip">Parc</string>
     <string name="gare_chip">Gare</string>
+    <string name="iconforroom">iconForRoom</string>
+    <string name="iconforbedroom">iconForBedroom</string>
+    <string name="textForBathroomDetail">Nombre de salle de bain</string>
 </resources>

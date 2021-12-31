@@ -64,7 +64,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
         val recyclerView = binding.recyclerview
 
-        val agentSpinner: Spinner? = binding.agentsSpinner
+        val agentSpinner: Spinner = binding.agentsSpinner
         val agent1 = "David"
         val agent2 = "Thierry"
         val agent3 = "Patrick"
@@ -75,11 +75,11 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             agentList
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        agentSpinner?.adapter = adapter
+        agentSpinner.adapter = adapter
 
 
         //open media ...
-        binding.openMedia?.setOnClickListener {
+        binding.openMedia.setOnClickListener {
             showPopupMenu(binding.openMedia)
         }
 
@@ -90,9 +90,9 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                 group.findViewById<Chip>(checkedId)?.text.toString()
         }
 
-        binding.edittextPrice?.addTextChangedListener {
+        binding.edittextPrice.addTextChangedListener {
             binding.propertyPriceText.helperText =
-                SharedUtils.validPriceText(binding.edittextPrice!!.text)
+                SharedUtils.validPriceText(binding.edittextPrice.text)
         }
 
 
@@ -178,24 +178,24 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
         setupViewModel(recyclerView)
 
-        binding.edittextPrice?.addTextChangedListener {
+        binding.edittextPrice.addTextChangedListener {
             binding.propertyPriceText.helperText =
-                SharedUtils.validPriceText(binding.edittextPrice!!.text)
+                SharedUtils.validPriceText(binding.edittextPrice.text)
         }
 
-        binding.edittextPrice?.setOnFocusChangeListener { _, _ ->
+        binding.edittextPrice.setOnFocusChangeListener { _, _ ->
             binding.propertyPriceText.helperText =
-                SharedUtils.validPriceText(binding.edittextPrice!!.text)
+                SharedUtils.validPriceText(binding.edittextPrice.text)
         }
 
-        binding.edittextDescription?.addTextChangedListener {
+        binding.edittextDescription.addTextChangedListener {
             binding.propertyDescriptionText.helperText =
-                SharedUtils.validPriceText(binding.edittextDescription!!.text)
+                SharedUtils.validPriceText(binding.edittextDescription.text)
         }
 
-        binding.edittextDescription?.setOnFocusChangeListener { _, _ ->
+        binding.edittextDescription.setOnFocusChangeListener { _, _ ->
             binding.propertyDescriptionText.helperText =
-                SharedUtils.validPriceText(binding.edittextDescription!!.text)
+                SharedUtils.validPriceText(binding.edittextDescription.text)
         }
 
 
@@ -379,24 +379,24 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                         RealEstate(
                             typeOfProduct = viewModelCreate.realEstateVM.typeOfProduct,
                             dateOfEntry = Utils.getTodayDateToLong(),
-                            price = binding.edittextPrice?.text.toString().toInt(),
-                            surface = binding.edittextSurface?.text.toString().toInt(),
-                            numberOfRoom = binding.edittextNumberRoom?.text.toString().toInt(),
-                            numberOfBathRoom = binding.edittextNumberBathroom?.text.toString()
+                            price = binding.edittextPrice.text.toString().toInt(),
+                            surface = binding.edittextSurface.text.toString().toInt(),
+                            numberOfRoom = binding.edittextNumberRoom.text.toString().toInt(),
+                            numberOfBathRoom = binding.edittextNumberBathroom.text.toString()
                                 .toInt(),
-                            numberOfBedRoom = binding.edittextNumberBedroom?.text.toString()
+                            numberOfBedRoom = binding.edittextNumberBedroom.text.toString()
                                 .toInt(),
-                            descriptionOfProduct = binding.edittextDescription?.text?.toString(),
+                            descriptionOfProduct = binding.edittextDescription.text?.toString(),
                             address = RealEstateAddress(
-                                street_name = binding.edittextStreetName?.text.toString(),
-                                street_number = binding.edittextStreetNumber?.text.toString()
+                                street_name = binding.edittextStreetName.text.toString(),
+                                street_number = binding.edittextStreetNumber.text.toString()
                                     .toInt(),
-                                city = binding.edittextCityName?.text.toString(),
-                                zip_code = binding.edittextCityZipcode?.text.toString().toInt(),
-                                country = binding.edittextCountryName?.text.toString()
+                                city = binding.edittextCityName.text.toString(),
+                                zip_code = binding.edittextCityZipcode.text.toString().toInt(),
+                                country = binding.edittextCountryName.text.toString()
                             ),
                             status = false,
-                            agent = binding.agentsSpinner?.selectedItem.toString()
+                            agent = binding.agentsSpinner.selectedItem.toString()
                         )
                     )
 
@@ -503,31 +503,31 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             messagetest += "You minium one media for the product \r\n"
         }
 
-        if (binding.edittextPrice?.text.toString().isEmpty()) {
+        if (binding.edittextPrice.text.toString().isEmpty()) {
             messagetest += "You must choice a price \r\n"
         }
 
-        if (binding.edittextSurface?.text.toString().isEmpty()) {
+        if (binding.edittextSurface.text.toString().isEmpty()) {
             messagetest += "You must choice a surface \r\n"
         }
 
-        if (binding.edittextNumberBathroom?.text.toString().isEmpty()) {
+        if (binding.edittextNumberBathroom.text.toString().isEmpty()) {
             messagetest += "You must choice a number of bathroom \r\n"
         }
 
-        if (binding.edittextNumberBedroom?.text.toString().isEmpty()) {
+        if (binding.edittextNumberBedroom.text.toString().isEmpty()) {
             messagetest += "You must choice a number of Bedroom \r\n"
         }
 
-        if (binding.edittextNumberRoom?.text.toString().isEmpty()) {
+        if (binding.edittextNumberRoom.text.toString().isEmpty()) {
             messagetest += "You must choice a number of room \r\n"
         }
 
-        if (binding.edittextDescription?.text.toString().isEmpty()) {
+        if (binding.edittextDescription.text.toString().isEmpty()) {
             messagetest += "You must enter a description \r\n"
         }
 
-        if (binding.edittextStreetNumber?.text.toString().isEmpty()) {
+        if (binding.edittextStreetNumber.text.toString().isEmpty()) {
             messagetest += "You must enter a street number \r\n"
         }
 
@@ -535,7 +535,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             messagetest += "You must enter a street name \r\n"
         }
 
-        if (binding.edittextCityName?.text.toString().isEmpty()){
+        if (binding.edittextCityName.text.toString().isEmpty()){
             messagetest += "You must enter a city name \r\n"
         }
 

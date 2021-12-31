@@ -72,32 +72,8 @@ public class Utils {
 
         @SuppressLint("MissingPermission") NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
-        return isConnected;
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
-
-//    public static void checkInternet(Context context) {
-//
-//        RequestQueue queue = Volley.newRequestQueue(context);
-//        String url = "http://www.google.com";
-//
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Toast.makeText(context, "Intertnet is enabled", Toast.LENGTH_SHORT).show();
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(context, "Intertnet is not enabled", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        queue.add(stringRequest);
-//
-//    }
 
     //**********************************************************************************************
 

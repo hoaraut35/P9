@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager
 
 import android.content.Context
-import androidx.lifecycle.asLiveData
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -23,7 +22,6 @@ class TestRoom {
 
     private lateinit var realEStateDao: RealEStateDao
     private lateinit var db: RealEstateDatabase
-    private var realEstateTest: RealEstate? = null
 
     @Before
     fun createDb() {
@@ -47,15 +45,31 @@ class TestRoom {
     fun insert() = runBlocking {
 
         val realEstate = RealEstate(price = 100000)
+
         realEStateDao.insertRealEstate(realEstate)
-        val size = realEStateDao.getFlowRealEstates().take(1)
-        assertEquals(1, size.first().size)
+
+        val listOfRealEstate = realEStateDao.getFlowRealEstates().take(1)
+        assertEquals(1, listOfRealEstate.first().size)
 
     }
 
+    @Test
+    fun update() = runBlocking {
+        val realEstate1 = RealEstate(realEstateId = 1, price = 100000)
+        val realEstate2 = RealEstate(realEstateId = 2, price = 200000)
+
+        realEStateDao.insertRealEstate(realEstate1)
+        realEStateDao.insertRealEstate(realEstate2)
+
+        realEStateDao.updateRealEstate(RealEstate(realEstateId = 1, price = 100001))
+        realEStateDao.updateRealEstate(RealEstate(realEstateId = 2, price = 200002))
+
+        val listOfRealEstate = realEStateDao.getFlowRealEstates().take(1)
+        assertEquals(100001, listOfRealEstate.first()[0].price)
+        assertEquals(200002, listOfRealEstate.first()[1].price)
 
 
-
+    }
 
 }
 

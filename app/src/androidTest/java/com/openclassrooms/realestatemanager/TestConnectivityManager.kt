@@ -14,6 +14,7 @@ class TestConnectivityManager {
 
     private lateinit var context: Context
 
+    //change mode plane or not plane in emulator before testing..
     @Before
     fun setup(){
         context = ApplicationProvider.getApplicationContext()
@@ -25,4 +26,9 @@ class TestConnectivityManager {
         Assert.assertTrue(Utils.isInternetAvailable(context))
     }
 
+    @Test
+    fun checkIfInternetIsDisabled(){
+        Utils.isInternetAvailable(context)
+        Assert.assertFalse(Utils.isInternetAvailable(context))
+    }
 }

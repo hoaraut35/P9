@@ -58,7 +58,7 @@ class ListAdapter(
             setOnClickListener(onClickListener)
         }
 
-        holder.soldedTag.isVisible = item.realEstateFullData.releaseDate != null
+        holder.sale.isVisible = item.realEstateFullData.releaseDate != null
 
     }
 
@@ -73,7 +73,7 @@ class ListAdapter(
         val price: TextView = binding.priceText
         val city: TextView = binding.cityText
         val image: ImageView = binding.realEstateImage
-        val soldedTag : TextView = binding.soldedTag
+        val sale: TextView = binding.soldedTag
 
     }
 

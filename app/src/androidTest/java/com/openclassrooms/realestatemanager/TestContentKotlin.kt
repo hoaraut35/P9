@@ -24,7 +24,6 @@ class TestContentKotlin {
 
     private lateinit var realEStateDao: RealEStateDao
     private lateinit var db: RealEstateDatabase
-    private var realEstateTest: RealEstate? = null
 
     @Before
     fun setup() {
@@ -50,7 +49,7 @@ class TestContentKotlin {
         )
 
         assertThat(cursor, Matchers.notNullValue())
-        assertEquals(cursor!!.count, 6)
+        assertEquals(cursor!!.count, 5)
         cursor?.close()
     }
 

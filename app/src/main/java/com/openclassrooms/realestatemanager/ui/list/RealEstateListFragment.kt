@@ -54,7 +54,7 @@ class RealEstateListFragment : Fragment() {
             if (!resultSearch.isNullOrEmpty()) {
                 searchInProgress = true
                 setupRecyclerView(recyclerView, resultSearch, onClickListener)
-                binding.floatingSearch?.show()
+                binding.floatingSearch.show()
             }
         }
 
@@ -68,12 +68,12 @@ class RealEstateListFragment : Fragment() {
         }
 
         //Listener...
-        binding.floatingSearch?.setOnClickListener {
+        binding.floatingSearch.setOnClickListener {
             //clear list...
             listViewModel.clearSearch()
             setupRecyclerView(recyclerView, estateList, onClickListener)
             searchInProgress = false
-            binding.floatingSearch?.hide()
+            binding.floatingSearch.hide()
         }
 
     }

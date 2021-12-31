@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -56,9 +55,9 @@ class UpdateAdapter(
 
             }
 
-
-
-
+            image.setOnClickListener {
+                callback?.onViewFullScreenMedia(photoModel.name.toString(), photoModel.uri!!)
+            }
 
         }
     }
@@ -91,10 +90,9 @@ class UpdateAdapter(
                 .centerCrop()
                 .into(video)
 
-            video.setOnClickListener(View.OnClickListener {
-                //video.start()
+            video.setOnClickListener{
                 callback?.onViewFullScreenMedia(videoModel.name.toString(), videoModel.uri!!)
-            })
+            }
 
         }
     }
@@ -105,14 +103,14 @@ class UpdateAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == 0) {
+        return if (viewType == 0) {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_real_estate_photo_create, parent, false)
-            return PhotoViewHolder(view.rootView)
+            PhotoViewHolder(view.rootView)
         } else {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_real_estate_video, parent, false)
-            return VideoViewHolder(view)
+            VideoViewHolder(view)
         }
     }
 

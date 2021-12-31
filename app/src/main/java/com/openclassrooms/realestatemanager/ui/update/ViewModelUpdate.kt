@@ -32,9 +32,6 @@ class ViewModelUpdate @Inject constructor(
 
     fun insertPOI(poi: RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertPOI(poi) }
 
-    var getLAstRowId = localDatabaseRepository.getLastRowIdForRealEstate().asLiveData()
-    var getLastRowIdForMedia = localDatabaseRepository.getLastRowIdForMedia().asLiveData()
-
 
     //the starting list...
     var initialListOfMedia: MutableList<RealEstateMedia> = mutableListOf()
@@ -82,7 +79,7 @@ class ViewModelUpdate @Inject constructor(
     fun deleteMediaFromDatabase(media: RealEstateMedia){
         //for add media to the list of deleted media
         listOfMediaToRemove.add(media)
-        //move to fragfment ?
+        //move to fragment ?
         viewModelScope.launch { localDatabaseRepository.deleteMedia(media) }
 
     }

@@ -80,9 +80,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
             showPopupMenu(binding.addMediaBtn)
         }
 
-        setupGetPhotoFromGallery(recyclerViewMedias)
-        setupGetVideoFromCamera(recyclerViewMedias)
-        setupGetVideoFromGallery(recyclerViewMedias)
+        setupGetPhotoFromGallery()
+        setupGetVideoFromCamera()
+        setupGetVideoFromGallery()
         setupGetPhotoFromCamera()
 
         //observe updated realEstate...
@@ -94,14 +94,14 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                 binding.edittextRoomNumber.setText(RealEstateFullObserve.realEstateFullData.numberOfRoom.toString())
                 binding.edittextNumberBathroom.setText(RealEstateFullObserve.realEstateFullData.numberOfBathRoom.toString())
-                binding.edittextNumberBedroom?.setText(RealEstateFullObserve.realEstateFullData.numberOfBedRoom.toString())
+                binding.edittextNumberBedroom.setText(RealEstateFullObserve.realEstateFullData.numberOfBedRoom.toString())
 
                 binding.edittextDescription.setText(RealEstateFullObserve.realEstateFullData.descriptionOfProduct)
                 binding.edittextStreetNumber.setText(RealEstateFullObserve.realEstateFullData.address?.street_number.toString())
                 binding.edittextStreetName.setText(RealEstateFullObserve.realEstateFullData.address?.street_name)
                 binding.edittextCityZipcode.setText(RealEstateFullObserve.realEstateFullData.address?.zip_code.toString())
                 binding.edittextCityName.setText(RealEstateFullObserve.realEstateFullData.address?.city)
-                binding.edittextCountryName?.setText(RealEstateFullObserve.realEstateFullData.address?.country)
+                binding.edittextCountryName.setText(RealEstateFullObserve.realEstateFullData.address?.country)
 
                 for (i in 0 until binding.agentsSpinner.adapter.count){
                     if (adapter.getItem(i).toString().contains(RealEstateFullObserve.realEstateFullData.agent.toString())){
@@ -184,7 +184,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         binding.edittextSurface.text.toString().toInt()
 
 
-                    viewModelUpdate.realEstate.numberOfBedRoom = binding.edittextNumberBedroom?.text.toString().toInt()
+                    viewModelUpdate.realEstate.numberOfBedRoom = binding.edittextNumberBedroom.text.toString().toInt()
                     viewModelUpdate.realEstate.numberOfBathRoom = binding.edittextNumberBathroom.text.toString().toInt()
                     viewModelUpdate.realEstate.numberOfRoom = binding.edittextRoomNumber.text.toString().toInt()
 
@@ -359,7 +359,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     }
 
-    private fun setupGetPhotoFromGallery(recyclerView: RecyclerView) {
+    private fun setupGetPhotoFromGallery() {
         getPhotoFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent()
         )
@@ -445,7 +445,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
             }
     }
 
-    private fun setupGetVideoFromGallery(recyclerViewMedias: RecyclerView) {
+    private fun setupGetVideoFromGallery() {
         getVideoFromGallery = registerForActivityResult(
             ActivityResultContracts.GetContent()
         )
@@ -482,7 +482,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         }
     }
 
-    private fun setupGetVideoFromCamera(recyclerView: RecyclerView) {
+    private fun setupGetVideoFromCamera() {
         getVideoFromCamera =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
 
@@ -587,12 +587,9 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
     //callback adapter...
     override fun onToast(text: String) {
-
-
         if (text.contains("no_delete")){
             Toast.makeText(requireContext(), getString(R.string.hint_min_media_text), Toast.LENGTH_SHORT).show()
         }
-
     }
 
 }

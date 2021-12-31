@@ -26,14 +26,15 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
 
     private var _binding: FragmentRealEstateDetailBinding? = null
     private val binding get() = _binding!!
+
     private val detailViewModel by viewModels<DetailViewModel>()
     private var realEstateIdFromBundle: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            if (it.containsKey(ARG_REAL_ESTATE_ID)) {
-                realEstateIdFromBundle = it.getString(ARG_REAL_ESTATE_ID)
+        arguments?.let {myBundle ->
+            if (myBundle.containsKey(ARG_REAL_ESTATE_ID)) {
+                realEstateIdFromBundle = myBundle.getString(ARG_REAL_ESTATE_ID)
                 realEstateIdFromBundle?.let { it1 ->
                     detailViewModel.setPropertyId(it1.toInt())
                     detailViewModel.setMyRealEstateIdFromUI(it1.toInt())
@@ -52,13 +53,13 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
 
         val recyclerViewMedias: RecyclerView = binding.recyclerviewMedias
 
-
         setHasOptionsMenu(true)
 
+        //if we have an estate id then ...
         if (realEstateIdFromBundle != null) {
+
             detailViewModel.getRealEstateFullById(realEstateIdFromBundle!!.toInt())
                 .observe(viewLifecycleOwner) { RealEstateObserved ->
-
 
                     binding.detailLayout.isVisible = true
 
@@ -68,20 +69,19 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
 
                     //*********************************************************************************
 
-                    binding.textType?.text = RealEstateObserved.realEstateFullData.typeOfProduct
-                    binding.textPrice?.text = Utils.getCurrencyFormat()
+                    binding.textType.text = RealEstateObserved.realEstateFullData.typeOfProduct
+                    binding.textPrice.text = Utils.getCurrencyFormat()
                         .format(RealEstateObserved.realEstateFullData.price)
-                    binding.textSurface?.text =
+                    binding.textSurface.text =
                         RealEstateObserved.realEstateFullData.surface.toString().plus(" m² ")
                     binding.textNumberRoom?.text =
                         RealEstateObserved.realEstateFullData.numberOfRoom.toString()
-                            .plus(resources.getString(R.string.textRoom))
+
                     binding.textNumberBathroom?.text =
                         RealEstateObserved.realEstateFullData.numberOfBathRoom.toString()
-                            .plus(resources.getString(R.string.textBathRoom))
+
                     binding.textNumberBedroom?.text =
                         RealEstateObserved.realEstateFullData.numberOfBedRoom.toString()
-                            .plus(resources.getString(R.string.textBedRoom))
 
                     binding.textDescription?.text =
                         RealEstateObserved.realEstateFullData.descriptionOfProduct
@@ -106,38 +106,38 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
 
                     //show entry date...
                     if (RealEstateObserved.realEstateFullData.dateOfEntry != null) {
-                        binding.textSaleDate?.text = getString(R.string.fromDate).plus(DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!))
+                        binding.textSaleDate.text = getString(R.string.fromDate).plus(DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.dateOfEntry!!))
                     }
 
                     //show sold date...
                     if (RealEstateObserved.realEstateFullData.releaseDate != null && RealEstateObserved.realEstateFullData.releaseDate!! >= RealEstateObserved.realEstateFullData.dateOfEntry!!) {
-                        binding.textDateOfSale?.text =
+                        binding.textDateOfSale.text =
                             getString(R.string.soldedDate).plus(DetailUtils.convertLongToTime(RealEstateObserved.realEstateFullData.releaseDate!!))
 
-                        binding.textState?.text = getString(R.string.solded_text)
+                        binding.textState.text = getString(R.string.solded_text)
                     } else {
-                        binding.textState?.text = ""
-                        binding.textDateOfSale?.text = ""
+                        binding.textState.text = ""
+                        binding.textDateOfSale.text = ""
                     }
 
                     //show Point of interest...
                     when (RealEstateObserved.poi?.school) {
-                        true -> binding.poiSchoolText?.text = getString(R.string.poi_school_text)
-                        false -> binding.poiSchoolText?.text = ""
-                        else -> binding.poiSchoolText?.text = ""
+                        true -> binding.poiSchoolText.text = getString(R.string.poi_school_text)
+                        false -> binding.poiSchoolText.text = ""
+                        else -> binding.poiSchoolText.text = ""
                     }
                     when (RealEstateObserved.poi?.park) {
-                        true -> binding.poiParkText?.text = getString(R.string.poi_park_text)
-                        false -> binding.poiParkText?.text = ""
-                        else -> binding.poiParkText?.text = ""
+                        true -> binding.poiParkText.text = getString(R.string.poi_park_text)
+                        false -> binding.poiParkText.text = ""
+                        else -> binding.poiParkText.text = ""
                     }
                     when (RealEstateObserved.poi?.station) {
-                        true -> binding.poiStationText?.text = getString(R.string.poi_station_text)
-                        false -> binding.poiStationText?.text = ""
-                        else -> binding.poiStationText?.text = ""
+                        true -> binding.poiStationText.text = getString(R.string.poi_station_text)
+                        false -> binding.poiStationText.text = ""
+                        else -> binding.poiStationText.text = ""
                     }
 
-                    binding.agentName?.text = getString(R.string.agent_text).plus(RealEstateObserved.realEstateFullData.agent)
+                    binding.agentName.text = getString(R.string.agent_text).plus(RealEstateObserved.realEstateFullData.agent)
 
                     //**********************************************************************************
 
@@ -164,7 +164,6 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
                             .into(imageViewForMap)
                     }
 
-                    //*********************************************************************************
                 }
         }else
         {
@@ -181,8 +180,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
             true -> menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = true
             else -> menu.findItem(R.id.realEstateUpdateBtnNew).isVisible = false
         }
-
-
+        
     }
 
     private fun setupRecyclerView(

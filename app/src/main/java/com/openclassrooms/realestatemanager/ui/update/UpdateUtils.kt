@@ -20,26 +20,10 @@ class UpdateUtils {
             context.deleteFile(media.uri?.substringAfterLast("/"))
         }
 
-        fun saveMediaToInternalMemory(context: Context, fileName: String, bitmap: Bitmap) {
-
-            context.openFileOutput(fileName, Activity.MODE_PRIVATE).use { stream ->
-
-                //create bitmap
-                if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                    throw IOException("Fail to compress")
-                }
-
-
-            }
-
-
-        }
-
-
         fun saveVideoToInternalStorage(filename: String, uri: Uri,context : Context): Boolean {
 
             return try {
-                context?.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
+                context.openFileOutput(filename, Activity.MODE_PRIVATE).use { stream ->
 
                     val sourceFile = FileInputStream(
                         context.contentResolver.openFileDescriptor(
@@ -70,9 +54,9 @@ class UpdateUtils {
 
         fun savePhotoToInternalMemory(filename: String, bmp: Bitmap, context : Context): Boolean {
             return try {
-                context?.openFileOutput("$filename", Activity.MODE_PRIVATE).use { stream ->
+                context.openFileOutput(filename, Activity.MODE_PRIVATE).use { stream ->
                     if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                        throw IOException("erreur compression")
+                        throw IOException("Error compression")
                     }
                 }
                 true

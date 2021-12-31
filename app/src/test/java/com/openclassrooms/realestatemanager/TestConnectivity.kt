@@ -14,7 +14,7 @@ import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowNetworkInfo
 
 @RunWith(AndroidJUnit4::class)
-class RoboLectrig {
+class TestConnectivity {
 
     private var connectivityManager: ConnectivityManager? = null
     private var shadowOfActiveNetworkInfo = ShadowNetworkInfo()
