@@ -90,10 +90,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                 group.findViewById<Chip>(checkedId)?.text.toString()
         }
 
-        binding.edittextPrice.addTextChangedListener {
-            binding.propertyPriceText.helperText =
-                SharedUtils.validPriceText(binding.edittextPrice.text)
-        }
+
 
 
         //setupActionAfterGetImageFromGallery()
@@ -177,26 +174,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         saveRealEstateInDB()
 
         setupViewModel(recyclerView)
-
-        binding.edittextPrice.addTextChangedListener {
-            binding.propertyPriceText.helperText =
-                SharedUtils.validPriceText(binding.edittextPrice.text)
-        }
-
-        binding.edittextPrice.setOnFocusChangeListener { _, _ ->
-            binding.propertyPriceText.helperText =
-                SharedUtils.validPriceText(binding.edittextPrice.text)
-        }
-
-        binding.edittextDescription.addTextChangedListener {
-            binding.propertyDescriptionText.helperText =
-                SharedUtils.validPriceText(binding.edittextDescription.text)
-        }
-
-        binding.edittextDescription.setOnFocusChangeListener { _, _ ->
-            binding.propertyDescriptionText.helperText =
-                SharedUtils.validPriceText(binding.edittextDescription.text)
-        }
 
 
         //observe database for notification

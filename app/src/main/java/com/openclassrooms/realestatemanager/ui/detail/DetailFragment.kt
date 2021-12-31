@@ -63,6 +63,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
 
                     binding.detailLayout.isVisible = true
 
+
                     //*********************************************************************************
 
                     detailViewModel.actualRealEstate = RealEstateObserved.realEstateFullData
@@ -238,6 +239,7 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
         }
     }
 
+    //call external fragment to show media in full screen...
     override fun onViewFullScreenMedia(title: String, uri: String) {
         val args = Bundle()
         args.putString("uri", uri)
