@@ -13,9 +13,11 @@
         android:padding="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detail_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:visibility="invisible">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_medias"

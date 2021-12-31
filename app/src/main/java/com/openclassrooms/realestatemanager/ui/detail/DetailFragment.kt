@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,6 +58,9 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
         if (realEstateIdFromBundle != null) {
             detailViewModel.getRealEstateFullById(realEstateIdFromBundle!!.toInt())
                 .observe(viewLifecycleOwner) { RealEstateObserved ->
+
+
+                    binding.detailLayout.isVisible = true
 
                     //*********************************************************************************
 
@@ -162,6 +166,9 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
 
                     //*********************************************************************************
                 }
+        }else
+        {
+            binding.detailLayout.isVisible = false
         }
 
         return rootView

@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.create.RealEstateModifier">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -22,7 +24,8 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add media ..."
+                android:text="@string/add_media_btn"
+                android:textSize="18sp"
                 app:icon="@drawable/ic_baseline_add_circle_outline_24" />
 
 
