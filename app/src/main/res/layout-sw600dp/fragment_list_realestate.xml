@@ -17,6 +17,21 @@
         tools:context="com.openclassrooms.realestatemanager.ui.MainActivity"
         tools:listitem="@layout/item_real_estate" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="38dp"
+        app:srcCompat="@drawable/ic_baseline_search_off_24"
+        android:contentDescription="@string/float_btn_description">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="1dp"

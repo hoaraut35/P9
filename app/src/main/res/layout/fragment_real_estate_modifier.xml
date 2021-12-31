@@ -132,18 +132,6 @@
                 </com.google.android.material.chip.ChipGroup>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/property_price_text"
                     android:layout_width="match_parent"
@@ -157,6 +145,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="8">
+
                     </com.google.android.material.textfield.TextInputEditText>
 
 
@@ -323,7 +312,7 @@
                         android:id="@+id/edittext_country_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="20"/>
+                        android:maxLength="20" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -331,14 +320,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:textSize="14sp"
-                    android:text="@string/hintAgent"/>
+                    android:text="@string/hintAgent"
+                    android:textSize="14sp" />
 
                 <Spinner
                     android:id="@+id/agents_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
 
                 <Button
                     android:id="@+id/save_btn"

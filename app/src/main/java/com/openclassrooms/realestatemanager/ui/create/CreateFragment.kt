@@ -79,7 +79,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
 
         //open media ...
-        binding.openMedia.setOnClickListener {
+        binding.openMedia?.setOnClickListener {
             showPopupMenu(binding.openMedia)
         }
 
@@ -531,10 +531,22 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             messagetest += "You must enter a street number \r\n"
         }
 
-        //steeetname
-        //city
-        //zip
-        //country
+        if (binding.edittextStreetName.text.toString().isEmpty()){
+            messagetest += "You must enter a street name \r\n"
+        }
+
+        if (binding.edittextCityName?.text.toString().isEmpty()){
+            messagetest += "You must enter a city name \r\n"
+        }
+
+        if (binding.edittextCityZipcode.text.toString().isEmpty()){
+            messagetest += "You must enter a zip code \r\n"
+        }
+
+        if (binding.edittextCountryName.text.toString().isEmpty()){
+            messagetest += "You must enter a country name \r\n"
+        }
+
         return messagetest
 
     }
