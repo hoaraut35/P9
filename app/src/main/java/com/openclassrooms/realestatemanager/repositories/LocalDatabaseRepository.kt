@@ -25,6 +25,6 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     fun getRealEstatesFullListFiltered(query: SupportSQLiteQuery) = realEstateDao.getRealEstateFiltered(query)
 
     fun getLastRowIdForRealEstate() = realEstateDao.getLastRowId()
-    fun getLastRowIdForMedia() = realEstateDao.getLastRowIdForMedia()
+    //fun getLastRowIdForMedia() = realEstateDao.getLastRowIdForMedia()
 
 }

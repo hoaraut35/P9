@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -13,18 +12,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.navigateUp
-import com.google.android.gms.common.GoogleApiAvailability
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import android.widget.Toast
-
-import com.google.android.gms.common.GooglePlayServicesUtil
-
-import com.google.android.gms.common.ConnectionResult
-
-
 
 
 @AndroidEntryPoint
