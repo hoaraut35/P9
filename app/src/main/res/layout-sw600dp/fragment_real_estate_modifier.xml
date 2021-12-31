@@ -12,338 +12,358 @@
 
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
+            android:layout_height="140dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_real_estate_photo">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/open_media"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+            android:text="@string/add_media_btn"
+            android:textSize="18sp"
+            app:icon="@drawable/ic_baseline_add_circle_outline_24"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerview" />
 
-            <Button
-                android:id="@+id/open_media"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_realEstate_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/cardview_shadow_end_color"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/open_media"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipHouse"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add_media_btn"
-                android:textSize="18sp"
-                app:icon="@drawable/ic_baseline_add_circle_outline_24" />
+                android:tag="House"
+                android:text="@string/house_chip_text">
 
+            </com.google.android.material.chip.Chip>
 
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                tools:listitem="@layout/item_real_estate_photo"
-
-                >
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_realEstate_poi"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipDuplex"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:singleLine="true"
-                app:singleSelection="false">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/school_chip"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Ecole" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/parc_chip"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Parc" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/station_chip"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Gare" />
+                android:tag="Duplex"
+                android:text="@string/duplex_chip">
 
 
-            </com.google.android.material.chip.ChipGroup>
+            </com.google.android.material.chip.Chip>
 
 
-            <RadioGroup
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPenthouse"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:tag="Penthouse"
+                android:text="@string/penthouse_chip">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="type choice ">
+            </com.google.android.material.chip.Chip>
 
-                </TextView>
-
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Falt"></RadioButton>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="House"></RadioButton>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Duplex"></RadioButton>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Penthouse"></RadioButton>
-
-
-            </RadioGroup>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/property_price_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Entrez le prix"
-                    android:inputType="number">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/property_surface_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Entrez la surface">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.slider.Slider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:stepSize="1.0"
-                android:valueFrom="0"
-                android:valueTo="10"
-
-                >
-
-            </com.google.android.material.slider.Slider>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/property_description_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Entrez la decription">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- addphot here ... -->
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/property_streetnumber_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Entrez le numéro de rue">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/property_streetname_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Entrez le nom de la rue">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/property_postalcode_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Entrez le code postal">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number">
-
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/property_cityname_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Entrez le nom de la ville">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- insert PIO here -->
-
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_realEstate_type"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFlat"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:singleLine="true"
-                app:singleSelection="true">
+                android:tag="Flat"
+                android:text="@string/flat_chip">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_1"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="School" />
+            </com.google.android.material.chip.Chip>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_2"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Park" />
+        </com.google.android.material.chip.ChipGroup>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_3"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Shopping" />
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_realEstate_poi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chip_realEstate_type"
+            app:singleLine="true"
+            app:singleSelection="false">
 
-
-            </com.google.android.material.chip.ChipGroup>
-
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/property_state"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/school_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/property_state" />
+                android:tag="Ecole"
+                android:text="@string/ecole_chip" />
 
-            <!-- date picker in automati not visible -->
-            <Button
-                android:id="@+id/btn_datein"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/parc_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="open date">
+                android:checked="false"
+                android:tag="Parc"
+                android:text="@string/parc_chip" />
 
-            </Button>
-
-            <!-- date picker  vente automatic adjust not visible-->
-            <Button
-                android:id="@+id/btn_dateout"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/station_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="out date">
+                android:checked="false"
+                android:tag="Gare"
+                android:text="@string/gare_chip" />
 
-            </Button>
 
+        </com.google.android.material.chip.ChipGroup>
 
-            <TextView
-                android:id="@+id/text_uri"
-                android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_price_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintForPrice"
+            app:helperTextEnabled="true"
+            app:layout_constraintTop_toBottomOf="@id/chip_realEstate_poi">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_price"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="uri picture" />
+                android:inputType="number"
+                android:maxLength="8">
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_surface_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/property_price_text"
+            android:hint="@string/hintForSurface">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_surface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number">
+
+            </com.google.android.material.textfield.TextInputEditText>
 
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/is_sold_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Is sold "
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageview" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_nbroom_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/property_surface_text"
+            android:hint="@string/hintForRoomNumber">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_number_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_nbbathrrom_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/property_nbroom_text"
+            android:hint="@string/hintForNumberBathroom">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_number_bathroom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_nbbedroom_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/property_nbbathrrom_text"
+            android:hint="@string/hintForNumberBedroom">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_number_bedroom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_description_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/property_nbbedroom_text"
+            android:hint="@string/hintForDescription">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:helperTextEnabled="true">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_streetnumber_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/property_description_text"
+            android:hint="@string/hintStreetNumber">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_street_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_streetname_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/property_streetnumber_text"
+            android:hint="@string/hintForStreetName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_street_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_postalcode_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/property_streetname_text"
+            android:hint="@string/hintForZipCode">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_city_zipcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number">
+
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_cityname_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/property_postalcode_text"
+            android:hint="@string/hintCityName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_city_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/property_countryName_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/property_cityname_text"
+            android:hint="@string/hintCountryName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_country_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="20" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/agent_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/property_countryName_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/hintAgent"/>
+
+        <Spinner
+            android:id="@+id/agents_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/agent_name"
+            />
+
+
+
+        <Button
+            android:id="@+id/save_btn"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20sp"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:text="@string/title_saveupdate_btn"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintTop_toBottomOf="@id/agents_spinner"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     </ScrollView>
 
 
-    <Button
-        android:id="@+id/save_btn"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20sp"
-        android:drawableLeft="@drawable/ic_baseline_search_24"
-        android:text="@string/title_saveupdate_btn"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-
-
-    <ImageView
-        android:id="@+id/imageOfGallery"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:visibility="invisible"
-        android:background="@color/colorPrimaryDark" />
 </androidx.constraintlayout.widget.ConstraintLayout>
