@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- used for sliders -->
 <resources>
     <array name="initial_slider_values">
         <item>0.0</item>

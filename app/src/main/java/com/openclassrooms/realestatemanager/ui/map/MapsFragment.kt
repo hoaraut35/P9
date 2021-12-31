@@ -8,6 +8,8 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -55,6 +57,29 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
 
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
         val rootView = binding.root
+
+
+        val locationPermissionRequest = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                    Toast.makeText(requireContext(),"ok gps",Toast.LENGTH_LONG).show()
+                    // Precise location access granted.
+                }
+                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                    // Only approximate location access granted.
+                    Toast.makeText(requireContext(),"ok approximate gps",Toast.LENGTH_LONG).show()
+                } else -> {
+                // No location access granted.
+                Toast.makeText(requireContext(),"no gps",Toast.LENGTH_LONG).show()
+            }
+            }
+        }
+
+        locationPermissionRequest.launch(arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION))
 
         viewModelMap.getRealEstateFull().observe(viewLifecycleOwner) { listRealEstate ->
 
@@ -108,6 +133,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
 
         return rootView
     }
+
 
     @SuppressLint("MissingPermission")
     private fun startGPS() {

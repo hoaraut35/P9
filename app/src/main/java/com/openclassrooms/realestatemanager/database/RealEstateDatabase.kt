@@ -79,8 +79,6 @@ abstract class RealEstateDatabase : RoomDatabase() {
                     )
                 )
 
-
-
                 dao.insertMedia(
                     RealEstateMedia(
                         realEstateParentId = 1,
@@ -90,7 +88,6 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
                     )
                 )
-
 
                 dao.insertMedia(
                     RealEstateMedia(

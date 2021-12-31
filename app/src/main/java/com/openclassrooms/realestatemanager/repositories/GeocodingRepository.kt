@@ -15,12 +15,12 @@ class GeocodingRepository @Inject constructor(private val googleGeocoding: Googl
 
     private var mutableLiveDataOfGeocoding = MutableLiveData<ResponseGeocoding>()
 
-    //for observe...
+    //for ViewModel ...
     fun getLatLngLiveData(): LiveData<ResponseGeocoding> {
         return mutableLiveDataOfGeocoding
     }
 
-    //for query API...
+    //for query API in async mode...
     fun getLatLngAddress(address: String, realEstateId: Int) {
         googleGeocoding.getLatLngByAddress(address).enqueue(object : Callback<ResponseGeocoding> {
             override fun onResponse(

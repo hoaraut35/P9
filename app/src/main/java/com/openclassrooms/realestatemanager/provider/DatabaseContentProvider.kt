@@ -32,6 +32,7 @@ class DatabaseContentProvider : ContentProvider() {
         return true
     }
 
+
     override fun query(
         p0: Uri,
         p1: Array<out String>?,

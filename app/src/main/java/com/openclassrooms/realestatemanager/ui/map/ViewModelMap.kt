@@ -35,17 +35,17 @@ class ViewModelMap @Inject constructor(
         return localDatabaseRepository.getRealEstatesFullList().asLiveData()
     }
 
-    //ok
+    //send query to repository...
     fun getLatLngAddressForUI(address: String, realEstateId: Int) {
         localisationRepository.getLatLngAddress(address, realEstateId)
     }
 
-    //ok
+    //get data from repository... used by UI
     fun getLatLngAddressForUI(): LiveData<ResponseGeocoding> {
         return localisationRepository.getLatLngLiveData()
     }
 
-    //ok
+    //send update query to repository...
     fun updateRealEstate(realEstate: RealEstate) {
         viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
     }

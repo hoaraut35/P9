@@ -30,7 +30,6 @@ import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
-import com.openclassrooms.realestatemanager.ui.MainViewModel
 import com.openclassrooms.realestatemanager.ui.detail.FullScreenFragment
 import com.openclassrooms.realestatemanager.utils.SharedUtils
 import com.openclassrooms.realestatemanager.utils.Utils
@@ -46,7 +45,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
     private var _binding: FragmentRealEstateModifierBinding? = null
     private val binding get() = _binding!!
 
-    private val mainViewModel by viewModels<MainViewModel>()
     private val viewModelCreate by viewModels<CreateViewModel>()
 
     private lateinit var getPhotoFromCamera: ActivityResultLauncher<Intent>
@@ -368,7 +366,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
 
     private fun saveRealEstateInDB() {
 
-        mainViewModel.getLAstRowId.observe(viewLifecycleOwner) {
+        viewModelCreate.getLAstRowId.observe(viewLifecycleOwner) {
 
             //get last index of realEstate table...
             val lastIndex: Int = it
@@ -407,7 +405,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                     if (!viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
 
                         viewModelCreate.getMediasListForUI().value!!.forEachIndexed { _, realEstateMedia ->
-                            mainViewModel.insertPhoto(
+                            viewModelCreate.insertPhoto(
                                 RealEstateMedia(
                                     uri = realEstateMedia.uri,
                                     realEstateParentId = lastIndex,

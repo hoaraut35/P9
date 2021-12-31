@@ -64,6 +64,7 @@ public class Utils {
      */
     public static boolean isInternetAvailable(Context context) {
 
+        //initial code removed...
         //WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         //return wifi.isWifiEnabled();
 
@@ -100,7 +101,6 @@ public class Utils {
 
     //**********************************************************************************************
 
-
     public static NumberFormat getCurrencyFormat() {
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
         currencyFormat.setMaximumFractionDigits(0);
@@ -117,6 +117,5 @@ public class Utils {
         LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return dateTime.toLocalDate();
     }
-
 
 }

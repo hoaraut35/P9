@@ -92,6 +92,7 @@ class ViewModelUpdate @Inject constructor(
         return mutableListOfMedia
     }
 
+    //send update query to repository...
     fun updateRealEstate(realEstate: RealEstate) {
         viewModelScope.launch { localDatabaseRepository.updateRealEstate(realEstate) }
     }
