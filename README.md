@@ -1,6 +1,7 @@
 # Real Estate Manager Android
 
-![start image](https://github.com/hoaraut35/P9/blob/main/blob/mockup.jpg)
+![start image](https://github.com/hoaraut35/P9/blob/main/blob/mockup.JPG)
+
 
 Create, update real estate ads with photos or videos 
 
