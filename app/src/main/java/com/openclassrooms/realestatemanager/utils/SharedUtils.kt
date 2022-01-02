@@ -1,12 +1,18 @@
 package com.openclassrooms.realestatemanager.utils
 
+import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import java.io.IOException
+
+//kotlin class to share function...
 
 class SharedUtils {
 
@@ -31,6 +37,28 @@ class SharedUtils {
                     .setDefaults(Notification.DEFAULT_SOUND)
                     .setSmallIcon(R.mipmap.ic_launcher)
             manager.notify(1, builder.build())
+        }
+
+        fun savePhotoToInternalMemory(context: Context,filename: String, bmp: Bitmap): Boolean {
+            return try {
+                context?.openFileOutput("$filename.jpg", Activity.MODE_PRIVATE).use { stream ->
+
+                    //compress photo
+                    if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
+                        throw IOException("erreur compression")
+                    }
+
+                    val fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
+
+
+                }
+                true
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+                false
+
+            }
         }
 
     }

@@ -100,4 +100,7 @@
     <string name="iconforroom">iconForRoom</string>
     <string name="iconforbedroom">iconForBedroom</string>
     <string name="textForBathroomDetail">Nombre de salle de bain</string>
+    <string name="label_menu_create">Mode création</string>
+    <string name="label_map">Mode carte</string>
+    <string name="label_update">Modification RealEstate</string>
 </resources>

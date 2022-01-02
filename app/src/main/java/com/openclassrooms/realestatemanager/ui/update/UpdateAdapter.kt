@@ -26,19 +26,18 @@ class UpdateAdapter(
         fun onToast(text: String)
     }
 
-    //for photo...
+    //to show photo...
     inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(photoModel: RealEstateMedia) {
 
             val image = itemView.findViewById<ImageView>(R.id.imageview)
             val delete = itemView.findViewById<ImageView>(R.id.delete_btn)
+            val photoTitle: EditText = itemView.findViewById(R.id.photo_title)
 
             Glide.with(itemView)
                 .load(photoModel.uri)
                 .centerCrop()
                 .into(image)
-
-            val photoTitle: EditText = itemView.findViewById(R.id.photo_title)
 
             photoTitle.addTextChangedListener {
                 callback?.onChangedTitleMedia(photoTitle.text.toString(), photoModel.uri!!)
@@ -62,7 +61,7 @@ class UpdateAdapter(
         }
     }
 
-    //for video...
+    //show video...
     inner class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(videoModel: RealEstateMedia) {
 
@@ -80,9 +79,8 @@ class UpdateAdapter(
                 if (mediaList.size > 1) {
                     callback?.onDeleteMedia(videoModel)
                 } else {
-                    callback?.onToast("Gardez au moins un media")
+                    callback?.onToast("Minimum one media please")
                 }
-
             }
 
             Glide.with(itemView)

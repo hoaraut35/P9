@@ -32,7 +32,6 @@ class DetailUtils {
             }
         }
 
-
         fun convertLongToTime(time: Long): String {
             val date = Date(time)
             val format = SimpleDateFormat("dd.MM.yyyy HH:mm")

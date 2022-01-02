@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(this, navController, appBarConfiguration)
 
-        Utils.isInternetAvailable(this)
+        Log.i("[INTERNET]","Internet state : " + Utils.isInternetAvailable(this))
 
     }
 

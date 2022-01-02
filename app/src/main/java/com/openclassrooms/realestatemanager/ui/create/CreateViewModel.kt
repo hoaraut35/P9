@@ -15,14 +15,10 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
 
     //for insertion estate
     private var mutableLiveDataRowId = MutableLiveData<Long>()
-
     private var mutableListOfMedia = MutableLiveData<List<RealEstateMedia>>()
     private val listOfMedia: MutableList<RealEstateMedia> = mutableListOf()
     var getLAstRowId = localDatabaseRepository.getLastRowIdForRealEstate().asLiveData()
     var realEstateVM  : RealEstate = RealEstate()
-
-    //val listOfChip : MutableList<String> = mutableListOf()
-    //val chip  : String? = null
 
     //insert POI in database
     fun insertPOI(poi:RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertPOI(poi) }
@@ -66,7 +62,6 @@ class CreateViewModel @Inject constructor(private val localDatabaseRepository: L
     fun observeRowId() : LiveData<Long>{
         return mutableLiveDataRowId
     }
-
 
 }
 

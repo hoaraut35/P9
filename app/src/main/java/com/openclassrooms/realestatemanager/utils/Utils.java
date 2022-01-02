@@ -37,7 +37,7 @@ public class Utils {
      * Conversion d'un prix d'un bien immobilier (Euros vers Dollars)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      *
-     * @param dollars
+     * @param euro
      * @return
      */
     public static int convertEuroToDollar(int euro) {

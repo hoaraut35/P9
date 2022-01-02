@@ -36,7 +36,4 @@ class SearchViewModel @Inject constructor(private val localDatabaseRepository: L
         sharedRepository.setResultListFromSearch(list)
     }
 
-
-
-
 }

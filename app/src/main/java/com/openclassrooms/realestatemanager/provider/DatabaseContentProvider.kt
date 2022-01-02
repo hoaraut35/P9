@@ -11,7 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 
-//to expose data to another application
+//to expose data to another application...
 
 class DatabaseContentProvider : ContentProvider() {
 

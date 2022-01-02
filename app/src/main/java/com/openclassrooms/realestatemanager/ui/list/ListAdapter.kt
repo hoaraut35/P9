@@ -12,8 +12,6 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstateBinding
 import com.openclassrooms.realestatemanager.models.RealEstateFull
 import com.openclassrooms.realestatemanager.utils.Utils
-import java.text.NumberFormat
-import java.util.*
 
 class ListAdapter(
     private val realEstateFullData: List<RealEstateFull>,
@@ -31,11 +29,6 @@ class ListAdapter(
 
         holder.type.text = item.realEstateFullData.typeOfProduct
         holder.city.text = item.realEstateFullData.address?.city
-
-        //TODO: move to utils class
-        val currencyFormat = NumberFormat.getCurrencyInstance()
-        currencyFormat.maximumFractionDigits = 0
-        currencyFormat.currency = Currency.getInstance("EUR")
 
         if (item.realEstateFullData.price != null) {
             holder.price.text = Utils.getCurrencyFormat().format(item.realEstateFullData.price!!)

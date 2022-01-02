@@ -36,14 +36,17 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
 
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
+
     private val viewModelMap by viewModels<ViewModelMap>()
+
     private var myGoogleMap: GoogleMap? = null
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         myGoogleMap = googleMap
-        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION), 0)
         setupMarkerCLick()
     }
 
@@ -81,7 +84,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION))
 
-        viewModelMap.getRealEstateFull().observe(viewLifecycleOwner) { listRealEstate ->
+        viewModelMap.getRealEstateFullList().observe(viewLifecycleOwner) { listRealEstate ->
 
             for (realEstate in listRealEstate) {
 
@@ -170,6 +173,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         }
     }
 
+    @SuppressLint("PotentialBehaviorOverride")
     private fun setupMarkerCLick() {
         myGoogleMap!!.setOnMarkerClickListener {
             //we get the id by marker tag
@@ -190,6 +194,7 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
     private fun setupZoom() {
         myGoogleMap?.uiSettings?.isZoomControlsEnabled = true
         myGoogleMap?.isMyLocationEnabled = true
+
     }
 
     private fun setupMyLocation(latLng: LatLng) {

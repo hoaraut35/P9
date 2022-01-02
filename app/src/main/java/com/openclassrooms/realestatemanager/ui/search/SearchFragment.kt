@@ -231,17 +231,8 @@ class SearchFragment : Fragment() {
 
             queryString += ";"
 
-
-
-
-
-
-
-
-
-
             //show query in log...
-            Log.i("[SQL]", "My query : $queryString")
+            //Log.i("[SQL]", "My query : $queryString")
 
             //load query to sqlite...
             searchViewModel.getRealEstateFiltered(
@@ -269,9 +260,7 @@ class SearchFragment : Fragment() {
                     }
                 }
 
-
             }
-
 
         }
 

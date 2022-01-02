@@ -30,12 +30,11 @@ import com.openclassrooms.realestatemanager.models.RealEstateAddress
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.detail.FullScreenFragment
+import com.openclassrooms.realestatemanager.ui.update.UpdateUtils
 import com.openclassrooms.realestatemanager.utils.SharedUtils
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.IOException
 import java.lang.reflect.Field
-import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -90,9 +89,8 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         }
 
 
-
-
-        //setupActionAfterGetImageFromGallery()
+        setupGetPhotoFromGallery()
+        setupGetPhotoFromCamera()
 
         //work fine...
         getVideoFromCamera =
@@ -123,52 +121,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             }
         }
 
-
-
-
-
-        //work fine...
-        getPhotoFromGallery = registerForActivityResult(ActivityResultContracts.GetContent())
-        { uri ->
-
-            if (uri != null) {
-
-                val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
-                    context?.applicationContext?.contentResolver, uri
-                )
-
-                val dateFileName = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-                val fileName = "Photo_"
-                val fileNameDestination = "$fileName$dateFileName.jpg"
-
-                //if we have a bitmap then ...
-                if (bitmap != null) {
-                    savePhotoToInternalMemory(fileNameDestination, bitmap)
-                }
-
-            }
-        }
-
-        getPhotoFromCamera =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-
-                if (result?.resultCode == Activity.RESULT_OK) {
-
-                    val bitmap = result.data!!.extras!!.get("data") as Bitmap
-                    val dateFileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-
-                    savePhotoToInternalMemory(dateFileName, bitmap)
-
-                }
-
-            }
-
-
-
-        setupActivityResultForCamera()
-        //setupActivityResultForGallery()
-
-
         //save data to database
         saveRealEstateInDB()
 
@@ -181,7 +133,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
             if (it.toInt() == viewModelCreate.observeRowId().value?.toInt()) {
                 SharedUtils.notification(
                     "RealEstate Manager",
-                    "Sauvegarde terminée",
+                    "Backup complete",
                     requireContext()
                 )
 
@@ -199,37 +151,92 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         return rootView
     }
 
-    //TODO: move to util class?
-    private fun savePhotoToInternalMemory(filename: String, bmp: Bitmap): Boolean {
-        return try {
-            context?.openFileOutput("$filename.jpg", Activity.MODE_PRIVATE).use { stream ->
 
-                //compress photo
-                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                    throw IOException("erreur compression")
-                }
+    private fun setupGetPhotoFromGallery() {
+        getPhotoFromGallery = registerForActivityResult(
+            ActivityResultContracts.GetContent()
+        )
+        { uri ->
 
-                val fileNameUri = context?.filesDir.toString() + "/" + filename + ".jpg"
+            if (uri != null) {
 
-                //add in viewmodel list
-                viewModelCreate.addMediaToList(
-                    RealEstateMedia(
-                        uri = fileNameUri,
-                        name = "test",
-                        realEstateParentId = 1
-                    )
+                val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(
+                    context?.applicationContext?.contentResolver, uri
                 )
 
+                val dateFileName: String = UpdateUtils.getTodayDate().toString()
+                val fileName = "Photo_"
+                val fileNameDestination = "$fileName$dateFileName.jpg"
+                val fileNameUri: String?
+                fileNameUri = context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
+
+                if (bitmap != null) {
+
+                    if (UpdateUtils.savePhotoToInternalMemory(
+                            fileNameDestination,
+                            bitmap,
+                            requireContext()
+                        )
+                    ) {
+                        viewModelCreate.addMediaToList(
+                            RealEstateMedia(
+                                realEstateParentId = 1,
+                                uri = fileNameUri,
+                                name = "Photo"
+                            )
+                        )
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Fail to save photo to internal memory",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+                }
+
             }
-            true
-
-        } catch (e: IOException) {
-            e.printStackTrace()
-            false
-
         }
     }
 
+    private fun setupGetPhotoFromCamera() {
+        getPhotoFromCamera =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+
+                if (result?.resultCode == Activity.RESULT_OK) {
+
+                    val bitmap = result.data!!.extras!!.get("data") as Bitmap
+
+                    val dateFileName: String = UpdateUtils.getTodayDate().toString()
+                    val fileName = "Photo_"
+                    val fileNameDestination = "$fileName$dateFileName.jpg"
+                    val fileNameUri: String?
+                    fileNameUri = context?.filesDir.toString() + "/" + "$fileName$dateFileName.jpg"
+
+                    if (UpdateUtils.savePhotoToInternalMemory(
+                            fileNameDestination,
+                            bitmap,
+                            requireContext()
+                        )
+                    ) {
+                        viewModelCreate.addMediaToList(
+                            RealEstateMedia(
+                                uri = fileNameUri,
+                                name = "Photo",
+                                realEstateParentId = 1
+                            )
+                        )
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Fail to save photo to internal memory",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+    }
 
     private fun setupViewModel(recyclerView: RecyclerView) {
 
@@ -376,7 +383,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                         )
                     )
 
-
                     //add medias to database
                     if (!viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
 
@@ -386,7 +392,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
                                     uri = realEstateMedia.uri,
                                     realEstateParentId = lastIndex,
                                     name = realEstateMedia.name
-                                    //position = index
                                 )
                             )
                         }
@@ -425,36 +430,6 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         }
     }
 
-//    //TODO: move to utils
-//    private fun setupActivityResultForGallery() {
-//        //to get image from gallery
-//        val getImageFromGallery = registerForActivityResult(
-//            ActivityResultContracts.GetContent(),
-//
-//            ActivityResultCallback {
-//                //      binding.imageOfGallery?.setImageURI(it)
-//                val fileName: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-//                //val storageDir = File(context?.filesDir, "test")
-//                //savePhotoToInternalMemory("Photo_$fileName", it)
-//
-//
-//                listOfMediasToSave.add(
-//                    RealEstateMedia(
-//                        uri = it.toString(),
-//                        name = "photo",
-//                        realEstateParentId = 1
-//                    )
-//                )
-//
-//            }
-//        )
-//    }
-
-
-    //TODO: move to util class ?
-    private fun setupActivityResultForCamera() {
-    }
-
     //setup recyclerView
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
@@ -466,64 +441,64 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         recyclerView.adapter = CreateAdapter(myRealEstateList, this)
     }
 
-    //check datas..
+    //check data..
     private fun testForm(): String? {
 
-        var messagetest: String? = ""
+        var messageTest: String? = ""
 
         if (viewModelCreate.realEstateVM.typeOfProduct.isNullOrEmpty()) {
-            messagetest += "You must to select a type of product \r\n"
+            messageTest += "You must to select a type of product \r\n"
         }
 
         if (viewModelCreate.getMediasListForUI().value.isNullOrEmpty()) {
-            messagetest += "You minium one media for the product \r\n"
+            messageTest += "You minimum one media for the product \r\n"
         }
 
         if (binding.edittextPrice.text.toString().isEmpty()) {
-            messagetest += "You must choice a price \r\n"
+            messageTest += "You must choice a price \r\n"
         }
 
         if (binding.edittextSurface.text.toString().isEmpty()) {
-            messagetest += "You must choice a surface \r\n"
+            messageTest += "You must choice a surface \r\n"
         }
 
         if (binding.edittextNumberBathroom.text.toString().isEmpty()) {
-            messagetest += "You must choice a number of bathroom \r\n"
+            messageTest += "You must choice a number of bathroom \r\n"
         }
 
         if (binding.edittextNumberBedroom.text.toString().isEmpty()) {
-            messagetest += "You must choice a number of Bedroom \r\n"
+            messageTest += "You must choice a number of Bedroom \r\n"
         }
 
         if (binding.edittextNumberRoom.text.toString().isEmpty()) {
-            messagetest += "You must choice a number of room \r\n"
+            messageTest += "You must choice a number of room \r\n"
         }
 
         if (binding.edittextDescription.text.toString().isEmpty()) {
-            messagetest += "You must enter a description \r\n"
+            messageTest += "You must enter a description \r\n"
         }
 
         if (binding.edittextStreetNumber.text.toString().isEmpty()) {
-            messagetest += "You must enter a street number \r\n"
+            messageTest += "You must enter a street number \r\n"
         }
 
         if (binding.edittextStreetName.text.toString().isEmpty()){
-            messagetest += "You must enter a street name \r\n"
+            messageTest += "You must enter a street name \r\n"
         }
 
         if (binding.edittextCityName.text.toString().isEmpty()){
-            messagetest += "You must enter a city name \r\n"
+            messageTest += "You must enter a city name \r\n"
         }
 
         if (binding.edittextCityZipcode.text.toString().isEmpty()){
-            messagetest += "You must enter a zip code \r\n"
+            messageTest += "You must enter a zip code \r\n"
         }
 
         if (binding.edittextCountryName.text.toString().isEmpty()){
-            messagetest += "You must enter a country name \r\n"
+            messageTest += "You must enter a country name \r\n"
         }
 
-        return messagetest
+        return messageTest
 
     }
 

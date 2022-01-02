@@ -6,6 +6,8 @@ import com.openclassrooms.realestatemanager.models.RealEstateFull
 import javax.inject.Inject
 import javax.inject.Singleton
 
+//used to share data between viewModels...
+
 @Singleton
 class SharedRepository @Inject constructor() {
 
@@ -22,14 +24,17 @@ class SharedRepository @Inject constructor() {
         return propertyId
     }
 
+    //update the search list...
     fun setResultListFromSearch(list: MutableList<RealEstateFull>) {
         myRealEstateSearchList.value = list
     }
 
+    //get the search list ...
     fun getResultListFromSearch(): LiveData<MutableList<RealEstateFull>> {
         return myRealEstateSearchList
     }
 
+    //clear the search list...
     fun clearResult() = myRealEstateSearchList.value?.clear()
 
 }

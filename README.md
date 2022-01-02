@@ -1,5 +1,9 @@
 # Real Estate Manager Android
 
+![start image](https://github.com/hoaraut35/P9/blob/main/blob/mockup.jpg)
+
+Create, update real estate ads with photos or videos 
+
 ## Design
 Material Design
 
@@ -8,20 +12,26 @@ Phone
 Tablet with master detail
 
 ## Functions
-Add, update real estate
+Create, update real estate, view on map
 
-## DEvelpment
+## Development
 - Kotlin 
 - Hilt
 - ViewBinding
 - Navigation Component
 - Room
 - ViewModels
-- Repository
+- Repositories
 - Activity / Fragments
+- Retrofit
+- Layout qualifiers
 
 ## Sharing data with orther app
 ContentProvider
+
+## Api 
+- Google geocoding
+- Google Maps
 
 ## Developper
 HOARAU THomas

@@ -48,13 +48,9 @@ interface RealEStateDao {
     @Delete
     suspend fun deleteMedia(media: RealEstateMedia)
 
-    //**********************************************************************************************
-
     //for content provider
     @Query("SELECT * FROM realEstate_table")
     fun getRealEstateWithCursor(): Cursor
-
-    //**********************************************************************************************
 
     //for search fragment
     @RawQuery

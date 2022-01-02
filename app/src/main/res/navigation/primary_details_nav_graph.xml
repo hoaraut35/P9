@@ -46,13 +46,13 @@
     <fragment
         android:id="@+id/realEstateCreateBtn"
         android:name="com.openclassrooms.realestatemanager.ui.create.RealEstateModifier"
-        android:label="Mode création"
+        android:label="@string/label_menu_create"
         tools:layout="@layout/fragment_real_estate_modifier" />
 
     <fragment
         android:id="@+id/realEstateUpdateBtnNew"
         android:name="com.openclassrooms.realestatemanager.ui.update.UpdateFragmentNew"
-        android:label="Modification RealEstate"
+        android:label="@string/label_update"
         tools:layout="@layout/fragment_update_new"
         />
 
@@ -65,13 +65,14 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.openclassrooms.realestatemanager.ui.map.MapsFragment"
-        android:label="Mode carte"
+        android:label="@string/label_map"
         tools:layout="@layout/fragment_maps" >
 
         <action
             android:id="@+id/action_mapsFragment_to_realEstateDetailFragment"
             app:destination="@id/DetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/blankFragment"
         android:name="com.openclassrooms.realestatemanager.ui.fullscreen.BlankFragment"

@@ -16,12 +16,10 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
@@ -33,7 +31,6 @@ import com.openclassrooms.realestatemanager.utils.SharedUtils
 import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Field
-import java.util.*
 
 @AndroidEntryPoint
 class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
@@ -60,6 +57,7 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
         val recyclerViewMedias: RecyclerView = binding.recyclerview
 
+        //for agent choice...
         val agentSpinner: Spinner = binding.agentsSpinner
         val agent1 = "David"
         val agent2 = "Thierry"
@@ -73,17 +71,16 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         agentSpinner.adapter = adapter
 
-
-
         //open a media...
         binding.addMediaBtn.setOnClickListener {
             showPopupMenu(binding.addMediaBtn)
         }
 
         setupGetPhotoFromGallery()
+        setupGetPhotoFromCamera()
         setupGetVideoFromCamera()
         setupGetVideoFromGallery()
-        setupGetPhotoFromCamera()
+
 
         //observe updated realEstate...
         viewModelUpdate.getRealEstateFullById()
@@ -203,33 +200,22 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                     viewModelUpdate.realEstate.address!!.lat = null
                     viewModelUpdate.realEstate.address!!.lng = null
 
-
                     viewModelUpdate.realEstate.agent = binding.agentsSpinner.selectedItem.toString()
-
-
-
 
                     //Update the realEstate ....
                     viewModelUpdate.realEstate.releaseDate = dateOfSold
 
                     viewModelUpdate.updateRealEstate(viewModelUpdate.realEstate)
 
-
-
                     if (!viewModelUpdate.listOfMediaToRemove.isNullOrEmpty()) {
                         for (itemToRemove in viewModelUpdate.listOfMediaToRemove) {
-                            //    viewModelUpdate.deleteMedia(itemToRemove)
 
-                            //    viewModelUpdate.deleteMediaFromDatabase(itemToRemove)
                             //move to save btn
                             UpdateUtils.deleteMediaFromInternalMemory(
                                 requireContext(),
                                 itemToRemove
                             )
 
-
-                            //context?.deleteFile(mediaToDelete.uri.substringAfterLast("/"))
-                            //viewModel.deletePropertyMediaFromDb(mediaToDelete)
                         }
                     }
 
@@ -259,15 +245,11 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         }
                     }
 
-
-
                     SharedUtils.notification(
                         "RealEstate Manager",
                         getString(R.string.hint_update_done),
                         requireContext()
                     )
-
-
 
                     val navHostFragment =
                         requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
@@ -277,70 +259,10 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
 
                 }
 
-
             }
 
         viewModelUpdate.getMediaListFromVM().observe(viewLifecycleOwner) { myMedia ->
-
             setupRecyclerView(recyclerViewMedias, myMedia)
-
-            val simpleCallback = object :
-                ItemTouchHelper.SimpleCallback(
-                    ItemTouchHelper.START or ItemTouchHelper.END,
-                    0
-                ) {
-
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder,
-                ): Boolean {
-
-                    val adapter = (binding.recyclerview.adapter as UpdateAdapter).mediaList
-
-                    val fromPosition = viewHolder.adapterPosition
-                    val toPosition = target.adapterPosition
-
-                    Collections.swap(adapter, fromPosition, toPosition)
-                    recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
-                    viewModelUpdate.newListOfMedia = adapter as MutableList<RealEstateMedia>
-
-                    return true
-                }
-
-                override fun onSelectedChanged(
-                    viewHolder: RecyclerView.ViewHolder?,
-                    actionState: Int
-                ) {
-                    super.onSelectedChanged(viewHolder, actionState)
-
-                    if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                        viewHolder?.itemView?.setBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.myColorItem
-                            )
-                        )
-                    }
-
-                }
-
-                override fun clearView(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder
-                ) {
-                    super.clearView(recyclerView, viewHolder)
-                    viewHolder.itemView.setBackgroundColor(0)
-                }
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                }
-
-            }
-
-            val itemTouchHelper = ItemTouchHelper(simpleCallback)
-            itemTouchHelper.attachToRecyclerView(binding.recyclerview)
-
         }
 
         //sold button...

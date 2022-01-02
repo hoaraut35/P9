@@ -58,8 +58,6 @@ class CreateAdapter(
     inner class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(videoModel: RealEstateMedia) {
 
-            //itemView.findViewById<TextView>(R.id.video_title).text = videoModel.name
-
             val videoTitle: EditText = itemView.findViewById(R.id.video_title)
             val video: ImageView = itemView.findViewById(R.id.video_view_add)
             val delete = itemView.findViewById<ImageView>(R.id.delete_btn)
@@ -78,7 +76,6 @@ class CreateAdapter(
                 .load(videoModel.uri)
                 .centerCrop()
                 .into(video)
-
 
             itemView.setOnClickListener {
                 callback?.onViewFullScreenMedia(videoModel.name.toString(), videoModel.uri!!)
