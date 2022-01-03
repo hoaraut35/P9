@@ -120,7 +120,7 @@ class SearchFragment : Fragment() {
 
             override fun onStopTrackingTouch(slider: Slider) {
                 searchViewModel.numberOfMedia = slider.value.toInt()
-                binding.mediaNumberView.text = slider.value.toString()
+                binding.mediaNumberView.text = slider.value.toInt().toString()
             }
         }
         binding.mediaNumber.addOnSliderTouchListener(mediaNumberListener)
@@ -207,8 +207,13 @@ class SearchFragment : Fragment() {
 
             queryString += " INNER JOIN RealEstatePOI ON RealEstatePOI.realEstateParentId = realEstate_table.realEstateId"
 
-            //queryString += " WHERE realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState "
-            //containsCondition = true
+
+
+            queryString += " WHERE RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState AND RealEstatePOI.station >= $intStation "
+           // queryString += " AND realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState OR realEstate_table.typeOfProduct = $penthouseState "
+            containsCondition = true
+
+
 
             //ok
             if (searchViewModel.maxPrice != null && searchViewModel.minPrice != null) {
@@ -233,6 +238,7 @@ class SearchFragment : Fragment() {
                 queryString += " realEstate_table.surface BETWEEN ${searchViewModel.minSurface} AND ${searchViewModel.maxSurface}"
             }
 
+            //ok
             if (searchViewModel.selectedEntryDate != null) {
                 if (containsCondition) {
                     queryString += " AND "
@@ -243,6 +249,7 @@ class SearchFragment : Fragment() {
                 queryString += " realEstate_table.dateOfEntry >= '${searchViewModel.selectedEntryDate}'"
             }
 
+            //ok
             if (searchViewModel.selectedSoldDate != null) {
                 queryString += if (containsCondition) {
                     " AND "
@@ -253,10 +260,15 @@ class SearchFragment : Fragment() {
             }
 
             if (searchViewModel.numberOfMedia != null) {
+                queryString += " AND realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState OR realEstate_table.typeOfProduct = $penthouseState "
                 queryString += " GROUP BY RealEstateMedia.realEstateParentId,"
-                queryString += " RealEstatePOI.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId)>=${searchViewModel.numberOfMedia} " +
-                        " AND RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState AND RealEstatePOI.station >= $intStation" +
-                        " AND realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState OR realEstate_table.typeOfProduct = $penthouseState"
+                queryString += " RealEstatePOI.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= ${searchViewModel.numberOfMedia} "
+
+
+//                queryString += " RealEstatePOI.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) > ${searchViewModel.numberOfMedia} " +
+//                        " AND RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState AND RealEstatePOI.station >= $intStation" +
+//                        " AND realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState OR realEstate_table.typeOfProduct = $penthouseState"
+
             } else {
                 queryString += " GROUP BY RealEstatePOI.realEstateParentId HAVING RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState " +
                         "AND RealEstatePOI.station >= $intStation" +

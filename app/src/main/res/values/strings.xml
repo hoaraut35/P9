@@ -116,7 +116,7 @@
     <string name="text_number_bedroom">Number of bedroom</string>
     <string name="point_of_interest_title">Point of interest (at least)</string>
     <string name="price_text">Price</string>
-    <string name="media_number_text">Media number</string>
+    <string name="media_number_text">Minimum Media number</string>
     <string name="school_poi_text">Ecole</string>
     <string name="park_poi_text">Parc</string>
     <string name="station_poi_text">Gare</string>

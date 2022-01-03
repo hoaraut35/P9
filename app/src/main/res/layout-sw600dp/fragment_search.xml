@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:stepSize="50.0"
-            android:valueFrom="100"
+            android:valueFrom="0"
             android:valueTo="1000"
             app:layout_constraintTop_toBottomOf="@+id/text_surface"
             app:values="@array/initial_surface_values">
