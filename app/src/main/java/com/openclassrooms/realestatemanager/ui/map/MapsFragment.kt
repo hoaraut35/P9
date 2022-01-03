@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -140,8 +141,8 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
 
     @SuppressLint("MissingPermission")
     private fun startGPS() {
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(requireContext())
+
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         fusedLocationProviderClient.requestLocationUpdates(
             LocationRequest.create()
@@ -167,10 +168,14 @@ class MapsFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallba
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+
         if (requestCode == 0 && grantResults[0] != -1) {
             MapsUtils.checkGpsState(requireActivity())
             startGPS()
+            Log.i("[PERMISSION]","Good" + grantResults.toString() )
         }
+
+
     }
 
     @SuppressLint("PotentialBehaviorOverride")

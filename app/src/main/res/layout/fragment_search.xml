@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="Price"
+            android:text="@string/price_text"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="Media number"
+            android:text="@string/media_number_text"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,17 +139,72 @@
 
         </com.google.android.material.slider.Slider>
 
-
         <TextView
-            android:id="@+id/poiText"
+            android:id="@+id/type_Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Point of interest"
+            android:text="@string/search_type_product"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/media_number">
+
+        </TextView>
+
+
+
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_realEstate_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type_Text"
+            app:singleLine="true"
+            app:singleSelection="false">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/search_house_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="house"
+                android:text="@string/search_type_house" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/search_flat_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:tag="flat"
+                android:text="@string/search_type_flat" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/search_duplex_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:tag="duplex"
+                android:text="@string/search_type_duplex" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+
+        <TextView
+            android:id="@+id/poiText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/point_of_interest_title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chip_realEstate_type">
 
         </TextView>
 
@@ -169,9 +224,9 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
+
                 android:tag="Ecole"
-                android:text="Ecole" />
+                android:text="@string/school_poi_text" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/parc_chip"
@@ -180,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:tag="Parc"
-                android:text="Parc" />
+                android:text="@string/park_poi_text" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/station_chip"
@@ -189,7 +244,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:tag="Gare"
-                android:text="Gare" />
+                android:text="@string/station_poi_text" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -200,7 +255,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:text="Date"
+            android:text="@string/date_search_text"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/chip_realEstate_poi"/>

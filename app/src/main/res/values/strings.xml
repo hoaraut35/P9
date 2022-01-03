@@ -1,57 +1,55 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
-
     <string name="title_description">Description</string>
     <string name="title_media">Media library</string>
-    <string name="text_number_room">Nombre de pièce</string>
-    <string name="text_number_bathroom">Nombre salle de bain</string>
-    <string name="description_detail">Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.</string>
-    <string name="qty_number_bathroom">2</string>
-    <string name="text_number_bedroom">Nombre de chambre</string>
-    <string name="qty_number_bedroom">4</string>
-    <string name="qty_number_room">8</string>
+    <string name="text_number_room">Number of room</string>
+    <string name="text_number_bathroom">Number of bathroom</string>
+    <string name="description_detail" translatable="false">Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.</string>
+    <string name="qty_number_bathroom" translatable="false">2</string>
+    <string name="qty_number_bedroom" translatable="false">4</string>
+    <string name="qty_number_room" translatable="false">8</string>
     <string name="text_location">Localisation</string>
-    <string name="text_number_street">740</string>
-    <string name="text_street_name">Park Avenue</string>
-    <string name="text_city_name">New York</string>
-    <string name="text_zipcode">NY10021</string>
-    <string name="text_country">United States</string>
-    <string name="hello_blank_fragment">Fragment recherche</string>
+    <string name="text_number_street" translatable="false">740</string>
+    <string name="text_street_name" translatable="false">Park Avenue</string>
+    <string name="text_city_name" translatable="false">New York</string>
+    <string name="text_zipcode" translatable="false">NY10021</string>
+    <string name="text_country" translatable="false">United States</string>
+    <string name="hello_blank_fragment">Search</string>
     <string name="title_addupdate_price">Price</string>
-    <string name="input_price">10010101</string>
+    <string name="input_price" translatable="false">10010101</string>
     <string name="title_saveupdate_btn">Save property</string>
     <string name="title_addupdate_room">Room number</string>
-    <string name="input_room">10</string>
-    <string name="form_price_text">entrez le prix</string>
-    <string name="form_surface_text">200</string>
-    <string name="form_nbroom_text">5</string>
-    <string name="form_description_text">dfjfklsjfkldj kldjfklsdjfklrfjrse fjrk fjrlkef jrlkej kljg eklrgj lkerj gl</string>
-    <string name="form_streetname_text">rue des champs fleuri</string>
-    <string name="property_state">A vendre / vendu </string>
-    <string name="form_streetnumber_text">7</string>
-    <string name="form_zipcode_text">35220</string>
-    <string name="form_cityname_text">Rennes</string>
+    <string name="input_room" translatable="false">10</string>
+    <string name="form_price_text">Enter the price</string>
+    <string name="form_surface_text" translatable="false">200</string>
+    <string name="form_nbroom_text" translatable="false">5</string>
+    <string name="form_description_text" translatable="false">dfjfklsjfkldj kldjfklsdjfklrfjrse fjrk fjrlkef jrlkej kljg eklrgj lkerj gl</string>
+    <string name="form_streetname_text" translatable="false">rue des champs fleuri</string>
+    <string name="property_state" translatable="false">A vendre / vendu </string>
+    <string name="form_streetnumber_text" translatable="false">7</string>
+    <string name="form_zipcode_text" translatable="false">35220</string>
+    <string name="form_cityname_text" translatable="false">Rennes</string>
     <string name="menu_title_create">Create</string>
     <string name="menu_title_update">Update</string>
     <string name="menu_title_search">Search</string>
     <string name="title_location">Localisation</string>
-    <string name="description_price">100000</string>
+    <string name="description_price" translatable="false">100000</string>
     <string name="description_type">House</string>
-    <string name="qty_surface">200</string>
+    <string name="qty_surface" translatable="false">200</string>
     <string name="menu_map">Map</string>
     <string name="float_btn_description">disable search button</string>
     <string name="textRoom">" room(s)"</string>
-    <string name="textSurface">" m²"</string>
-    <string name="textCurrency">" €"</string>
+    <string name="textSurface" translatable="false">" m²"</string>
+    <string name="textCurrency" translatable="false">" €"</string>
     <string name="textBathRoom">" bathroom(s)"</string>
     <string name="textBedRoom">" bedroom(s)"</string>
-    <string name="date_of_creation">Date de création</string>
-    <string name="date_of_sold">Date de vente</string>
+    <string name="date_of_creation">Date of creation</string>
+    <string name="date_of_sold">Date of sold</string>
     <string name="order_confirmation">valid</string>
     <string name="positiveBtn">ok</string>
     <string name="ok">ok</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_button" translatable="false">Dummy Button</string>
+    <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
     <string name="add_media_string">Add media ...</string>
     <string name="house_chip_string">House</string>
     <string name="duplex_chip_string">Duplex</string>
@@ -61,8 +59,8 @@
     <string name="parc_chip_string">Park</string>
     <string name="station_chip_string">Station</string>
     <string name="state_text">solded</string>
-    <string name="estate_state">soleded</string>
-    <string name="icon_for_bathroom_description">icon for bathroom</string>
+    <string name="estate_state" translatable="false">soleded</string>
+    <string name="icon_for_bathroom_description" translatable="false">icon for bathroom</string>
     <string name="solded_text">" solded"</string>
     <string name="not_solded_text"> </string>
     <string name="fromDate">"Created : "</string>
@@ -94,13 +92,34 @@
     <string name="duplex_chip">Duplex</string>
     <string name="penthouse_chip">Penthouse</string>
     <string name="flat_chip">Flat</string>
-    <string name="ecole_chip">Ecole</string>
-    <string name="parc_chip">Parc</string>
-    <string name="gare_chip">Gare</string>
-    <string name="iconforroom">iconForRoom</string>
-    <string name="iconforbedroom">iconForBedroom</string>
-    <string name="textForBathroomDetail">Nombre de salle de bain</string>
-    <string name="label_menu_create">Mode création</string>
-    <string name="label_map">Mode carte</string>
-    <string name="label_update">Modification RealEstate</string>
+    <string name="ecole_chip">School</string>
+    <string name="parc_chip">Park</string>
+    <string name="gare_chip">Station</string>
+    <string name="iconforroom" translatable="false">iconForRoom</string>
+    <string name="iconforbedroom" translatable="false">iconForBedroom</string>
+    <string name="label_menu_create">Create</string>
+    <string name="label_map">Map</string>
+    <string name="label_update">Update</string>
+
+    <string name="search_type_house">House</string>
+    <string name="search_type_flat">Flat</string>
+    <string name="search_type_duplex">duplex</string>
+    <string name="search_type_product">Type of product</string>
+    <string name="iconforBedroom">iconForBedRoom</string>
+    <string name="imageformap">imageForMap</string>
+    <string name="videoviewforvideo">videoViewForVideo</string>
+    <string name="playingbtnicon">playingBtnIcon</string>
+    <string name="deletebtnicon">deleteBtnIcon</string>
+    <string name="imageforcreate">imageForCreate</string>
+    <string name="imagefordeletebtn">imageForDeleteBtn</string>
+    <string name="imageforitem">imageForItem</string>
+    <string name="text_number_bedroom">Number of bedroom</string>
+    <string name="point_of_interest_title">Point of interest (at least)</string>
+    <string name="price_text">Price</string>
+    <string name="media_number_text">Media number</string>
+    <string name="school_poi_text">Ecole</string>
+    <string name="park_poi_text">Parc</string>
+    <string name="station_poi_text">Gare</string>
+    <string name="date_search_text">Date</string>
+    <string name="textForBathroomDetail">bathroom number</string>
 </resources>

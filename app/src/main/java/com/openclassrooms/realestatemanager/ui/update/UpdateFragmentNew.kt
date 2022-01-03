@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentUpdateNewBinding
+import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
 import com.openclassrooms.realestatemanager.models.RealEstatePOI
 import com.openclassrooms.realestatemanager.ui.detail.FullScreenFragment
@@ -166,11 +168,14 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         viewModelUpdate.realEstate.typeOfProduct = binding.chipDuplex.tag.toString()
                     }
 
-                    viewModelUpdate.insertPOI(
+
+                    Log.i("[SQL]","Update poi : " + RealEstateFullObserve.realEstateFullData.realEstateId)
+                    viewModelUpdate.updatePOI(
                         RealEstatePOI(
                             school = binding.schoolChip.isChecked,
                             park = binding.parcChip.isChecked,
                             station = binding.stationChip.isChecked,
+                            poiId = RealEstateFullObserve.realEstateFullData.realEstateId,
                             realEstateParentId = RealEstateFullObserve.realEstateFullData.realEstateId
                         )
                     )
@@ -245,11 +250,11 @@ class UpdateFragmentNew : UpdateAdapter.InterfaceMediaAdapter, Fragment() {
                         }
                     }
 
-                    SharedUtils.notification(
-                        "RealEstate Manager",
-                        getString(R.string.hint_update_done),
-                        requireContext()
-                    )
+//                    SharedUtils.notification(
+//                        "RealEstate Manager",
+//                        getString(R.string.hint_update_done),
+//                        requireContext()
+//                    )
 
                     val navHostFragment =
                         requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment

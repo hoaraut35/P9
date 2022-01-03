@@ -24,10 +24,10 @@
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/drawable/item_background.xml" value="0.2609375" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-land/fragment_maps.xml" value="0.5098958333333333" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_list_realestate.xml" value="0.12701717855283706" />
-        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_real_estate_detail.xml" value="0.336046511627907" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_real_estate_detail.xml" value="0.1" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_real_estate_modifier.xml" value="0.21328671328671328" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_real_estate_update.xml" value="0.33" />
-        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_search.xml" value="0.3559718969555035" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_search.xml" value="0.67" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/fragment_update_new.xml" value="0.4488680718188915" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/item_real_estate_photo_editor.xml" value="0.5" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout-sw600dp/item_real_estate_video_create.xml" value="0.2625" />
@@ -39,15 +39,16 @@
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_real_estate_detail.xml" value="0.4049904030710173" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_real_estate_modifier.xml" value="0.25401322001888577" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_real_estate_update.xml" value="0.33" />
-        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_search.xml" value="0.35625" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_search.xml" value="0.3268398268398268" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fragment_update_new.xml" value="0.3058103975535168" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/fullscreen_media.xml" value="0.3359375" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate.xml" value="0.5044169611307421" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate_photo.xml" value="0.8566978193146417" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate_photo_create.xml" value="0.67" />
-        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate_video.xml" value="0.7313432835820896" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/layout/item_real_estate_video.xml" value="0.1" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/menu/main_menu.xml" value="0.35625" />
         <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/menu/popup.xml" value="0.3359375" />
+        <entry key="..\:/Users/perso/Desktop/RealEstateManager/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
   </component>

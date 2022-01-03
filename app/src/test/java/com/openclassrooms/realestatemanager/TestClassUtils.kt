@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 class TestClassUtils {
 
     //Must be changed before test
-    private val myDate = "31/12/2021"
+    private val myDate = "02/01/2022"
 
     private val myEURO = 89
     private val myDOLLARS = 100

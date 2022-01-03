@@ -32,6 +32,8 @@ class ViewModelUpdate @Inject constructor(
 
     fun insertPOI(poi: RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.insertPOI(poi) }
 
+    fun updatePOI(poi: RealEstatePOI) = viewModelScope.launch { localDatabaseRepository.updatePOI(poi) }
+
 
     //the starting list...
     var initialListOfMedia: MutableList<RealEstateMedia> = mutableListOf()

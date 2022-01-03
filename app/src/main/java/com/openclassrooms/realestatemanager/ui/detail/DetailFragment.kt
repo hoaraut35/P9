@@ -138,6 +138,9 @@ class DetailFragment : Fragment(), MyRequestImageListener.Callback,
                         else -> binding.poiStationText.text = ""
                     }
 
+
+
+
                     binding.agentName.text = getString(R.string.agent_text).plus(RealEstateObserved.realEstateFullData.agent)
 
                     //**********************************************************************************

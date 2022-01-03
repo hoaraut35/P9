@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.ItemRealEstatePhotoBinding
 import com.openclassrooms.realestatemanager.models.RealEstateMedia
+import com.openclassrooms.realestatemanager.ui.update.UpdateAdapter
 
 class DetailAdapter(
     private val realEstateMedias: List<RealEstateMedia>,

@@ -19,6 +19,7 @@ class LocalDatabaseRepository @Inject constructor(private val realEstateDao: Rea
     suspend fun deleteMedia(media: RealEstateMedia) { realEstateDao.deleteMedia(media)  }
 
     suspend fun insertPOI(poi: RealEstatePOI): Long = realEstateDao.insertPOI(poi)
+    suspend fun updatePOI(poi: RealEstatePOI) = realEstateDao.updatePOI(poi)
 
     fun getRealEstateFullById(myRealEstate: Int) = realEstateDao.getFlowRealEstateFullById(myRealEstate)
     fun getRealEstatesFullList() = realEstateDao.getAllRealEstatesFull()

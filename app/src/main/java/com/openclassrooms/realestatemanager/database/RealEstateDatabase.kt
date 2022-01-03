@@ -44,10 +44,10 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         numberOfBathRoom = 2,
                         numberOfBedRoom = 3,
                         numberOfRoom = 5,
-                        surface = 100,
+                        surface = 400,
                         typeOfProduct = "Flat",
-                        price = 178700,
-                        agent = "",
+                        price = 180000,
+                        agent = "Thierry",
                         dateOfEntry = Utils.getTodayDateToLong(),
                         descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo voluptates ratione in accusamus placeat in galisum possimus non reiciendis molestiae non sapiente magnam et iure quas? Et ratione dolorem et fugiat distinctio aut fugiat illum.",
                         address = RealEstateAddress(
@@ -65,8 +65,6 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         realEstateParentId = 1,
                         name = "Photo",
                         uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_maison1.jpg"
-
-
                     )
                 )
 
@@ -75,7 +73,6 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         realEstateParentId = 1,
                         name = "Salon",
                         uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_cuisine1.jpg"
-
                     )
                 )
 
@@ -84,7 +81,43 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         realEstateParentId = 1,
                         name = "Photo",
                         uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_salon1.jpg"
+                    )
+                )
 
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 1,
+                        name = "Photo",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_chambre1.jpg"
+                    )
+                )
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 1,
+                        name = "Video",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/video1.mp4"
+                    )
+                )
+
+                dao.insertRealEstate(
+                    RealEstate(
+                        numberOfBathRoom = 3,
+                        numberOfBedRoom = 2,
+                        numberOfRoom = 4,
+                        surface = 150,
+                        typeOfProduct = "House",
+                        dateOfEntry = Utils.getTodayDateToLong(),
+                        price = 200000,
+                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum",
+                        address = RealEstateAddress(
+                            zip_code = 35000,
+                            city = "Rennes",
+                            street_name = "cr des Alliés",
+                            street_number = 1,
+                            country = "FRANCE"
+                        ),
+                        agent = "Patrick"
 
                     )
                 )
@@ -94,8 +127,6 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         realEstateParentId = 2,
                         name = "Photo",
                         uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_maison2.jpg"
-
-
                     )
                 )
 
@@ -104,11 +135,8 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         realEstateParentId = 2,
                         name = "Salon",
                         uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_cuisine2.jpg"
-
                     )
                 )
-
-
 
                 dao.insertMedia(
                     RealEstateMedia(
@@ -119,27 +147,24 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
                     )
                 )
-                dao.insertRealEstate(
-                    RealEstate(
-                        numberOfBathRoom = 3,
-                        numberOfBedRoom = 2,
-                        numberOfRoom = 4,
-                        surface = 150,
-                        typeOfProduct = "House",
-                        dateOfEntry = Utils.getTodayDateToLong(),
-                        price = 211300,
-                        descriptionOfProduct = "Lorem ipsum dolor sit amet. Non galisum reprehenderit hic quidem repellendus cum eius enim cum",
-                        address = RealEstateAddress(
-                            zip_code = 35000,
-                            city = "Rennes",
-                            street_name = "cr des Alliés",
-                            street_number = 1,
-                            country = "FRANCE"
-                        ),
-                        agent = ""
 
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 2,
+                        name = "Photo",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_chambre2.jpg"
                     )
                 )
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 2,
+                        name = "Video",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/video2.mp4"
+                    )
+                )
+
+
                 dao.insertRealEstate(
                     RealEstate(
                         numberOfBathRoom = 1,
@@ -148,7 +173,7 @@ abstract class RealEstateDatabase : RoomDatabase() {
                         surface = 200,
                         typeOfProduct = "Duplex",
                         dateOfEntry = Utils.getTodayDateToLong(),
-                        price = 139900,
+                        price = 140000,
                         descriptionOfProduct = "Non galisum reprehenderit hic quidem repellendus cum eius enim cum asperiores natus et eius quam rem quisquam natus. Quo volup",
                         address = RealEstateAddress(
                             zip_code = 44100,
@@ -157,9 +182,52 @@ abstract class RealEstateDatabase : RoomDatabase() {
                             street_number = 1,
                             country = "FRANCE"
                         ),
-                        agent = ""
+                        agent = "David"
                     )
                 )
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 3,
+                        name = "Photo",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_maison3.jpg"
+                    )
+                )
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 3,
+                        name = "Salon",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_cuisine3.jpg"
+                    )
+                )
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 3,
+                        name = "Photo",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_salon3.jpg"
+
+
+                    )
+                )
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 3,
+                        name = "Photo",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/Photo_chambre3.jpg"
+                    )
+                )
+
+                dao.insertMedia(
+                    RealEstateMedia(
+                        realEstateParentId = 3,
+                        name = "Video",
+                        uri = "/data/user/0/com.openclassrooms.realestatemanager/files/video3.mp4"
+                    )
+                )
+
 
                 dao.insertPOI(
                     RealEstatePOI(
@@ -173,15 +241,15 @@ abstract class RealEstateDatabase : RoomDatabase() {
                 dao.insertPOI(
                     RealEstatePOI(
                         park = true,
-                        station = true,
-                        school = true,
+                        station = false,
+                        school = false,
                         realEstateParentId = 2
                     )
                 )
                 dao.insertPOI(
                     RealEstatePOI(
-                        park = true,
-                        station = true,
+                        park = false,
+                        station = false,
                         school = true,
                         realEstateParentId = 3
                     )

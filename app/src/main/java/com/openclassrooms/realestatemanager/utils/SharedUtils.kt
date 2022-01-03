@@ -35,7 +35,8 @@ class SharedUtils {
                     .setContentTitle(task)
                     .setStyle(NotificationCompat.BigTextStyle().bigText(desc))
                     .setDefaults(Notification.DEFAULT_SOUND)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                        //250x250 else crash
+                    .setSmallIcon(R.drawable.ic_baseline_real_estate_app)
             manager.notify(1, builder.build())
         }
 

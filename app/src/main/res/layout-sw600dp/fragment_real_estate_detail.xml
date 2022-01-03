@@ -13,7 +13,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detail_layout"
@@ -236,7 +236,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:padding="10dp"
-                        android:text="school" />
+                        android:text="@string/poi_school_text" />
 
                     <TextView
                         android:id="@+id/poi_station_text"
@@ -244,7 +244,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:padding="10dp"
-                        android:text="station">
+                        android:text="@string/poi_station_text">
 
                     </TextView>
 
@@ -254,7 +254,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:padding="10dp"
-                        android:text="park" />
+                        android:text="@string/poi_park_text" />
 
 
                 </androidx.cardview.widget.CardView>
@@ -265,7 +265,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="STREETNUMBER"
+
                     android:textSize="16sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/textStreetName"
@@ -276,7 +276,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="STREETNAME"
                     android:textSize="16sp"
                     app:layout_constraintLeft_toRightOf="@+id/textStreetNumber"
                     app:layout_constraintRight_toLeftOf="@+id/textZipCode"
@@ -287,7 +286,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="ZIPCODE"
                     android:textSize="16sp"
                     app:layout_constraintLeft_toRightOf="@+id/textStreetName"
                     app:layout_constraintRight_toLeftOf="@+id/textCityName"
@@ -298,7 +296,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="CITYNAME"
                     android:textSize="16sp"
                     app:layout_constraintLeft_toRightOf="@id/textZipCode"
                     app:layout_constraintRight_toLeftOf="@id/textCountry"
@@ -309,7 +306,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="COUNTRY"
                     android:textSize="16sp"
                     app:layout_constraintLeft_toRightOf="@id/textCityName"
                     app:layout_constraintRight_toRightOf="parent"
@@ -323,6 +319,7 @@
                     android:layout_gravity="right"
                     android:layout_margin="10dp"
                     app:layout_constraintRight_toRightOf="parent"
+                    android:contentDescription="@string/imageformap"
                     app:layout_constraintTop_toBottomOf="@+id/textStreetNumber" />
 
 
@@ -332,7 +329,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Suivi par : "
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageMap">

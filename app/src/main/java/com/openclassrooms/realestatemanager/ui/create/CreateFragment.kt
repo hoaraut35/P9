@@ -130,6 +130,7 @@ class RealEstateModifier : CreateAdapter.InterfacePhotoTitleChanged, Fragment() 
         //observe database for notification
         viewModelCreate.observeRowId().observe(viewLifecycleOwner) {
 
+            //show notification if estate is saved in database...
             if (it.toInt() == viewModelCreate.observeRowId().value?.toInt()) {
                 SharedUtils.notification(
                     "RealEstate Manager",

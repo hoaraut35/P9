@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class TestContentKotlin {
+class TestContentProvider {
 
     //this is a content provider to access room by another application
     private var myContentResolver: ContentResolver? = null
@@ -37,6 +37,7 @@ class TestContentKotlin {
         myContentResolver = InstrumentationRegistry.getInstrumentation().context.contentResolver
     }
 
+    //adjust the number of estate before testing
     @Test
     fun getRealEstate() {
 

@@ -33,6 +33,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,29 +48,29 @@ class SearchFragment : Fragment() {
             format.format(it.toDouble())
         }
 
-        if (searchViewModel.minPrice != null){
+        if (searchViewModel.minPrice != null) {
             binding.minPrice.text = searchViewModel.minPrice.toString()
-        }else
-        {
-            binding.minPrice.text = Utils.getCurrencyFormat().format(binding.priceRange.values[0].toInt())
+        } else {
+            binding.minPrice.text =
+                Utils.getCurrencyFormat().format(binding.priceRange.values[0].toInt())
         }
 
-        if(searchViewModel.maxPrice != null){
+        if (searchViewModel.maxPrice != null) {
             binding.maxPrice.text = searchViewModel.maxPrice.toString()
-        }else{
-            binding.maxPrice.text = Utils.getCurrencyFormat().format(binding.priceRange.values[1].toInt())
+        } else {
+            binding.maxPrice.text =
+                Utils.getCurrencyFormat().format(binding.priceRange.values[1].toInt())
         }
 
-        if(searchViewModel.minSurface != null){
+        if (searchViewModel.minSurface != null) {
             binding.minSurface.text = searchViewModel.minSurface.toString().plus("m²")
-        }else
-        {
+        } else {
             binding.minSurface.text = binding.surfaceRange.values[0].toInt().toString().plus("m²")
         }
 
-        if (searchViewModel.maxPrice != null){
+        if (searchViewModel.maxPrice != null) {
             binding.maxSurface.text = searchViewModel.maxPrice.toString().plus("m²")
-        }else{
+        } else {
             binding.maxSurface.text = binding.surfaceRange.values[1].toInt().toString().plus("m²")
         }
 
@@ -82,7 +83,7 @@ class SearchFragment : Fragment() {
             override fun onStopTrackingTouch(slider: RangeSlider) {
                 searchViewModel.minPrice = slider.values[0].toInt()
                 searchViewModel.maxPrice = slider.values[1].toInt()
-                binding.minPrice.text =  Utils.getCurrencyFormat().format(slider.values[0].toInt())
+                binding.minPrice.text = Utils.getCurrencyFormat().format(slider.values[0].toInt())
                 binding.maxPrice.text = Utils.getCurrencyFormat().format(slider.values[1].toInt())
             }
         }
@@ -139,6 +140,27 @@ class SearchFragment : Fragment() {
             var intStation = 0
             var intPark = 0
 
+
+            var flatState = "'empty'"
+            var houseState = "'empty'"
+            var duplexState = "'empty'"
+
+            //for type of product filter...
+            val typeOfProductChipGroup: ChipGroup = binding.chipRealEstateType
+
+            typeOfProductChipGroup.checkedChipIds.forEach { chipItem ->
+                val chipText =
+                    typeOfProductChipGroup.findViewById<Chip>(chipItem).tag.toString()
+                val chipState =
+                    typeOfProductChipGroup.findViewById<Chip>(chipItem).isChecked
+                when (chipText) {
+                    "house" -> houseState = if (chipState) "'House'" else "'empty'"
+                    "flat" -> flatState = if (chipState) "'Flat'" else "'empty'"
+                    "duplex" -> duplexState = if (chipState) "'Duplex'" else "'empty'"
+                }
+            }
+
+            //for poi filter...
             val pointsOfInterestChipGroup: ChipGroup = binding.chipRealEstatePoi
 
             pointsOfInterestChipGroup.checkedChipIds.forEach { chipItem ->
@@ -173,7 +195,6 @@ class SearchFragment : Fragment() {
             }
 
             var queryString = ""
-            val args = mutableListOf<Any>()
             var containsCondition = false
 
             queryString += "SELECT * FROM realEstate_table"
@@ -184,10 +205,19 @@ class SearchFragment : Fragment() {
 
             queryString += " INNER JOIN RealEstatePOI ON RealEstatePOI.realEstateParentId = realEstate_table.realEstateId"
 
+            queryString += " WHERE realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState "
+            containsCondition = true
+
             //ok
             if (searchViewModel.maxPrice != null && searchViewModel.minPrice != null) {
-                containsCondition = true
-                queryString += " WHERE realEstate_table.price BETWEEN ${searchViewModel.minPrice} AND ${searchViewModel.maxPrice}"
+                if (containsCondition) {
+                    queryString += " AND "
+                } else {
+                    queryString += " WHERE"
+                    containsCondition = true
+                }
+
+                queryString += " realEstate_table.price BETWEEN ${searchViewModel.minPrice} AND ${searchViewModel.maxPrice}"
             }
 
             //ok
@@ -212,18 +242,18 @@ class SearchFragment : Fragment() {
             }
 
             if (searchViewModel.selectedSoldDate != null) {
-                if (containsCondition) {
-                    queryString += " AND "
+                queryString += if (containsCondition) {
+                    " AND "
                 } else {
-                    queryString += " WHERE"
+                    " WHERE"
                 }
                 queryString += " property_table.dateOfSale >= '${searchViewModel.selectedSoldDate}'"
             }
 
             if (searchViewModel.numberOfMedia != null) {
                 queryString += " GROUP BY RealEstateMedia.realEstateParentId,"
-                queryString += " RealEstatePOI.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId) >= ${searchViewModel.numberOfMedia} "+
-                 " AND RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState AND RealEstatePOI.station >= $intStation"
+                queryString += " RealEstatePOI.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId)>=${searchViewModel.numberOfMedia} " +
+                        " AND RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState AND RealEstatePOI.station >= $intStation"
             } else {
                 queryString += " GROUP BY RealEstatePOI.realEstateParentId HAVING RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState " +
                         "AND RealEstatePOI.station >= $intStation"
@@ -232,16 +262,12 @@ class SearchFragment : Fragment() {
             queryString += ";"
 
             //show query in log...
-            //Log.i("[SQL]", "My query : $queryString")
+            Log.i("[SQL]", "My query : $queryString")
 
             //load query to sqlite...
             searchViewModel.getRealEstateFiltered(
-                SimpleSQLiteQuery(
-                    queryString,
-                    args.toTypedArray()
-                )
+                SimpleSQLiteQuery(queryString)
             ).observe(viewLifecycleOwner) {
-
 
                 if (it.isNullOrEmpty()) {
                     Snackbar.make(
@@ -255,9 +281,15 @@ class SearchFragment : Fragment() {
                     searchViewModel.setResultListFromSearch(it.toMutableList())
 
                     it.forEach { mySearchResult ->
-                        Log.i("[SQL]", "data" + mySearchResult.realEstateFullData.typeOfProduct)
-                        closeFragment()
+                        Log.i(
+                            "[SQL]",
+                            "data after filter : " + mySearchResult.realEstateFullData.typeOfProduct
+                        )
+
                     }
+                    closeFragment()
+
+
                 }
 
             }
@@ -316,8 +348,9 @@ class SearchFragment : Fragment() {
         super.onResume()
 
         if (searchViewModel.selectedEntryDate != null) {
-            binding.dateBtn.text = Utils.epochMilliToLocalDate(searchViewModel.selectedEntryDate)
-                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+            binding.dateBtn.text =
+                Utils.epochMilliToLocalDate(searchViewModel.selectedEntryDate)
+                    .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         }
 
         if (searchViewModel.selectedSoldDate != null) {

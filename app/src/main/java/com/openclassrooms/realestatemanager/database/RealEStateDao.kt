@@ -39,6 +39,9 @@ interface RealEStateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE) //replace if already exist
     suspend fun insertPOI(realEstatePOI: RealEstatePOI): Long //suspend for use another thread
 
+    @Update
+    suspend fun updatePOI(realEstatePOI: RealEstatePOI)
+
     @Query("SELECT MAX(realEstateId) + 1 FROM realEstate_table")
     fun getLastRowId(): Flow<Int>
 
