@@ -172,6 +172,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:tag="house"
                 android:text="@string/search_type_house" />
 
@@ -180,7 +181,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:checked="true"
                 android:tag="flat"
                 android:text="@string/search_type_flat" />
 
@@ -189,9 +190,18 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:checked="true"
                 android:tag="duplex"
                 android:text="@string/search_type_duplex" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/search_penthouse_chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:tag="penthouse"
+                android:text="@string/search_type_penthouse" />
 
         </com.google.android.material.chip.ChipGroup>
 

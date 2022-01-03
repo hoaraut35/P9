@@ -144,6 +144,7 @@ class SearchFragment : Fragment() {
             var flatState = "'empty'"
             var houseState = "'empty'"
             var duplexState = "'empty'"
+            var penthouseState = "'empty'"
 
             //for type of product filter...
             val typeOfProductChipGroup: ChipGroup = binding.chipRealEstateType
@@ -157,6 +158,7 @@ class SearchFragment : Fragment() {
                     "house" -> houseState = if (chipState) "'House'" else "'empty'"
                     "flat" -> flatState = if (chipState) "'Flat'" else "'empty'"
                     "duplex" -> duplexState = if (chipState) "'Duplex'" else "'empty'"
+                    "penthouse" -> penthouseState = if (chipState) "'Penthouse'" else "'empty'"
                 }
             }
 
@@ -205,8 +207,8 @@ class SearchFragment : Fragment() {
 
             queryString += " INNER JOIN RealEstatePOI ON RealEstatePOI.realEstateParentId = realEstate_table.realEstateId"
 
-            queryString += " WHERE realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState "
-            containsCondition = true
+            //queryString += " WHERE realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState "
+            //containsCondition = true
 
             //ok
             if (searchViewModel.maxPrice != null && searchViewModel.minPrice != null) {
@@ -217,7 +219,7 @@ class SearchFragment : Fragment() {
                     containsCondition = true
                 }
 
-                queryString += " realEstate_table.price BETWEEN ${searchViewModel.minPrice} AND ${searchViewModel.maxPrice}"
+                queryString += " realEstate_table.price BETWEEN '${searchViewModel.minPrice}' AND '${searchViewModel.maxPrice}'"
             }
 
             //ok
@@ -253,10 +255,12 @@ class SearchFragment : Fragment() {
             if (searchViewModel.numberOfMedia != null) {
                 queryString += " GROUP BY RealEstateMedia.realEstateParentId,"
                 queryString += " RealEstatePOI.realEstateParentId HAVING COUNT(RealEstateMedia.realEstateParentId)>=${searchViewModel.numberOfMedia} " +
-                        " AND RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState AND RealEstatePOI.station >= $intStation"
+                        " AND RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState AND RealEstatePOI.station >= $intStation" +
+                        " AND realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState OR realEstate_table.typeOfProduct = $penthouseState"
             } else {
                 queryString += " GROUP BY RealEstatePOI.realEstateParentId HAVING RealEstatePOI.park >= $intPark AND RealEstatePOI.school >= $intSchoolState " +
-                        "AND RealEstatePOI.station >= $intStation"
+                        "AND RealEstatePOI.station >= $intStation" +
+                        " AND realEstate_table.typeOfProduct = $houseState OR realEstate_table.typeOfProduct = $flatState OR realEstate_table.typeOfProduct = $duplexState OR realEstate_table.typeOfProduct = $penthouseState"
             }
 
             queryString += ";"

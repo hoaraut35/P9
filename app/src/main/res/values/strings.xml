@@ -122,4 +122,5 @@
     <string name="station_poi_text">Gare</string>
     <string name="date_search_text">Date</string>
     <string name="textForBathroomDetail">bathroom number</string>
+    <string name="search_type_penthouse">penthouse</string>
 </resources>

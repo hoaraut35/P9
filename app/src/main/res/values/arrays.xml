@@ -7,7 +7,7 @@
     </array>
 
     <array name="initial_surface_values">
-        <item>100.0</item>
+        <item>0.0</item>
         <item>1000.0</item>
         </array>
 </resources>
