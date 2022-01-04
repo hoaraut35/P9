@@ -256,7 +256,7 @@ class SearchFragment : Fragment() {
                 } else {
                     " WHERE"
                 }
-                queryString += " realEstate_table.dateOfSale >= '${searchViewModel.selectedSoldDate}'"
+                queryString += " realEstate_table.releaseDate >= '${searchViewModel.selectedSoldDate}'"
             }
 
             if (searchViewModel.numberOfMedia != null) {
