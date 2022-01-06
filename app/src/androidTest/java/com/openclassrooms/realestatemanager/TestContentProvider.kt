@@ -50,7 +50,7 @@ class TestContentProvider {
         )
 
         assertThat(cursor, Matchers.notNullValue())
-        assertEquals(cursor!!.count, 5)
+        assertEquals(cursor!!.count, 4)
         cursor?.close()
     }
 
